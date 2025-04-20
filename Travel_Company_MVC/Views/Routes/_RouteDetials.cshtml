@@ -1,0 +1,92 @@
+﻿@using TravelCompany.Domain.Entities
+
+@model IList<RoutePoint>
+
+
+<!--begin::Header-->
+<div class="card-header align-items-center border-0 mt-4 animate__animated animate__flipInX ">
+
+	<div class="row">
+
+		<div class="col">
+
+			<h3 class="card-title align-items-start flex-column ">
+			
+					<span class="fw-bold mb-2 text-gray-900">@Model[0].Route!.RouteName</span>
+					<span class="text-muted fw-semibold fs-7">350 km</span>
+
+			
+
+			</h3>
+
+		</div>
+
+		<div class="col">
+
+
+			<div>
+				<a href="apps/user-management/users/view.html"
+				   class="text-gray-800 text-hover-primary mb-2 ms-2">@Model.Count<span> station</span></a>
+			</div>
+			<div class="badge badge-light fw-bold">@TimeSpan.FromMinutes(Model[0].Route!.EstimatedTime).ToString(@"hh\:mm") hours</div>
+
+		</div>
+	</div>
+
+
+</div>
+<!--end::Header-->
+<!--begin::Body-->
+<div class="card-body pt-5 ">
+	<!--begin::Timeline-->
+	<div class="timeline-label">
+
+		@for(int i=0;i<Model.Count;i++ )
+		{
+
+			
+				var pointColor ="";
+
+			if (Model[i].PointOrder == 1)
+				pointColor = "text-danger";
+		    else if (Model[i].PointOrder == Model.Count)
+				pointColor = "text-success";
+			else pointColor = "text-warning";
+
+		
+
+	
+
+
+			<!--begin::Item-->
+			<div class="timeline-item animate__animated animate__flipInX">
+				<!--begin::Label-->
+				<div class="timeline-label fw-bold text-gray-800 fs-6">@TimeSpan.FromMinutes(Model[i].Point!.TimeValue).ToString(@"hh\:mm")
+					<span class="fw-mormal timeline-content  text-gray-500 fs-6">hours</span>
+				</div>
+				<!--end::Label-->
+				<!--begin::Badge-->
+				<div class="timeline-badge">
+					<i class="fa fa-genderless  @pointColor fs-1"></i>
+				</div>
+				<!--end::Badge-->
+				<!--begin::Text-->
+@* 
+				<a href="#"
+				   class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a> *@
+
+				<a href="#" class="fw-mormal timeline-content fw-bold text-gray-500 fs-6 ms-4 text-hover-primary hover-elevate-up  ">
+					@Model[i].PointOrder - <span class="text-gray-900 fw-bold text-hover-primary hover-elevate-up"> @Model[i].Point.Station!.StationName</span>
+				</a>
+				<!--end::Text-->
+			</div>
+			<!--end::Item-->
+
+		}
+
+	</div>
+	<!--end::Timeline-->
+</div>
+<!--end: Card Body-->
+
+

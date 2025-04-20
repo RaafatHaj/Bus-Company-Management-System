@@ -1,0 +1,165 @@
+﻿<div class="sidebar" data-background-color="white">
+    <div class="sidebar-logo">
+        <!-- Logo Header -->
+        <div class="logo-header" data-background-color="white">
+            <a href="index.html" class="logo">
+                <img src="/assets/img/kaiadmin/logo_light.svg"
+                     alt="navbar brand"
+                     class="navbar-brand"
+                     height="20" />
+            </a>
+            <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                    <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                    <i class="gg-menu-left"></i>
+                </button>
+            </div>
+            <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+            </button>
+        </div>
+        <!-- End Logo Header -->
+    </div>
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Write what you want</h4>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-home"></i>
+                        <p>Home</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#travels">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Travels</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="travels">
+                        <ul class="nav nav-collapse">
+
+                            <li>
+                                <a asp-controller="ScheduledTrips" asp-action="Index">
+                                    <span class="sub-item">Trips Management</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a asp-controller="Travels" asp-action="Create">
+                                    <span class="sub-item">Add Travel</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a asp-controller="ScheduledTravels" asp-action="Index">
+                                    <span class="sub-item">Scheduled Travels</span>
+                                </a>
+                            </li>
+
+                    
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#routes">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Routs</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="routes">
+                        <ul class="nav nav-collapse">
+
+               
+                            <li>
+                                <a asp-controller="Routes" asp-action="Create">
+                                    <span class="sub-item">Creat New Route</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#booking">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Booking</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="booking">
+                        <ul class="nav nav-collapse">
+
+                            <li>
+                                <a asp-controller="Booking" asp-action="FindSuitableTravels">
+                                    <span class="sub-item">Book Ticket</span>
+                                </a>
+                            </li>
+                     
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#employees">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Employees</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="employees">
+                        <ul class="nav nav-collapse">
+
+                            <li>
+                                <a asp-controller="Travels" asp-action="Create">
+                                    <span class="sub-item">Add Travel</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Routes" asp-action="Create">
+                                    <span class="sub-item">Creat New Route</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#users">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Users</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="users">
+                        <ul class="nav nav-collapse">
+
+                            <li>
+                                <a asp-controller="Users" asp-action="Index">
+                                    <span class="sub-item">Home</span>
+                                </a>
+                            </li>
+                       
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="widgets.html">
+                        <i class="fas fa-desktop"></i>
+                        <p>Widgets</p>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>

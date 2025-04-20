@@ -1,0 +1,508 @@
+﻿@using TravelCompany.Domain.Entities
+
+@model IEnumerable<route>
+
+
+@section Styles {
+
+
+
+	<style>
+		.sticky-card {
+			position: sticky;
+			top: 100px; /* Distance from top when it becomes "stuck" */
+		}
+	</style>
+
+}
+
+
+<div class="card h-md-100">
+	<!--begin::Header-->
+	<div class="card-header border-0 pt-5 mb-5">
+		<h3 class="card-title align-items-start flex-column">
+			<span class="card-label fw-bold text-gray-900">What’s up Today</span>
+			<span class="text-muted mt-1 fw-semibold fs-7">Total 424,567 deliveries</span>
+		</h3>
+		<!--begin::Toolbar-->
+		<div class="card-toolbar">
+			<a href="#" class="btn btn-sm btn-light">Report Cecnter</a>
+		</div>
+		<!--end::Toolbar-->
+	</div>
+	<!--end::Header-->
+
+
+
+	<!--begin::Body-->							
+<div class="tab-content mb-2 px-9 d-flex  ">
+
+	<div class="d-flex flex-column gap-10">
+			<!--begin::Route-->
+			<div class="rounded border border-info border-dashed d-flex flex-column  flex-sm-row align-items-center justify-content-between  p-5 ">
+				<!--begin::Icon-->
+				<div class="d-flex p-2">
+					<i class="ki-solid ki-flag    fs-3x pe-2 text-info"></i>
+					<!--begin::Wrapper-->
+					<div class="d-flex flex-column pe-0 pe-sm-10">
+						<!--begin::Title-->
+						<h5 class="required mb-1">Setup Route</h5>
+						<!--end::Title-->
+						<!--begin::Content-->
+						<span class="text-muted ">Select route of the trip from existed routes or create new one.</span>
+						<!--end::Content-->
+					</div>
+					<!--end::Wrapper-->
+					<!--begin::Close-->
+
+				</div>
+				<div class="flex-shrink-0 p-2 align-self-end">
+
+					<a class="btn btn-sm btn-outline btn-outline-dashed btn-outline-info btn-active-light" asp-controller="Routes" asp-action="Index" asp-route-isFromScheduling="true">
+						Select Route
+					</a>
+
+				</div>
+
+				<!--end::Close-->
+			</div>
+			<!--end::Route-->
+			<!--begin::Time-->
+			<div class="rounded border d-flex flex-column p-5  mb-3 ">
+
+				<div class="d-flex p-2">
+
+				@* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+
+
+					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+						<!--begin::Title-->
+						<h5 class="  mb-1 ">Trip Time</h5>
+						<!--end::Title-->
+						<!--begin::Content-->
+						<span class="text-muted ">Set the times for your trip</span>
+						<!--end::Content-->
+					</div>
+
+
+
+				</div>
+
+				<div class="d-flex ">
+
+					<div class="m-4">
+
+						<label for="" class="form-label required">Departure Time</label>
+						<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly">
+					</div>
+
+					<div class="m-4">
+
+						<label for="" class="form-label required">Return Time</label>
+						<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" readonly="readonly">
+					</div>
+
+				</div>
+
+
+			</div>
+			<!--end::Time-->
+			<!--begin::Recuring Type-->
+		    <div class="rounded border p-5 d-flex flex-column pb-10">
+		    
+				<div class="d-flex p-2">
+
+@* 					<i class="ki-solid ki-arrows-loop  fs-3x pe-2 "></i> *@
+
+
+					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+						<!--begin::Title-->
+						<h5 class=" required mb-1 ">Recuring Pattern</h5>
+						<!--end::Title-->
+						<!--begin::Content-->
+				    	<span class="text-muted ">Select the frequency of the trip, or choose 'Custom Schedule' if it is not a recurring journey.</span>
+						<!--end::Content-->
+					</div>
+
+			
+
+				</div>
+				<div class="d-flex p-2 ps-8">
+
+					<div>
+						<!--begin::Option-->
+						<div class="d-flex">
+							<input type="radio" class="btn-check" value="1" name="radio_buttons_2" checked="checked" id="kt_radio_buttons_2_option_1" />
+							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_2_option_1">
+								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+								<span class="text-start">
+									<span class="text-gray-900 ">Every Single Day</span>
+
+								</span>
+
+							</label>
+						</div>
+				
+						<!--end::Option-->
+						<!--begin::Option-->
+						<div class="d-flex">
+							<input type="radio" class="btn-check" value="2" name="radio_buttons_2"  id="kt_radio_buttons_2_option_2" />
+							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_2_option_2">
+								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+								<span class="text-start">
+									<span class="text-gray-900 ">Specific Days of the Week</span>
+
+								</span>
+
+							</label>
+						</div>
+
+						<!--end::Option-->
+					
+
+					</div>
+
+					<div class="ms-4">
+					
+						<!--begin::Option-->
+						<div class="d-flex">
+							<input type="radio" class="btn-check" value="3" name="radio_buttons_2"  id="kt_radio_buttons_4_option_4" />
+							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_4_option_4">
+								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+								<span class="text-start">
+									<span class="text-gray-900 ">Custom Schedule</span>
+
+								</span>
+
+							</label>
+						</div>
+
+						<!--end::Option-->
+
+					</div>
+
+
+				</div>
+
+
+				<div class="ps-13 " id="recuring-details">
+
+
+
+
+			    </div>
+
+			
+
+			</div>
+			<!--end::Recuring Type-->
+			<!--begin::Duration-->
+			<div class="rounded border p-5 d-flex flex-column">
+
+				<div class="d-flex p-2">
+
+@* 
+					<i class="ki-outline ki-calendar   fs-2tx pe-2  "></i> *@
+					
+
+
+					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+						<!--begin::Title-->
+						<h5 class=" required mb-1 ">Trip Duration</h5>
+						<!--end::Title-->
+						<!--begin::Content-->
+						<span class="text-muted ">Select how long do you want this trip to be scheduled for.</span>
+						<!--end::Content-->
+					</div>
+
+
+
+				</div>
+				<div class="d-flex p-2 ps-8">
+
+					<div>
+						<!--begin::Option-->
+						<div class="d-flex">
+							<input type="radio" class="btn-check" value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" />
+							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_5_option_5">
+								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+								<span class="text-start">
+									<span class="text-gray-900 ">Specific period</span>
+
+								</span>
+
+							</label>
+						</div>
+
+						<!--end::Option-->
+						<!--begin::Option-->
+						<div class="d-flex">
+							<input type="radio" class="btn-check" value="2" name="radio_trip_duration" id="kt_radio_buttons_6_option_6" />
+							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_6_option_6">
+								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+								<span class="text-start">
+									<span class="text-gray-900 ">Fixed duration</span>
+
+								</span>
+
+							</label>
+						</div>
+
+						<!--end::Option-->
+
+
+					</div>
+
+			
+
+				</div>
+
+
+				<div class="ps-13 " id="duration-options">
+				</div>
+
+
+
+			</div>
+			<!--end::Duration-->
+	
+		    
+		    
+	 </div>
+
+
+	
+
+
+          
+
+
+</div>
+	
+
+
+
+
+
+</div>
+
+
+<template id="template-recurring-1"></template>
+
+<template id="template-recurring-2">
+
+	<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
+
+		
+			<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+				<!--begin::Title-->
+				<h5 class=" required mb-1 ">Week Days</h5>
+				<!--end::Title-->
+				<!--begin::Content-->
+			<span class="text-muted ">Select the days of the week you want to schedule your trip for..</span>
+				<!--end::Content-->
+			</div>
+
+	
+
+		<div class="d-flex gap-16">
+
+
+
+			<div class="d-flex flex-column">
+
+				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+					<input class="form-check-input" type="checkbox" />
+					<label class="form-check-label text-gray-900 " for="">
+						Small checkbox
+					</label>
+				</div>
+
+						<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+					<input class="form-check-input" type="checkbox" />
+					<label class="form-check-label text-gray-900 " for="">
+						Small checkbox
+					</label>
+				</div>
+
+
+				
+						<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+					<input class="form-check-input" type="checkbox" />
+					<label class="form-check-label text-gray-900 " for="">
+						Small checkbox
+					</label>
+				</div>
+
+
+
+				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+					<input class="form-check-input" type="checkbox" />
+					<label class="form-check-label text-gray-900 " for="">
+						Small checkbox
+					</label>
+				</div>
+
+
+
+
+
+			</div>
+
+			<div class="d-flex flex-column">
+
+				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+					<input class="form-check-input" type="checkbox" />
+					<label class="form-check-label text-gray-900 " for="">
+						Small checkbox
+					</label>
+				</div>
+
+				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+					<input class="form-check-input" type="checkbox" />
+					<label class="form-check-label text-gray-900 " for="">
+						Small checkbox
+					</label>
+				</div>
+
+
+
+			</div>
+		</div>
+
+
+	
+
+
+	</div>
+
+
+
+</template>
+<template id="template-recurring-3">
+
+	
+		<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
+
+
+			<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+				<!--begin::Title-->
+				<h5 class=" required mb-1 ">Dates</h5>
+				<!--end::Title-->
+				<!--begin::Content-->
+			<span class="text-muted ">Select the dates you want to schedule your trip for.</span>
+				<!--end::Content-->
+
+			</div>
+
+
+		<div class="d-flex ">
+
+			<input class="form-control form-control-solid flatpickr-input" placeholder="Dates" id="custom-schedule" type="text" readonly="readonly">
+
+
+	    	</div>
+
+		
+	</div>
+
+
+
+
+
+</template>
+
+
+<template id="template-duration-1">
+
+	
+	
+
+		<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 ">
+
+
+	
+			<label for="" class="form-label required d-block">Date Range</label>
+			<span class="text-muted mb-7">Select the start and end dates of your trip.</span>
+
+		<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Specific Perios" id="specific-period" type="text" readonly="readonly">
+
+		</div>
+
+
+
+
+</template>
+
+<template  id="template-duration-2">
+	<div class="d-flex animate__animated animate__fadeInDown mb-7 ">
+
+	
+		<div class="d-flex  pe-0 pe-sm-10 mb-7">
+			<div class="d-flex flex-column ">
+
+				<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+					<!--begin::Title-->
+@* 					<h5 class="  mb-1 ">Start Date</h5>
+ *@					<!--end::Title-->
+					<!--begin::Content-->
+					<span class="text-muted ">For how many months do you want to schedule your trip.</span>
+					<!--end::Content-->
+				</div>
+
+
+				<div class="d-flex flex-column gap-5 flex-md-row gap-md-10">
+
+					<div>
+						<label for="" class="form-label required d-block">Start Date</label>
+						<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Date" id="fixed-duration" type="text" readonly="readonly">
+
+
+					</div>
+					<div class="">
+						<label for="" class="form-label required">How Long</label>
+						<select class="form-select form-select-solid form-select-sm" aria-label="Select example">
+							<option></option>
+							<option value="1">For one month</option>
+							<option value="2">For Two Months</option>
+							<option value="3">For Three Months</option>
+						</select>
+					</div>
+
+				</div>
+
+		
+@* 
+				<label for="" class="form-label required">Start Date</label>
+				<span class="text-muted ">For how many months do you want to schedule your trip.</span> *@
+			</div>
+
+
+
+	
+		
+
+		</div>
+
+
+
+
+
+	</div>
+
+
+	
+
+
+
+
+
+</template>
+	<!--end::Body-->
+	@section Scripts {
+
+
+	<script src="~/js/scheduling.js"></script>
+
+
+}

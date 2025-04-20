@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ScheduledTravelDetialViewModel>
+<div style="overflow-x: auto;">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Travel Date</th>
+                <th scope="col">Station Order</th>
+                <th scope="col">Station</th>
+                <th scope="col">Status</th>
+                <th scope="col">Arrival Time</th>
+                <th scope="col">Avaliable Seats</th>
+                <th scope="col">Booked Seats</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var travel in Model)
+            {
+                <input type="hidden" value="@travel.ScheduledTravelId" />
+                <tr>
+                    <td>@travel.Date.ToString("dd-MM-yyyy")</td>
+                    <td>@travel.StationOrder</td>
+                    <td>@travel.StationName</td>
+                    <td>
+                        <h6 class="badge text-bg-@((byte)travel.Status==0 ?"warning":"success")">  @travel.Status</h6>
+                    </td>
+                    <td>@travel.ArrivalTime</td>
+                    <td>@travel.AvailableSeats</td>
+                    <td>@travel.BookedSeates</td>
+                </tr>
+            }
+
+
+        </tbody>
+
+</div>

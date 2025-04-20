@@ -1,0 +1,1 @@
+﻿global using Travel_Company_MVC.ViewModels;

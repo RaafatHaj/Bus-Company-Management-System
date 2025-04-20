@@ -1,0 +1,58 @@
+﻿@model IEnumerable<UserViewModel>
+
+@section Styles {
+    <link href="~/lib/datatables.net-bs5/datatables.bootstrap5.min.css" rel="stylesheet" />
+
+}
+
+<div class="card mt-3">
+
+    <button class="btn btn-outline-primary btn-sm js-render-modal" data-url="/Users/Create"
+            data-travel-id="" data-title="Add User">
+        Details
+    </button>
+</div>
+<div class="card">
+
+    <div class="table-responsive mt-3 mb-3">
+        <table class="table table-hover table-row-dashed table-row-gray-300 gy-0 gx-0 align-middle" id="datatable">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800" style="height: 20px; padding:0px">
+                    <th class="text-dark  fw-bold" style="padding:20px 20px!important;" scope="col">UserName</th>
+                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Email</th>
+                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">FullName</th>
+                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Available</th>
+                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Updated On</th>
+                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Actions</th>
+          
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var user in Model)
+                {
+                    <partial name="_UserRow" model="@user" />
+                }
+
+
+            </tbody>
+         </table>
+
+    </div>
+
+</div>
+
+
+
+@section Plugins
+{
+    <script src="~/lib/datatables.net/datatables.min.js"></script>
+    <script src="~/lib/datatables.net-bs5/datatables.bootstrap5.min.js"></script>
+}
+
+
+@section Scripts {
+
+    <script src="/js/Users.js" asp-append-version="true"></script>
+
+}

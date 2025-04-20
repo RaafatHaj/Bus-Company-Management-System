@@ -1,0 +1,91 @@
+﻿@model UserFormViewModel
+
+<form class="js-ajax-form" method="post"
+      data-url="@(string.IsNullOrEmpty(Model?.Id)?"/Users/Create":"/Users/Edit")"
+      data-callback="addRowToTable">
+
+    @if (!string.IsNullOrEmpty(Model?.Id))
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div class="mb-5">
+
+        <div class="form-floating mb-3">
+
+            <input type="text" asp-for="UserName" class="form-control form-control-sm form-control-solid" placeholder="Username" autocomplete="off" />
+            <label asp-for="UserName"></label>
+        </div>
+
+        <span asp-validation-for="UserName" class="text-danger d-block"></span>
+    </div>
+
+    <div class="mb-5">
+
+        <div class="form-floating mb-3">
+
+            <input type="text" asp-for="FullName" class="form-control form-control-sm form-control-solid " placeholder="Full Name" autocomplete="off" />
+            <label asp-for="FullName"></label>
+        </div>
+
+        <span asp-validation-for="FullName" class="text-danger d-block"></span>
+    </div>
+
+    <div class="mb-5">
+
+        <div class="form-floating mb-3">
+
+            <input type="email" asp-for="Email" class="form-control form-control-sm form-control-solid" placeholder="Email" autocomplete="off" />
+            <label asp-for="Email"></label>
+        </div>
+
+        <span asp-validation-for="Email" class="text-danger d-block"></span>
+    </div>
+
+    <div class="mb-5">
+
+    <label asp-for="SelectedRoles">Select roles</label>
+                <select class="form-select form-control-sm" multiple asp-for="SelectedRoles" asp-items="Model?.Roles">
+                <option></option>
+            </select>
+            <span asp-validation-for="SelectedRoles" class="text-danger d-block"></span>
+
+    </div>
+
+
+    @if (string.IsNullOrEmpty(Model?.Id))
+    {
+
+
+
+        <div class="mb-5">
+             
+            <div class="form-floating mb-3">
+
+                <input type="password" asp-for="Password" class="form-control form-control-sm form-control-solid" placeholder="Password" autocomplete="off" />
+                <label asp-for="Password"></label>
+            </div>
+
+            <span asp-validation-for="Password" class="text-danger d-block"></span>
+        </div>
+
+
+        <div class="mb-5">
+
+            <div class="form-floating mb-3">
+
+                <input type="password" asp-for="ConfirmPassword" class="form-control form-control-sm form-control-solid" placeholder="Confirm Password" autocomplete="off" />
+                <label asp-for="ConfirmPassword"></label>
+            </div>
+
+            <span asp-validation-for="ConfirmPassword" class="text-danger d-block"></span>
+        </div>
+
+
+    }
+
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+   
+
+</form>

@@ -1,0 +1,56 @@
+﻿
+@model UserViewModel
+
+<tr>
+
+    <td style="padding:10px 20px!important;">@Model.Username</td>
+    <td style="padding:10px 5px!important">@Model.Email</td>
+    <td class="text-danger" style="padding:10px 5px!important">@Model.FullName</td>
+    <td class="@(Model.IsDeleted?"text-danger":"text-success") text-success" style="padding:10px 5px!important">
+        
+        @(Model.IsDeleted ? "Not Available" : "Available")
+    </td>
+
+    <td class="text-danger" style="padding:10px 5px!important">@Model.LastUpdatedOn</td>
+
+
+
+    <td style="padding:10px 5px!important">
+
+        <div class="btn-group">
+            <a class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Actions
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item js-render-modal" data-url="/Users/Edit?userId=@Model.Id"
+                       data-travel-id="" data-title="Edit User" data-updete="true">Edit</a>
+                </li>
+                <li><a class="dropdown-item js-toggle" data-url="/Users/Delete?userId=@Model.Id"
+                    data-message="Are you sure whould you like to delete @Model.Username " data-title="Delete User"
+                    data-update-ui="true"
+                      >Delete</a>
+                </li>
+                <li>
+                    <a class="dropdown-item js-toggle" data-url="/Users/UnLockUser?userId=@Model.Id"
+                       data-message="Are you sure whould you like to Unlock @Model.Username " data-title="Confirm Unlocking"
+                       >UnLock User</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Rest Password</a></li>
+            </ul>
+        </div>
+
+
+    </td>
+</tr>
+
+          
+@section Scripts{
+
+
+    <script>
+
+
+
+    </script>
+}

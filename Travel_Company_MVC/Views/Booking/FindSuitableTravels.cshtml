@@ -1,0 +1,69 @@
+﻿@model BookingViewModel;
+
+
+
+
+@section Styles {
+    <link href="~/lib/datatables.net-bs5/datatables.bootstrap5.min.css" rel="stylesheet" />
+
+}
+
+
+<form method="post" class="js-ajax-form" data-callback="findSuitableTravels"
+      data-url="/Booking/FindSuitableTravels">
+
+        <input type="hidden" value="@Model.JsonStations" id="JsonStations"/>
+        <div class="row">
+
+                        <div class="row m-4">
+                            <div class="col-md-4">
+                               <select class="form-select form-select-sm  " id="js-stationA" asp-for="@Model.StationAId" asp-items="@Model.Stations"
+                                aria-label="Small select example">
+                                    <option selected></option>
+                               </select>
+                               <span asp-validation-for="@Model.StationAId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <select class="form-select form-select-sm" asp-for="@Model.StationBId" asp-items="@Model.Stations" id="js-stationB"
+                                     aria-label="Small select example">
+                                    <option selected></option>
+                                </select>
+                                    <span asp-validation-for="@Model.StationBId" class="text-danger"></span>
+                            </div >
+                    <div class="col-md-4">
+
+                                <button type="submit" class="btn btn-outline-primary ">Find</button>  
+                            </div>
+    
+                        </div>
+           
+                 
+
+     
+        </div>
+
+   
+
+
+
+</form>
+
+<div id="suitable-travels-container">
+
+
+</div>
+
+
+
+@section Scripts {
+
+
+
+    <script src="~/lib/datatables.net/datatables.min.js"></script>
+    <script src="~/lib/datatables.net-bs5/datatables.bootstrap5.min.js"></script>
+
+
+    <script src="/js/BookTicket.js" asp-append-version="true"></script>
+
+}

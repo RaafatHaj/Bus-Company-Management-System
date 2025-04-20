@@ -1,0 +1,76 @@
+﻿@model BookTicketViewModel
+
+
+@* 		public string PersonId { get; set; } = null!;
+		public string PersonName { get; set; } = null!;
+		public string PersonPhone { get; set; } = null!;
+		public string? PersonEmail { get; set; } *@
+
+
+<form method="post" asp-action="BookSeat2">
+
+
+	<input type="hidden" asp-for="ScheduledTravelId" />
+	<input type="hidden" asp-for="StationAOrder" />
+	<input type="hidden" asp-for="StationAId" />
+	<input type="hidden" asp-for="StationBOrder" />
+	<input type="hidden" asp-for="StationBId" />
+	<input type="hidden" asp-for="RouteStationsNumber" />
+	<input type="hidden" asp-for="SeatNumber" />
+	<input type="hidden" asp-for="PersonGendor" />
+
+
+	<div class="mb-5">
+
+		<div class="form-floating mb-3">
+
+			<input type="text" asp-for="PersonId" class="form-control form-control-sm form-control-solid" placeholder="Id Number" autocomplete="off" />
+			<label asp-for="PersonId"></label>
+		</div>
+
+		<span asp-validation-for="PersonId" class="text-danger d-block"></span>
+	</div>
+
+		<div class="mb-5">
+
+		<div class="form-floating mb-3">
+
+			<input type="text" asp-for="PersonName" class="form-control form-control-sm form-control-solid" placeholder="Full Name" autocomplete="off" />
+			<label asp-for="PersonName"></label>
+		</div>
+
+		<span asp-validation-for="PersonName" class="text-danger d-block"></span>
+	</div>
+
+		<div class="mb-5">
+
+		<div class="form-floating mb-3">
+
+			<input type="text" asp-for="PersonPhone" class="form-control form-control-sm form-control-solid" placeholder="Phone Number" autocomplete="off" />
+			<label asp-for="PersonPhone"></label>
+		</div>
+
+		<span asp-validation-for="PersonPhone" class="text-danger d-block"></span>
+	</div>
+
+	<div class="mb-5">
+
+		<div class="form-floating mb-3">
+
+			<input type="text" asp-for="PersonEmail" class="form-control form-control-sm form-control-solid" placeholder="Email" autocomplete="off" />
+			<label asp-for="PersonEmail"></label>
+		</div>
+
+		<span asp-validation-for="PersonEmail" class="text-danger d-block"></span>
+	</div>
+
+
+
+	<button class="btn btn-primary" type="submit">submit</button>
+
+
+
+</form>
+
+
+

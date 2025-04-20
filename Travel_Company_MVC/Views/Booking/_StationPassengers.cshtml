@@ -1,0 +1,30 @@
+﻿@using TravelCompany.Domain.Entities
+@model IEnumerable<Reservation>
+
+<div style="overflow-x: auto;">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Seat Number</th>
+                <th scope="col">Passenger Name</th>
+   
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var travel in Model)
+            {
+                <tr>
+             
+                    <td>@travel.SeatNumber</td>
+                    <td>@travel.PersonName</td>
+               
+                </tr>
+            }
+
+
+        </tbody>
+        </table>
+
+</div>

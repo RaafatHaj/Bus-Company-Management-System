@@ -1,0 +1,87 @@
+﻿@using TravelCompany.Domain.Entities
+
+@model IEnumerable<route>
+
+
+
+<!--begin::Modal body-->
+<div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+
+
+
+
+
+	@foreach(var route in Model)
+	{
+
+		<!--begin::Users-->
+		<div class="mb-15">
+			<!--begin::List-->
+			<div class="mh-375px scroll-y me-n7 pe-7">
+				<!--begin::User-->
+				<div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
+					<!--begin::Details-->
+					<div class="d-flex align-items-center">
+
+						<!--begin::Details-->
+						<div class="ms-6">
+							<!--begin::Name-->
+							<a href="#"
+							   class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+								Emma Smith
+							</a>
+							<!--end::Name-->
+							<!--begin::Email-->
+							<div class="fw-semibold text-muted">smith@kpmg.com</div>
+							<!--end::Email-->
+						</div>
+						<!--end::Details-->
+					</div>
+					<!--end::Details-->
+					<div class="d-flex align-items-center">
+
+					<div class="ms-6 ">
+						<div class="row">
+
+									<div class="col-md-4">
+
+									<span class="badge badge-light-danger fs-8 fw-semibold ms-2">@route.FirstStation!.StationName</span>
+									<i class="ki-solid ki-arrow-right text-primary  fs-2x"></i>
+						</div>
+
+							
+
+								<div class="col-md-4">
+									<span class="badge badge-light-success fs-8 fw-semibold ms-2">@route.LastStation!.StationName</span>
+
+								</div>
+
+						</div>
+
+
+			
+					</div>
+					</div>
+
+
+					<!--begin::Stats-->
+					<div class="d-flex">
+						<!--begin::Sales-->
+						<div class="text-end">
+							<div class="fs-5 fw-bold text-gray-900">$23,000</div>
+							<div class="fs-7 text-muted">Sales</div>
+						</div>
+						<!--end::Sales-->
+					</div>
+					<!--end::Stats-->
+				</div>
+
+			</div>
+			<!--end::List-->
+		</div>
+		<!--end::Users-->
+
+	}
+
+</div>
+<!--end::Modal body-->

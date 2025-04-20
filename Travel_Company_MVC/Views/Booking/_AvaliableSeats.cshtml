@@ -1,0 +1,58 @@
+﻿@model BookTicketViewModel
+
+<form method="get" asp-action="BookSeat">
+
+
+	<input type="hidden" asp-for="ScheduledTravelId" />
+	<input type="hidden" asp-for="StationAOrder" />
+	<input type="hidden" asp-for="StationAId" />
+	<input type="hidden" asp-for="StationBOrder" />
+	<input type="hidden" asp-for="StationBId" />
+	<input type="hidden" asp-for="RouteStationsNumber" />
+
+		@foreach (var seat in Model.BookedSeats)
+		{
+			if(seat.IsBooked)	
+			{
+			<div class="btn-group" style="">
+				<input type="checkbox" class="btn-check" id="@Model.ScheduledTravelId-@seat.SeatNumber" autocomplete="off" checked disabled>
+				<label  class="btn btn-outline-primary m-1" for="@Model.ScheduledTravelId-@seat.SeatNumber">@seat.SeatNumber </label>
+				</div>
+			}
+	
+		
+		}
+		@foreach (var seat in Model.BookedSeats)
+		{
+		if (!seat.IsBooked)
+		{
+
+			<div class="btn-group" >
+				<input asp-for="SeatNumber" type="radio" class="btn-check" name="SeatNumber" id="@Model.ScheduledTravelId-@seat.SeatNumber"
+					   value="@seat.SeatNumber" autocomplete="off">
+				<label  class="btn btn-outline-primary m-1" for="@Model.ScheduledTravelId-@seat.SeatNumber">@seat.SeatNumber </label>
+			</div>
+		}
+	}
+
+
+	<div>
+		<div class="form-check form-check-inline">
+			<input asp-for="PersonGendor" class="form-check-input" type="radio" name="PersonGendor" id="flexRadioDefault1" value="true">
+			<label class="form-check-label" for="flexRadioDefault1">
+				Mail
+			</label>
+		</div>
+		<div class="form-check form-check-inline">
+			<input asp-for="PersonGendor" class="form-check-input" type="radio" name="PersonGendor" id="flexRadioDefault2" value="false">
+			<label class="form-check-label" for="flexRadioDefault2">
+				Femail
+			</label>
+		</div>
+
+	</div>
+
+	<button class="btn btn-primary" type="submit">submit</button>
+
+
+</form>
