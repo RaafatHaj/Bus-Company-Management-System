@@ -66,5 +66,15 @@ namespace Travel_Company_MVC.Controllers
 
             return Json(routes);
         }
+
+
+        [HttpGet]
+        public IActionResult GetRouteTrips(int routeId=1)
+        {
+
+            return View("RouteTrips");
+        }
+
+
     }
 }
