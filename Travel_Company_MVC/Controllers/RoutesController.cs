@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TravelCompany.Application.Services.Routes;
 
@@ -10,13 +11,16 @@ namespace Travel_Company_MVC.Controllers
 
 
         private readonly IRouteService _routeService;
+        private readonly IMapper _mapper;
 
-        public RoutesController(IRouteService routeService)
+
+        public RoutesController(IRouteService routeService, IMapper mapper)
         {
             _routeService = routeService;
+            _mapper = mapper;
         }
 
-        public async Task< IActionResult >Index(bool isFromScheduling =false)
+        public async Task<IActionResult>Index(bool isFromScheduling =false)
         {
 
             var model = new RoutesViewModel();
@@ -31,24 +35,38 @@ namespace Travel_Company_MVC.Controllers
 
 
 		[HttpGet]
-		public async Task<IActionResult> GetRouteDetails(int routeID)
+		public async Task<IActionResult> GetRouteStations(int routeID)
         {
-            var details = await _routeService.GetRouteDetailsAsync(routeID);
+            var details = await _routeService.GetRouteStationsAsync(routeID);
 
 
-			return PartialView("_RouteDetials",details);
+			return PartialView("_RouteStations", details);
 		}
 
+        [HttpGet]
+        public async Task<IActionResult> GetRouteDetails(int routeId)
+        {
+            var route = await _routeService.GetRouteDetails(routeId);
+
+            if (route is null)
+                return BadRequest();
 
 
-		[HttpGet]
-		public async Task<IActionResult> GetAllRoutesAsync()
-		{
+            return PartialView("_RouteDetails", _mapper.Map<RouteViewModel>(route));
+
+
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRoutesAsync()
+        {
 			var routes = await _routeService.GetAllRoutesAsync();
 
 
 			return PartialView("_RoutesList", routes);
 		}
+
 
 		[HttpGet]
         public IActionResult Create()
@@ -62,14 +80,24 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> FetchAllRoutes()
         {
 
-            var routes =await _routeService.GetAllRoutesAsync();
+			//var routes = await _routeService.GetAllRoutesAsync();
 
-            return Json(routes);
+			var model = new RoutesViewModel();
+
+			model.Routes = await _routeService.GetAllRoutesAsync();
+			model.ISFromScheduling = true;
+
+
+			return PartialView("_RoutesList", model);
+
+			//var routes =await _routeService.GetAllRoutesAsync();
+
+   //         return Json(routes);
         }
 
 
         [HttpGet]
-        public IActionResult GetRouteTrips(int routeId=1)
+        public IActionResult RouteTrips(int routeId=1)
         {
 
             return View("RouteTrips");

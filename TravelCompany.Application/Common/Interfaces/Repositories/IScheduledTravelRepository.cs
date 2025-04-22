@@ -8,7 +8,7 @@ using TravelCompany.Domain.Entities;
 
 namespace TravelCompany.Application.Common.Interfaces.Repositories
 {
-    public interface IScheduledTravelRepository : IBaseRepository<ScheduledTrip>
+    public interface IScheduledTravelRepository : IBaseRepository<Trip>
     {
         Task<IEnumerable<ScheduledTravelsMainViewDTO>> GetMainScheduledTravelsAsync();
         Task<IEnumerable<TravelStation>> GetScheduledTravelDetailsAsync(int scheduledTravelId);

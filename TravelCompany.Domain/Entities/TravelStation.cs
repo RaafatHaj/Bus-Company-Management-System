@@ -6,7 +6,7 @@ namespace TravelCompany.Domain.Entities
 	{
 
 		public int ScheduledTravelId { get; set; }
-		public ScheduledTrip? ScheduledTravel { get; set; }
+		public Trip? ScheduledTravel { get; set; }
 		public int StationOrder { get; set; }
 		public int StationId { get; set; }
 		public Station? Station { get; set; }

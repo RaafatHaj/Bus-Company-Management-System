@@ -16,7 +16,6 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<route> Routes { get; set; }
         public DbSet<RoutePoint> RoutePoints { get; set; }
         public DbSet<Trip> Trips { get; set; }
-        public DbSet<ScheduledTrip> ScheduledTrips { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<TravelStation> TravelStations { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
@@ -42,16 +41,14 @@ namespace TravelCompany.Infrastructure.Persistence
             //.Property(o => o.ScheduleType)
             //.HasConversion<int>();
 
-            builder.Entity<Trip>()
-            .Property(e => e.TripTime)
-            .HasColumnType("time(7)");
+    
 
 			builder.Entity<Recurring>()
-		    .Property(e => e.FirstTripDate)
+		    .Property(e => e.StartDate)
 		    .HasColumnType("date");
 
             builder.Entity<Recurring>()
-            .Property(e => e.LastTripDate)
+            .Property(e => e.EndDate)
             .HasColumnType("date");
 
             builder.Entity<Driver>()

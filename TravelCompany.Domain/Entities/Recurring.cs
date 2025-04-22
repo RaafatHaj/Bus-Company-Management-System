@@ -10,15 +10,16 @@ namespace TravelCompany.Domain.Entities
     public class Recurring
     {
         public int RecurringId { get; set; }
-        public int TripId { get; set; }
-        public Trip? Trip { get; set; }
+        public int RouteId { get; set; }
+        public route? Route { get; set; }
+        public TimeSpan Time {  get; set; }
         public RecurringType RecurringType { get; set; }
-        public DateTime? FirstTripDate { get; set; }
-        public DateTime? LastTripDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public bool IsActive { get; set; }
-        public bool Reschedule {  get; set; }
-        public bool HasIrregularTrip { get; set; }
-        public bool HasUnsignedTrip { get; set; }
+        public bool IsRecurring {  get; set; }
+        public int TripsNumber { get; set; }
+        public int IrregularTripsNumber { get; set; }
 
         public ICollection<Day> Days { get; set; } = new List<Day>();
 

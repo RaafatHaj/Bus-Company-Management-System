@@ -13,7 +13,6 @@ namespace TravelCompany.Application.Common.Interfaces
         IBaseRepository<Point> Points { get; }
         IBaseRepository<Station> Stations { get; }
         IBaseRepository<route> Routes { get; }
-        ITravelRepository Travels { get; }
         IScheduledTravelRepository  ScheduledTravels { get; }
         IBaseRepository<RoutePoint> RoutePoints { get; }
         IBaseRepository <TravelStation> TravelStations { get; }

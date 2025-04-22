@@ -1,5 +1,6 @@
 ﻿
 
+// Handling Templates ...
 document.querySelectorAll('input[name="radio_buttons_2"]').forEach(radio => {
     radio.addEventListener('change', function () {
         const content = document.getElementById('recuring-details');
@@ -26,7 +27,6 @@ document.querySelectorAll('input[name="radio_buttons_2"]').forEach(radio => {
 
     });
 });
-
 
 document.querySelectorAll('input[name="radio_trip_duration"]').forEach(radio => {
     radio.addEventListener('change', function () {
@@ -85,7 +85,50 @@ document.querySelectorAll('input[name="radio_trip_duration"]').forEach(radio => 
 
 
 
+// Handling Selecting Route ...
 
+
+document.body.addEventListener('click', async function (event) {
+
+    if (event.target && event.target.closest('.js-select-route')) {
+
+        event.preventDefault()
+        const btn = event.target.closest('.js-select-route');
+        const routeId = btn.getAttribute('data-route-id')
+        const test = document.getElementById('route-id');
+        test.value = routeId;
+      
+
+        try {
+
+            const response = await fetch(btn.getAttribute('data-url'));
+
+
+            if (!response.ok)
+                throw new Error('Failed to load partial view');
+
+            const html = await response.text();
+
+
+            document.getElementById('route-background').classList.toggle('bg-light-primary');
+            document.getElementById("route-details").innerHTML = html;
+
+
+
+        } catch {
+
+
+        }
+
+        HideModal();
+
+
+    }
+})
+
+
+
+InitilaizeMetronicDatatable();
 
 $(document).ready(function () {
 

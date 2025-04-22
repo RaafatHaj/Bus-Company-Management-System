@@ -30,9 +30,20 @@ namespace TravelCompany.Application.Services.Routes
                 .Include(r=>r.FirstStation)
                 .Include(r=>r.LastStation)
                 .ToListAsync();
-		}
+        }
 
-        public async Task<IEnumerable<RoutePoint>> GetRouteDetailsAsync( int routeID)
+        public async Task<route?> GetRouteDetails(int routeId)
+        {
+            var route = await _unitOfWork.Routes.GetQueryable()
+                .Include(r=>r.FirstStation).Include(r=>r.LastStation)
+                .SingleOrDefaultAsync(r => r.RouteId == routeId);
+             
+
+            return route;
+        }
+
+
+        public async Task<IEnumerable<RoutePoint>> GetRouteStationsAsync( int routeID)
         {
             return await _unitOfWork.RoutePoints.GetQueryable().AsNoTracking()
                 .Where(rp=>rp.RouteId==routeID)

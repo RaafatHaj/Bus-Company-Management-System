@@ -13,7 +13,7 @@ using TravelCompany.Domain.Eums;
 
 namespace TravelCompany.Infrastructure.Persistence.Repositories
 {
-    public class ScheduledTravelRepository :BaseRepository<ScheduledTrip>, IScheduledTravelRepository
+    public class ScheduledTravelRepository :BaseRepository<Trip>, IScheduledTravelRepository
     {
 
         private readonly ApplicationDbContext _context;

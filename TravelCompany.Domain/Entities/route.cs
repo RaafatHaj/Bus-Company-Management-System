@@ -11,7 +11,6 @@ namespace TravelCompany.Domain.Entities
 
         public int RouteId { get; set; }
         public string RouteName { get; set; } = null!;
-        ICollection<Trip> Trips { get; set; } = new List<Trip>();
 
         public int ?FirstStationId { get; set; }
         public Station? FirstStation { get; set; }
@@ -22,5 +21,12 @@ namespace TravelCompany.Domain.Entities
         public int? StationsNumber { get; set; }
         public int? ReverseRouteId { get; set; }
         public int EstimatedTime { get; set; }
-    }
+        public int EstimatedDistance { get; set; }
+
+		public ICollection<Recurring> RouteRecurrings { get; set; } = new List<Recurring>();
+		public ICollection<Trip> Trips { get; set; } = new List<Trip>();
+
+
+
+	}
 }

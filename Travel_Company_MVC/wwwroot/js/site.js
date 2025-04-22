@@ -5,6 +5,29 @@ function InitilaizeDatatable() {
     return new DataTable('#datatable');
 }
 
+function InitilaizeMetronicDatatable() {
+
+
+    $("#kt_datatable_dom_positioning").DataTable({
+        "language": {
+            "lengthMenu": "Show _MENU_",
+        },
+        "dom":
+            "<'row mb-2'" +
+            "<'col-sm-6 d-flex align-items-center justify-conten-start dt-toolbar'l>" +
+            "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar'f>" +
+            ">" +
+
+            "<'table-responsive'tr>" +
+
+            "<'row mt-5'" +
+            "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+            "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+            ">"
+    });
+}
+
+
 function ErrorMessage() {
 
     Swal.fire({
@@ -149,27 +172,32 @@ function RenderModal() {
 
     document.body.addEventListener('click', async function (event) {
         
-        if (event.target && event.target.matches('.js-render-modal')) {
+        if (event.target && event.target.closest('.js-render-modal')) {
 
             event.preventDefault()
-            const button = event.target;
+            const button = event.target.closest('.js-render-modal');
            // const id = button.getAttribute('data-travel-id');
             // modal-xl
             try {
 
                 const response = await fetch(button.getAttribute('data-url'));
 
+                if (button.hasAttribute("data-large-modal"))
+                    document.getElementById("ModalDialog").classList.add("modal-xl")
+
                 if (!response.ok)
                     throw new Error('Failed to load partial view');
 
                 const html = await response.text();
 
-                if (button.hasAttribute("data-large-modal"))
-                    document.getElementById("ModalDialog").classList.add("modal-xl")
-
+            
+                
 
                 if (event.target.hasAttribute('data-updete')) 
                     updatedRow = event.target.closest('tr');
+
+            
+
 
                 document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
 
@@ -177,7 +205,8 @@ function RenderModal() {
                 modalBody.innerHTML = html;
                 
 
-
+                if (event.target.hasAttribute('data-has-table'))
+                    InitilaizeMetronicDatatable();
                 // Reinitialize validation
                 $.validator.unobtrusive.parse(modalBody);
 

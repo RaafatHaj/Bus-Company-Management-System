@@ -40,6 +40,10 @@ namespace Travel_Company_MVC.Mappping
             
             CreateMap<BookTicketViewModel,BookingSeatDTO>();
 
+
+
+            CreateMap<route,RouteViewModel>().ReverseMap();
+
         }
 
     }

@@ -130,11 +130,11 @@ namespace Travel_Company_MVC.Controllers
                     ModelState.AddModelError("WeekDays", "Wrong");
             }
 
-            if (model.SelectedScheduleType == RecurringType.Monthly)
-            {
-                if (!model.MonthDays!.Any(d => d.IsSelected == true))
-                    ModelState.AddModelError("MonthDays", "Wrong");
-            }
+            //if (model.SelectedScheduleType == RecurringType.Monthly)
+            //{
+            //    if (!model.MonthDays!.Any(d => d.IsSelected == true))
+            //        ModelState.AddModelError("MonthDays", "Wrong");
+            //}
 
 
         }
@@ -156,15 +156,15 @@ namespace Travel_Company_MVC.Controllers
                 foreach (var day in days)
                     dto.Days.Rows.Add(day);
             }
-            else if (model.SelectedScheduleType == RecurringType.Monthly)
-            {
-                // dto.Days = DataTables.GetDaysTable();
+            //else if (model.SelectedScheduleType == RecurringType.Monthly)
+            //{
+            //    // dto.Days = DataTables.GetDaysTable();
 
-                var days=model.MonthDays!.Where(d=>d.IsSelected==true).Select(d=>d.Day).ToList();
+            //    var days=model.MonthDays!.Where(d=>d.IsSelected==true).Select(d=>d.Day).ToList();
 
-                foreach (var day in days)
-                    dto.Days.Rows.Add(day);
-            }
+            //    foreach (var day in days)
+            //        dto.Days.Rows.Add(day);
+            //}
             else if (model.SelectedScheduleType == RecurringType.Irregular)
             {
                 // dto.Dates = DataTables.GetDatesTable();
@@ -207,7 +207,7 @@ namespace Travel_Company_MVC.Controllers
                          new(){  Value=(RecurringType.Daily).ToString(),   Text="Every Single Day" },
                          new(){  Value=(RecurringType.Irregular).ToString(),   Text="Certain Dates"  },
                          new(){  Value=(RecurringType.Weekly).ToString(),   Text="Certain Days in Week"  },
-                         new(){  Value=(RecurringType.Monthly).ToString(),   Text="Certain Days in Month"  },
+                         //new(){  Value=(RecurringType.Monthly).ToString(),   Text="Certain Days in Month"  },
 
             };
 

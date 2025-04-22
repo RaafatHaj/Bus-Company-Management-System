@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250421091124_EditRouteTable")]
+    partial class EditRouteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -402,6 +405,45 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.ToTable("Schedules");
                 });
 
+            modelBuilder.Entity("TravelCompany.Domain.Entities.ScheduledTrip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateAndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("HasBookedSeat")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsIrregular")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ReverseScheduledTripId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Seats")
+                        .HasColumnType("int");
+
+                    b.Property<long>("StatusCode")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TripId");
+
+                    b.ToTable("ScheduledTrips");
+                });
+
             modelBuilder.Entity("TravelCompany.Domain.Entities.Station", b =>
                 {
                     b.Property<int>("StationId")
@@ -457,40 +499,19 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Trip", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TripId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("HasBookedSeat")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsIrregular")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MainTripId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripId"));
 
                     b.Property<int>("RouteId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Seats")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("TripTime")
+                        .HasColumnType("time(7)");
 
-                    b.Property<long>("StatusCode")
-                        .HasColumnType("bigint");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("TripId");
 
                     b.HasIndex("RouteId");
 
@@ -796,7 +817,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Reservation", b =>
                 {
-                    b.HasOne("TravelCompany.Domain.Entities.Trip", "ScheduledTravel")
+                    b.HasOne("TravelCompany.Domain.Entities.ScheduledTrip", "ScheduledTravel")
                         .WithMany()
                         .HasForeignKey("ScheduledTravelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -851,9 +872,20 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Driver");
                 });
 
+            modelBuilder.Entity("TravelCompany.Domain.Entities.ScheduledTrip", b =>
+                {
+                    b.HasOne("TravelCompany.Domain.Entities.Trip", "Trip")
+                        .WithMany("ScheduledTrips")
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trip");
+                });
+
             modelBuilder.Entity("TravelCompany.Domain.Entities.TravelStation", b =>
                 {
-                    b.HasOne("TravelCompany.Domain.Entities.Trip", "ScheduledTravel")
+                    b.HasOne("TravelCompany.Domain.Entities.ScheduledTrip", "ScheduledTravel")
                         .WithMany("Details")
                         .HasForeignKey("ScheduledTravelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -873,7 +905,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
             modelBuilder.Entity("TravelCompany.Domain.Entities.Trip", b =>
                 {
                     b.HasOne("TravelCompany.Domain.Entities.route", "Route")
-                        .WithMany("Trips")
+                        .WithMany()
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -887,7 +919,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .WithMany("Assignments")
                         .HasForeignKey("DriverId");
 
-                    b.HasOne("TravelCompany.Domain.Entities.Trip", "ScheduledTrip")
+                    b.HasOne("TravelCompany.Domain.Entities.ScheduledTrip", "ScheduledTrip")
                         .WithMany()
                         .HasForeignKey("ScheduledTripId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -944,6 +976,11 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Days");
                 });
 
+            modelBuilder.Entity("TravelCompany.Domain.Entities.ScheduledTrip", b =>
+                {
+                    b.Navigation("Details");
+                });
+
             modelBuilder.Entity("TravelCompany.Domain.Entities.Station", b =>
                 {
                     b.Navigation("Drivers");
@@ -953,7 +990,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Trip", b =>
                 {
-                    b.Navigation("Details");
+                    b.Navigation("ScheduledTrips");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Vehicle", b =>
@@ -964,8 +1001,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
             modelBuilder.Entity("TravelCompany.Domain.Entities.route", b =>
                 {
                     b.Navigation("RouteRecurrings");
-
-                    b.Navigation("Trips");
                 });
 #pragma warning restore 612, 618
         }

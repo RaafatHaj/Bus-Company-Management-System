@@ -16,9 +16,9 @@ namespace Travel_Company_MVC.Controllers
 
 		public async Task< IActionResult> ScheduleNewTrips()
         {
-			var routes = await _routeService.GetAllRoutesAsync();
+			//var routes = await _routeService.GetAllRoutesAsync();
 
-			return View(routes);
+			return View();
 		}
 
 

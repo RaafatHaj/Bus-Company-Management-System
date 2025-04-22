@@ -3,173 +3,186 @@
 @model route
 
 
-<tr>
-    <td>
-        <!--begin:: Avatar -->
 
+<tr class="mx-5">
+        <td>
 
+            <input type="hidden" value="@Model.RouteId" />
 
-@*         <div class="d-flex align-items-center">
-            <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                <a href="apps/user-management/users/view.html">
-                    <div class="symbol-label fs-3 bg-light-danger text-danger">D</div>
-                </a>
-            </div> *@
-            <!--end::Avatar-->
             <!--begin::User details-->
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column ms-5">
                 <a href="#"
                    class="text-gray-900 fw-bold text-hover-primary mb-1">@Model.RouteName</a>
                 <span class="text-muted fw-semibold fs-7">350 km</span>
             </div>
-        </div>
-
-        <!--begin::User details-->
-    </td>
-    <td>
-        <div class="tab-pane fade show active"
-             id="kt_list_widget_16_tab_1"
-             role="tabpanel">
 
 
-     <!--begin::Item-->
-            <div class="m-0">
+            <!--begin::User details-->
+        </td>
+        <td>
+            <div class="tab-pane fade show active"
+                 id="kt_list_widget_16_tab_1"
+                 role="tabpanel">
 
 
-                <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
-                <!--begin::Label-->
-                <!--begin::Title-->
- 
+                <!--begin::Item-->
+                <div class="m-0">
+
+
+                    <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
+                    <!--begin::Label-->
+                    <!--begin::Title-->
+
                     <a href="#"
                        class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.FirstStation.StationName</a>
-           
 
 
 
-@* 
-                <!--begin::Timeline-->
-                <div class="timeline timeline-border-dashed">
+
+                    @*
+                    <!--begin::Timeline-->
+                    <div class="timeline timeline-border-dashed">
                     <!--begin::Timeline item-->
                     <div class="timeline-item pb-5">
-                        <!--begin::Timeline line-->
-                        <div class="timeline-line"></div>
-                        <!--end::Timeline line-->
-                        <!--begin::Timeline icon-->
-                        <div class="timeline-icon  pulse pulse-danger">
+                    <!--begin::Timeline line-->
+                    <div class="timeline-line"></div>
+                    <!--end::Timeline line-->
+                    <!--begin::Timeline icon-->
+                    <div class="timeline-icon  pulse pulse-danger">
 
 
-                            <i class="fa fa-genderless text-danger fs-1"></i>
+                    <i class="fa fa-genderless text-danger fs-1"></i>
 
-                            <span class="pulse-ring border-3"></span>
+                    <span class="pulse-ring border-3"></span>
 
-                        </div>
-                        <!--end::Timeline icon-->
-                        <!--begin::Timeline content-->
-                        <div class="timeline-content m-0">
-                            <!--begin::Label-->
-                            <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
-                            <!--begin::Label-->
-                            <!--begin::Title-->
-                            <a href="#"
-                               class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.FirstStation.StationName</a>
-                            <!--end::Title-->
-                
-                        </div>
-                        <!--end::Timeline content-->
+                    </div>
+                    <!--end::Timeline icon-->
+                    <!--begin::Timeline content-->
+                    <div class="timeline-content m-0">
+                    <!--begin::Label-->
+                    <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
+                    <!--begin::Label-->
+                    <!--begin::Title-->
+                    <a href="#"
+                    class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.FirstStation.StationName</a>
+                    <!--end::Title-->
+
+                    </div>
+                    <!--end::Timeline content-->
                     </div>
                     <!--end::Timeline item-->
                     <!--begin::Timeline item-->
                     <div class="timeline-item">
-                        <!--begin::Timeline line-->
-                        <div class="timeline-line"></div>
-                        <!--end::Timeline line-->
-                        <!--begin::Timeline icon-->
-                        <div class="timeline-icon pulse pulse-warning">
+                    <!--begin::Timeline line-->
+                    <div class="timeline-line"></div>
+                    <!--end::Timeline line-->
+                    <!--begin::Timeline icon-->
+                    <div class="timeline-icon pulse pulse-warning">
 
 
-                            <i class="fa fa-genderless text-warning fs-1"></i>
-                            <span class="pulse-ring border-3"></span>
+                    <i class="fa fa-genderless text-warning fs-1"></i>
+                    <span class="pulse-ring border-3"></span>
 
-       
-                        </div>
-                        <!--end::Timeline icon-->
-                        <!--begin::Timeline content-->
-                        <div class="timeline-content m-0">
-                            <!--begin::Label-->
-                            <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
-                            <!--begin::Label-->
-                            <!--begin::Title-->
-                            <a href="#"
-                               class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a>
-                            <!--end::Title-->
-                            <!--begin::Title-->
-               
-                        </div>
-                        <!--end::Timeline content-->
+
+                    </div>
+                    <!--end::Timeline icon-->
+                    <!--begin::Timeline content-->
+                    <div class="timeline-content m-0">
+                    <!--begin::Label-->
+                    <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
+                    <!--begin::Label-->
+                    <!--begin::Title-->
+                    <a href="#"
+                    class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a>
+                    <!--end::Title-->
+                    <!--begin::Title-->
+
+                    </div>
+                    <!--end::Timeline content-->
                     </div>
                     <!--end::Timeline item-->
+                    </div>
+                    <!--end::Timeline--> *@
                 </div>
-                <!--end::Timeline--> *@
+                <!--end::Item-->
             </div>
-            <!--end::Item--> 
-        </div>
-    </td>
+        </td>
 
-    <td>
-        <div class=" mt-7 me-5">
-            <i class="ki-solid ki-black-right fs-2x text-danger  "></i>
-        </div>
-   
-    </td>
-
-    <td>
-        <div class="tab-pane fade show active"
-             id="kt_list_widget_16_tab_1"
-             role="tabpanel">
-
-
-            <!--begin::Item-->
-            <div class="m-0">
-
-
-          
-
-                <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
-                <!--begin::Label-->
-                <!--begin::Title-->
-                <a href="#"
-                   class="text-gray-900 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a>
-
-
+        <td>
+            <div class=" mt-7 me-5">
+                <i class="ki-solid ki-black-right fs-2x text-danger  "></i>
             </div>
-            <!--end::Item-->
-        </div>
-    </td>
 
-    <td data-order="2025-04-14T11:27:47+03:00">
-        <div>
-            <div
-               class="text-gray-800  mb-2 ms-2">@Model.StationsNumber<span> station</span></div>
-        </div>
-        <div class="badge badge-light fw-bold">@TimeSpan.FromMinutes(Model.EstimatedTime).ToString(@"hh\:mm") hours</div>
-    </td>
+        </td>
 
-    <td class="text-end">
+        <td>
+            <div class="tab-pane fade show active"
+                 id="kt_list_widget_16_tab_1"
+                 role="tabpanel">
+
+
+                <!--begin::Item-->
+                <div class="m-0">
+
+
+
+
+                    <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
+                    <!--begin::Label-->
+                    <!--begin::Title-->
+                    <a href="#"
+                       class="text-gray-900 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a>
+
+
+                </div>
+                <!--end::Item-->
+            </div>
+        </td>
+
+        <td >
+
+       @*      <a href="#" class=" js-render-card"
+                 data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId" data-card-id="route-details">
+                @Model.StationsNumber Stations
+            </a> *@
+
+        <a href="#"
+           class="text-gray-900 fw-bold d-block text-hover-primary js-render-card"
+           data-url="/Routes/GetRouteStations?routeID=@Model.RouteId" data-card-id="route-details">@Model.StationsNumber Stations</a>
+
+
+            <div class="badge badge-light fw-bold">@TimeSpan.FromMinutes(Model.EstimatedTime).ToString(@"hh\:mm") hours</div>
+        </td>
+
+        <td >
+
+        
+@* 
+            <a class="btn btn-sm  btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary js-render-card"
+               data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId" data-card-id="route-details">Stations</a> *@
 
         @if (ViewData["Extra"] as bool? == true)
         {
 
-            <a class="btn btn-link btn-color-success    btn-active-color-warning me-5 mb-2 me-2  js-select-route">Select</a>
+            <a class="btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px js-select-route"
+               data-route-id="@Model.RouteId" data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId">
+                <i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
+                <i class="ki-duotone ki-minus fs-4 m-0 toggle-on"></i>
+            </a>
+
+@* 
+            <a class="btn btn-link btn-color-info    btn-active-color-success me-5 mb-2 me-2  js-select-route">
+                <i class="ki-solid ki-plus fs-2x                        "></i>
+
+            </a> *@
 
 
         }
 
-        <a class="btn btn-sm  btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary js-render-card"
-           data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId" data-card-id="route-details">Details</a>
 
 
-      
-   
+        </td>
+    </tr>
 
-    </td>
-</tr>
+
+

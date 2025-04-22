@@ -8,7 +8,9 @@ namespace TravelCompany.Application.Services.Routes
         Task<IEnumerable<route>> GetAllRoutesAsync();
         IEnumerable<route> GetAllRoutes();
 
-		public Task<IEnumerable<RoutePoint>> GetRouteDetailsAsync(int routeID);
+		public Task<IEnumerable<RoutePoint>> GetRouteStationsAsync(int routeID);
+
+        public Task<route?> GetRouteDetails(int routeId);
 
 
 	}

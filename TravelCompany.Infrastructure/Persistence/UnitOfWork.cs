@@ -25,7 +25,6 @@ namespace TravelCompany.Infrastructure.Persistence
         public IBaseRepository<route> Routes => new BaseRepository<route>(_context);
         public IRezervationRepository Reservations => new RezervationRepository(_context, _connectionStrings.DefaultConnection);
 
-		public ITravelRepository Travels => new TravelRepository(_context, _connectionStrings.DefaultConnection);
 
         public IScheduledTravelRepository ScheduledTravels => new ScheduledTravelRepository (_context, _connectionStrings.DefaultConnection);
 

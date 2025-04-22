@@ -1,87 +1,73 @@
 ﻿@using TravelCompany.Domain.Entities
 
-@model IEnumerable<route>
+@model RoutesViewModel
 
 
 
-<!--begin::Modal body-->
-<div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
+@section Styles {
+
+	<link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+	<link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+
+	<style>
+		.sticky-card {
+			position: sticky;
+			top: 100px; /* Distance from top when it becomes "stuck" */
+		}
+	</style>
+
+}
 
 
 
+<div class="row">
+
+	<div class="col-md-8 scroll-y h-500px p-10">
+
+	
+			<table id="kt_datatable_dom_positioning" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+				<thead>
+					<tr class="fw-bold fs-6 text-gray-800 px-7">
+						<th></th>
+						<th>Route</th>
+						<th></th>
+						<th></th>
+						<th>Stations</th>
+						<th></th>
+
+					</tr>
+				</thead>
+				<tbody>
+
+					@for(int i=0 ;i<10;i++)
+					{
+
+						@foreach (var route in Model.Routes)
+						{
 
 
-	@foreach(var route in Model)
-	{
-
-		<!--begin::Users-->
-		<div class="mb-15">
-			<!--begin::List-->
-			<div class="mh-375px scroll-y me-n7 pe-7">
-				<!--begin::User-->
-				<div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-					<!--begin::Details-->
-					<div class="d-flex align-items-center">
-
-						<!--begin::Details-->
-						<div class="ms-6">
-							<!--begin::Name-->
-							<a href="#"
-							   class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-								Emma Smith
-							</a>
-							<!--end::Name-->
-							<!--begin::Email-->
-							<div class="fw-semibold text-muted">smith@kpmg.com</div>
-							<!--end::Email-->
-						</div>
-						<!--end::Details-->
-					</div>
-					<!--end::Details-->
-					<div class="d-flex align-items-center">
-
-					<div class="ms-6 ">
-						<div class="row">
-
-									<div class="col-md-4">
-
-									<span class="badge badge-light-danger fs-8 fw-semibold ms-2">@route.FirstStation!.StationName</span>
-									<i class="ki-solid ki-arrow-right text-primary  fs-2x"></i>
-						</div>
-
-							
-
-								<div class="col-md-4">
-									<span class="badge badge-light-success fs-8 fw-semibold ms-2">@route.LastStation!.StationName</span>
-
-								</div>
-
-						</div>
+							ViewData["Extra"] = Model.ISFromScheduling;
 
 
-			
-					</div>
-					</div>
+							<partial name="_RouteRow" model="route" />
+						}
+					}
 
 
-					<!--begin::Stats-->
-					<div class="d-flex">
-						<!--begin::Sales-->
-						<div class="text-end">
-							<div class="fs-5 fw-bold text-gray-900">$23,000</div>
-							<div class="fs-7 text-muted">Sales</div>
-						</div>
-						<!--end::Sales-->
-					</div>
-					<!--end::Stats-->
-				</div>
+				</tbody>
+			</table>
 
-			</div>
-			<!--end::List-->
+	
+	</div>
+
+	<div class="col-md-4">
+
+		<div class="card card-xl-stretch mb-xl-8 sticky-card scroll-y h-500px" id="route-details">
 		</div>
-		<!--end::Users-->
-
-	}
+	</div>
 
 </div>
-<!--end::Modal body-->
+
+
+
+

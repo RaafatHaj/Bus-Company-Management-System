@@ -1,11 +1,17 @@
 ﻿@using TravelCompany.Domain.Entities
 
-@model IEnumerable<route>
+@model CreateTravelViewModel;
+
+
+
+
 
 
 @section Styles {
 
 
+	<link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+	<link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 
 	<style>
 		.sticky-card {
@@ -17,274 +23,304 @@
 }
 
 
-<div class="card h-md-100">
-	<!--begin::Header-->
-	<div class="card-header border-0 pt-5 mb-5">
-		<h3 class="card-title align-items-start flex-column">
-			<span class="card-label fw-bold text-gray-900">What’s up Today</span>
-			<span class="text-muted mt-1 fw-semibold fs-7">Total 424,567 deliveries</span>
-		</h3>
-		<!--begin::Toolbar-->
-		<div class="card-toolbar">
-			<a href="#" class="btn btn-sm btn-light">Report Cecnter</a>
+<div class="d-flex flex-column gap-10">
+
+	
+		<div class="card ">
+			<!--begin::Header-->
+			<div class="card-header border-0 pt-5 mb-5">
+				<h3 class="card-title align-items-start flex-column">
+					<span class="card-label fw-bold text-gray-900">What’s up Today</span>
+					<span class="text-muted mt-1 fw-semibold fs-7">Total 424,567 deliveries</span>
+				</h3>
+				<!--begin::Toolbar-->
+				<div class="card-toolbar">
+					<a href="#" class="btn btn-sm btn-light">Report Cecnter</a>
+				</div>
+				<!--end::Toolbar-->
+			</div>
+			<!--end::Header-->
+			<!--begin::Body-->
+			<div class="tab-content mb-2 px-9 d-flex flex-column gap-10 py-10 ">
+
+
+				<!--begin::Route-->
+				<input id="route-id" type="hidden" asp-for="@Model.RouteId" />
+				<div class="d-flex">
+
+				<div id="route-background" class="d-flex bg-light-primary rounded">
+					<div class=" d-flex flex-column  flex-sm-row align-items-center justify-content-between  p-5 ">
+						<!--begin::Icon-->
+						<div id="route-details" class="d-flex p-2">
+						<span class="bullet bullet-vertical h-40px bg-warning me-5"></span>
+							<!--begin::Wrapper-->
+							<div  class="d-flex flex-column pe-0 pe-sm-10">
+								<!--begin::Title-->
+								<h5 class="required mb-1">Setup Route</h5>
+								<!--end::Title-->
+								<!--begin::Content-->
+								<span class="text-muted ">Select route of the trip from existed routes or create new one.</span>
+								<!--end::Content-->
+							</div>
+							<!--end::Wrapper-->
+							<!--begin::Close-->
+
+						</div>
+						<div class="flex-shrink-0 p-2 align-self-end">
+
+							<a class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
+						   data-large-modal="true" data-url="/Routes/FetchAllRoutes" data-has-table="true">
+							<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
+							Add
+							</a>
+
+						</div>
+
+						<!--end::Close-->
+					</div>
+
+				</div>
+
+				</div>
+			
+				<!--end::Route-->
+@* 				<partial name="/Views/Routes/_RouteTrips.cshtml" />
+ *@
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
 		</div>
-		<!--end::Toolbar-->
-	</div>
-	<!--end::Header-->
 
 
 
-	<!--begin::Body-->							
-<div class="tab-content mb-2 px-9 d-flex  ">
+	
 
-	<div class="d-flex flex-column gap-10">
-			<!--begin::Route-->
-			<div class="rounded border border-info border-dashed d-flex flex-column  flex-sm-row align-items-center justify-content-between  p-5 ">
-				<!--begin::Icon-->
-				<div class="d-flex p-2">
-					<i class="ki-solid ki-flag    fs-3x pe-2 text-info"></i>
-					<!--begin::Wrapper-->
-					<div class="d-flex flex-column pe-0 pe-sm-10">
-						<!--begin::Title-->
-						<h5 class="required mb-1">Setup Route</h5>
-						<!--end::Title-->
-						<!--begin::Content-->
-						<span class="text-muted ">Select route of the trip from existed routes or create new one.</span>
-						<!--end::Content-->
-					</div>
-					<!--end::Wrapper-->
-					<!--begin::Close-->
+		<div class="card p-10">
 
-				</div>
-				<div class="flex-shrink-0 p-2 align-self-end">
-
-					<a class="btn btn-sm btn-outline btn-outline-dashed btn-outline-info btn-active-light" asp-controller="Routes" asp-action="Index" asp-route-isFromScheduling="true">
-						Select Route
-					</a>
-
-				</div>
-
-				<!--end::Close-->
-			</div>
-			<!--end::Route-->
-			<!--begin::Time-->
-			<div class="rounded border d-flex flex-column p-5  mb-3 ">
-
-				<div class="d-flex p-2">
-
-				@* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+			<div class="d-flex flex-column gap-10">
 
 
-					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
-						<!--begin::Title-->
-						<h5 class="  mb-1 ">Trip Time</h5>
-						<!--end::Title-->
-						<!--begin::Content-->
-						<span class="text-muted ">Set the times for your trip</span>
-						<!--end::Content-->
+
+				<!--begin::Time-->
+				<div class="rounded border d-flex flex-column p-5  mb-3 ">
+
+					<div class="d-flex p-2">
+
+						@* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+
+
+						<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+							<!--begin::Title-->
+							<h5 class="  mb-1 ">Trip Time</h5>
+							<!--end::Title-->
+							<!--begin::Content-->
+							<span class="text-muted ">Set the times for your trip</span>
+							<!--end::Content-->
+						</div>
+
+
+
 					</div>
 
-
-
-				</div>
-
-				<div class="d-flex ">
-
-					<div class="m-4">
-
-						<label for="" class="form-label required">Departure Time</label>
-						<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly">
-					</div>
-
-					<div class="m-4">
-
-						<label for="" class="form-label required">Return Time</label>
-						<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" readonly="readonly">
-					</div>
-
-				</div>
-
-
-			</div>
-			<!--end::Time-->
-			<!--begin::Recuring Type-->
-		    <div class="rounded border p-5 d-flex flex-column pb-10">
-		    
-				<div class="d-flex p-2">
-
-@* 					<i class="ki-solid ki-arrows-loop  fs-3x pe-2 "></i> *@
-
-
-					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
-						<!--begin::Title-->
-						<h5 class=" required mb-1 ">Recuring Pattern</h5>
-						<!--end::Title-->
-						<!--begin::Content-->
-				    	<span class="text-muted ">Select the frequency of the trip, or choose 'Custom Schedule' if it is not a recurring journey.</span>
-						<!--end::Content-->
-					</div>
-
-			
-
-				</div>
-				<div class="d-flex p-2 ps-8">
-
-					<div>
-						<!--begin::Option-->
+					<div class="d-flex flex-wrap ">
 						<div class="d-flex">
+						<div class="m-4">
+
+							<label for="" class="form-label required">Departure Time</label>
+							<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly">
+						</div>
+
+						</div>
+
+					<div class="d-flex">
+						<div class="m-4">
+
+							<label for="" class="form-label required">Return Time</label>
+							<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" readonly="readonly">
+						</div>
+					</div>
+					</div>
+
+
+				</div>
+				<!--end::Time-->
+				<!--begin::Recuring Type-->
+				<div class="rounded border p-5 d-flex flex-column pb-10">
+
+					<div class="d-flex p-2">
+
+						@* 					<i class="ki-solid ki-arrows-loop  fs-3x pe-2 "></i> *@
+
+
+						<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+							<!--begin::Title-->
+							<h5 class=" required mb-1 ">Recuring Pattern</h5>
+							<!--end::Title-->
+							<!--begin::Content-->
+							<span class="text-muted ">Select the frequency of the trip, or choose 'Custom Schedule' if it is not a recurring journey.</span>
+							<!--end::Content-->
+						</div>
+
+
+
+					</div>
+					<div class=" p-2 ps-8">
+
+							<!--begin::Option-->
+							<div class="">
 							<input type="radio" class="btn-check" value="1" name="radio_buttons_2" checked="checked" id="kt_radio_buttons_2_option_1" />
-							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_2_option_1">
-								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-								<span class="text-start">
-									<span class="text-gray-900 ">Every Single Day</span>
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_2_option_1">
+								<i class="ki-solid ki-abstract-8  ms-2 "></i>
 
-								</span>
+								<span class="text-gray-900 btn-active-color-primary ">Every Single Day</span>
+
+
+							</label>
+
+
+							
+							</div>
+
+							<!--end::Option-->
+							<!--begin::Option-->
+							<div class="d-flex">
+								<input type="radio" class="btn-check" value="2" name="radio_buttons_2" id="kt_radio_buttons_2_option_2" />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2 " for="kt_radio_buttons_2_option_2">
+
+
+								<i class="ki-solid ki-abstract-8  ms-2 "></i>
+								
+									<span class="text-gray-900 btn-active-color-primary ">Specific Days of the Week</span>
+
+								
+								</label>
+							</div>
+
+							<!--end::Option-->
+				    		<!--begin::Option-->
+				    		<div class="d-flex">
+							<input type="radio" class="btn-check" value="3" name="radio_buttons_2" id="kt_radio_buttons_4_option_4" />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_4_option_4">
+								<i class="ki-solid ki-abstract-8  ms-2"></i>
+
+								<span class="text-gray-900 btn-active-color-primary ">Custom Schedule</span>
+
+
 
 							</label>
 						</div>
-				
-						<!--end::Option-->
-						<!--begin::Option-->
-						<div class="d-flex">
-							<input type="radio" class="btn-check" value="2" name="radio_buttons_2"  id="kt_radio_buttons_2_option_2" />
-							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_2_option_2">
-								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-								<span class="text-start">
-									<span class="text-gray-900 ">Specific Days of the Week</span>
+				    
+				    		<!--end::Option-->
 
-								</span>
-
-							</label>
-						</div>
-
-						<!--end::Option-->
-					
-
-					</div>
-
-					<div class="ms-4">
-					
-						<!--begin::Option-->
-						<div class="d-flex">
-							<input type="radio" class="btn-check" value="3" name="radio_buttons_2"  id="kt_radio_buttons_4_option_4" />
-							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_4_option_4">
-								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-								<span class="text-start">
-									<span class="text-gray-900 ">Custom Schedule</span>
-
-								</span>
-
-							</label>
-						</div>
-
-						<!--end::Option-->
-
-					</div>
-
-
-				</div>
-
-
-				<div class="ps-13 " id="recuring-details">
-
-
-
-
-			    </div>
-
-			
-
-			</div>
-			<!--end::Recuring Type-->
-			<!--begin::Duration-->
-			<div class="rounded border p-5 d-flex flex-column">
-
-				<div class="d-flex p-2">
-
-@* 
-					<i class="ki-outline ki-calendar   fs-2tx pe-2  "></i> *@
 					
 
 
-					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
-						<!--begin::Title-->
-						<h5 class=" required mb-1 ">Trip Duration</h5>
-						<!--end::Title-->
-						<!--begin::Content-->
-						<span class="text-muted ">Select how long do you want this trip to be scheduled for.</span>
-						<!--end::Content-->
+
+					</div>
+
+
+					<div class="ps-13 " id="recuring-details">
 					</div>
 
 
 
 				</div>
-				<div class="d-flex p-2 ps-8">
+				<!--end::Recuring Type-->
+				<!--begin::Duration-->
+				<div class="rounded border p-5 d-flex flex-column">
 
-					<div>
-						<!--begin::Option-->
-						<div class="d-flex">
-							<input type="radio" class="btn-check" value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" />
-							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_5_option_5">
-								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-								<span class="text-start">
-									<span class="text-gray-900 ">Specific period</span>
+					<div class="d-flex p-2">
 
-								</span>
+						@*
+						<i class="ki-outline ki-calendar   fs-2tx pe-2  "></i> *@
 
-							</label>
+
+
+						<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+							<!--begin::Title-->
+							<h5 class=" required mb-1 ">Trip Duration</h5>
+							<!--end::Title-->
+							<!--begin::Content-->
+							<span class="text-muted ">Select how long do you want this trip to be scheduled for.</span>
+							<!--end::Content-->
 						</div>
 
-						<!--end::Option-->
-						<!--begin::Option-->
-						<div class="d-flex">
-							<input type="radio" class="btn-check" value="2" name="radio_trip_duration" id="kt_radio_buttons_6_option_6" />
-							<label class="btn btn-active-light-primary p-2 pe-4 d-flex align-items-center mb-5" for="kt_radio_buttons_6_option_6">
-								<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-								<span class="text-start">
-									<span class="text-gray-900 ">Fixed duration</span>
 
-								</span>
 
-							</label>
+					</div>
+					<div class="d-flex p-2 ps-8">
+
+						<div>
+							<!--begin::Option-->
+							<div class="d-flex">
+								<input type="radio" class="btn-check" value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_5_option_5">
+									<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+										<span class="text-gray-900 ">Specific period</span>
+
+					
+
+								</label>
+							</div>
+
+							<!--end::Option-->
+							<!--begin::Option-->
+							<div class="d-flex">
+								<input type="radio" class="btn-check" value="2" name="radio_trip_duration" id="kt_radio_buttons_6_option_6" />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_6_option_6">
+									<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
+								
+										<span class="text-gray-900 ">Fixed duration</span>
+
+
+								</label>
+							</div>
+
+							<!--end::Option-->
+
+
 						</div>
 
-						<!--end::Option-->
 
 
 					</div>
 
-			
+
+					<div class="ps-13 " id="duration-options">
+					</div>
+
+
 
 				</div>
-
-
-				<div class="ps-13 " id="duration-options">
-				</div>
+				<!--end::Duration-->
 
 
 
 			</div>
-			<!--end::Duration-->
-	
-		    
-		    
-	 </div>
 
 
-	
-
-
-          
-
-
-</div>
-	
-
-
+		</div>
 
 
 
 </div>
+
+
 
 
 <template id="template-recurring-1"></template>
@@ -498,11 +534,26 @@
 
 
 </template>
-	<!--end::Body-->
-	@section Scripts {
 
+
+@section Plugins {
+
+	<script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+	<script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+}
+
+@section Scripts {
+
+
+	<script src="~/js/routesindex.js"></script>
 
 	<script src="~/js/scheduling.js"></script>
 
 
+
 }
+
+
+
+
+	<!--end::Body-->

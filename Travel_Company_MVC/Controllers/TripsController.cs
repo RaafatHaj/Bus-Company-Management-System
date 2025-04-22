@@ -10,5 +10,14 @@ namespace Travel_Company_MVC.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ScheduledTrips()
+        {
+
+            return View();
+        }
+
+
     }
 }

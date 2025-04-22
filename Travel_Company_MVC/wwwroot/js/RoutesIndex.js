@@ -12,7 +12,7 @@ $("#kt_datatable_dom_positioning").DataTable({
 
         "<'table-responsive'tr>" +
 
-        "<'row'" +
+        "<'row mt-5'" +
         "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
         "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
         ">"

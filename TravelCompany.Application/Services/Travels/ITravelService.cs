@@ -10,9 +10,7 @@ namespace TravelCompany.Application.Services.Travels
 		//  [sp_GetTravelByTravelTimeAndRouteId]
 		Task<SchedulingResult> ScheduleNewTravelsAsync(TravelScheduleDTO schedule);
 
-        Task<Trip?> FindTravelAsync(TimeSpan travelTime, int routeId);
 
-		Task<Trip?> FindTravelAsync(int travelId);
 
 
     }

@@ -12,7 +12,7 @@ namespace TravelCompany.Domain.Entities
         public int Id { get; set; } 
 
         public int ScheduledTravelId { get; set; }
-        public ScheduledTrip? ScheduledTravel { get; set; }
+        public Trip? ScheduledTravel { get; set; }
 
         public int StationAId {  get; set; }
         public Station? StationA { get; set; }
