@@ -23,6 +23,8 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult>Index(bool isFromScheduling =false)
         {
 
+
+
             var model = new RoutesViewModel();
 
 			model.Routes= await _routeService.GetAllRoutesAsync();
@@ -61,10 +63,14 @@ namespace Travel_Company_MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRoutesAsync()
         {
-			var routes = await _routeService.GetAllRoutesAsync();
+            var model = new RoutesViewModel();
+
+            model.Routes = await _routeService.GetAllRoutesAsync();
+            model.ISFromScheduling = false;
 
 
-			return PartialView("_RoutesList", routes);
+
+            return PartialView("_RoutesList", model);
 		}
 
 

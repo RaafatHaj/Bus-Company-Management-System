@@ -32,6 +32,10 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public IBaseRepository<TravelStation> TravelStations =>  new BaseRepository<TravelStation>(_context);
 
+        public IBaseRepository<Trip> Trips => new BaseRepository<Trip>(_context);
+
+        public IBaseRepository<Recurring> Recurrings => new BaseRepository<Recurring>(_context);
+
         public int Save()
         {
             return _context.SaveChanges();

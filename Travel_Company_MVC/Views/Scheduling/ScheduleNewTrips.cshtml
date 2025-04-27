@@ -18,14 +18,23 @@
 			position: sticky;
 			top: 100px; /* Distance from top when it becomes "stuck" */
 		}
+
+		.fixed {
+			position: fixed;
+			top: 130px;
+			right: 10px;
+			z-index: 9999;
+/* 			animate__animated animate__fadeIn animate__slower
+ */		}
 	</style>
 
 }
-
+@* <a tabindex="0" class="badge badge-light-warning fw-bold" role="button" data-bs-toggle="popover"
+   data-bs-trigger="focus"
+data-bs-content="Hi">Dismissible popover</a>	 *@	
 
 <div class="d-flex flex-column gap-10">
 
-	
 		<div class="card ">
 			<!--begin::Header-->
 			<div class="card-header border-0 pt-5 mb-5">
@@ -35,8 +44,13 @@
 				</h3>
 				<!--begin::Toolbar-->
 				<div class="card-toolbar">
-					<a href="#" class="btn btn-sm btn-light">Report Cecnter</a>
-				</div>
+
+				<a href="#usage" id="myButton" class="btn btn-sm btn-light-primary "
+				data-kt-scroll-toggle>
+					<i class="ki-duotone ki-plus fs-2"></i>New Schedule
+				</a>
+@* 					<a href="#" class="btn btn-sm btn-light">New Schedule</a>
+ *@				</div>
 				<!--end::Toolbar-->
 			</div>
 			<!--end::Header-->
@@ -68,7 +82,11 @@
 						</div>
 						<div class="flex-shrink-0 p-2 align-self-end">
 
-							<a class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
+
+
+
+
+							<a id="add-route-button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
 						   data-large-modal="true" data-url="/Routes/FetchAllRoutes" data-has-table="true">
 							<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
 							Add
@@ -84,9 +102,12 @@
 				</div>
 			
 				<!--end::Route-->
-@* 				<partial name="/Views/Routes/_RouteTrips.cshtml" />
- *@
 
+
+				<div id="trips-patterns" >
+
+
+				</div>
 
 
 
@@ -108,16 +129,16 @@
 
 
 
-	
 
-		<div class="card p-10">
+
+	<div id="usage" class="card p-10 " data-kt-scroll-offset="80">
 
 			<div class="d-flex flex-column gap-10">
 
 
 
 				<!--begin::Time-->
-				<div class="rounded border d-flex flex-column p-5  mb-3 ">
+			<div id="time-block" class="rounded border d-flex flex-column p-5  mb-3 ">
 
 					<div class="d-flex p-2">
 
@@ -549,6 +570,36 @@
 
 	<script src="~/js/scheduling.js"></script>
 
+	<script>
+
+		window.addEventListener('scroll', function () {
+			const button = document.getElementById('myButton');
+
+
+			const stopDiv = document.getElementById('trips-patterns');
+			const stopTop = stopDiv.getBoundingClientRect().bottom
+			const divHeight = stopDiv.offsetHeight;
+
+			if (window.scrollY > 200) {
+				if (!button.classList.contains('fixed')) {
+					// Only add animation when becoming fixed
+					button.classList.add('fixed', 'animate__animated', 'animate__fadeInDown');
+				}
+			} else {
+				if (button.classList.contains('fixed')) {
+					// Remove fixed position and animation when going back
+					button.classList.remove('fixed', 'animate__animated', 'animate__fadeInDown');
+				}
+			}
+
+
+			if (window.scrollY > stopTop + divHeight) {
+				button.style.display = 'none';
+			} else {
+				button.style.display = 'block';
+			}
+		});
+	</script>
 
 
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TravelCompany.Application.Services.Points;
+using TravelCompany.Application.Services.Recurrings;
 using TravelCompany.Application.Services.Rezervations;
 using TravelCompany.Application.Services.RoutePoints;
 using TravelCompany.Application.Services.Routes;
@@ -20,6 +21,7 @@ namespace TravelCompany.Application
             services.AddScoped<IScheduledTravelService, ScheduledTravelService>();
             services.AddScoped<IRoutePointService, RoutePointService>();
             services.AddScoped<IRezervationService, RezervationService>();
+            services.AddScoped<IRecurringServcie, RecurringServcie>();
      
 
             return services;

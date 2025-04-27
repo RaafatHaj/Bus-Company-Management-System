@@ -5,10 +5,11 @@ function InitilaizeDatatable() {
     return new DataTable('#datatable');
 }
 
-function InitilaizeMetronicDatatable() {
+function InitilaizeMetronicDatatable(tableId ='#kt_datatable_dom_positioning') {
 
 
-    $("#kt_datatable_dom_positioning").DataTable({
+   // $("#kt_datatable_dom_positioning").DataTable({
+    $(tableId).DataTable({
         "language": {
             "lengthMenu": "Show _MENU_",
         },
@@ -205,7 +206,7 @@ function RenderModal() {
                 modalBody.innerHTML = html;
                 
 
-                if (event.target.hasAttribute('data-has-table'))
+                if (button.hasAttribute('data-has-table'))
                     InitilaizeMetronicDatatable();
                 // Reinitialize validation
                 $.validator.unobtrusive.parse(modalBody);

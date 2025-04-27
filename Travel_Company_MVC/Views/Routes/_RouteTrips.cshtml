@@ -1,103 +1,14 @@
-﻿
+﻿@using TravelCompany.Domain.Entities
+
+@model IList< Recurring>
 
 
-        <div class=" p-5 d-flex ">
-
-            <span class="bullet bullet-vertical h-40px bg-warning me-5"></span>
-
-            <div class="d-flex gap-10">
-               
-                <div>
-
-                    <!--begin::Route Name-->
-                    <div class="d-flex flex-column">
-                        <a href="#"
-                           class="text-gray-900 fw-bold text-hover-primary mb-1">D4-A</a>
-                        <span class="text-muted fw-semibold fs-7">350 km</span>
-                    </div>
-
-
-                    <!--begin::Route Name-->
-                </div>
-                <div>
-
-                    <!--begin::Item-->
-                    <div class="m-0">
-
-
-                        <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
-                        <!--begin::Label-->
-                        <!--begin::Title-->
-
-                        <a href="#"
-                           class="text-gray-900 fw-bold d-block text-hover-primary me-2">Damascus</a>
-
-
-                    </div>
-                    <!--end::Item-->
-
-                </div>
-
-                <div>
-                    <div class=" mt-5 me-5">
-                        <i class="ki-solid ki-black-right fs-2x text-danger  "></i>
-                    </div>
-
-                </div>
-
-                <div>
-                    <div class="tab-pane fade show active"
-                         id="kt_list_widget_16_tab_1"
-                         role="tabpanel">
-
-
-                        <!--begin::Item-->
-                        <div class="m-0">
+ @if(Model.Count>0)
+{
 
 
 
-
-                            <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
-                            <!--begin::Label-->
-                            <!--begin::Title-->
-                            <a href="#"
-                               class="text-gray-900 fw-bold d-block text-hover-primary">Aleppo</a>
-
-
-                        </div>
-                        <!--end::Item-->
-                    </div>
-                </div>
-
-                <div>
-
-                    <div class="text-gray-800  mb-2 ms-2">
-                        4<span> station</span>
-                    </div>
-
-                    <div class="badge badge-light fw-bold">4 hours</div>
-                </div>
-
-            </div>
-
-
-
-        </div>
-
-
-<!--begin::Example-->
-<div class="separator separator-dashed separator-content border-gray my-15">
-    <i class="ki-duotone ki-calendar  fs-3x                      ">
-        <span class="path1"></span>
-        <span class="path2"></span>
-    </i>
-</div>
-<!--end::Example-->
-
-<div class="table-responsive">
-
-
-    <table id="kt_datatable_dom_positioning" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 scroll mt-5">
+    <table id="route_scheduled_trips_patterns" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 scroll m-10 animate__animated  animate__fadeIn animate__slower">
         <thead>
             <tr class="fw-bold fs-6 text-gray-800 px-7">
                 <th>Time</th>
@@ -105,16 +16,26 @@
                 <th>Duration</th>
                 <th></th>
                 <th></th>
+                <th>Trips</th>
+                <th></th>
                 <th></th>
 
 
             </tr>
-        </thead>
+			</thead>
         <tbody>
 
 
+          
+                @foreach (var pattern in Model)
+                {
+                    <partial name="_RouteTripsRow.cshtml" model="pattern" />
 
-            <tr>
+                }
+       
+     
+
+      @*       <tr>
 
                 <td>
 
@@ -124,7 +45,7 @@
 
                     </div>
 
-
+                    <div class="text-primary">Recurring Pattern</div>
 
 
                 </td>
@@ -395,16 +316,21 @@
                 </td>
 
 
-            </tr>
+            </tr> *@
 
         </tbody>
     </table>
 
 
-</div>
 
 
 
+}
+else
+{
+
+    <div>There is no Trips </div>
+}
 
 
 

@@ -148,7 +148,7 @@
 
         <a href="#"
            class="text-gray-900 fw-bold d-block text-hover-primary js-render-card"
-           data-url="/Routes/GetRouteStations?routeID=@Model.RouteId" data-card-id="route-details">@Model.StationsNumber Stations</a>
+           data-url="/Routes/GetRouteStations?routeID=@Model.RouteId" data-card-id="route-details-card">@Model.StationsNumber Stations</a>
 
 
             <div class="badge badge-light fw-bold">@TimeSpan.FromMinutes(Model.EstimatedTime).ToString(@"hh\:mm") hours</div>
@@ -165,7 +165,8 @@
         {
 
             <a class="btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px js-select-route"
-               data-route-id="@Model.RouteId" data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId">
+               data-route-id="@Model.RouteId" data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId"
+               date-recurring-patterns-url="/Trips/GetRouteTripsPatters?routeId=@Model.RouteId">
                 <i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
                 <i class="ki-duotone ki-minus fs-4 m-0 toggle-on"></i>
             </a>

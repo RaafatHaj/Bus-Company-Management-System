@@ -87,6 +87,34 @@ document.querySelectorAll('input[name="radio_trip_duration"]').forEach(radio => 
 
 // Handling Selecting Route ...
 
+async function  getRouteTripRecurringPatterns(url) {
+
+    try {
+
+        const response = await fetch(url);
+
+
+        if (!response.ok) {
+
+
+            throw new Error('Failed to load partial view');
+
+            console.log(response)
+        }
+
+        const html = await response.text();
+
+
+        document.getElementById("trips-patterns").innerHTML = html;
+
+        InitilaizeMetronicDatatable('#route_scheduled_trips_patterns');  
+
+    } catch {
+
+
+    }
+
+}
 
 document.body.addEventListener('click', async function (event) {
 
@@ -110,9 +138,18 @@ document.body.addEventListener('click', async function (event) {
             const html = await response.text();
 
 
-            document.getElementById('route-background').classList.toggle('bg-light-primary');
+            document.getElementById('route-background').className = 'd-flex border border-dashed rounded';
+            const addButton = document.getElementById('add-route-button');
+            addButton.className = 'btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 ms-20  js-render-modal animate__animated animate__fadeInDown ';
+            addButton.innerHTML =`     <i class="ki-duotone ki-pencil fs-2 ">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>`
             document.getElementById("route-details").innerHTML = html;
 
+
+            const url = btn.getAttribute('date-recurring-patterns-url');
+            getRouteTripRecurringPatterns(url);
 
 
         } catch {
@@ -128,7 +165,7 @@ document.body.addEventListener('click', async function (event) {
 
 
 
-InitilaizeMetronicDatatable();
+//InitilaizeMetronicDatatable();
 
 $(document).ready(function () {
 
