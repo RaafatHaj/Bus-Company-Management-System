@@ -11,12 +11,18 @@ namespace Travel_Company_MVC.Mappping
         {
 
 
-            CreateMap<CreateTravelViewModel, TravelScheduleDTO>()
-                .ForMember(dest => dest.Dates, opt => opt.Ignore())
-                .ForMember(dest => dest.Days, opt => opt.Ignore());
+            CreateMap<ScheduleTripsViewModel, ScheduleDTO>()
+                .ForMember(dest => dest.CustomDates, opt => opt.Ignore())
+                .ForMember(dest => dest.WeekDays, opt => opt.Ignore());
 
             CreateMap<ScheduledTravelVeiwModel, ScheduledTravelsMainViewDTO>().ReverseMap();
             CreateMap<ScheduledTravelDetialViewModel, ScheduledTravelDetailDTO>().ReverseMap();
+
+            CreateMap<ScheduledTripViewModel,TripTimingDTO>().ReverseMap();
+
+
+
+            CreateMap<Trip, TripViewModel>().ReverseMap();
 
            
 

@@ -1,15 +1,46 @@
 ﻿
+var updatedRow;
+
+function addRowToTable(newRow, form) {
+
+
+
+    if (updatedRow !== undefined) {
+
+        table.row(updatedRow).remove().draw();
+
+        updatedRow = undefined;
+    }
+
+    // since add function in datatable accept just array or jquery element we have to converet
+    // Html String to jQuery element just like that
+
+
+    let jqueryElement = $(newRow)
+
+    const row = table.row.add(jqueryElement).draw().node();
+
+    $(row).addClass("animate__animated animate__fadeInDown ").one('animationend', function () {
+        $(this).removeClass("animate__animated animate__fadeInDown ");
+    });
+
+
+ //   SuccessMessage();
+    HideModal();
+}
+
+
 function InitilaizeDatatable() {
 
 
-    return new DataTable('#datatable');
+    return new DataTable('#kt_datatable_dom_positioning');
 }
 
 function InitilaizeMetronicDatatable(tableId ='#kt_datatable_dom_positioning') {
 
 
    // $("#kt_datatable_dom_positioning").DataTable({
-    $(tableId).DataTable({
+   return $(tableId).DataTable({
         "language": {
             "lengthMenu": "Show _MENU_",
         },
@@ -134,6 +165,12 @@ function SubmitAjaxForm() {
                     const callbackName = event.target.getAttribute('data-callback');
                     const formData = new FormData(event.target);
 
+                    console.log(formData);
+
+                    for (const pair of formData.entries()) {
+                        console.log(pair[0] + ': ' + pair[1]);
+                    }
+
            
                     const response = await fetch(url, {
                         method: 'POST',
@@ -143,6 +180,10 @@ function SubmitAjaxForm() {
                     if (response.ok) {
 
                         let responseData = await response.text();
+
+                        if (event.target.hasAttribute('data-updete'))
+                            updatedRow = event.target.closest('tr');
+
 
                         if (callbackName && typeof window[callbackName] === 'function') 
                             window[callbackName](responseData, event.target);
@@ -185,6 +226,9 @@ function RenderModal() {
 
                 if (button.hasAttribute("data-large-modal"))
                     document.getElementById("ModalDialog").classList.add("modal-xl")
+                else
+                    document.getElementById("ModalDialog").classList.remove("modal-xl")
+
 
                 if (!response.ok)
                     throw new Error('Failed to load partial view');
@@ -199,7 +243,7 @@ function RenderModal() {
 
             
 
-
+                if (event.target.hasAttribute('data-title')) 
                 document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
 
                 let modalBody = document.getElementById("modal-body");
@@ -222,6 +266,80 @@ function RenderModal() {
 
         }
     })
+
+}
+function handleTableChiled() {
+
+    // let table = $('#kt_datatable_dom_positioning').DataTable();
+
+    document.querySelector('#kt_datatable_dom_positioning tbody').addEventListener('click', async function (e) {
+
+
+
+        if (e.target.closest(".js-table-chiled")) {
+
+            let tr = e.target.closest('tr');
+            if (!tr) return;
+
+            //let detailsJson = tr.getAttribute("data-details");
+
+            //let detailsObject = JSON.parse(detailsJson);
+
+            let row = table.row(tr);
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                // Animate hiding
+                $('.child-slide', row.child()).slideUp(50, function () {
+                    row.child.hide(); // Hide the DataTable row after animation completes
+                });
+            } else {
+
+                try {
+
+
+                    let test = tr.getAttribute('data-url');
+                    const response = await fetch(tr.getAttribute('data-url'));
+
+
+
+                    if (!response.ok)
+                        throw new Error('Failed to load partial view');
+
+                    const html = await response.text();
+
+
+
+                    row.child(html).show();
+
+                    //$('.child-slide', row.child()).slideDown(600); // Animate it
+                    initilazeTimePicker();
+                    // Reinitialize validation
+                    $.validator.unobtrusive.parse(tr.nextElementSibling);
+
+
+                } catch {
+
+
+                }
+
+
+
+
+
+
+
+            }
+        }
+
+
+
+
+
+
+
+
+    });
 
 }
 
@@ -270,4 +388,5 @@ RenderModal();
 RenderCard();
 Toggle();
 SubmitAjaxForm();
-const table = InitilaizeDatatable();
+handleTableChiled();
+const table = InitilaizeMetronicDatatable();

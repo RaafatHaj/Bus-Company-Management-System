@@ -1,6 +1,6 @@
 ﻿@using TravelCompany.Domain.Entities
 
-@model CreateTravelViewModel;
+@model ScheduleTripsViewModel;
 
 
 
@@ -29,9 +29,8 @@
 	</style>
 
 }
-@* <a tabindex="0" class="badge badge-light-warning fw-bold" role="button" data-bs-toggle="popover"
-   data-bs-trigger="focus"
-data-bs-content="Hi">Dismissible popover</a>	 *@	
+
+<form asp-action="ScheduleNewTrips" method="post">
 
 <div class="d-flex flex-column gap-10">
 
@@ -55,11 +54,12 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 			</div>
 			<!--end::Header-->
 			<!--begin::Body-->
-			<div class="tab-content mb-2 px-9 d-flex flex-column gap-10 py-10 ">
+			<div  class="tab-content mb-2 px-9 d-flex flex-column gap-10 py-10 ">
 
 
 				<!--begin::Route-->
 				<input id="route-id" type="hidden" asp-for="@Model.RouteId" />
+				<span asp-validation-for="@Model.RouteId" class="text-danger d-block"></span>
 				<div class="d-flex">
 
 				<div id="route-background" class="d-flex bg-light-primary rounded">
@@ -125,13 +125,14 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 
 
+
 		</div>
 
 
 
 
 
-	<div id="usage" class="card p-10 " data-kt-scroll-offset="80">
+		<div id="usage" class="card p-10 opacity-50" data-kt-scroll-offset="80">
 
 			<div class="d-flex flex-column gap-10">
 
@@ -162,8 +163,9 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 						<div class="d-flex">
 						<div class="m-4">
 
-							<label for="" class="form-label required">Departure Time</label>
-							<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly">
+							<label asp-for="@Model.DepartureTime" class="form-label required">Departure Time</label>
+							<input asp-for="@Model.DepartureTime" class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly" disabled>
+							<span asp-validation-for="@Model.DepartureTime" class="text-danger d-block"></span>
 						</div>
 
 						</div>
@@ -171,8 +173,9 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 					<div class="d-flex">
 						<div class="m-4">
 
-							<label for="" class="form-label required">Return Time</label>
-							<input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" readonly="readonly">
+							<label asp-for="@Model.ReturnTime" class="form-label required">Return Time</label> 
+							<input asp-for="@Model.ReturnTime" class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" readonly="readonly" disabled>
+							<span asp-validation-for="@Model.ReturnTime" class="text-danger d-block"></span>
 						</div>
 					</div>
 					</div>
@@ -185,13 +188,12 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 					<div class="d-flex p-2">
 
-						@* 					<i class="ki-solid ki-arrows-loop  fs-3x pe-2 "></i> *@
-
-
 						<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
 							<!--begin::Title-->
 							<h5 class=" required mb-1 ">Recuring Pattern</h5>
 							<!--end::Title-->
+							<span asp-validation-for="RecurringPattern" class="text-danger d-block"></span>
+
 							<!--begin::Content-->
 							<span class="text-muted ">Select the frequency of the trip, or choose 'Custom Schedule' if it is not a recurring journey.</span>
 							<!--end::Content-->
@@ -203,9 +205,9 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 					<div class=" p-2 ps-8">
 
 							<!--begin::Option-->
-							<div class="">
-							<input type="radio" class="btn-check" value="1" name="radio_buttons_2" checked="checked" id="kt_radio_buttons_2_option_1" />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_2_option_1">
+							<div class="d-flex">
+							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@RecurringType.Daily" id="kt_radio_buttons_2_option_@RecurringType.Daily" disabled />
+							<label for="kt_radio_buttons_2_option_@RecurringType.Daily" class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" >
 								<i class="ki-solid ki-abstract-8  ms-2 "></i>
 
 								<span class="text-gray-900 btn-active-color-primary ">Every Single Day</span>
@@ -220,8 +222,8 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 							<!--end::Option-->
 							<!--begin::Option-->
 							<div class="d-flex">
-								<input type="radio" class="btn-check" value="2" name="radio_buttons_2" id="kt_radio_buttons_2_option_2" />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2 " for="kt_radio_buttons_2_option_2">
+							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@RecurringType.Weekly"  id="kt_radio_buttons_2_option_@RecurringType.Weekly" disabled />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2 " for="kt_radio_buttons_2_option_@RecurringType.Weekly">
 
 
 								<i class="ki-solid ki-abstract-8  ms-2 "></i>
@@ -235,8 +237,8 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 							<!--end::Option-->
 				    		<!--begin::Option-->
 				    		<div class="d-flex">
-							<input type="radio" class="btn-check" value="3" name="radio_buttons_2" id="kt_radio_buttons_4_option_4" />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_4_option_4">
+							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio custom-recurring" value="@RecurringType.Custom" id="kt_radio_buttons_4_option_@RecurringType.Custom" disabled />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_4_option_@RecurringType.Custom">
 								<i class="ki-solid ki-abstract-8  ms-2"></i>
 
 								<span class="text-gray-900 btn-active-color-primary ">Custom Schedule</span>
@@ -244,6 +246,9 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 
 							</label>
+
+
+
 						</div>
 				    
 				    		<!--end::Option-->
@@ -263,7 +268,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 				</div>
 				<!--end::Recuring Type-->
 				<!--begin::Duration-->
-				<div class="rounded border p-5 d-flex flex-column">
+				<div class="rounded border p-5 d-flex flex-column " id="duration-settings">
 
 					<div class="d-flex p-2">
 
@@ -289,7 +294,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 						<div>
 							<!--begin::Option-->
 							<div class="d-flex">
-								<input type="radio" class="btn-check" value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" />
+								<input type="radio" class="btn-check" value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" disabled />
 							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_5_option_5">
 									<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
 										<span class="text-gray-900 ">Specific period</span>
@@ -302,7 +307,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 							<!--end::Option-->
 							<!--begin::Option-->
 							<div class="d-flex">
-								<input type="radio" class="btn-check" value="2" name="radio_trip_duration" id="kt_radio_buttons_6_option_6" />
+								<input type="radio" class="btn-check" value="2" name="radio_trip_duration" id="kt_radio_buttons_6_option_6" disabled />
 							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_6_option_6">
 									<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
 								
@@ -330,11 +335,56 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 				</div>
 				<!--end::Duration-->
 
+				<!--begin::SeatsNumber-->
+	    		<div id="time-block" class="rounded border d-flex flex-column p-5  mb-3 ">
+
+				<div class="d-flex flex-column p-2">
+
+					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+						<!--begin::Title-->
+						<h5 class="required  mb-1 ">Capacity</h5>
+						<!--end::Title-->
+						<!--begin::Content-->
+						<span class="text-muted ">Set the capacity of the vehicle </span>
+						<!--end::Content-->
+					</div>
+
+					<div class="m-4 mt-0 d-flex">
+						<div>
+							<input asp-for="Seats" class="form-control form-control-solid flatpickr-input" placeholder="Seats Number" type="text" disabled>
+							<span asp-validation-for="Seats" class="text-danger d-block"></span>
+
+						</div>
+			
+					</div>
+
+				</div>
+
+@* 				<div class="d-flex flex-wrap ">
+					<div class="d-flex">
+						<div class="m-4">
+
+							<label for="" class="form-label required">Departure Time</label>
+							<input class="form-control form-control-solid flatpickr-input" placeholder="Seats Number"  type="text" readonly="readonly">
+						</div>
+
+					</div>
+
+			
+				</div> *@
+
+
+			</div>
+				<!--end::SeatsNumber-->
+
 
 
 			</div>
 
-
+			<div class="d-flex justify-content-end py-6 px-9">
+@* 				<button class="btn btn-light btn-active-light-primary me-2">Discard</button>
+				*@				<button type="submit" class="btn btn-primary btn-sm " disabled>Submit</button>
+			</div>
 		</div>
 
 
@@ -343,10 +393,10 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 
 
+</form>
+<template id="template-recurring-@RecurringType.Daily"></template>
 
-<template id="template-recurring-1"></template>
-
-<template id="template-recurring-2">
+<template id="template-recurring-@RecurringType.Weekly">
 
 	<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
 
@@ -368,6 +418,32 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 			<div class="d-flex flex-column">
 
+
+
+
+
+					@for (var i = 0; i < 4; i++)
+					{
+
+
+					<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+
+
+						<input type="hidden" asp-for="@Model.WeekDays![i].Day" />
+				        <input class="form-check-input js-item-checkbox" asp-for="@Model.WeekDays![i].IsSelected" type="checkbox" id="@Model.WeekDays![i].Day" />
+						<label class="form-check-label text-gray-900" for="@Model.WeekDays[i].Day">
+				        	@(((DayOfWeek)(@Model.WeekDays[i].Day - 1)).ToString())
+				        </label>
+					    
+					</div>
+					}
+	
+
+
+
+
+@* 
+
 				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
 					<input class="form-check-input" type="checkbox" />
 					<label class="form-check-label text-gray-900 " for="">
@@ -375,22 +451,20 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 					</label>
 				</div>
 
-						<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
 					<input class="form-check-input" type="checkbox" />
 					<label class="form-check-label text-gray-900 " for="">
 						Small checkbox
 					</label>
 				</div>
-
 
 				
-						<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
 					<input class="form-check-input" type="checkbox" />
 					<label class="form-check-label text-gray-900 " for="">
 						Small checkbox
 					</label>
 				</div>
-
 
 
 				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
@@ -398,7 +472,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 					<label class="form-check-label text-gray-900 " for="">
 						Small checkbox
 					</label>
-				</div>
+				</div> *@
 
 
 
@@ -408,7 +482,27 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 			<div class="d-flex flex-column">
 
-				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+				@for (var i = 4; i < 7; i++)
+				{
+
+
+					<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+
+
+						<input type="hidden" asp-for="@Model.WeekDays![i].Day" />
+						<input class="form-check-input js-item-checkbox" asp-for="@Model.WeekDays![i].IsSelected" type="checkbox" id="@Model.WeekDays![i].Day" />
+						<label class="form-check-label text-gray-900" for="@Model.WeekDays[i].Day">
+							@(((DayOfWeek)(@Model.WeekDays[i].Day - 1)).ToString())
+						</label>
+
+					</div>
+				}
+
+
+
+
+
+				@* 				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
 					<input class="form-check-input" type="checkbox" />
 					<label class="form-check-label text-gray-900 " for="">
 						Small checkbox
@@ -421,7 +515,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 						Small checkbox
 					</label>
 				</div>
-
+ *@
 
 
 			</div>
@@ -436,9 +530,20 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 
 
 </template>
-<template id="template-recurring-3">
 
-	
+<template id="template-recurring-@RecurringType.Custom">
+
+
+
+	<div id="custom-dates-container">
+
+		<input type="text"
+			  asp-for="CustomDates" value=""
+			   style="display: none;" />
+@* 		<span asp-validation-for="CustomDatesValidation" class="text-danger"></span>
+ *@
+	</div>
+
 		<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
 
 
@@ -473,7 +578,8 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 <template id="template-duration-1">
 
 	
-	
+	<input type="hidden" asp-for="StartDate" />
+	<input type="hidden" asp-for="EndDate" />
 
 		<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 ">
 
@@ -511,19 +617,36 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 				<div class="d-flex flex-column gap-5 flex-md-row gap-md-10">
 
 					<div>
-						<label for="" class="form-label required d-block">Start Date</label>
-						<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Date" id="fixed-duration" type="text" readonly="readonly">
+						<label asp-for="StartDate" class="form-label required d-block">Start Date</label>
+						<input asp-for="StartDate" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Date" id="fixed-duration" type="text" readonly="readonly">
+						<span asp-validation-for="StartDate" class="text-danger d-block"></span>
 
 
 					</div>
 					<div class="">
+
+						<label asp-for="ScheduleDuration">How Long</label>
+
+						<select asp-for="ScheduleDuration" class="form-select form-select-solid form-select-sm" aria-label="Select example">
+							@foreach (var option in Model.Durations!)
+							{
+								<option value="@option.Value">@option.Text</option>
+							
+							}
+					
+						</select>
+						<span asp-validation-for="ScheduleDuration" class="text-danger d-block"></span>
+
+
+
+@* 
 						<label for="" class="form-label required">How Long</label>
-						<select class="form-select form-select-solid form-select-sm" aria-label="Select example">
+						<select asp-for="ScheduleDuration" class="form-select form-select-solid form-select-sm" aria-label="Select example">
 							<option></option>
 							<option value="1">For one month</option>
-							<option value="2">For Two Months</option>
-							<option value="3">For Three Months</option>
-						</select>
+							<option value="2">For Three Months</option>
+							<option value="3">For Six Months</option>
+						</select> *@
 					</div>
 
 				</div>
@@ -564,7 +687,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 }
 
 @section Scripts {
-
+	<partial name="_ValidationScriptsPartial" />
 
 	<script src="~/js/routesindex.js"></script>
 
@@ -580,7 +703,7 @@ data-bs-content="Hi">Dismissible popover</a>	 *@
 			const stopTop = stopDiv.getBoundingClientRect().bottom
 			const divHeight = stopDiv.offsetHeight;
 
-			if (window.scrollY > 200) {
+			if (window.scrollY > 100) {
 				if (!button.classList.contains('fixed')) {
 					// Only add animation when becoming fixed
 					button.classList.add('fixed', 'animate__animated', 'animate__fadeInDown');

@@ -14,15 +14,18 @@ namespace TravelCompany.Domain.Entities
         public route? Route { get; set; }
         public TimeSpan Time {  get; set; }
         public RecurringType RecurringType { get; set; }
+        public decimal? Percentage { get; set; }
+        public int RecurringDays { get; set; }
+        public RecurringType RecurringPattern { get; set; }
+        public int PatternDays { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsRecurring {  get; set; }
         public int TripsNumber { get; set; }
-        public int IrregularTripsNumber { get; set; }
+        public int UnassignedTripsNumber { get; set; }
 
-        public ICollection<Day> Days { get; set; } = new List<Day>();
-
+        public ICollection<Week> Weeks { get; set; } = new List<Week>();
 
     }
 }

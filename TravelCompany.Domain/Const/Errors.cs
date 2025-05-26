@@ -20,5 +20,6 @@ namespace TravelCompany.Domain.Const
         public const string WeakPassword = "Passwords contain an uppercase character, lowercase character, a digit, and a non-alphanumeric character. Passwords must be at least 8 characters long";
         public const string MaxSize = "File cannot be more that 2 MB!";
         public const string NotAllowedExtension = "Only .png, .jpg, .jpeg files are allowed!";
+        public const string ReturnTimeIsEquel = "Return time can not be the same of departure time.";
     }
 }

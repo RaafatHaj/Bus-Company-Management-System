@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.Entities;
+using TravelCompany.Domain.Settings;
 
 namespace TravelCompany.Application.Common.Interfaces
 {
@@ -13,14 +15,19 @@ namespace TravelCompany.Application.Common.Interfaces
         IBaseRepository<Point> Points { get; }
         IBaseRepository<Station> Stations { get; }
         IBaseRepository<route> Routes { get; }
-        IBaseRepository<Trip> Trips { get; }
+        ITripRepository Trips { get; }
         IBaseRepository<Recurring> Recurrings { get; }
         IScheduledTravelRepository  ScheduledTravels { get; }
         IBaseRepository<RoutePoint> RoutePoints { get; }
         IBaseRepository <TravelStation> TravelStations { get; }
         IRezervationRepository  Reservations { get; }
 
-        int Save();
+
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+        Task RollbackTransactionAsync();
+
+        Task<int> SaveAsync();
 
     }
 }

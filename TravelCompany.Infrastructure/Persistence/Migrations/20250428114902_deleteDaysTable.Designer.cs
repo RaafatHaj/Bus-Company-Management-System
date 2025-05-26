@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428114902_deleteDaysTable")]
+    partial class deleteDaysTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,23 +244,14 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("IrregularTripsNumber")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsRecurring")
                         .HasColumnType("bit");
-
-                    b.Property<int>("PatternDays")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Percentage")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RecurringDays")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecurringPattern")
-                        .HasColumnType("int");
 
                     b.Property<int>("RecurringType")
                         .HasColumnType("int");
@@ -272,9 +266,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .HasColumnType("time");
 
                     b.Property<int>("TripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnassignedTripsNumber")
                         .HasColumnType("int");
 
                     b.HasKey("RecurringId");
@@ -460,6 +451,9 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<bool>("HasBookedSeat")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsIrregular")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MainTripId")
                         .HasColumnType("int");
 
@@ -548,45 +542,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.HasIndex("StationId");
 
                     b.ToTable("Vehicles");
-                });
-
-            modelBuilder.Entity("TravelCompany.Domain.Entities.Week", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RecurringDays")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecurringId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecurringType")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnassignedTripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeekOrder")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecurringId");
-
-                    b.ToTable("Weeks");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.route", b =>
@@ -933,17 +888,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Station");
                 });
 
-            modelBuilder.Entity("TravelCompany.Domain.Entities.Week", b =>
-                {
-                    b.HasOne("TravelCompany.Domain.Entities.Recurring", "Recurring")
-                        .WithMany("Weeks")
-                        .HasForeignKey("RecurringId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recurring");
-                });
-
             modelBuilder.Entity("TravelCompany.Domain.Entities.route", b =>
                 {
                     b.HasOne("TravelCompany.Domain.Entities.Station", "FirstStation")
@@ -964,11 +908,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Assignments");
 
                     b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("TravelCompany.Domain.Entities.Recurring", b =>
-                {
-                    b.Navigation("Weeks");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Station", b =>

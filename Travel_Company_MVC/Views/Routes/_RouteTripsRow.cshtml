@@ -31,12 +31,29 @@
  
 
 
-                <div class="d-flex mb-2">
-                    <div class=" badge badge-light-warning fw-bold">Weekly</div>
+                <div class="d-flex flex-column gap-2 mb-2">
+                    <div class="d-flex gap-3">
+                        <div class=" badge badge-light-warning fw-bold">Weekly</div>
+                @*         <span class="text-gray-500 fw-semibold">
+                            87%
+                        </span> *@
 
-
+                    </div>
+@*                     <div class="d-flex align-items-center w-100 mw-125px">
+                        <!--begin::Progress-->
+                        <div class="progress h-6px w-100 me-2 bg-light-warning">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 87%" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--end::Progress-->
+                        <!--begin::Value-->
+                        <span class="text-gray-500 fw-semibold">
+                            87%
+                        </span>
+                        <!--end::Value-->
+                    </div>
+ *@
                 </div>
-          @*       <div class="d-flex gap-4 ms">
+@*                 <div class="d-flex gap-4 ms">
 
                     @{
 
@@ -69,16 +86,39 @@
 
 
 
-                </div> *@
-            }
+                </div>
+ *@            }
             else if (Model.RecurringType == RecurringType.Daily)
             {
 
-                <div class="d-flex mb-2">
-                    <div class=" badge badge-light-success fw-bold">Daly</div>
+                <div class="d-flex flex-column gap-2">
+                    <div class="d-flex gap-3 mb-2">
+                        <div class=" badge badge-light-success fw-bold">Daily</div>
+                    @*     <span class="text-gray-500 fw-semibold">
+                            56%
+                        </span> *@
+
+                    </div>
+
+
+@*                     <div class="d-flex align-items-center w-100 mw-125px">
+                        <!--begin::Progress-->
+                        <div class="progress h-6px w-100 me-2 bg-light-danger">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 56%" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <!--end::Progress-->
+                        <!--begin::Value-->
+                        <span class="text-gray-500 fw-semibold">
+                            56%
+                        </span>
+                        <!--end::Value-->
+                    </div>
+ *@
 
 
                 </div>
+
+
             }
             else
             {
@@ -107,6 +147,13 @@
 
 
 
+
+    </td>
+
+    <td>
+        <div class="text-gray-500 fw-semibold ms-0 me-10">
+            87%
+        </div>
 
     </td>
 
@@ -168,7 +215,7 @@
             <div class="d-flex flex-column">
 
                 <a href="#"
-                   class="text-danger fw-bold d-block text-hover-primary me-2">@Model.IrregularTripsNumber</a>
+                   class="text-danger fw-bold d-block text-hover-primary me-2">12</a>
                 <span class="text-muted fw-semibold fs-7 ">Irregular Trips</span>
             </div>
         </div>

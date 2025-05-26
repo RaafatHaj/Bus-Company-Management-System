@@ -16,7 +16,6 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<route> Routes { get; set; }
         public DbSet<RoutePoint> RoutePoints { get; set; }
         public DbSet<Trip> Trips { get; set; }
-        public DbSet<Day> Days { get; set; }
         public DbSet<TravelStation> TravelStations { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Recurring> Recurrings { get; set; }
@@ -24,6 +23,7 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<TripAssignment> TripAssignments { get; set; }
+        public DbSet<Week> Weeks { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder builder)

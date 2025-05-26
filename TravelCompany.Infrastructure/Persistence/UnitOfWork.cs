@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Options;
 using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.Entities;
@@ -11,6 +12,7 @@ namespace TravelCompany.Infrastructure.Persistence
     {
         private readonly ApplicationDbContext _context;
         private readonly ConnectionStrings _connectionStrings;
+        private IDbContextTransaction? _currentTransaction;
 
         public UnitOfWork(ApplicationDbContext context,IOptions<ConnectionStrings> connectionStrings)
         {
@@ -32,13 +34,63 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public IBaseRepository<TravelStation> TravelStations =>  new BaseRepository<TravelStation>(_context);
 
-        public IBaseRepository<Trip> Trips => new BaseRepository<Trip>(_context);
+        public ITripRepository Trips => new TripRepository(_context , _connectionStrings.DefaultConnection);
 
         public IBaseRepository<Recurring> Recurrings => new BaseRepository<Recurring>(_context);
 
-        public int Save()
+
+        public async Task BeginTransactionAsync()
         {
-            return _context.SaveChanges();
+            if (_currentTransaction != null) return; // Already started
+            _currentTransaction = await _context.Database.BeginTransactionAsync();
         }
+
+        public async Task CommitTransactionAsync()
+        {
+            try
+            {
+                await _context.SaveChangesAsync();
+
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.CommitAsync();
+                }
+            }
+            catch
+            {
+                await RollbackTransactionAsync();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.DisposeAsync();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            try
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.RollbackAsync();
+                }
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    await _currentTransaction.DisposeAsync();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+
+        public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
     }
 }

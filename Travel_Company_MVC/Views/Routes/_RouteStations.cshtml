@@ -44,14 +44,14 @@
 		@for(int i=0;i<Model.Count;i++ )
 		{
 
-			
-				var pointColor ="";
 
-			if (Model[i].PointOrder == 1)
+			var pointColor = "text-warning";
+
+		@* 	if (Model[i].PointOrder == 1)
 				pointColor = "text-danger";
 		    else if (Model[i].PointOrder == Model.Count)
 				pointColor = "text-success";
-			else pointColor = "text-warning";
+			else pointColor = "text-warning"; *@
 
 		
 
@@ -75,8 +75,8 @@
 				<a href="#"
 				   class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a> *@
 
-				<a href="#" class="fw-mormal timeline-content fw-bold text-gray-500 fs-6 ms-4 text-hover-primary hover-elevate-up  ">
-					@Model[i].PointOrder - <span class="text-gray-900 fw-bold text-hover-primary hover-elevate-up"> @Model[i].Point.Station!.StationName</span>
+				<a href="#" class="fw-mormal timeline-content fw-bold text-gray-500 fs-6 ms-2">
+					@Model[i].PointOrder.<span class="text-gray-900 fw-bold text-hover-primary ">@Model[i].Point.Station!.StationName</span>
 				</a>
 				<!--end::Text-->
 			</div>

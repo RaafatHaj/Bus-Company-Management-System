@@ -87,7 +87,7 @@ namespace TravelCompany.Application.Services.ScheduledTravels
 
             travel.Status =travel.Status == StationStatus.Pending ? StationStatus.Left : StationStatus.Pending;
 
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
 
             return true;
 

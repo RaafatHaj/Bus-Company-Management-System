@@ -10,7 +10,7 @@ namespace TravelCompany.Domain.Const
     static public class DataTables
     {
 
-        public static DataTable GetDatesTable()
+        public static DataTable GetCustomDatesTable()
         {
             DataTable table = new DataTable();
 
@@ -19,7 +19,7 @@ namespace TravelCompany.Domain.Const
             return table;
         }
 
-        public static DataTable GetDaysTable()
+        public static DataTable GetWeekDaysTable()
         {
             DataTable table = new DataTable();
 

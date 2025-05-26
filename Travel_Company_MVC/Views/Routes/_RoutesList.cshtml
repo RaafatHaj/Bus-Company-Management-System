@@ -39,9 +39,7 @@
 				</thead>
 				<tbody>
 
-					@for(int i=0 ;i<10;i++)
-					{
-
+				
 						@foreach (var route in Model.Routes)
 						{
 
@@ -51,7 +49,7 @@
 
 							<partial name="_RouteRow" model="route" />
 						}
-					}
+					
 
 
 				</tbody>

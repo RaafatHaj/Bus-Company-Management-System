@@ -1,0 +1,229 @@
+﻿@using System.Globalization
+@model ScheduledTripViewModel;
+
+
+<div class="border-gray-300 border-start   child-slide">
+
+    <form class="js-ajax-form" method="post"
+          data-url="/Trips/EditTripTiming"
+          data-callback="addRowToTable"
+          data-update-ui="true"
+          data-updete="true">
+
+          <input type="hidden" asp-for="TripId" />
+          <input type="hidden" asp-for="Date" />
+          <input type="hidden" asp-for="Status" />
+
+        @if(Model.ReturnTripId!=null)
+        {
+            <input type="hidden" asp-for="ReturnTripId" />
+            <input type="hidden" asp-for="ReturnDate" />
+            <input type="hidden" asp-for="ReturnStatus" />
+        }
+
+        <div class="d-flex gap-10 align-items-center flex-wrap ">
+            <div>
+                <div class="d-flex align-items-center justify-content-center m-4">
+
+                    <label for="" class="form-label me-2" style="white-space: nowrap;">Main Trip :</label>
+                    <input asp-for="Time" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="trip-time" type="text" >
+                </div>
+
+                <div class="ms-5">
+                    <div class="d-flex mt-7  ms-5">
+
+                        @* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+
+
+                        <div class="d-flex flex-column pe-0 pe-sm-10 mb-2 text-gray-800">
+                            <!--begin::Title-->
+                            <!--end::Title-->
+                            <!--begin::Content-->
+                            <span class="text-muted ">Times of scheduled trips at <span class="text-primary">@Model.Date.ToString("dd MMM yyyy", CultureInfo.InvariantCulture).</span></span>
+                            <!--end::Content-->
+                        </div>
+
+
+
+                    </div>
+                    <div class="" style="width:310px">
+                        <div class="tns tns-default" style="direction: ltr">
+                            <!--begin::Slider-->
+                            <div data-tns="true"
+                                 data-tns-loop="false"
+                                 data-tns-swipe-angle="false"
+                                 data-tns-speed="500"
+                                 data-tns-autoplay="false"
+                                 data-tns-autoplay-timeout="18000"
+                                 data-tns-controls="true"
+                                 data-tns-nav="false"
+                                 data-tns-items="3"
+                                 data-tns-center="false"
+                                 data-tns-dots="false"
+                                 data-tns-prev-button="#kt_team_slider_prev2"
+                                 data-tns-next-button="#kt_team_slider_next2">
+
+                                <!--begin::Item-->
+                                <div class=" badge badge-light-primary fw-bold mt-2 me-1">
+                                    8:00 am
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
+                                    10:00 am
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
+                                    13:00 pm
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
+                                    17:00 pm
+                                </div>
+                                <!--end::Item-->
+                                ...
+                            </div>
+                            <!--end::Slider-->
+                            <!--begin::Slider button-->
+                            <button class="btn btn-icon btn-active-color-primary " id="kt_team_slider_prev2">
+                                <span class="svg-icon fs-3x">
+                                    <i class="ki-solid ki-left    fs-2x   "></i>
+                                </span>
+                            </button>
+                            <!--end::Slider button-->
+                            <!--begin::Slider button-->
+                            <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next2">
+                                <span class="svg-icon fs-3x">
+                                    <i class="ki-solid ki-right    fs-2x   "></i>
+
+                                </span>
+                            </button>
+                            <!--end::Slider button-->
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class=" align-self-start mt-5 mx-5">
+
+                <i class="ki-solid ki-arrow-right-left  text-dark-300 fs-2tx m-0 p-0  "></i>
+
+
+
+
+
+            </div>
+
+
+            <div>
+
+
+
+
+
+                <div class="d-flex align-items-center justify-content-center m-4">
+
+                    <label for="" class="form-label me-2" style="white-space: nowrap;">Return Trip :</label>
+                    <input asp-for="ReturnTime" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" >
+                </div>
+
+                <div class="ms-5">
+                    <div class="d-flex mt-7  ms-5">
+
+                        @* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+
+
+                        <div class="d-flex flex-column pe-0 pe-sm-10 mb-2 text-gray-800">
+                            <!--begin::Title-->
+                            <!--end::Title-->
+                            <!--begin::Content-->
+                            <span class="text-muted ">Times of scheduled trips at <span class="text-primary">@Model.ReturnDate?.ToString("dd MMM yyyy", CultureInfo.InvariantCulture).</span></span>
+                            <!--end::Content-->
+                        </div>
+
+
+
+                    </div>
+                    <div class="" style="width:310px">
+                        <div class="tns tns-default" style="direction: ltr">
+                            <!--begin::Slider-->
+                            <div data-tns="true"
+                                 data-tns-loop="false"
+                                 data-tns-swipe-angle="false"
+                                 data-tns-speed="500"
+                                 data-tns-autoplay="false"
+                                 data-tns-autoplay-timeout="18000"
+                                 data-tns-controls="true"
+                                 data-tns-nav="false"
+                                 data-tns-items="3"
+                                 data-tns-center="false"
+                                 data-tns-dots="false"
+                                 data-tns-prev-button="#kt_team_slider_prev1"
+                                 data-tns-next-button="#kt_team_slider_next1">
+
+                                <!--begin::Item-->
+                                <div class=" badge badge-light-primary fw-bold mt-2 me-1">
+                                    8:00 am
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
+                                    10:00 am
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
+                                    13:00 pm
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
+                                    17:00 pm
+                                </div>
+                                <!--end::Item-->
+                                ...
+                            </div>
+                            <!--end::Slider-->
+                            <!--begin::Slider button-->
+                            <button class="btn btn-icon btn-active-color-primary " id="kt_team_slider_prev1">
+                                <span class="svg-icon fs-3x">
+                                    <i class="ki-solid ki-left    fs-2x   "></i>
+                                </span>
+                            </button>
+                            <!--end::Slider button-->
+                            <!--begin::Slider button-->
+                            <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next1">
+                                <span class="svg-icon fs-3x">
+                                    <i class="ki-solid ki-right    fs-2x   "></i>
+
+                                </span>
+                            </button>
+                            <!--end::Slider button-->
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        <div class="d-flex justify-content-end py-6 px-9">
+            <button type="submit" class="btn btn-primary btn-sm ">Submit</button>
+        </div>
+
+
+    </form>
+
+
+</div>
+

@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428122247_addPercentageTORecurringsTable")]
+    partial class addPercentageTORecurringsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,6 +463,9 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<bool>("HasBookedSeat")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsIrregular")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MainTripId")
                         .HasColumnType("int");
 
@@ -577,9 +583,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .HasColumnType("int");
 
                     b.Property<int>("UnassignedTripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeekOrder")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

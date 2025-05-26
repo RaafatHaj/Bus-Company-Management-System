@@ -1,13 +1,15 @@
 ﻿
 
 // Handling Templates ...
-document.querySelectorAll('input[name="radio_buttons_2"]').forEach(radio => {
+document.querySelectorAll('.recurring-radio').forEach(radio => {
     radio.addEventListener('change', function () {
         const content = document.getElementById('recuring-details');
         const template = document.getElementById(`template-recurring-${this.value}`);
+        const durationSettings = document.getElementById('duration-settings');
+
         content.innerHTML = template.innerHTML;
 
-        if (this.value == 3) {
+        if (this.classList.contains("custom-recurring")) {
 
             // Initialize Flatpickr on the newly added input
             const flatpickrInput = content.querySelector('#custom-schedule');
@@ -18,13 +20,40 @@ document.querySelectorAll('input[name="radio_buttons_2"]').forEach(radio => {
                     },
                     mode: "multiple",
                     dateFormat: "Y-m-d",
-                    minDate: "today" 
+                    minDate: "today",
+                    onChange: function (selectedDates) {
+                        const container = document.querySelector('#custom-dates-container');
+                        container.innerHTML = '';
+
+                        selectedDates.forEach(date => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'CustomDates';
+                            input.value = date.toLocaleDateString('en-CA'); // "YYYY-MM-DD"
+
+                            // Enable validation attributes
+                            input.setAttribute("data-val", "true");
+                            input.setAttribute("data-val-required", "Please select at least one date.");
+
+                            container.appendChild(input);
+                        });
+
+                    }
+
                 });
-            }
+            }   
+
+            durationSettings.style.setProperty("display", "none", "important");
+            //durationSettings.style.display = "none"
 
         }
+        else {
+   
+            durationSettings.style.display = "block";
+        
+        }
 
-
+        $.validator.unobtrusive.parse(content); 
     });
 });
 
@@ -44,9 +73,24 @@ document.querySelectorAll('input[name="radio_trip_duration"]').forEach(radio => 
                     altFormat: "F j, Y",
                     dateFormat: "Y-m-d",
                     mode: "range",
-                    minDate: "today" 
+                    minDate: "today",
+
+                    onChange: function (selectedDates, dateStr, instance) {
+                        if (selectedDates.length === 2) {
+                            const startDate = selectedDates[0].toLocaleDateString('en-CA'); // "YYYY-MM-DD"
+                            const endDate = selectedDates[1].toLocaleDateString('en-CA');
+
+                            // Set hidden fields or log them
+                            document.querySelector('[name="StartDate"]').value = startDate;
+                            document.querySelector('[name="EndDate"]').value = endDate;
+                        } else {
+                            document.querySelector('[name="StartDate"]').value = "";
+                            document.querySelector('[name="EndDate"]').value = "";
+                        }
+                    }
                 });
             }
+
 
         }
 
@@ -116,6 +160,18 @@ async function  getRouteTripRecurringPatterns(url) {
 
 }
 
+
+function enableFilds() {
+
+    const card = document.getElementById('usage');
+    const inputs = card.querySelectorAll('input, select, textarea, button');
+
+    inputs.forEach(input => {
+        input.disabled = false;
+    });
+
+    card.classList.remove('opacity-50');
+}
 document.body.addEventListener('click', async function (event) {
 
     if (event.target && event.target.closest('.js-select-route')) {
@@ -125,6 +181,7 @@ document.body.addEventListener('click', async function (event) {
         const routeId = btn.getAttribute('data-route-id')
         const test = document.getElementById('route-id');
         test.value = routeId;
+        enableFilds();
       
 
         try {

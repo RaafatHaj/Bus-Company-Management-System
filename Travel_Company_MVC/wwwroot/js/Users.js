@@ -3,6 +3,8 @@ var updatedRow;
 
 function addRowToTable(newRow, form) {
 
+
+
     if (updatedRow !== undefined) {
 
         table.row(updatedRow).remove().draw();

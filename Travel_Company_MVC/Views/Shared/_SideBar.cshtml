@@ -147,7 +147,7 @@
 						<span class="menu-icon">
 
 
-							<i class="ki-duotone ki-element-11 fs-2">
+							<i class="ki-duotone ki-chart-simple-3 fs-2">
 								<span class="path1"></span>
 								<span class="path2"></span>
 								<span class="path3"></span>
@@ -191,12 +191,12 @@
 				<!--end:Menu item-->
 
 
-				<!--begin:Menu item-->
+				<!--begin:Menu item Trips -->
 				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 					<!--begin:Menu link-->
 					<span class="menu-link">
 						<span class="menu-icon">
-							<i class="ki-duotone ki-abstract-28 fs-2">
+							<i class="ki-duotone ki-flag fs-2">
 								<span class="path1"></span>
 								<span class="path2"></span>
 							</i>
@@ -207,6 +207,30 @@
 					<!--end:Menu link-->
 					<!--begin:Menu sub-->
 					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" style="display: none; overflow: hidden;">
+
+
+						<!--begin:Menu item-->
+						<div class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" asp-controller="Scheduling" asp-action="ScheduleNewTrips" >
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Schedule New Trips</span>
+							</a>
+							<!--end:Menu link-->
+							<!--begin:Menu link-->
+							<a class="menu-link" asp-controller="Scheduling" asp-action="ScheduleNewTrips">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Edit Schedule</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+
 						<!--begin:Menu item-->
 						<div data-kt-menu-trigger="click" class="menu-item menu-accordion mb-1  ">
 							<!--begin:Menu link-->
@@ -248,59 +272,93 @@
 							<!--end:Menu sub-->
 						</div>
 						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-							<!--begin:Menu link-->
-							<span class="menu-link">
-								<span class="menu-bullet">
-									<span class="bullet bullet-dot"></span>
-								</span>
-								<span class="menu-title">Routes</span>
-								<span class="menu-arrow"></span>
-							</span>
-							<!--end:Menu link-->
-							<!--begin:Menu sub-->
-							<div class="menu-sub menu-sub-accordion">
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" asp-controller="Routes" asp-action="Index">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Routes List</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-								<!--begin:Menu item-->
-								<div class="menu-item">
-									<!--begin:Menu link-->
-									<a class="menu-link" href="apps/user-management/roles/view.html">
-										<span class="menu-bullet">
-											<span class="bullet bullet-dot"></span>
-										</span>
-										<span class="menu-title">Create New Route</span>
-									</a>
-									<!--end:Menu link-->
-								</div>
-								<!--end:Menu item-->
-							</div>
-							<!--end:Menu sub-->
-						</div>
-						<!--end:Menu item-->
+				
+					
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+				<!--begin:Menu item Routes -->
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link">
+						<span class="menu-icon">
+							<i class="ki-duotone ki-map  fs-2 ">
+								<span class="path1"></span>
+								<span class="path2"></span>
+								<span class="path3"></span>
+								<span class="path4"></span>
+							</i>
+						</span>
+						<span class="menu-title">Routes</span>
+						<span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" style="display: none; overflow: hidden;">
+
+
 						<!--begin:Menu item-->
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link" href="apps/user-management/permissions.html">
+							<a class="menu-link" asp-controller="Routes" asp-action="Index">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Permissions</span>
+								<span class="menu-title">Routes List</span>
+							</a>
+							<!--end:Menu link-->
+							<!--begin:Menu link-->
+							<a class="menu-link" href="#">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Create New Route</span>
 							</a>
 							<!--end:Menu link-->
 						</div>
 						<!--end:Menu item-->
+					
+
+					</div>
+					<!--end:Menu sub-->
+				</div>
+				<!--end:Menu item-->
+				<!--begin:Menu item Vehicles -->
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link">
+						<span class="menu-icon">
+							<i class="ki-duotone ki-bus  fs-2 ">
+								<span class="path1"></span>
+								<span class="path2"></span>
+								<span class="path3"></span>
+								<span class="path4"></span>
+							</i>
+						</span>
+						<span class="menu-title">Vehicles</span>
+						<span class="menu-arrow"></span>
+					</span>
+					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" style="display: none; overflow: hidden;">
+
+
+						<!--begin:Menu item-->
+						<div class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" asp-controller="Routes" asp-action="Index">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Vehicles List</span>
+							</a>
+							<!--end:Menu link-->
+			
+						</div>
+						<!--end:Menu item-->
+
+
 					</div>
 					<!--end:Menu sub-->
 				</div>

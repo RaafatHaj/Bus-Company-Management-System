@@ -14,11 +14,11 @@ namespace Travel_Company_MVC.Controllers
     [Authorize]
     public class TravelsController : Controller
     {
-        private readonly ITravelService _travelService;
+        private readonly ITripService _travelService;
         private readonly IRouteService _routeService;   
         private readonly IMapper _mapper;
 
-		public TravelsController(ITravelService travelService, IMapper mapper, IRouteService routeService)
+		public TravelsController(ITripService travelService, IMapper mapper, IRouteService routeService)
 		{
 			_travelService = travelService;
 			_mapper = mapper;
@@ -67,11 +67,11 @@ namespace Travel_Company_MVC.Controllers
 
             var dto = _mapScheduleTravelDTO(model);
 
-            var result = await _travelService.ScheduleNewTravelsAsync(dto);
+            //var result = await _travelService.ScheduleNewTravelsAsync(dto);
 
 
-			if (result.IsSuccess)
-                return View(_populateModel());
+			//if (result.IsSuccess)
+   //             return View(_populateModel());
 
 
             return View(_populateModel());
@@ -139,12 +139,12 @@ namespace Travel_Company_MVC.Controllers
 
         }
 
-        private TravelScheduleDTO _mapScheduleTravelDTO(CreateTravelViewModel model)
+        private ScheduleDTO _mapScheduleTravelDTO(CreateTravelViewModel model)
         {
-            var dto= _mapper.Map<TravelScheduleDTO>(model);
+            var dto= _mapper.Map<ScheduleDTO>(model);
 
-			dto.Dates = DataTables.GetDatesTable();
-			dto.Days = DataTables.GetDaysTable();
+			dto.CustomDates = DataTables.GetCustomDatesTable();
+			dto.WeekDays = DataTables.GetWeekDaysTable();
 
 			if (model.SelectedScheduleType == RecurringType.Weekly)
             {
@@ -154,7 +154,7 @@ namespace Travel_Company_MVC.Controllers
                 var days = model.WeekDays!.Where(d => d.IsSelected == true).Select(d => d.Day).ToList();
 
                 foreach (var day in days)
-                    dto.Days.Rows.Add(day);
+                    dto.WeekDays.Rows.Add(day);
             }
             //else if (model.SelectedScheduleType == RecurringType.Monthly)
             //{
@@ -165,14 +165,14 @@ namespace Travel_Company_MVC.Controllers
             //    foreach (var day in days)
             //        dto.Days.Rows.Add(day);
             //}
-            else if (model.SelectedScheduleType == RecurringType.Irregular)
+            else if (model.SelectedScheduleType == RecurringType.Custom)
             {
                 // dto.Dates = DataTables.GetDatesTable();
 
                 var dates = JsonConvert.DeserializeObject<List<DateTime>>(model.JsonDates!);
 
                 foreach (var date in dates)
-                    dto.Dates!.Rows.Add(date);
+                    dto.CustomDates!.Rows.Add(date);
             }
 
 
@@ -205,7 +205,7 @@ namespace Travel_Company_MVC.Controllers
             model.ScheduleTypes = new List<SelectListItem>
             {
                          new(){  Value=(RecurringType.Daily).ToString(),   Text="Every Single Day" },
-                         new(){  Value=(RecurringType.Irregular).ToString(),   Text="Certain Dates"  },
+                         new(){  Value=(RecurringType.Custom).ToString(),   Text="Certain Dates"  },
                          new(){  Value=(RecurringType.Weekly).ToString(),   Text="Certain Days in Week"  },
                          //new(){  Value=(RecurringType.Monthly).ToString(),   Text="Certain Days in Month"  },
 

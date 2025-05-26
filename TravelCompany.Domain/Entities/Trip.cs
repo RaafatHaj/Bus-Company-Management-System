@@ -31,7 +31,7 @@ namespace TravelCompany.Domain.Entities
         //public int? VehicleId { get; set; }
         //public Vehicle? Vehicle { get; set; }
 
-        public bool IsIrregular { get; set; }
+        //public bool IsIrregular { get; set; }
         public int? MainTripId { get; set; }
 
 

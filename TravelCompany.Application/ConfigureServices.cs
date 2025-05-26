@@ -17,7 +17,7 @@ namespace TravelCompany.Application
             services.AddScoped<IStationService, StationService>();
             services.AddScoped<IPointService, PointService>();
             services.AddScoped<IRouteService, RouteService>();
-            services.AddScoped<ITravelService, TravelService>();
+            services.AddScoped<ITripService, TripService>();
             services.AddScoped<IScheduledTravelService, ScheduledTravelService>();
             services.AddScoped<IRoutePointService, RoutePointService>();
             services.AddScoped<IRezervationService, RezervationService>();

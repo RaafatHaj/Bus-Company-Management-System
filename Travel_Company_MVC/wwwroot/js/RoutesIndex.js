@@ -1,22 +1,22 @@
 ﻿
 
-$("#kt_datatable_dom_positioning").DataTable({
-    "language": {
-        "lengthMenu": "Show _MENU_",
-    },
-    "dom":
-        "<'row mb-2'" +
-        "<'col-sm-6 d-flex align-items-center justify-conten-start dt-toolbar'l>" +
-        "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar'f>" +
-        ">" +
+//$("#kt_datatable_dom_positioning").DataTable({
+//    "language": {
+//        "lengthMenu": "Show _MENU_",
+//    },
+//    "dom":
+//        "<'row mb-2'" +
+//        "<'col-sm-6 d-flex align-items-center justify-conten-start dt-toolbar'l>" +
+//        "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar'f>" +
+//        ">" +
 
-        "<'table-responsive'tr>" +
+//        "<'table-responsive'tr>" +
 
-        "<'row mt-5'" +
-        "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
-        "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
-        ">"
-});
+//        "<'row mt-5'" +
+//        "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+//        "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+//        ">"
+//});
 
 
 

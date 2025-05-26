@@ -1,0 +1,22 @@
+﻿
+using TravelCompany.Application.Common.Responses;
+using TravelCompany.Domain.DTOs;
+using TravelCompany.Domain.Entities;
+
+namespace TravelCompany.Application.Services.Travels
+{
+    public interface ITripService
+    {
+		//  [sp_GetTravelByTravelTimeAndRouteId]
+		//Task<SchedulingResult> ScheduleNewTravelsAsync(ScheduleDTO schedule);
+		Task<IEnumerable<Trip>> RetriveAllTripsAsync();
+		Task<(bool Success, IEnumerable<Trip>? Data)> ScheduleTripsAsync(ScheduleDTO schedule);
+        Task<Trip?> FindTripByIdAsync(int tripId);
+        Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId);
+        Task<(bool Success, Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto);
+
+
+
+
+    }
+}
