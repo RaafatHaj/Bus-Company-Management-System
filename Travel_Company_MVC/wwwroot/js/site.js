@@ -28,14 +28,11 @@ function addRowToTable(newRow, form) {
  //   SuccessMessage();
     HideModal();
 }
-
-
 function InitilaizeDatatable() {
 
 
     return new DataTable('#kt_datatable_dom_positioning');
 }
-
 function InitilaizeMetronicDatatable(tableId ='#kt_datatable_dom_positioning') {
 
 
@@ -58,8 +55,6 @@ function InitilaizeMetronicDatatable(tableId ='#kt_datatable_dom_positioning') {
             ">"
     });
 }
-
-
 function ErrorMessage() {
 
     Swal.fire({
@@ -146,6 +141,31 @@ function Toggle() {
 
 
         }
+    })
+
+}
+function SumbitForm() {
+
+    document.body.addEventListener('submit',  function (event) {
+
+        if (event.target && event.target.matches(".js-confirm-form")) {
+            event.preventDefault();
+
+            ConfirmationMessage().then( (confirmed) => {
+
+                if (confirmed) 
+                    event.target.submit(); 
+
+               
+
+            }).catch(() => {
+
+                ErrorMessage();
+            });
+
+        }
+
+
     })
 
 }
@@ -342,8 +362,6 @@ function handleTableChiled() {
     });
 
 }
-
-
 function RenderCard() {
 
     document.body.addEventListener('click', async function (event) {
@@ -388,5 +406,7 @@ RenderModal();
 RenderCard();
 Toggle();
 SubmitAjaxForm();
+SumbitForm();
 handleTableChiled();
+
 const table = InitilaizeMetronicDatatable();

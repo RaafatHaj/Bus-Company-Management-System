@@ -18,9 +18,13 @@ namespace TravelCompany.Domain.Entities
         public int? DriverId { get; set; }
         public Driver? Driver { get; set; }
 
-        public DateTime Date { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+
+        public DateTime StartDateAndTime { get; set; }
+        public DateTime EndDateAndTime { get; set; }
+
+        public int StopedStationId { get; set; }
+        public Station? StopedStation { get; set; }
+
 
 
     }

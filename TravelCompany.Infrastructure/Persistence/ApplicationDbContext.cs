@@ -83,14 +83,16 @@ namespace TravelCompany.Infrastructure.Persistence
             .Property(e => e.Date)
             .HasColumnType("date");
 
-            //nvarchar(MAX)
+		
 
-            //builder.Entity<ScheduledTravel>()
-            //         .Property(e => e.Date)
-            //         .HasColumnType("date");
+			//nvarchar(MAX)
+
+			//builder.Entity<ScheduledTravel>()
+			//         .Property(e => e.Date)
+			//         .HasColumnType("date");
 
 
-            base.OnModelCreating(builder);
+			base.OnModelCreating(builder);
         }
 
     }
