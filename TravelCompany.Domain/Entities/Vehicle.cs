@@ -16,6 +16,7 @@ namespace TravelCompany.Domain.Entities
         public bool IsActive { get; set; }
         public int StationId { get; set; }
         public Station? Station { get; set; }
+        public string VehicleNumber { get; set; } = null!;
 
         public ICollection<TripAssignment> Assignments { get; set; } = new List<TripAssignment>();
 

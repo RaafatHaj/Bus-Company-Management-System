@@ -264,7 +264,10 @@ function RenderModal() {
             
 
                 if (event.target.hasAttribute('data-title')) 
-                document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
+                    document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
+
+                if (event.target.hasAttribute('data-sub-title'))
+                    document.getElementById("ModalSubTitle").innerHTML = button.getAttribute("data-sub-title");
 
                 let modalBody = document.getElementById("modal-body");
                 modalBody.innerHTML = html;
@@ -318,8 +321,8 @@ function handleTableChiled() {
                 try {
 
 
-                    let test = tr.getAttribute('data-url');
-                    const response = await fetch(tr.getAttribute('data-url'));
+                    let test = e.target.closest('a').getAttribute('data-url');
+                    const response = await fetch(e.target.closest('a').getAttribute('data-url'));
 
 
 

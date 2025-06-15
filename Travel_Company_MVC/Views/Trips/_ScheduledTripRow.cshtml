@@ -6,7 +6,7 @@
 
 
 
-<tr  data-url="/Trips/GetTripTimingDetails?tripId=@Model.TripId">
+<tr  >
 
 
     <td >
@@ -148,9 +148,11 @@
     <td>
     
 
-        <a href="#" class=" badge badge-light-danger hover-scale fw-bold mb-2 js-render-modal"
+        <a href="#" class=" badge badge-light-danger hover-scale fw-bold mb-2 js-table-chiled"
            data-url="/Vehicles/GetAvailableVehicles?tripTime=@Model.Date.Add(Model.Time).ToString("o")&departureStationId=@Model.DepartureStationId&tripSpanInMinits=@Model.TripTimeSpanInMInits"
-           data-large-modal="true">
+           data-large-modal="true"
+           data-title="Availavle Vehicles"
+           data-sub-title="all vehicles existed in the station at trip time.">
             <i class="ki-solid ki-cross   fs-3 text-danger"></i>
             No Vehicle 
 
@@ -165,7 +167,8 @@
 
         <div class="d-flex justify-content-start flex-shrink-0">
 
-            <a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled" >
+            <a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
+               data-url="/Trips/GetTripTimingDetails?tripId=@Model.TripId">
                 <i class="ki-duotone ki-pencil fs-2">
                     <span class="path1"></span>
                     <span class="path2"></span>

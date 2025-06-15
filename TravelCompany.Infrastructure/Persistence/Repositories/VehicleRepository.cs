@@ -53,9 +53,11 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
                                 vehicles.Add(new()
                                 {
                                     VehicleId= reader.GetInt32(reader.GetOrdinal("VehicleId")),
-                                    //IsAvailable= reader.GetInt32(reader.GetOrdinal("IsAvailable"))==1?true:false,
-                                    //AvailibiltyStartTime = reader.IsDBNull(reader.GetOrdinal("AvailabilityStartTime"))?null: reader.GetDateTime(reader.GetOrdinal("AvailabilityStartTime")),
-                                    //AvailibiltyEndTime = reader.IsDBNull(reader.GetOrdinal("AvailabilityStartTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvailabilityEndTime")) 
+                                    VehicleNumber= reader.GetString(reader.GetOrdinal("VehicleNumber")),
+                                    VehicleModel= reader.GetString(reader.GetOrdinal("Type")),
+                                    IsAvailable = reader.GetInt32(reader.GetOrdinal("IsAvailable")) == 1 ? true : false,
+                                    AvailibiltyStartTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityStartTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityStartTime")),
+                                    AvailibiltyEndTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityEndTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityEndTime"))
                                 });
                             }
 

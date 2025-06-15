@@ -1,15 +1,17 @@
 ﻿@model IEnumerable<AvailableTripVehicleDTO>
 
-<div class="col-md-8 scroll-y h-500px p-2">
+<div class=" scroll-y h-500px px-10 ">
 
 
 	<table id="kt_datatable_dom_positioning" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
 		<thead>
 			<tr class="fw-bold fs-6 text-gray-800 px-7">
-				<th>VehicleId</th>
-				<th>IsAvailable</th>
-				<th>StartTime</th>
-				<th>EndTime</th>
+				@* 	<th>VehicleId</th> *@
+				<th>Plak Number</th>
+				<th>Model</th>
+				<th></th>
+				<th>From</th>
+				<th>To</th>
 
 			</tr>
 		</thead>
@@ -20,10 +22,20 @@
 			{
 				<tr>
 
-					<td>@vehicle.VehicleId</td>
-					<td>@vehicle.IsAvailable</td>
-					<td>@vehicle.AvailibiltyStartTime</td>
-					<td>@vehicle.AvailibiltyEndTime</td>
+				@* 	<td>
+						
+						<a href="#" class="js-render-modal">
+							@vehicle.VehicleId
+						</a>
+
+
+
+				</td> *@
+					<td>@vehicle.VehicleNumber</td>
+					<td>@vehicle.VehicleModel</td>
+					<td>@(vehicle.IsAvailable?"Available":"Not Available")</td>
+					<td>@(vehicle.AvailibiltyStartTime is null ?"Now" : vehicle.AvailibiltyStartTime)</td>
+					<td>@(vehicle.AvailibiltyEndTime is null ?"Open" :vehicle.AvailibiltyEndTime)</td>
 
 				</tr>
 			}
