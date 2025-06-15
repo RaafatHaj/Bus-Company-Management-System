@@ -12,23 +12,30 @@
     <td >
 
         <!--begin::Item-->
-        <div class="m-0">
+        <div class="m-0 d-flex">
 
+            <i class="ki-duotone ki-black-up fs-1 ">  </i>
 
+@*             <span class="bullet bullet-vertical h-40px bg-gray me-5"></span>
+ *@
             <!--begin::Label-->
             <!--begin::Title-->
+            <div>
+                <a href="#"
+                   class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.Date.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
+                <div class="d-flex gap-2 mt-1">
 
-            <a href="#"
-               class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.Date.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
-            <div class="d-flex gap-2 mt-1">
+                    <span class="text-muted fw-semibold fs-7 testtt">
+                        @DateTime.Today.Add(Model.Time).ToString("HH:mm")
+                        @(Model.Time > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                    </span>
+                    <span class="text-primary">@Model.Date.ToString("ddd")</span>
 
-                <span class="text-muted fw-semibold fs-7 testtt">@DateTime.Today.Add(Model.Time).ToString("HH:mm")
-                    @(Model.Time>new TimeSpan(12, 0, 0)?"Pm":"Am")
-                </span>
-                <span class="text-primary">@Model.Date.ToString("ddd")</span>
 
+                </div>
 
             </div>
+     
 
 
 
@@ -85,19 +92,28 @@
     {
         <td>
             <!--begin::Item-->
-            <div class="m-0">
+            <div class="m-0 d-flex">
 
-                <a href="#"
-                   class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.ReturnDate?.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
-                <div class="d-flex gap-2 mt-1">
+                <i class="ki-duotone ki-black-down fs-1 ">  </i>
 
-                    <span class="text-muted fw-semibold fs-7">@DateTime.Today.Add(Model.ReturnTime!.Value).ToString("HH:mm")
-                        @(Model.ReturnTime!.Value > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
-                    </span>
-                    <span class="text-primary">@Model.ReturnDate?.ToString("ddd")</span>
+    
+
+                <div>
+                    <a href="#"
+                       class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.ReturnDate?.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
+                    <div class="d-flex gap-2 mt-1">
+
+                        <span class="text-muted fw-semibold fs-7">
+                            @DateTime.Today.Add(Model.ReturnTime!.Value).ToString("HH:mm")
+                            @(Model.ReturnTime!.Value > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                        </span>
+                        <span class="text-primary">@Model.ReturnDate?.ToString("ddd")</span>
 
 
+                    </div>
+                
                 </div>
+       
             </div>
             <!--end::Item-->
         </td>
@@ -129,7 +145,21 @@
         </td>
 
     }
+    <td>
+    
 
+        <a href="#" class=" badge badge-light-danger hover-scale fw-bold mb-2 js-render-modal"
+           data-url="/Vehicles/GetAvailableVehicles?tripTime=@Model.Date.Add(Model.Time).ToString("o")&departureStationId=@Model.DepartureStationId&tripSpanInMinits=@Model.TripTimeSpanInMInits"
+           data-large-modal="true">
+            <i class="ki-solid ki-cross   fs-3 text-danger"></i>
+            No Vehicle 
+
+
+
+
+        </a>
+
+    </td>
 
     <td>
 

@@ -22,7 +22,7 @@ namespace TravelCompany.Application.Common.Interfaces
         IBaseRepository <TravelStation> TravelStations { get; }
         IRezervationRepository  Reservations { get; }
 
-
+        IVehicleRepository Vehicles { get; }
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();

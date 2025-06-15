@@ -81,7 +81,8 @@ namespace TravelCompany.Application.Services.Travels
 
         public async Task<IEnumerable<Trip>> RetriveAllTripsAsync()
 		{
-			return await _unitOfWork.Trips.GetAllTripsAsync();
+			return await _unitOfWork.Trips.GetQueryable().Include(t => t.Route).ToListAsync();
+			//return await _unitOfWork.Trips.GetAllTripsAsync();
 		}
 
 		public async Task<(bool Success, IEnumerable<Trip>? Data)> ScheduleTripsAsync(ScheduleDTO schedule)

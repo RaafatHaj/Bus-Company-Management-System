@@ -249,7 +249,7 @@ function RenderModal() {
                 else
                     document.getElementById("ModalDialog").classList.remove("modal-xl")
 
-
+                //url = 'https://localhost:7215/Vehicles/GetAvailableVehicles?tripTime=2025-07-01T22:00:00.0000000&departureStationId=1&tripSpanInMinits=240'
                 if (!response.ok)
                     throw new Error('Failed to load partial view');
 

@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250613181722_addDeprtureStationIdToTripAssigmentTable")]
+    partial class addDeprtureStationIdToTripAssigmentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,7 +201,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Point", b =>
@@ -227,7 +230,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("Points", (string)null);
+                    b.ToTable("Points");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Recurring", b =>
@@ -281,7 +284,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("RouteId");
 
-                    b.ToTable("Recurrings", (string)null);
+                    b.ToTable("Recurrings");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Reservation", b =>
@@ -333,7 +336,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("StationBId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.RoutePoint", b =>
@@ -351,7 +354,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("PointId");
 
-                    b.ToTable("RoutePoints", (string)null);
+                    b.ToTable("RoutePoints");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Schedule", b =>
@@ -390,7 +393,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("DriverId");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Station", b =>
@@ -413,7 +416,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasKey("StationId");
 
-                    b.ToTable("Stations", (string)null);
+                    b.ToTable("Stations");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.TravelStation", b =>
@@ -443,7 +446,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("TravelStations", (string)null);
+                    b.ToTable("TravelStations");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Trip", b =>
@@ -482,7 +485,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("RouteId");
 
-                    b.ToTable("Trips", (string)null);
+                    b.ToTable("Trips");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.TripAssignment", b =>
@@ -524,7 +527,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("TripAssignments", (string)null);
+                    b.ToTable("TripAssignments");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Vehicle", b =>
@@ -552,7 +555,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Week", b =>
@@ -591,7 +594,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("RecurringId");
 
-                    b.ToTable("Weeks", (string)null);
+                    b.ToTable("Weeks");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.route", b =>
@@ -630,7 +633,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.HasIndex("LastStationId");
 
-                    b.ToTable("Routes", (string)null);
+                    b.ToTable("Routes");
                 });
 
             modelBuilder.Entity("TravelCompany.Infrastructure.Persistence.Entities.ApplicationUser", b =>

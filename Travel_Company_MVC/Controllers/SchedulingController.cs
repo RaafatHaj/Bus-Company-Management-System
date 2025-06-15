@@ -103,8 +103,10 @@ namespace Travel_Company_MVC.Controllers
 						Date = trip.Date,
 						Time = trip.Time,
 						Status = trip.status,
+                        DepartureStationId = trip.Route!.FirstStationId,
+                        TripTimeSpanInMInits = trip.Route!.EstimatedTime,
 
-						ReturnTripId = returnTrip.Id,
+                        ReturnTripId = returnTrip.Id,
 						ReturnDate = returnTrip.Date,
 						ReturnTime = returnTrip.Time,
 						ReturnStatus = returnTrip.status
@@ -119,8 +121,11 @@ namespace Travel_Company_MVC.Controllers
 						TripId = trip.Id,
 						Date = trip.Date,
 						Time = trip.Time,
-						Status = trip.status
-					});
+						Status = trip.status,
+                        DepartureStationId = trip.Route!.FirstStationId,
+                        TripTimeSpanInMInits = trip.Route!.EstimatedTime,
+
+                    });
 				}
 
 

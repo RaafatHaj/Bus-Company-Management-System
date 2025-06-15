@@ -7,6 +7,7 @@ using TravelCompany.Application.Services.Routes;
 using TravelCompany.Application.Services.ScheduledTravels;
 using TravelCompany.Application.Services.Stations;
 using TravelCompany.Application.Services.Travels;
+using TravelCompany.Application.Services.Vehicles;
 
 namespace TravelCompany.Application
 {
@@ -22,6 +23,7 @@ namespace TravelCompany.Application
             services.AddScoped<IRoutePointService, RoutePointService>();
             services.AddScoped<IRezervationService, RezervationService>();
             services.AddScoped<IRecurringServcie, RecurringServcie>();
+            services.AddScoped<IVehicleService, VehicleService>();
      
 
             return services;

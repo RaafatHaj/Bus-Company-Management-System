@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AvailableTripVehicleDTO>
+
+<div class="col-md-8 scroll-y h-500px p-2">
+
+
+	<table id="kt_datatable_dom_positioning" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+		<thead>
+			<tr class="fw-bold fs-6 text-gray-800 px-7">
+				<th>VehicleId</th>
+				<th>IsAvailable</th>
+				<th>StartTime</th>
+				<th>EndTime</th>
+
+			</tr>
+		</thead>
+		<tbody>
+
+
+			@foreach (var vehicle in Model)
+			{
+				<tr>
+
+					<td>@vehicle.VehicleId</td>
+					<td>@vehicle.IsAvailable</td>
+					<td>@vehicle.AvailibiltyStartTime</td>
+					<td>@vehicle.AvailibiltyEndTime</td>
+
+				</tr>
+			}
+
+
+
+		</tbody>
+	</table>
+
+
+</div>

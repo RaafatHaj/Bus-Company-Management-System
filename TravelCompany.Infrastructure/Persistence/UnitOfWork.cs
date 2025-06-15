@@ -38,6 +38,7 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public IBaseRepository<Recurring> Recurrings => new BaseRepository<Recurring>(_context);
 
+        public IVehicleRepository Vehicles => new VehicleRepository(_context, _connectionStrings.DefaultConnection);
 
         public async Task BeginTransactionAsync()
         {

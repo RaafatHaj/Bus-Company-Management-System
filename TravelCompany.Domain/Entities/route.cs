@@ -12,10 +12,10 @@ namespace TravelCompany.Domain.Entities
         public int RouteId { get; set; }
         public string RouteName { get; set; } = null!;
 
-        public int ?FirstStationId { get; set; }
+        public int FirstStationId { get; set; }
         public Station? FirstStation { get; set; }
 
-        public int? LastStationId { get; set; }
+        public int LastStationId { get; set; }
         public Station? LastStation { get; set; }
 
         public int? StationsNumber { get; set; }

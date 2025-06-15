@@ -6,6 +6,8 @@
 		public int TripId { get; set; }
 		public DateTime Date { get; set; }
 		public TimeSpan Time { get; set; }
+		public int DepartureStationId { get; set; }	
+		public int TripTimeSpanInMInits { get; set; }
 		public TripStatus Status { get; set; }
 
 

@@ -22,6 +22,8 @@ namespace TravelCompany.Domain.Entities
         public DateTime StartDateAndTime { get; set; }
         public DateTime EndDateAndTime { get; set; }
 
+
+        public int? DepartureStationId { get; set; }
         public int StopedStationId { get; set; }
         public Station? StopedStation { get; set; }
 

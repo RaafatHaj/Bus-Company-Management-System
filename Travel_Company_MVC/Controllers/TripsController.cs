@@ -146,6 +146,7 @@ namespace Travel_Company_MVC.Controllers
                     Time = mainTrip.Time,
                     Status = mainTrip.status,
 
+
                     ReturnTripId = returnTrip.Id,
                     ReturnDate = returnTrip.Date,
                     ReturnTime = returnTrip.Time,
@@ -173,7 +174,8 @@ namespace Travel_Company_MVC.Controllers
         {
             var tripsModel = new List<ScheduledTripViewModel>();
 
-            var mainTrips = trips.Where(t => t.MainTripId == null).ToList();
+            var mainTrips = trips.Where(t => t.MainTripId == null)
+                .ToList();
 
             foreach (var trip in mainTrips)
             {
@@ -188,6 +190,8 @@ namespace Travel_Company_MVC.Controllers
                         Date = trip.Date,
                         Time = trip.Time,
                         Status = trip.status,
+                        DepartureStationId=trip.Route!.FirstStationId,
+                        TripTimeSpanInMInits=trip.Route!.EstimatedTime,
 
                         ReturnTripId = returnTrip.Id,
                         ReturnDate = returnTrip.Date,
@@ -204,7 +208,9 @@ namespace Travel_Company_MVC.Controllers
                         TripId = trip.Id,
                         Date = trip.Date,
                         Time = trip.Time,
-                        Status = trip.status
+                        Status = trip.status,
+                        DepartureStationId = trip.Route!.FirstStationId,
+                        TripTimeSpanInMInits = trip.Route!.EstimatedTime,
                     });
                 }
 
