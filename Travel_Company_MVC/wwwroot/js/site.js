@@ -1,5 +1,6 @@
 ﻿
 var updatedRow;
+var html;
 
 function addRowToTable(newRow, form) {
 
@@ -249,11 +250,10 @@ function RenderModal() {
                 else
                     document.getElementById("ModalDialog").classList.remove("modal-xl")
 
-                //url = 'https://localhost:7215/Vehicles/GetAvailableVehicles?tripTime=2025-07-01T22:00:00.0000000&departureStationId=1&tripSpanInMinits=240'
                 if (!response.ok)
                     throw new Error('Failed to load partial view');
 
-                const html = await response.text();
+                 html = await response.text();
 
             
                 
@@ -270,6 +270,7 @@ function RenderModal() {
                     document.getElementById("ModalSubTitle").innerHTML = button.getAttribute("data-sub-title");
 
                 let modalBody = document.getElementById("modal-body");
+
                 modalBody.innerHTML = html;
                 
 
@@ -329,7 +330,7 @@ function handleTableChiled() {
                     if (!response.ok)
                         throw new Error('Failed to load partial view');
 
-                    const html = await response.text();
+                     html = await response.text();
 
 
 
@@ -382,7 +383,7 @@ function RenderCard() {
                 if (!response.ok)
                     throw new Error('Failed to load partial view');
 
-                const html = await response.text();
+                 html = await response.text();
 
 
 
@@ -404,6 +405,57 @@ function RenderCard() {
 
 }
 
+function GoToNextPageAjax() {
+
+    document.body.addEventListener('click', async function (event) {
+
+        if (event.target && event.target.closest('.js-next-page-ajax')) {
+
+
+            event.preventDefault()
+            const button = event.target.closest('.js-next-page-ajax');
+
+            try {
+
+                const response = await fetch(button.getAttribute('data-url'));
+
+                if (!response.ok)
+                    throw new Error('Failed to load partial view');
+
+                let container = document.getElementById("PageContainer")
+
+                container.innerHTML = await response.text();
+
+
+
+            } catch {
+
+
+
+            }
+
+
+        }
+
+
+    })
+}
+function GoToPreviousPage() {
+
+    document.body.addEventListener('click',  function (event) {
+
+        if (event.target && event.target.closest('.js-previous-page')) {
+
+
+            let container = document.getElementById("PageContainer")
+
+            container.innerHTML = html;
+
+        }
+    })
+
+}
+
 
 RenderModal();
 RenderCard();
@@ -411,5 +463,7 @@ Toggle();
 SubmitAjaxForm();
 SumbitForm();
 handleTableChiled();
+GoToNextPageAjax();
+GoToPreviousPage();
 
 const table = InitilaizeMetronicDatatable();

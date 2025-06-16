@@ -27,6 +27,12 @@ namespace Travel_Company_MVC.Controllers
             return PartialView("_AvailableVehiclesForTrip", vehicles);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetVehicleAvalilbilty()
+        {
+
+            return PartialView("_VahicleAvalibility");
+        }
 
     }
 }
