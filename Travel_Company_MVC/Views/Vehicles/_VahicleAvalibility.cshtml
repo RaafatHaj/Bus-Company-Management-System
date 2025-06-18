@@ -1,33 +1,31 @@
-﻿
+﻿@model VehicleAvalibilityViewModel;
 
-<div class="tab-content d-flex gap-5">
+
+
+
+
+<div class="border border-gray-500 border-dashed rounded pt-8 mb-4 tab-content d-flex  gap-8">
+
+
 
 	<!--begin::Tap pane-->
-	<div class="tab-pane fade show active" id="kt_list_widget_10_tab_1" role="tabpanel">
+    <div class="tab-pane fade show active p-5   " id="kt_list_widget_10_tab_1" role="tabpanel">
 		<!--begin::Item-->
 		<div class="m-0">
 			<!--begin::Wrapper-->
 			<div class="d-flex align-items-sm-center mb-5">
 				<!--begin::Symbol-->
-				<div class="symbol symbol-45px me-4">
-					<span class="symbol-label bg-primary">
 
-						<i class="ki-duotone ki-bus text-inverse-primary fs-1">
-								<span class="path1"></span>
-								<span class="path2"></span>
-								<span class="path3"></span>
-								<span class="path4"></span>
-								<span class="path5"></span>
+
+                <i class="ki-solid ki-car-2 text-primary  fs-3x me-3">
 							</i>
 	
-					</span>
-				</div>
 				<!--end::Symbol-->
 				<!--begin::Section-->
 				<div class="d-flex align-items-center flex-row-fluid flex-wrap gap-15">
 					<div class="flex-grow-1 me-2">
-						<a href="#" class="text-gray-500 fs-6 fw-semibold">Volvo</a>
-						<span class="text-gray-800 fw-bold d-block fs-4">16-PDS-188</span>
+						<a href="#" class="text-gray-500 fs-6 fw-semibold">@Model.VehicleModel</a>
+						<span class="text-gray-800 fw-bold d-block fs-4">@Model.VehicleNumber</span>
 					</div>
 
 					<span class="badge badge-lg badge-light-success fw-bold my-2 fs-8">Available</span>
@@ -44,7 +42,7 @@
 					<!--end::Timeline line-->
 					<!--begin::Timeline icon-->
 					<div class="timeline-icon">
-						<i class="ki-duotone ki-cd fs-2 text-warning">
+                        <i class="ki-duotone ki-cd fs-2 text-primary">
 							<span class="path1"></span>
 							<span class="path2"></span>
 						</i>
@@ -56,7 +54,7 @@
 						<span class="fs-6 text-gray-500 fw-semibold d-block">Departure</span>
 						<!--end::Title-->
 						<!--begin::Title-->
-						<span class="fs-6 fw-bold text-gray-800">Damascuse-Center</span>
+						<span class="fs-6 fw-bold text-gray-800">@Model.DepartureStationName</span>
 						<!--end::Title-->
 					</div>
 					<!--end::Timeline content-->
@@ -69,7 +67,7 @@
 					<!--end::Timeline line-->
 					<!--begin::Timeline icon-->
 					<div class="timeline-icon">
-						<i class="ki-duotone ki-geolocation fs-2 text-warning">
+						<i class="ki-duotone ki-geolocation fs-2 text-primary">
 							<span class="path1"></span>
 							<span class="path2"></span>
 						</i>
@@ -81,7 +79,7 @@
 						<span class="fs-6 text-gray-500 fw-semibold d-block">Distination</span>
 						<!--end::Title-->
 						<!--begin::Title-->
-						<span class="fs-6 fw-bold text-gray-800">Aleppo-Center</span>
+						<span class="fs-6 fw-bold text-gray-800">@Model.DistinationStationName</span>
 						<!--end::Title-->
 					</div>
 					<!--end::Timeline content-->
@@ -89,6 +87,24 @@
 				<!--end::Timeline item-->
 			</div>
 			<!--end::Timeline-->
+   @*          <div class="d-flex ">
+
+                <div>
+                    <i class="ki-duotone ki-timer  fs-3x   ">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                    </i>
+                </div>
+                <div class="flex-grow-1 me-2">
+                    <a href="#" class="text-gray-500 fs-6 fw-semibold">Duration</a>
+                    <span class="text-gray-800 fw-bold d-block fs-4">@(TimeSpan.FromMinutes(Model.TripTimeSpanInMinits).ToString(@"h\:mm")) hours</span>
+                </div>
+
+            </div> *@
+          
+
+
 		</div>
 		<!--end::Item-->
 
@@ -97,141 +113,221 @@
     <!--begin::Separator-->
 @*     <div class="separator separator-dashed my-6"></div>
  *@    <!--end::Separator-->
-    @using System.Globalization
-    @model ScheduledTripViewModel;
+  
 
 
-    <div class="border-gray-300 border-start   child-slide mb-8">
+    <div class=" border-gray-300 border-start mb-8 flex-grow-1 mb-8 me-5">
 
         <form class="js-ajax-form" method="post"
-              data-url="/Trips/EditTripTiming"
-              data-callback="addRowToTable"
-              data-update-ui="true"
-              data-updete="true">
-            @*
-            <input type="hidden" asp-for="TripId" />
-            <input type="hidden" asp-for="Date" />
-            <input type="hidden" asp-for="Status" />
+              data-url="/Vehicles/AssignVehicleToTrip"
+              >
+    
 
-            @if (Model.ReturnTripId != null)
-            {
-            <input type="hidden" asp-for="ReturnTripId" />
-            <input type="hidden" asp-for="ReturnDate" />
-            <input type="hidden" asp-for="ReturnStatus" />
-            } *@
+            <div class="d-flex flex-column  gap-7 ms-7">
+             
+  
 
-            <div class="d-flex align-items-center flex-wrap ">
-                <div>
+                    <div class="d-flex justify-content-between">
+
+                        <div class="d-flex align-items-center ">
+                        
+                            <!--begin::Bullet-->
+                            <span data-kt-element="bullet" class="bullet bullet-vertical d-flex align-items-center min-h-75px mh-100 me-4 bg-warning"></span>
+                            <!--end::Bullet-->
+                            <!--begin::Info-->
+                            <div class="flex-grow-1 me-5">
+                                <!--begin::Time-->
+                                <div class="text-gray-800 fw-semibold fs-2 d-flex gap-8">
+                                    <div class="d-flex flex-column ">
 
 
-@* 
-                    <div class="d-flex align-items-center mb-6 ms-6">
+                                    <div>
+
+                                    
+
+                                        @(Model.MainTripStartDateAndTime?.ToString("HH:mm"))
+                                        <span class="text-gray-500 fw-semibold fs-7">
+                                            @(Model.MainTripStartDateAndTime?.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                                        </span>
+                                    </div>
+
+
+  
+
+                                    <span class="text-muted fw-semibold fs-7 ">@Model.MainTripStartDateAndTime?.ToString("dd")
+                                        <span class="text-primary">@Model.MainTripStartDateAndTime?.ToString("MMM")
+                                        </span> @Model.MainTripStartDateAndTime?.ToString("yyyy")
+                                    </span>
+
+
+
+                             
+                                    
+
+                         
+
+                                    </div>
+                                    <div class="mt-2">
+                                    <i class="ki-duotone ki-black-right fs-1">
+                                    </i>
+                                    </div>
+
+                                    <div class="d-flex flex-column ">
+
+                                        <div>
+
+                                        @if (Model.AvalibilityEndDateAndTime is not null)
+                                        {
+                                       
+                                            <div>
+                                                @(Model.MainTripEndDateAndTime?.ToString("HH:mm")))
+                                                <span class="text-gray-500 fw-semibold fs-7">
+                                                    @(Model.MainTripEndDateAndTime?.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                                                </span>
+                                            </div>
+
+                                            <span class="text-muted fw-semibold fs-7 ">
+                                                @Model.MainTripEndDateAndTime?.ToString("dd")
+                                                <span class="text-primary">
+                                                    @Model.MainTripEndDateAndTime?.ToString("MMM")
+                                                </span> @Model.MainTripEndDateAndTime?.ToString("yyyy")
+                                            </span>
+                                        }
+                                        else
+                                        {
+
+                                      
+
+                                            <div>
+                                              ...
+                                            </div>
+
+                                        }
+
+                                        </div>
+                  
+                                    </div>
+
+
+                                </div>
+                                <!--end::Time-->
+                                <!--begin::Description-->
+                                <div class="text-gray-600 fw-semibold fs-6">Available time for <span class="text-gray-900 fw-semibold fs-6">Main</span> trip.</div>
+                                <!--end::Description-->
+                    
+                            </div>
+                            <!--end::Info-->
+
+                        </div>
+
+                    <div class="d-flex flex-column d-flex flex-column mt-2  ">
+
+                            <label for="" class="form-label me-2" style="white-space: nowrap;">Main Trip :</label>
+
+                            <div class="d-flex gap-4">
+                                <input asp-for="MainTripTime" class="form-control form-control-solid form-control-sm flatpickr-main-time" placeholder="Pick time" id="reverse-trip-time" type="text">
+
+                                <input asp-for="MainTripDate" class="form-control form-control-solid form-control-sm flatpickr-main-date" placeholder="Pick date" id="reverse-trip-time" type="text">
+
+
+                            </div>
+
+
+                        </div>
+                            
+
+                    </div>
+
+
+
+
+
+
+                <!--begin::Separator-->
+                <div class="separator separator-dashed border-gray-500 my-0"></div>
+                   <!--end::Separator-->
+
+
+    
+
+                <div class="d-flex justify-content-between">
+
+
+                    <div class="d-flex align-items-center ">
                         <!--begin::Bullet-->
-                        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex align-items-center min-h-70px mh-100 me-4 bg-warning"></span>
+                        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex align-items-center min-h-75px mh-100 me-4 bg-warning"></span>
                         <!--end::Bullet-->
                         <!--begin::Info-->
                         <div class="flex-grow-1 me-5">
                             <!--begin::Time-->
-                            <div class="text-gray-800 fw-semibold fs-2">
-                                16:30 - 17:00
-                                <span class="text-gray-500 fw-semibold fs-7">PM</span>
+                            <div class="text-gray-800 fw-semibold fs-2 d-flex gap-8">
+                                <div class="d-flex flex-column ">
+
+
+
+                                    <div class="text-muted fw-semibold fs-7">
+                                        From    
+                                    </div>
+
+                                    <div class="text-gray-800 fw-semibold fs-6">
+                                        Main Trip Start date and Time
+                                    </div>
+
+                                    <span class="text-muted fw-semibold fs-7 ">
+                                        <span class="text-success">
+                                            plus
+                                        </span>
+                                        <span class="text-danger">
+                                            @(TimeSpan.FromMinutes(Model.TripTimeSpanInMinits!.Value).ToString(@"h\:mm")) h
+                                        </span>
+                                        <span class="text-primary">
+                                            +15 min
+                                        </span>
+                                    </span>
+
+                                </div>
+
+
                             </div>
                             <!--end::Time-->
                             <!--begin::Description-->
-                            <div class="text-gray-700 fw-semibold fs-6">Dashboard UI/UX Design Review</div>
+                            <div class="text-gray-600 fw-semibold fs-6">Available time for <span class="text-gray-900 fw-semibold fs-6">Return</span> trip.</div>
                             <!--end::Description-->
-                            <!--begin::Link-->
-                            <div class="text-gray-500 fw-semibold fs-7">
-                                Lead by
-                                <!--begin::Name-->
-                                <a href="#" class="text-primary opacity-75-hover fw-semibold">Lead by Bob</a>
-                                <!--end::Name-->
-                            </div>
-                            <!--end::Link-->
+                 
                         </div>
                         <!--end::Info-->
-                
+
                     </div>
 
+                    
 
- *@
+                    <div class="d-flex flex-column mt-1 ">
 
+                            <label for="" class="form-label me-2" style="white-space: nowrap;">Return Trip :</label>
 
-                    <div class="d-flex align-items-center justify-content-center m-4">
+                        <div class="d-flex gap-4">
+                            <input asp-for="ReturnTripTime" class="form-control form-control-solid form-control-sm flatpickr-return-timr" placeholder="Pick time" id="reverse-trip-time" type="text">
 
-                        <label for="" class="form-label me-2" style="white-space: nowrap;">Main Trip :</label>
-                        <input asp-for="Time" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="trip-time" type="text">
-                    </div>
-
-                    <div class="ms-5">
-                        <div class="d-flex mt-7  ms-5">
-
-                            @* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
-
-
-                            <div class="d-flex flex-column pe-0 pe-sm-10 mb-2 text-gray-800">
-                                <!--begin::Title-->
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <span class="text-muted ">Times of scheduled trips at <span class="text-primary">date.</span></span>
-                                <!--end::Content-->
-                            </div>
-
+                            <input asp-for="ReturnTripDate" class="form-control form-control-solid form-control-sm flatpickr-return-date" placeholder="Pick date" id="reverse-trip-time" type="text">
 
 
                         </div>
-                  
-                    </div>
-
-                </div>
-
-                <div class=" align-self-start mt-5 mx-5">
-
-                    <i class="ki-solid ki-arrow-right-left  text-dark-300 fs-2tx m-0 p-0  "></i>
-
-
-
-
-
-                </div>
-
-
-                <div>
-
-
-
-
-
-                    <div class="d-flex align-items-center justify-content-center m-4">
-
-                        <label for="" class="form-label me-2" style="white-space: nowrap;">Return Trip :</label>
-                        <input asp-for="ReturnTime" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text">
-                    </div>
-
-                    <div class="ms-5">
-                        <div class="d-flex mt-7  ms-5">
-
-                            @* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
-
-
-                            <div class="d-flex flex-column pe-0 pe-sm-10 mb-2 text-gray-800">
-                                <!--begin::Title-->
-                                <!--end::Title-->
-                                <!--begin::Content-->
-                                <span class="text-muted ">Times of scheduled trips at <span class="text-primary">date.</span></span>
-                                <!--end::Content-->
-                            </div>
-
-
-
                         </div>
-            
-                    </div>
+
+
 
                 </div>
+
+
+
+    
+           
 
             </div>
 
+
+            <input asp-for="TripId" type="hidden" />
+            <input asp-for="VehicleId" type="hidden" />
 
 
 
@@ -252,8 +348,13 @@
 
 
 
-<a href="#" class="js-previous-page">
+<button href="#" class=" btn btn-primary btn-sm js-previous-page ">
 
 	Back
 
-</a>
+</button>
+
+
+
+
+

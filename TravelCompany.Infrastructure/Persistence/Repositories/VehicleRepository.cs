@@ -79,5 +79,58 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
             return vehicles;
         }
+
+        public async Task<bool> SetVehicleToTrip(AssignVehicleDTO dto)
+        {
+            bool IsSuccess = false;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                using (var command = new SqlCommand("", connection))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    //command.Parameters.AddWithValue("@TripTime", tripTime);
+                    //command.Parameters.AddWithValue("@StationId", departureStationId);
+                    //command.Parameters.AddWithValue("@TripSpanInMinits", tripSpanInMinits);
+
+
+                    try
+                    {
+                        await connection.OpenAsync();
+                        //using (var reader = await command.ExecuteReaderAsync())
+                        //{
+                        //    while (reader.Read())
+                        //    {
+                        //        IsSuccess.Add(new()
+                        //        {
+                        //            VehicleId = reader.GetInt32(reader.GetOrdinal("VehicleId")),
+                        //            VehicleNumber = reader.GetString(reader.GetOrdinal("VehicleNumber")),
+                        //            VehicleModel = reader.GetString(reader.GetOrdinal("Type")),
+                        //            IsAvailable = reader.GetInt32(reader.GetOrdinal("IsAvailable")) == 1 ? true : false,
+                        //            AvailibiltyStartTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityStartTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityStartTime")),
+                        //            AvailibiltyEndTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityEndTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityEndTime"))
+                        //        });
+                        //    }
+
+                        //}
+
+
+                    }
+                    catch
+                    {
+                        return IsSuccess;
+                    }
+
+
+                }
+
+
+            }
+
+
+            return IsSuccess;
+        }
     }
 }

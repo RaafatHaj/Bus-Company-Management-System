@@ -38,6 +38,7 @@ namespace Travel_Company_MVC.Controllers
 
 		[HttpPost]
 		public async Task< IActionResult> ScheduleNewTrips(ScheduleTripsViewModel model)
+
 		{
 
 			_validateScheuleType(model);

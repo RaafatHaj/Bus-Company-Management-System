@@ -27,9 +27,15 @@ namespace TravelCompany.Application.Services.Travels
 
 		public async Task<Trip?> FindTripByIdAsync(int tripId)
 		{
-			return await _unitOfWork.Trips.GetQueryable().SingleOrDefaultAsync(t => t.Id == tripId);
+			return await _unitOfWork.Trips.GetQueryable()
+                         .Include(t => t.Route)
+                             .ThenInclude(r => r.FirstStation)
+                         .Include(t => t.Route)
+                             .ThenInclude(r => r.LastStation)
+                         .SingleOrDefaultAsync(t => t.Id == tripId);
 
-		}
+        }
+
 
 
         public async Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId)

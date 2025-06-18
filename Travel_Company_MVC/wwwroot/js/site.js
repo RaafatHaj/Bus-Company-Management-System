@@ -183,15 +183,9 @@ function SubmitAjaxForm() {
                 try {
 
                     const url = event.target.getAttribute('data-url');
-                    const callbackName = event.target.getAttribute('data-callback');
                     const formData = new FormData(event.target);
 
-                    console.log(formData);
-
-                    for (const pair of formData.entries()) {
-                        console.log(pair[0] + ': ' + pair[1]);
-                    }
-
+               
            
                     const response = await fetch(url, {
                         method: 'POST',
@@ -205,9 +199,10 @@ function SubmitAjaxForm() {
                         if (event.target.hasAttribute('data-updete'))
                             updatedRow = event.target.closest('tr');
 
+                        const callbackFunctionName = event.target.getAttribute('data-callback');
 
-                        if (callbackName && typeof window[callbackName] === 'function') 
-                            window[callbackName](responseData, event.target);
+                        if (callbackFunctionName && typeof window[callbackFunctionName] === 'function') 
+                            window[callbackFunctionName](responseData, event.target);
 
                     }
                     else 
@@ -250,7 +245,7 @@ function RenderModal() {
                 else
                     document.getElementById("ModalDialog").classList.remove("modal-xl")
 
-                if (!response.ok)
+                    if (!response.ok)
                     throw new Error('Failed to load partial view');
 
                  html = await response.text();
@@ -417,7 +412,19 @@ function GoToNextPageAjax() {
 
             try {
 
-                const response = await fetch(button.getAttribute('data-url'));
+                //const response = await fetch(button.getAttribute('data-url'));
+
+                const jsonData = button.getAttribute('data-json-data');   
+
+                const response = await fetch(button.getAttribute('data-url'), {
+                    method: 'POST',
+                    headers: {  
+                        'Content-Type': 'application/json' // IMPORTANT!
+                    },
+                    body: jsonData
+                })
+
+
 
                 if (!response.ok)
                     throw new Error('Failed to load partial view');
@@ -426,7 +433,22 @@ function GoToNextPageAjax() {
 
                 container.innerHTML = await response.text();
 
+                //const callbackFunctionName = button.getAttribute('data-callback');
 
+                for (let callbackFunctionName of button.attributes) {
+
+                    if (callbackFunctionName.name.startsWith('data-callback-') && typeof window[callbackFunctionName.value] === 'function') {
+
+                        window[callbackFunctionName.value]();
+                        
+                    }
+                }
+
+
+                //if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
+                //    window[callbackFunctionName]();
+
+                //initilazeTimePicker();
 
             } catch {
 
@@ -456,6 +478,17 @@ function GoToPreviousPage() {
 
 }
 
+//function initilazeTimePicker() {
+//    $(".flatpickr-input").flatpickr({
+//        enableTime: true,
+//        noCalendar: true,
+//        dateFormat: "H:i",
+//    });
+//}
+
+//function initilazeDateePicker() {
+//    $(".flatpickr-date").flatpickr();
+//}
 
 RenderModal();
 RenderCard();

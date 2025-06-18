@@ -149,7 +149,7 @@
     
 
         <a href="#" class=" badge badge-light-danger hover-scale fw-bold mb-2 js-render-modal"
-           data-url="/Vehicles/GetAvailableVehicles?tripTime=@Model.Date.Add(Model.Time).ToString("o")&departureStationId=@Model.DepartureStationId&tripSpanInMinits=@Model.TripTimeSpanInMInits"
+           data-url="/Vehicles/GetAvailableVehicles?tripTime=@Model.Date.Add(Model.Time).ToString("o")&departureStationId=@Model.DepartureStationId&tripSpanInMinits=@Model.TripTimeSpanInMInits&tripId=@Model.TripId"
            data-large-modal="true"
            data-title="Availavle Vehicles"
            data-sub-title="all vehicles existed in the station at trip time.">

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AvailableTripVehicleDTO>
+﻿@using Newtonsoft.Json
+@model IEnumerable<AvailableTripVehicleDTO>
 
 	<div id="PageContainer">
 
@@ -24,25 +25,39 @@
 				{
 					<tr>
 
-						@* 	<td>
-
-					<a href="#" class="js-render-modal">
-					@vehicle.VehicleId
-					</a>
+						@{
 
 
 
-					</td> *@
+							var data = new VehicleAvalibilityViewModel();
+
+							data.VehicleId = vehicle.VehicleId;
+							data.VehicleModel = vehicle.VehicleModel;
+							data.VehicleNumber = vehicle.VehicleNumber;
+							data.AvalibilityStartDateAndTime = vehicle.AvailibiltyStartTime;
+							data.AvalibilityEndDateAndTime = vehicle.AvailibiltyEndTime;
+							data.TripId = Convert.ToInt32(TempData["TripId"]);
+
+							var jsonData = JsonConvert.SerializeObject(data);
+					
+
+				    	}
 						<td>
 							<a href="#" class="js-next-page-ajax"
-							   data-url="/Vehicles/GetVehicleAvalilbilty">
+
+							   data-url="/Vehicles/GetVehicleAvalilbilty"
+							   data-json-data="@jsonData"
+						@* 	   data-callback-1="@("initilazeTimePicker")"
+							   data-callback-2="@("initilazeMainDatePicker")"
+							   data-callback-3="@("initilazeReturnDatePicker")" *@
+							   data-callback-4="@("test")">
 								@vehicle.VehicleNumber
 							</a>
 						</td>
 							
 						<td>@vehicle.VehicleModel</td>
 						<td>@(vehicle.IsAvailable ? "Available" : "Not Available")</td>
-						<td>@(vehicle.AvailibiltyStartTime is null ? "Now" : vehicle.AvailibiltyStartTime)</td>
+						<td>@(vehicle.AvailibiltyStartTime is null ? DateTime.Now : vehicle.AvailibiltyStartTime)</td>
 						<td>@(vehicle.AvailibiltyEndTime is null ? "Open" : vehicle.AvailibiltyEndTime)</td>
 
 					</tr>

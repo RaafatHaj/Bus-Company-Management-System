@@ -74,13 +74,13 @@
 
 //}
 
-function initilazeTimePicker() {
-    $(".flatpickr-input").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-    });
-}
+//function initilazeTimePicker(test,test) {
+//    $(".flatpickr-input").flatpickr({
+//        enableTime: true,
+//        noCalendar: true,
+//        dateFormat: "H:i",
+//    });
+//}
 //$(document).ready(function () {
    
 

@@ -20,6 +20,11 @@ namespace TravelCompany.Application.Services.Vehicles
             _unitOfWork = unitOfWork;
         }
 
+        public Task<bool> AssignVehicleToTrip(AssignVehicleDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(DateTime tripTime, int departureStationId, int tripSpanInMinits)
         {
             return await _unitOfWork.Vehicles.GetAvailableVehicles(tripTime, departureStationId, tripSpanInMinits);
