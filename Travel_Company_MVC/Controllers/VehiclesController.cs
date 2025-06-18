@@ -94,12 +94,33 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> AssignVehicleToTrip( VehicleAvalibilityViewModel model)
         {
 
-            var dto = new AssignVehicleDTO();
+            var trip =await _tripService.FindTripByIdAsync(model.TripId);
 
-            dto.TripId=model.TripId;
+            if (trip == null)
+                return BadRequest(new { errorTitle = "Trip Not Found!", errorMessage = "There is no trip found , refresh the page and try again." });
+
+
+            var dto = new ScheduledTripDTO();
+
+            dto.TripId=trip.Id;
+            dto.Date = model.MainTripDate!.Value;
+            dto.Time=model.MainTripTime!.Value;
+            dto.DepartureStationId = trip.Route!.FirstStationId;
+            dto.ReturnTime=model.ReturnTripTime!.Value;
+            dto.ReturnDate=model.ReturnTripDate!.Value;
             dto.VehicleId = model.VehicleId;
-            dto.MainTripDateTime = model.MainTripDate!.Value + model.MainTripTime!.Value;
-            dto.ReturnTripDateTime = model.ReturnTripDate!.Value + model.ReturnTripTime!.Value;
+
+            var result=await _vehicleService.AssignVehicleToTripAsync(dto);
+
+            if(!result.Success)
+                return BadRequest(new { errorMessage = result.Message });
+
+            //var dto = new AssignVehicleDTO();
+
+            //dto.TripId=model.TripId;
+            //dto.VehicleId = model.VehicleId;
+            //dto.MainTripDateTime = model.MainTripDate!.Value + model.MainTripTime!.Value;
+            //dto.ReturnTripDateTime = model.ReturnTripDate!.Value + model.ReturnTripTime!.Value;
 
 
 

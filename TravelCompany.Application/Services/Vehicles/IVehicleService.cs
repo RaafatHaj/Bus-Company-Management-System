@@ -12,7 +12,7 @@ namespace TravelCompany.Application.Services.Vehicles
 
         Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(DateTime tripTime, int departureStationId, int tripSpanInMinits);
 
-        Task<bool> AssignVehicleToTrip(AssignVehicleDTO dto);
+        Task<(bool Success, string? Message, ScheduledTripDTO? Trip)> AssignVehicleToTripAsync(ScheduledTripDTO dto);
 
     }
 }

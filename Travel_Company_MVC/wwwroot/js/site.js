@@ -56,12 +56,12 @@ function InitilaizeMetronicDatatable(tableId ='#kt_datatable_dom_positioning') {
             ">"
     });
 }
-function ErrorMessage() {
+function ErrorMessage(errorMessage = "Something went wrong!", errorTitle ="Error Message") {
 
     Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!"
+        title: errorTitle,
+        text: errorMessage
     });
 }
 function SuccessMessage() {
@@ -201,12 +201,16 @@ function SubmitAjaxForm() {
 
                         const callbackFunctionName = event.target.getAttribute('data-callback');
 
-                        if (callbackFunctionName && typeof window[callbackFunctionName] === 'function') 
+                        if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
                             window[callbackFunctionName](responseData, event.target);
 
                     }
-                    else 
-                        throw new Error('Failed to load partial view');
+                    else {
+                        const errorData = await response.json(); // ← this is the key fix
+                        ErrorMessage(errorData.errorMessage, errorData.errorTitle);
+
+                    }
+  
                 }
                 catch {
                     ErrorMessage();

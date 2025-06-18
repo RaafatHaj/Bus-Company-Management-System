@@ -1,4 +1,5 @@
-﻿@model VehicleAvalibilityViewModel;
+﻿@using TravelCompany.Domain.Const
+@model VehicleAvalibilityViewModel;
 
 
 
@@ -281,7 +282,7 @@
                                             @(TimeSpan.FromMinutes(Model.TripTimeSpanInMinits!.Value).ToString(@"h\:mm")) h
                                         </span>
                                         <span class="text-primary">
-                                            +15 min
+                                            +@(AppConsts.MinBreak) min
                                         </span>
                                     </span>
 

@@ -24,6 +24,7 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<TripAssignment> TripAssignments { get; set; }
         public DbSet<Week> Weeks { get; set; }
+        public DbSet<ApplicationConst> ApplicationConsts { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder builder)
