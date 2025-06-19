@@ -27,6 +27,8 @@ namespace TravelCompany.Application.Services.Travels
 
 		public async Task<Trip?> FindTripByIdAsync(int tripId)
 		{
+			
+
 			return await _unitOfWork.Trips.GetQueryable()
                          .Include(t => t.Route)
                              .ThenInclude(r => r.FirstStation)

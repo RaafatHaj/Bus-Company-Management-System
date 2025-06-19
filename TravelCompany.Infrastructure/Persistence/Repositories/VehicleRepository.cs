@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TravelCompany.Application.Common.Interfaces.Repositories;
@@ -80,47 +81,45 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             return vehicles;
         }
 
-        public async Task<bool> SetVehicleToTrip(AssignVehicleDTO dto)
+        public async Task<(bool Success,int ReturnTrpId)> SetVehicleForTrip(ScheduledTripDTO dto)
         {
             bool IsSuccess = false;
+            int ReturnTrpId = 0;
+
             using (var connection = new SqlConnection(_connectionString))
             {
 
-                using (var command = new SqlCommand("", connection))
+                using (var command = new SqlCommand("sp_AssignVehicleToTrip", connection))
                 {
 
                     command.CommandType = CommandType.StoredProcedure;
 
-                    //command.Parameters.AddWithValue("@TripTime", tripTime);
-                    //command.Parameters.AddWithValue("@StationId", departureStationId);
-                    //command.Parameters.AddWithValue("@TripSpanInMinits", tripSpanInMinits);
+                    command.Parameters.AddWithValue("@TripId", dto.TripId);
+                    command.Parameters.AddWithValue("@VehicleId", dto.VehicleId);
+                    command.Parameters.AddWithValue("@MainTripDateTime", dto.Date + dto.Time);
+                    command.Parameters.AddWithValue("@ReturnTripDateTime", dto.ReturnDate + dto.ReturnTime);
+
+
+                    
+                    command.Parameters.Add(new SqlParameter("@IsAssigend", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+                    command.Parameters.Add(new SqlParameter("@ReturnTripId", SqlDbType.Int) { Direction = ParameterDirection.Output });
+
 
 
                     try
                     {
                         await connection.OpenAsync();
-                        //using (var reader = await command.ExecuteReaderAsync())
-                        //{
-                        //    while (reader.Read())
-                        //    {
-                        //        IsSuccess.Add(new()
-                        //        {
-                        //            VehicleId = reader.GetInt32(reader.GetOrdinal("VehicleId")),
-                        //            VehicleNumber = reader.GetString(reader.GetOrdinal("VehicleNumber")),
-                        //            VehicleModel = reader.GetString(reader.GetOrdinal("Type")),
-                        //            IsAvailable = reader.GetInt32(reader.GetOrdinal("IsAvailable")) == 1 ? true : false,
-                        //            AvailibiltyStartTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityStartTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityStartTime")),
-                        //            AvailibiltyEndTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityEndTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityEndTime"))
-                        //        });
-                        //    }
 
-                        //}
+                        await command.ExecuteNonQueryAsync();
+
+                        IsSuccess = (bool)command.Parameters["@IsAssigend"].Value;
+                        ReturnTrpId = (int)command.Parameters["@ReturnTripId"].Value;
 
 
                     }
                     catch
                     {
-                        return IsSuccess;
+                        return (IsSuccess,0);
                     }
 
 
@@ -130,7 +129,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             }
 
 
-            return IsSuccess;
+            return (IsSuccess, ReturnTrpId);
         }
     }
 }
