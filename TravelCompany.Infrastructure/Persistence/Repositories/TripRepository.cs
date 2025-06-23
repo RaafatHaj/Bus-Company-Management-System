@@ -152,9 +152,9 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 		}
 
 
-		public async Task<IEnumerable<Trip>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto)
+		public async Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto)
 		{
-			var trips = new List<Trip>();
+			var trips = new List<ScheduledTripBaseDTO>();
 
 			using (var connection = new SqlConnection(_connectionString))
 			{
@@ -192,17 +192,22 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 							{
 								trips.Add(new()
 								{
-									Id = reader.GetInt32(reader.GetOrdinal("Id")),
+									TripId = reader.GetInt32(reader.GetOrdinal("Id")),
 									Date = reader.GetDateTime(reader.GetOrdinal("Date")),
 									Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
-									status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
+									Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
 									RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
 									Seats = reader.GetInt32(reader.GetOrdinal("Seats")),
 									HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
 									StatusCode = reader.GetInt64(reader.GetOrdinal("StatusCode")),
-									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId"))
+									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
+                                    DepartureStationId= reader.GetInt32(reader.GetOrdinal("FirstStationId")),
+									TripTimeSpanInMInits= reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
+									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+									VehicleNUmber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
+									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
 
-								});
+                                });
 							}
 
 						}

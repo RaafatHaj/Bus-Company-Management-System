@@ -11,7 +11,9 @@
                 <th></th>
                 <th>Return</th>
                 <th></th>
-                <th>Vehicle</th>
+                <th><span class="ms-5">
+                        Vehicle
+                </span></th>
                 <th>Actions</th>
         
 
@@ -23,7 +25,7 @@
             @foreach(var trip in Model)
             {
 
-                <partial name="_ScheduledTripRow" model="@trip" />
+                <partial name="~/Views/Trips/_ScheduledTripRow.cshtml" model="@trip" />
 
             }
 

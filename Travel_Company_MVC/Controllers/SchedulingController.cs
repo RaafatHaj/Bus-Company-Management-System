@@ -57,8 +57,9 @@ namespace Travel_Company_MVC.Controllers
 			var tripsModel = _setTripsModel(result.Data!);
 
 
-            TempData["Trips"] = JsonConvert.SerializeObject(tripsModel);
-            return RedirectToAction("ScheduledTrips", "Trips");
+            //TempData["Trips"] = JsonConvert.SerializeObject(tripsModel);
+  //          return RedirectToAction("ScheduledTrips", "Trips",tripsModel);
+            return View("~/Views/Trips/ScheduledTrips.cshtml", tripsModel);
 
 
 
@@ -85,7 +86,7 @@ namespace Travel_Company_MVC.Controllers
 
 		}
 
-		private IEnumerable<ScheduledTripViewModel>_setTripsModel(IEnumerable<Trip> trips)
+		private IEnumerable<ScheduledTripViewModel>_setTripsModel(IEnumerable<ScheduledTripBaseDTO> trips)
 		{
 			var tripsModel = new List<ScheduledTripViewModel>();
 
@@ -93,37 +94,27 @@ namespace Travel_Company_MVC.Controllers
 
 			foreach (var trip in mainTrips)
 			{
-				var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.Id);
+				var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.TripId);
 
-				if (returnTrip != null)
-				{
+                tripsModel.Add(new()
+                {
+                    TripId = trip.TripId,
+                    Date = trip.Date,
+                    Time = trip.Time,
+                    Status = trip.Status,
+                    DepartureStationId = trip.DepartureStationId,
+                    TripTimeSpanInMInits = trip.TripTimeSpanInMInits,
+                    VehicleId = trip.VehicleId,
+                    VehicleNumber = trip.VehicleNUmber,
+                    VehicleModel = trip.VehicleModel,
 
-					tripsModel.Add(new()
-					{
-						TripId = trip.Id,
-						Date = trip.Date,
-						Time = trip.Time,
-						Status = trip.status,
+                    ReturnTripId = returnTrip?.TripId,
+                    ReturnDate = returnTrip?.Date,
+                    ReturnTime = returnTrip?.Time,
+                    ReturnStatus = returnTrip?.Status
 
-                        ReturnTripId = returnTrip.Id,
-						ReturnDate = returnTrip.Date,
-						ReturnTime = returnTrip.Time,
-						ReturnStatus = returnTrip.status
+                });
 
-					});
-				}
-				else
-				{
-
-					tripsModel.Add(new()
-					{
-						TripId = trip.Id,
-						Date = trip.Date,
-						Time = trip.Time,
-						Status = trip.status
-
-                    });
-				}
 
 
 			}

@@ -38,33 +38,45 @@ namespace TravelCompany.Application.Services.Vehicles
             var resule = await _unitOfWork.Vehicles.SetVehicleForTrip(dto);
 
             if (!resule.Success)
-                return (false, "Some thing went worn on data base level.", null);
+                return (false, resule.ErrorMessage, null);
 
 
 
-            var mianTrip= await _tripService.FindTripByIdAsync(dto.TripId);
+            var mainTrip= await _tripService.FindTripByIdAsync(dto.TripId);
             var returnTrip = await _tripService.FindTripByIdAsync(resule.ReturnTrpId);
 
-            if(mianTrip is null || returnTrip is null)
-                return (false, "Some thing went worn on data base level.", null);
+            if(mainTrip is null || returnTrip is null)
+                return (false, "Some thing went worng on data base level.", null);
 
 
 
             var trip = new ScheduledTripDTO
             {
 
-                TripId= mianTrip.Id,
-                Date= mianTrip.Date,
-                Time= mianTrip.Time,
-                DepartureStationId= mianTrip.Route!.FirstStationId,
-                Status= mianTrip.status,
+                TripId = mainTrip.Id,
+                Date = mainTrip.Date,
+                Time = mainTrip.Time,
+                DepartureStationId = mainTrip.Route!.FirstStationId,
+                TripTimeSpanInMInits = mainTrip.Route.EstimatedTime,
+                Status = mainTrip.status,
+                MainTripId = mainTrip.MainTripId,
 
-                ReturnTripId=returnTrip.Id,
-                ReturnTime=returnTrip.Time,
-                ReturnDate= returnTrip.Date,
-                ReturnStatus= returnTrip.status,
 
-                VehicleId=dto.VehicleId
+                VehicleId = mainTrip.TripAssignment?.VehicleId,
+                VehicleNUmber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
+                VehicleModel=mainTrip.TripAssignment?.Vehicle?.Type,
+
+                RouteId=mainTrip.RouteId,
+                Seats=mainTrip.Seats,
+                HasBookedSeat=mainTrip.HasBookedSeat,
+                StatusCode=mainTrip.StatusCode,
+
+
+                ReturnTripId =returnTrip?.Id,
+                ReturnTime=returnTrip?.Time,
+                ReturnDate= returnTrip?.Date,
+                ReturnStatus= returnTrip?.status,
+
             };
 
             return (true, "Vehicle assigned successfully.", trip);

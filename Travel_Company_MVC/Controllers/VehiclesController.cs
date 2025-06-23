@@ -94,7 +94,7 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> AssignVehicleToTrip( VehicleAvalibilityViewModel model)
         {
 
-            var trip =await _tripService.FindTripByIdAsync(model.TripId);
+            var trip =await _tripService.FindTripByIdAsync(model.TripId );
 
             if (trip == null)
                 return BadRequest(new { errorTitle = "Trip Not Found!", errorMessage = "There is no trip found , refresh the page and try again." });
@@ -115,6 +115,27 @@ namespace Travel_Company_MVC.Controllers
             if(!result.Success)
                 return BadRequest(new { errorMessage = result.Message });
 
+
+            var assignedTrip = new ScheduledTripViewModel
+            {
+                TripId=result.Trip!.TripId,
+                Date = result.Trip!.Date,
+                Time = result.Trip!.Time,
+                DepartureStationId= result.Trip!.DepartureStationId,
+                TripTimeSpanInMInits= result.Trip!.TripTimeSpanInMInits,
+                Status= result.Trip!.Status,
+
+                ReturnTripId=result.Trip!.ReturnTripId,
+                ReturnDate=result.Trip!.ReturnDate,
+                ReturnTime=result.Trip!.ReturnTime,
+                ReturnStatus=result.Trip!.ReturnStatus,
+
+                VehicleId= result.Trip!.VehicleId,
+                VehicleNumber= result.Trip!.VehicleNUmber,
+                VehicleModel= result.Trip!.VehicleModel
+
+            };
+
             //var dto = new AssignVehicleDTO();
 
             //dto.TripId=model.TripId;
@@ -124,7 +145,7 @@ namespace Travel_Company_MVC.Controllers
 
 
 
-            return Ok();
+            return PartialView("~/Views/Trips/_ScheduledTripRow.cshtml", assignedTrip);
 
         }
 

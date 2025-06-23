@@ -81,10 +81,11 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             return vehicles;
         }
 
-        public async Task<(bool Success,int ReturnTrpId)> SetVehicleForTrip(ScheduledTripDTO dto)
+        public async Task<(bool Success,int ReturnTrpId , string ErrorMessage)> SetVehicleForTrip(ScheduledTripDTO dto)
         {
-            bool IsSuccess = false;
-            int ReturnTrpId = 0;
+            bool isSuccess = false;
+            int returnTrpId = 0;
+            string errorMesssage = "";
 
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -103,6 +104,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
                     
                     command.Parameters.Add(new SqlParameter("@IsAssigend", SqlDbType.Bit) { Direction = ParameterDirection.Output });
                     command.Parameters.Add(new SqlParameter("@ReturnTripId", SqlDbType.Int) { Direction = ParameterDirection.Output });
+                    command.Parameters.Add(new SqlParameter("@ErrorMessage", SqlDbType.NVarChar,500) { Direction = ParameterDirection.Output });
 
 
 
@@ -112,14 +114,15 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
                         await command.ExecuteNonQueryAsync();
 
-                        IsSuccess = (bool)command.Parameters["@IsAssigend"].Value;
-                        ReturnTrpId = (int)command.Parameters["@ReturnTripId"].Value;
+                        isSuccess = (bool)command.Parameters["@IsAssigend"].Value;
+                        returnTrpId = (int)command.Parameters["@ReturnTripId"].Value;
+                        errorMesssage = (string)command.Parameters["@ErrorMessage"].Value;
 
 
                     }
-                    catch
+                    catch (Exception ex) 
                     {
-                        return (IsSuccess,0);
+                        return (isSuccess,0, ex.Message);
                     }
 
 
@@ -129,7 +132,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             }
 
 
-            return (IsSuccess, ReturnTrpId);
+            return (isSuccess, returnTrpId, errorMesssage);
         }
     }
 }

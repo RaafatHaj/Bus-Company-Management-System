@@ -34,7 +34,7 @@ namespace TravelCompany.Domain.Entities
         //public bool IsIrregular { get; set; }
         public int? MainTripId { get; set; }
 
-
+        public TripAssignment? TripAssignment { get; set; }
 
         public ICollection<TravelStation> Details { get; set; } =new List<TravelStation>();
 

@@ -32,17 +32,21 @@ namespace TravelCompany.Infrastructure.Persistence
 
             builder.Entity<RoutePoint>().HasKey(e => new {e.RouteId,e.PointId});
             builder.Entity<TravelStation>().HasKey(e => new {e.ScheduledTravelId,e.StationOrder});
-          
 
-            //	builder.Entity<Travel>()
-            // .Property(o => o.ScheduleDuration)
-            // .HasConversion<int>();
 
-            //	builder.Entity<Travel>()
-            //.Property(o => o.ScheduleType)
-            //.HasConversion<int>();
+			//	builder.Entity<Travel>()
+			// .Property(o => o.ScheduleDuration)
+			// .HasConversion<int>();
 
-    
+			//	builder.Entity<Travel>()
+			//.Property(o => o.ScheduleType)
+			//.HasConversion<int>();
+
+			builder.Entity<Trip>()
+	    	.HasOne(t => t.TripAssignment)
+	    	.WithOne(ta => ta.Trip)
+	    	.HasForeignKey<TripAssignment>(ta => ta.TripId)
+	    	.OnDelete(DeleteBehavior.Restrict); // optional
 
 			builder.Entity<Recurring>()
 		    .Property(e => e.StartDate)

@@ -27,15 +27,25 @@ namespace TravelCompany.Application.Services.Travels
 
 		public async Task<Trip?> FindTripByIdAsync(int tripId)
 		{
-			
 
+
+			//var query=  _unitOfWork.Trips.GetQueryable()
+   //                      .Include(t => t.Route).ThenInclude(r => r.FirstStation)
+   //                      .Include(t => t.Route).ThenInclude(r => r.LastStation)
+   //                      .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
+			//			 .AsNoTracking().SingleOrDefaultAsync();
+
+			//if (asNoTracking)
+			//	query.AsNoTracking();
+
+
+
+			//return await query.SingleOrDefaultAsync();
 			return await _unitOfWork.Trips.GetQueryable()
-                         .Include(t => t.Route)
-                             .ThenInclude(r => r.FirstStation)
-                         .Include(t => t.Route)
-                             .ThenInclude(r => r.LastStation)
-                         .SingleOrDefaultAsync(t => t.Id == tripId);
-
+                         .Include(t => t.Route).ThenInclude(r => r.FirstStation)
+                         .Include(t => t.Route).ThenInclude(r => r.LastStation)
+                         .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
+                         .AsNoTracking().SingleOrDefaultAsync(t=>t.Id==tripId);
         }
 
 
@@ -89,11 +99,14 @@ namespace TravelCompany.Application.Services.Travels
 
         public async Task<IEnumerable<Trip>> RetriveAllTripsAsync()
 		{
-			return await _unitOfWork.Trips.GetQueryable().Include(t => t.Route).ToListAsync();
+			return await _unitOfWork.Trips.GetQueryable()
+				.Include(t => t.Route)
+				.Include(t=>t.TripAssignment).ThenInclude(a=>a.Vehicle).AsNoTracking()
+				.ToListAsync();
 			//return await _unitOfWork.Trips.GetAllTripsAsync();
 		}
 
-		public async Task<(bool Success, IEnumerable<Trip>? Data)> ScheduleTripsAsync(ScheduleDTO schedule)
+		public async Task<(bool Success, IEnumerable<ScheduledTripBaseDTO>? Data)> ScheduleTripsAsync(ScheduleDTO schedule)
 		{
 
 			if(schedule.RecurringPattern==RecurringType.Daily)
@@ -111,21 +124,21 @@ namespace TravelCompany.Application.Services.Travels
 			else if (schedule.RecurringPattern==RecurringType.Weekly)
 			{
 
-				var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForDaysInWeekAsync(schedule);
+				//var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForDaysInWeekAsync(schedule);
 
-				if (scheduledTrips != null)
-					return (true, scheduledTrips);
-				else
+				//if (scheduledTrips != null)
+				//	return (true, scheduledTrips);
+				//else
 					return (false, null);
 			}
 			else
 			{
 
-				var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForSpecificDatesAsync(schedule);
+				//var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForSpecificDatesAsync(schedule);
 
-				if (scheduledTrips != null)
-					return (true, scheduledTrips);
-				else
+				//if (scheduledTrips != null)
+				//	return (true, scheduledTrips);
+				//else
 					return (false, null);
 
 			}

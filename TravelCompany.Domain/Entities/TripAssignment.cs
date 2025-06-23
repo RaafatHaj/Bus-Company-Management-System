@@ -9,8 +9,8 @@ namespace TravelCompany.Domain.Entities
     public class TripAssignment
     {
         public int Id { get; set; }
-        public int ScheduledTripId { get; set; }
-        public Trip? ScheduledTrip { get; set; }
+        public int TripId { get; set; }
+        public Trip? Trip { get; set; }
 
         public int VehicleId { get; set; }
         public Vehicle? Vehicle { get; set; }

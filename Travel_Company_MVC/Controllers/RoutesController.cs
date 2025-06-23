@@ -35,6 +35,11 @@ namespace Travel_Company_MVC.Controllers
 			return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Create ()
+        {
+            return View();
+        }
 
 		[HttpGet]
 		public async Task<IActionResult> GetRouteStations(int routeID)
@@ -74,13 +79,6 @@ namespace Travel_Company_MVC.Controllers
 		}
 
 
-		[HttpGet]
-        public IActionResult Create()
-        {
-
-
-            return View();
-        }
 
         [HttpGet]
         public async Task<IActionResult> FetchAllRoutes()

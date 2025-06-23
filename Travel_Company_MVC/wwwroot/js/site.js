@@ -1,10 +1,12 @@
 ﻿
 var updatedRow;
 var html;
+const table = InitilaizeMetronicDatatable();
 
 function addRowToTable(newRow, form) {
 
-
+    console.log(updatedRow);
+    console.log(newRow);
 
     if (updatedRow !== undefined) {
 
@@ -18,8 +20,11 @@ function addRowToTable(newRow, form) {
 
 
     let jqueryElement = $(newRow)
-
     const row = table.row.add(jqueryElement).draw().node();
+
+
+  
+
 
     $(row).addClass("animate__animated animate__fadeInDown ").one('animationend', function () {
         $(this).removeClass("animate__animated animate__fadeInDown ");
@@ -64,12 +69,12 @@ function ErrorMessage(errorMessage = "Something went wrong!", errorTitle ="Error
         text: errorMessage
     });
 }
-function SuccessMessage() {
+function SuccessMessage(message ='Done successfully ..') {
 
     Swal.fire({
         icon: "success",
         title: "Successed",
-        text: "it is successed"
+        text: message
     });
 }
 function ConfirmationMessage(title = "Confirming", message = "Are you sure would you like to confirm ?") {
@@ -204,6 +209,17 @@ function SubmitAjaxForm() {
                         if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
                             window[callbackFunctionName](responseData, event.target);
 
+
+
+                        if (event.target.hasAttribute('success-message')) {
+
+                            SuccessMessage(event.target.getAttribute('success-message'));
+                        }
+                      
+
+
+                        HideModal();
+
                     }
                     else {
                         const errorData = await response.json(); // ← this is the key fix
@@ -244,6 +260,10 @@ function RenderModal() {
 
                 const response = await fetch(button.getAttribute('data-url'));
 
+                if (button.hasAttribute('data-updete'))
+                    updatedRow = event.target.closest('tr');
+
+
                 if (button.hasAttribute("data-large-modal"))
                     document.getElementById("ModalDialog").classList.add("modal-xl")
                 else
@@ -257,15 +277,15 @@ function RenderModal() {
             
                 
 
-                if (event.target.hasAttribute('data-updete')) 
+                if (button.hasAttribute('data-updete')) 
                     updatedRow = event.target.closest('tr');
 
-            
+            console.log(updatedRow)
 
-                if (event.target.hasAttribute('data-title')) 
+                if (button.hasAttribute('data-title')) 
                     document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
 
-                if (event.target.hasAttribute('data-sub-title'))
+                if (button.hasAttribute('data-sub-title'))
                     document.getElementById("ModalSubTitle").innerHTML = button.getAttribute("data-sub-title");
 
                 let modalBody = document.getElementById("modal-body");
@@ -503,4 +523,3 @@ handleTableChiled();
 GoToNextPageAjax();
 GoToPreviousPage();
 
-const table = InitilaizeMetronicDatatable();

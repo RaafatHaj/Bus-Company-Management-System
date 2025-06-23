@@ -13,7 +13,7 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 
 		Task<IEnumerable<Trip>> GetAllTripsAsync();
 		Task<IEnumerable<Trip>> ScheduleTripsForDaysInWeekAsync(ScheduleDTO dto);
-		Task<IEnumerable<Trip>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto);
+		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto);
 
 		Task<IEnumerable<Trip>> ScheduleTripsForSpecificDatesAsync(ScheduleDTO dto);
 

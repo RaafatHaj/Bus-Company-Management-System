@@ -10,7 +10,7 @@ namespace TravelCompany.Application.Services.Travels
 		//  [sp_GetTravelByTravelTimeAndRouteId]
 		//Task<SchedulingResult> ScheduleNewTravelsAsync(ScheduleDTO schedule);
 		Task<IEnumerable<Trip>> RetriveAllTripsAsync();
-		Task<(bool Success, IEnumerable<Trip>? Data)> ScheduleTripsAsync(ScheduleDTO schedule);
+		Task<(bool Success, IEnumerable<ScheduledTripBaseDTO>? Data)> ScheduleTripsAsync(ScheduleDTO schedule);
         Task<Trip?> FindTripByIdAsync(int tripId);
         Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId);
         Task<(bool Success, Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto);

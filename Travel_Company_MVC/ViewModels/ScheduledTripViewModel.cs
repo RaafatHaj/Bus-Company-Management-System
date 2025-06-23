@@ -16,6 +16,9 @@
 		public TimeSpan? ReturnTime { get; set; }
 		public TripStatus? ReturnStatus { get; set; }
 
+		public int? VehicleId { get; set; }
+		public string? VehicleNumber { get; set; }
+		public string? VehicleModel { get; set; }
 
 	}
 }

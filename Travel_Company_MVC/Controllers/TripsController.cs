@@ -53,6 +53,8 @@ namespace Travel_Company_MVC.Controllers
         public async Task< IActionResult> ScheduledTrips()
         {
 
+
+
             if (TempData["Trips"] is string tripsJson)
             {
                 var tripsModel = JsonConvert.DeserializeObject<IEnumerable<ScheduledTripViewModel>>(tripsJson);
@@ -181,9 +183,6 @@ namespace Travel_Company_MVC.Controllers
             {
                 var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.Id);
 
-                if (returnTrip != null)
-                {
-
                     tripsModel.Add(new()
                     {
                         TripId = trip.Id,
@@ -192,27 +191,17 @@ namespace Travel_Company_MVC.Controllers
                         Status = trip.status,
                         DepartureStationId=trip.Route!.FirstStationId,
                         TripTimeSpanInMInits=trip.Route!.EstimatedTime,
+                        VehicleId=trip.TripAssignment?.VehicleId,
+                        VehicleNumber=trip.TripAssignment?.Vehicle?.VehicleNumber,
+                        VehicleModel=trip.TripAssignment?.Vehicle?.Type,
 
-                        ReturnTripId = returnTrip.Id,
-                        ReturnDate = returnTrip.Date,
-                        ReturnTime = returnTrip.Time,
-                        ReturnStatus = returnTrip.status
+                        ReturnTripId = returnTrip?.Id,
+                        ReturnDate = returnTrip?.Date,
+                        ReturnTime = returnTrip?.Time,
+                        ReturnStatus = returnTrip?.status
 
                     });
-                }
-                else
-                {
-
-                    tripsModel.Add(new()
-                    {
-                        TripId = trip.Id,
-                        Date = trip.Date,
-                        Time = trip.Time,
-                        Status = trip.status,
-                        DepartureStationId = trip.Route!.FirstStationId,
-                        TripTimeSpanInMInits = trip.Route!.EstimatedTime,
-                    });
-                }
+           
 
 
             }
