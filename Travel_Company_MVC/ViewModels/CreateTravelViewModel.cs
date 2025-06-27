@@ -45,7 +45,7 @@ namespace Travel_Company_MVC.ViewModels
 
 
 		[Display(Name = "Schedule Type"), Required(ErrorMessage = Errors.RequiredFiled)]
-		public RecurringType SelectedScheduleType { get; set; }
+		public PatternType SelectedScheduleType { get; set; }
 		public IEnumerable<SelectListItem>? ScheduleTypes { get; set; } = null!;
 
 

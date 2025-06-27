@@ -10,6 +10,6 @@ namespace TravelCompany.Application.Services.Recurrings
     public interface IRecurringServcie
     {
 
-        Task<IEnumerable<Recurring>> GetRouteTripPattern(int routeId);
+        //Task<IEnumerable<TripPattern>> GetRouteTripPattern(int routeId);
     }
 }

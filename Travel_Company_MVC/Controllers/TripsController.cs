@@ -31,21 +31,23 @@ namespace Travel_Company_MVC.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetRouteTripPattern(int routeId)
-        {
+        //[HttpGet]
+        //public async Task<IActionResult> GetRouteTripPattern(int routeId)
+        //{
 
-            return PartialView("_RouteTrips",await _recurringService.GetRouteTripPattern(routeId));
-        }
+        //    return PartialView("_RouteTrips");
+        //    //return PartialView("_RouteTrips",await _recurringService.GetRouteTripPattern(routeId));
+        //}
 
 
         [HttpGet]
         public async Task<IActionResult> GetRouteTripsPatters(int routeId)
         {
 
-            var pattern = await _recurringService.GetRouteTripPattern(routeId);
+            //var pattern = await _recurringService.GetRouteTripPattern(routeId);
 
-            return PartialView("Views/Routes/_RouteTrips.cshtml", pattern);
+            //return PartialView("Views/Routes/_RouteTrips.cshtml", pattern);
+            return PartialView("Views/Routes/_RouteTrips.cshtml");
 
         }
 

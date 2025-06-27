@@ -36,7 +36,7 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public ITripRepository Trips => new TripRepository(_context , _connectionStrings.DefaultConnection);
 
-        public IBaseRepository<Recurring> Recurrings => new BaseRepository<Recurring>(_context);
+        //public IBaseRepository<TripPattern> Recurrings => new BaseRepository<TripPattern>(_context);
 
         public IVehicleRepository Vehicles => new VehicleRepository(_context, _connectionStrings.DefaultConnection);
 

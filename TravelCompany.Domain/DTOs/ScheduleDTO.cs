@@ -13,7 +13,7 @@ namespace TravelCompany.Domain.DTOs
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public ScheduleDuration? ScheduleDuration { get; set; }
-        public RecurringType RecurringPattern { get; set; }
+        public PatternType RecurringPattern { get; set; }
         public DataTable? WeekDays { get; set; }
         public DataTable? CustomDates { get; set; }
 

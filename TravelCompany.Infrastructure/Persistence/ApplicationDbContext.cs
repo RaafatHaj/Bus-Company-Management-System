@@ -18,7 +18,7 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TravelStation> TravelStations { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<Recurring> Recurrings { get; set; }
+        public DbSet<TripPattern> TripPatterns { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
@@ -34,27 +34,31 @@ namespace TravelCompany.Infrastructure.Persistence
             builder.Entity<TravelStation>().HasKey(e => new {e.ScheduledTravelId,e.StationOrder});
 
 
-			//	builder.Entity<Travel>()
-			// .Property(o => o.ScheduleDuration)
-			// .HasConversion<int>();
+            builder.Entity<TripPattern>()
+               .HasIndex(p => new { p.RouteId , p.Time })
+               .IsUnique();
 
-			//	builder.Entity<Travel>()
-			//.Property(o => o.ScheduleType)
-			//.HasConversion<int>();
+            //	builder.Entity<Travel>()
+            // .Property(o => o.ScheduleDuration)
+            // .HasConversion<int>();
 
-			builder.Entity<Trip>()
+            //	builder.Entity<Travel>()
+            //.Property(o => o.ScheduleType)
+            //.HasConversion<int>();
+
+            builder.Entity<Trip>()
 	    	.HasOne(t => t.TripAssignment)
 	    	.WithOne(ta => ta.Trip)
 	    	.HasForeignKey<TripAssignment>(ta => ta.TripId)
 	    	.OnDelete(DeleteBehavior.Restrict); // optional
 
-			builder.Entity<Recurring>()
-		    .Property(e => e.StartDate)
-		    .HasColumnType("date");
+			//builder.Entity<TripPattern>()
+		 //   .Property(e => e.StartDate)
+		 //   .HasColumnType("date");
 
-            builder.Entity<Recurring>()
-            .Property(e => e.EndDate)
-            .HasColumnType("date");
+   //         builder.Entity<TripPattern>()
+   //         .Property(e => e.EndDate)
+   //         .HasColumnType("date");
 
             builder.Entity<Driver>()
             .Property(e => e.LicenseExpiry)

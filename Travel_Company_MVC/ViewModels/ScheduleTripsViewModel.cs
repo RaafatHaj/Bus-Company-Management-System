@@ -28,25 +28,25 @@ namespace Travel_Company_MVC.ViewModels
 
 
 		[Display(Name = "Recurring Pattern"), Required(ErrorMessage = Errors.RequiredFiled)]
-		public RecurringType RecurringPattern { get; set; }
+		public PatternType RecurringPattern { get; set; }
 
 
 
 		[Display(Name = "Start Date")]
         //[AssertThat("StartDate >= Today()")]
-		[RequiredIf(" RecurringPattern!=RecurringType.Custom ", ErrorMessage = Errors.ScheduleDatesRequired)]
+		[RequiredIf(" RecurringPattern!=PatternType.Custom ", ErrorMessage = Errors.ScheduleDatesRequired)]
 		public DateTime? StartDate { get; set; }
 
 
 		[Display(Name = "End Date")]
 		//[AssertThat("EndDate > StartDate")]
-		[RequiredIf(" RecurringPattern!=RecurringType.Custom && ScheduleDuration==null ", ErrorMessage = Errors.ScheduleDatesRequired)]
+		[RequiredIf(" RecurringPattern!=PatternType.Custom && ScheduleDuration==null ", ErrorMessage = Errors.ScheduleDatesRequired)]
 		public DateTime? EndDate { get; set; }
 
 
 
 		[Display(Name = "Schedule Duration")]
-		[RequiredIf(" RecurringPattern!=RecurringType.Custom && EndDate==null", ErrorMessage = Errors.ScheduleDatesRequired)]
+		[RequiredIf(" RecurringPattern!=PatternType.Custom && EndDate==null", ErrorMessage = Errors.ScheduleDatesRequired)]
 		public ScheduleDuration? ScheduleDuration { get; set; }
 		public IEnumerable<SelectListItem>? Durations { get; set; } = null!;
 
@@ -56,7 +56,7 @@ namespace Travel_Company_MVC.ViewModels
 		//public string? JsonDates { get; set; }
 
 
-		[RequiredIf(" RecurringPattern==RecurringType.Custom ", ErrorMessage = Errors.ScheduleDatesRequired)]
+		[RequiredIf(" RecurringPattern==PatternType.Custom ", ErrorMessage = Errors.ScheduleDatesRequired)]
 		public IList<DateTime>? CustomDates { get; set; } 
 
 

@@ -16,7 +16,7 @@ namespace TravelCompany.Application.Common.Interfaces
         IBaseRepository<Station> Stations { get; }
         IBaseRepository<route> Routes { get; }
         ITripRepository Trips { get; }
-        IBaseRepository<Recurring> Recurrings { get; }
+        //IBaseRepository<TripPattern> Recurrings { get; }
         IScheduledTravelRepository  ScheduledTravels { get; }
         IBaseRepository<RoutePoint> RoutePoints { get; }
         IBaseRepository <TravelStation> TravelStations { get; }

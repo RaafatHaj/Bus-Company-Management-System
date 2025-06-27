@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250623211009_deleteWeekAndPatternEntities")]
+    partial class deleteWeekAndPatternEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -485,49 +488,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.ToTable("TripAssignments");
                 });
 
-            modelBuilder.Entity("TravelCompany.Domain.Entities.TripPattern", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("OccupiedWeekDaysCode")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PatternType")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Percentage")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RouteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
-                    b.Property<int?>("TripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UnassignedTripsNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RouteId", "Time")
-                        .IsUnique();
-
-                    b.ToTable("TripPatterns");
-                });
-
             modelBuilder.Entity("TravelCompany.Domain.Entities.Vehicle", b =>
                 {
                     b.Property<int>("VehicleId")
@@ -558,42 +518,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.HasIndex("StationId");
 
                     b.ToTable("Vehicles");
-                });
-
-            modelBuilder.Entity("TravelCompany.Domain.Entities.Week", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OccupiedDaysCode")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TripPatternId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnassignedTripsNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeekOrder")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TripPatternId");
-
-                    b.ToTable("Weeks");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.route", b =>
@@ -926,17 +850,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("TravelCompany.Domain.Entities.TripPattern", b =>
-                {
-                    b.HasOne("TravelCompany.Domain.Entities.route", "Route")
-                        .WithMany()
-                        .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Route");
-                });
-
             modelBuilder.Entity("TravelCompany.Domain.Entities.Vehicle", b =>
                 {
                     b.HasOne("TravelCompany.Domain.Entities.Station", "Station")
@@ -946,17 +859,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .IsRequired();
 
                     b.Navigation("Station");
-                });
-
-            modelBuilder.Entity("TravelCompany.Domain.Entities.Week", b =>
-                {
-                    b.HasOne("TravelCompany.Domain.Entities.TripPattern", "TripPattern")
-                        .WithMany("Weeks")
-                        .HasForeignKey("TripPatternId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TripPattern");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.route", b =>
@@ -997,11 +899,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Details");
 
                     b.Navigation("TripAssignment");
-                });
-
-            modelBuilder.Entity("TravelCompany.Domain.Entities.TripPattern", b =>
-                {
-                    b.Navigation("Weeks");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Vehicle", b =>

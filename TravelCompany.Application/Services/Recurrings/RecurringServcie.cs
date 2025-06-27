@@ -22,76 +22,77 @@ namespace TravelCompany.Application.Services.Recurrings
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Recurring>> GetRouteTripPattern(int routeId)
-        {
-            return await _unitOfWork.Recurrings.GetQueryable()
-                          .Where(r => r.RouteId == routeId)
-                          .ToListAsync();
-        }
+
+        //public async Task<IEnumerable<TripPattern>> GetRouteTripPattern(int routeId)
+        //{
+        //    return await _unitOfWork.Recurrings.GetQueryable()
+        //                  .Where(r => r.RouteId == routeId)
+        //                  .ToListAsync();
+        //}
 
 
-        public async Task<bool> SetRecurringPattern(IList<SetRecurringDTO> patterns)
-        {
+        //public async Task<bool> SetRecurringPattern(IList<SetRecurringDTO> patterns)
+        //{
 
-            await _unitOfWork.BeginTransactionAsync();
+        //    await _unitOfWork.BeginTransactionAsync();
 
-            try
-            {
-                foreach (var pattern in patterns)
-                {
-                    var startingDate = await _unitOfWork.Recurrings.GetQueryable()
-                                             .Where(r => r.RouteId == pattern.RouteId && r.Time == pattern.Time)
-                                             .Select(r => r.StartDate)
-                                             .SingleOrDefaultAsync();
+        //    try
+        //    {
+        //        foreach (var pattern in patterns)
+        //        {
+        //            var startingDate = await _unitOfWork.Recurrings.GetQueryable()
+        //                                     .Where(r => r.RouteId == pattern.RouteId && r.Time == pattern.Time)
+        //                                     .Select(r => r.StartDate)
+        //                                     .SingleOrDefaultAsync();
 
-                    if (startingDate == null)
-                        startingDate = pattern.StartDate;
-
-
-
-                    var trips = await _unitOfWork.Trips.GetQueryable()
-                                      .Where(t=> t.RouteId==pattern.RouteId && t.Time==pattern.Time && t.Date >= startingDate)
-                                      .ToListAsync();
-
-                    var tripDateSet = new HashSet<DateTime>(trips.Select(d => d.Date.Date));
-
-                    DateTime minDate = tripDateSet.Min();
-                    DateTime maxDate = tripDateSet.Max();
+        //            if (startingDate == null)
+        //                startingDate = pattern.StartDate;
 
 
-                    // _tripRepository.Add(trip) etc.
-                }
 
-                await _unitOfWork.CommitTransactionAsync();
-                return true;
-            }
-            catch
-            {
-                await _unitOfWork.RollbackTransactionAsync();
-                return false;
-                throw;
-            }
+        //            var trips = await _unitOfWork.Trips.GetQueryable()
+        //                              .Where(t=> t.RouteId==pattern.RouteId && t.Time==pattern.Time && t.Date >= startingDate)
+        //                              .ToListAsync();
+
+        //            var tripDateSet = new HashSet<DateTime>(trips.Select(d => d.Date.Date));
+
+        //            DateTime minDate = tripDateSet.Min();
+        //            DateTime maxDate = tripDateSet.Max();
 
 
-            //using var transaction = await _dbContext.Database.BeginTransactionAsync();
-            //try
-            //{
-            //    foreach (var trip in trips)
-            //    {
-            //        // Set up recurring based on trip
-            //        // _dbContext.Recurrings.Add(new Recurring { ... });
-            //    }
+        //            // _tripRepository.Add(trip) etc.
+        //        }
 
-            //    await _dbContext.SaveChangesAsync();
-            //    await transaction.CommitAsync();
-            //    return true;
-            //}
-            //catch (Exception)
-            //{
-            //    await transaction.RollbackAsync();
-            //    return false;
-            //}
-        }
+        //        await _unitOfWork.CommitTransactionAsync();
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        await _unitOfWork.RollbackTransactionAsync();
+        //        return false;
+        //        throw;
+        //    }
+
+
+        //    //using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        //    //try
+        //    //{
+        //    //    foreach (var trip in trips)
+        //    //    {
+        //    //        // Set up recurring based on trip
+        //    //        // _dbContext.Recurrings.Add(new Recurring { ... });
+        //    //    }
+
+        //    //    await _dbContext.SaveChangesAsync();
+        //    //    await transaction.CommitAsync();
+        //    //    return true;
+        //    //}
+        //    //catch (Exception)
+        //    //{
+        //    //    await transaction.RollbackAsync();
+        //    //    return false;
+        //    //}
+        //}
 
         class Program
         {

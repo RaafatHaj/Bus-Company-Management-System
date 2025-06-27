@@ -208,8 +208,8 @@
 
 							<!--begin::Option-->
 							<div class="d-flex">
-							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@RecurringType.Daily" id="kt_radio_buttons_2_option_@RecurringType.Daily" disabled />
-							<label for="kt_radio_buttons_2_option_@RecurringType.Daily" class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" >
+							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@PatternType.Daily" id="kt_radio_buttons_2_option_@PatternType.Daily" disabled />
+							<label for="kt_radio_buttons_2_option_@PatternType.Daily" class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" >
 								<i class="ki-solid ki-abstract-8  ms-2 "></i>
 
 								<span class="text-gray-900 btn-active-color-primary ">Every Single Day</span>
@@ -224,8 +224,8 @@
 							<!--end::Option-->
 							<!--begin::Option-->
 							<div class="d-flex">
-							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@RecurringType.Weekly"  id="kt_radio_buttons_2_option_@RecurringType.Weekly" disabled />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2 " for="kt_radio_buttons_2_option_@RecurringType.Weekly">
+							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@PatternType.Weekly"  id="kt_radio_buttons_2_option_@PatternType.Weekly" disabled />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2 " for="kt_radio_buttons_2_option_@PatternType.Weekly">
 
 
 								<i class="ki-solid ki-abstract-8  ms-2 "></i>
@@ -239,8 +239,8 @@
 							<!--end::Option-->
 				    		<!--begin::Option-->
 				    		<div class="d-flex">
-							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio custom-recurring" value="@RecurringType.Custom" id="kt_radio_buttons_4_option_@RecurringType.Custom" disabled />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_4_option_@RecurringType.Custom">
+							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio custom-recurring" value="@PatternType.Custom" id="kt_radio_buttons_4_option_@PatternType.Custom" disabled />
+							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_4_option_@PatternType.Custom">
 								<i class="ki-solid ki-abstract-8  ms-2"></i>
 
 								<span class="text-gray-900 btn-active-color-primary ">Custom Schedule</span>
@@ -396,9 +396,9 @@
 
 
 </form>
-<template id="template-recurring-@RecurringType.Daily"></template>
+<template id="template-recurring-@PatternType.Daily"></template>
 
-<template id="template-recurring-@RecurringType.Weekly">
+<template id="template-recurring-@PatternType.Weekly">
 
 	<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
 
@@ -533,7 +533,7 @@
 
 </template>
 
-<template id="template-recurring-@RecurringType.Custom">
+<template id="template-recurring-@PatternType.Custom">
 
 
 

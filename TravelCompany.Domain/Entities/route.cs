@@ -23,7 +23,7 @@ namespace TravelCompany.Domain.Entities
         public int EstimatedTime { get; set; }
         public int EstimatedDistance { get; set; }
 
-		public ICollection<Recurring> RouteRecurrings { get; set; } = new List<Recurring>();
+		//public ICollection<TripPattern> RouteRecurrings { get; set; } = new List<TripPattern>();
 		public ICollection<Trip> Trips { get; set; } = new List<Trip>();
 
 

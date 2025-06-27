@@ -124,7 +124,7 @@ namespace Travel_Company_MVC.Controllers
 		private void _validateScheuleType(CreateTravelViewModel model)
         {
 
-            if (model.SelectedScheduleType == RecurringType.Weekly)
+            if (model.SelectedScheduleType == PatternType.Weekly)
             {
                 if (!model.WeekDays!.Any(d => d.IsSelected == true))
                     ModelState.AddModelError("WeekDays", "Wrong");
@@ -146,7 +146,7 @@ namespace Travel_Company_MVC.Controllers
 			dto.CustomDates = DataTables.GetCustomDatesTable();
 			dto.WeekDays = DataTables.GetWeekDaysTable();
 
-			if (model.SelectedScheduleType == RecurringType.Weekly)
+			if (model.SelectedScheduleType == PatternType.Weekly)
             {
                 // dto.Days = DataTables.GetDaysTable();
 
@@ -165,7 +165,7 @@ namespace Travel_Company_MVC.Controllers
             //    foreach (var day in days)
             //        dto.Days.Rows.Add(day);
             //}
-            else if (model.SelectedScheduleType == RecurringType.Custom)
+            else if (model.SelectedScheduleType == PatternType.Custom)
             {
                 // dto.Dates = DataTables.GetDatesTable();
 
@@ -204,9 +204,9 @@ namespace Travel_Company_MVC.Controllers
 
             model.ScheduleTypes = new List<SelectListItem>
             {
-                         new(){  Value=(RecurringType.Daily).ToString(),   Text="Every Single Day" },
-                         new(){  Value=(RecurringType.Custom).ToString(),   Text="Certain Dates"  },
-                         new(){  Value=(RecurringType.Weekly).ToString(),   Text="Certain Days in Week"  },
+                         new(){  Value=(PatternType.Daily).ToString(),   Text="Every Single Day" },
+                         new(){  Value=(PatternType.Custom).ToString(),   Text="Certain Dates"  },
+                         new(){  Value=(PatternType.Weekly).ToString(),   Text="Certain Days in Week"  },
                          //new(){  Value=(RecurringType.Monthly).ToString(),   Text="Certain Days in Month"  },
 
             };

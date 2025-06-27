@@ -12,10 +12,10 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
     {
 
 		Task<IEnumerable<Trip>> GetAllTripsAsync();
-		Task<IEnumerable<Trip>> ScheduleTripsForDaysInWeekAsync(ScheduleDTO dto);
+		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForDaysInWeekAsync(ScheduleDTO dto);
 		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto);
 
-		Task<IEnumerable<Trip>> ScheduleTripsForSpecificDatesAsync(ScheduleDTO dto);
+		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForSpecificDatesAsync(ScheduleDTO dto);
 
 	}
 }

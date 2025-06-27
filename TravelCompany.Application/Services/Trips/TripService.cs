@@ -1,12 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelCompany.Application.Common.Interfaces;
-using TravelCompany.Application.Common.Responses;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
 using TravelCompany.Domain.Eums;
@@ -86,8 +79,8 @@ namespace TravelCompany.Application.Services.Travels
 			//var newTrip = await _unitOfWork.Trips.GetQueryable().add
 
 
-            trip.Date = dto.Date;
-            trip.Time = dto.Time;
+            trip!.Date = dto.Date;
+            trip!.Time = dto.Time;
 
             await _unitOfWork.SaveAsync();
 
@@ -109,7 +102,7 @@ namespace TravelCompany.Application.Services.Travels
 		public async Task<(bool Success, IEnumerable<ScheduledTripBaseDTO>? Data)> ScheduleTripsAsync(ScheduleDTO schedule)
 		{
 
-			if(schedule.RecurringPattern==RecurringType.Daily)
+			if(schedule.RecurringPattern==PatternType.Daily)
 			{
 
 				var scheduledTrips= await _unitOfWork.Trips.ScheduleTripsForEverySingleDayAsync(schedule);
@@ -121,24 +114,24 @@ namespace TravelCompany.Application.Services.Travels
 
 		
 			}
-			else if (schedule.RecurringPattern==RecurringType.Weekly)
+			else if (schedule.RecurringPattern==PatternType.Weekly)
 			{
 
-				//var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForDaysInWeekAsync(schedule);
+				var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForDaysInWeekAsync(schedule);
 
-				//if (scheduledTrips != null)
-				//	return (true, scheduledTrips);
-				//else
+				if (scheduledTrips != null)
+					return (true, scheduledTrips);
+				else
 					return (false, null);
 			}
 			else
 			{
 
-				//var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForSpecificDatesAsync(schedule);
+				var scheduledTrips = await _unitOfWork.Trips.ScheduleTripsForSpecificDatesAsync(schedule);
 
-				//if (scheduledTrips != null)
-				//	return (true, scheduledTrips);
-				//else
+				if (scheduledTrips != null)
+					return (true, scheduledTrips);
+				else
 					return (false, null);
 
 			}

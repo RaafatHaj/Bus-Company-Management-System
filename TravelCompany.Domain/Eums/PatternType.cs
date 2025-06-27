@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TravelCompany.Domain.Eums
 {
-	public enum RecurringType
+	public enum PatternType
 	{
 
         //Daily, Weekly, Monthly, Irregular
@@ -16,7 +16,8 @@ namespace TravelCompany.Domain.Eums
 
 		Daily=1,
 		Weekly=2,
-		Custom = 3
+		Custom = 3,
+		Mixed=4
 
 	}
 }

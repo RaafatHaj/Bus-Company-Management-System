@@ -71,7 +71,7 @@ namespace Travel_Company_MVC.Controllers
 		private void _validateScheuleType(ScheduleTripsViewModel model)
 		{
 
-			if (model.RecurringPattern == RecurringType.Weekly)
+			if (model.RecurringPattern == PatternType.Weekly)
 			{
 				if (!model.WeekDays!.Any(d => d.IsSelected == true))
 					ModelState.AddModelError("WeekDays", "Wrong");
@@ -128,7 +128,7 @@ namespace Travel_Company_MVC.Controllers
 			dto.CustomDates = DataTables.GetCustomDatesTable();
 			dto.WeekDays = DataTables.GetWeekDaysTable();
 
-			if (model.RecurringPattern == RecurringType.Weekly)
+			if (model.RecurringPattern == PatternType.Weekly)
 			{
 				// dto.Days = DataTables.GetDaysTable();
 
@@ -147,7 +147,7 @@ namespace Travel_Company_MVC.Controllers
 			//    foreach (var day in days)
 			//        dto.Days.Rows.Add(day);
 			//}
-			else if (model.RecurringPattern == RecurringType.Custom)
+			else if (model.RecurringPattern == PatternType.Custom)
 			{
 				// dto.Dates = DataTables.GetDatesTable();
 
