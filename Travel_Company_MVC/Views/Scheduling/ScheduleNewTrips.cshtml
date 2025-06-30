@@ -3,10 +3,6 @@
 @model ScheduleTripsViewModel;
 
 
-
-
-
-
 @section Styles {
 
 
@@ -87,7 +83,9 @@
 
 
 							<a id="add-route-button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
-						   data-large-modal="true" data-url="/Routes/FetchAllRoutes" data-has-table="true"
+						   data-large-modal="true" data-url="/Routes/FetchAllRoutes" 
+						   data-has-table="true"
+					       data-table-id="Routes_List_Table"
 							data-title="Routes List"
 							data-sub-title="select trip route from routes list , or create new one.">
 							<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
@@ -106,7 +104,7 @@
 				<!--end::Route-->
 
 
-				<div id="trips-patterns" >
+				<div id="trips-patterns"  >
 
 
 				</div>
@@ -162,24 +160,34 @@
 					</div>
 
 					<div class="d-flex flex-wrap ">
-						<div class="d-flex">
-						<div class="m-4">
+						<div class="d-flex flex-column">
+							<div class="d-flex">
+								<div class="m-4">
 
-							<label asp-for="@Model.DepartureTime" class="form-label required">Departure Time</label>
-							<input asp-for="@Model.DepartureTime" class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly" disabled>
-							<span asp-validation-for="@Model.DepartureTime" class="text-danger d-block"></span>
+									<label asp-for="@Model.DepartureTime" class="form-label required">Departure Time</label>
+									<input asp-for="@Model.DepartureTime" class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly" disabled>
+									<span asp-validation-for="@Model.DepartureTime" class="text-danger d-block"></span>
+
+
+
+								</div>
+
+
+
+							</div>
+							<div id="pattern_exists" class="ms-3 mt-5">
+							</div>
+
 						</div>
 
-						</div>
-
-					<div class="d-flex">
+				@* 	<div class="d-flex">
 						<div class="m-4">
 
 							<label asp-for="@Model.ReturnTime" class="form-label required">Return Time</label> 
 							<input asp-for="@Model.ReturnTime" class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" readonly="readonly" disabled>
 							<span asp-validation-for="@Model.ReturnTime" class="text-danger d-block"></span>
 						</div>
-					</div>
+					</div> *@
 					</div>
 
 
@@ -358,6 +366,11 @@
 
 						</div>
 			
+					</div>
+
+					<div id="editing_checkbox">
+
+
 					</div>
 
 				</div>
@@ -691,7 +704,6 @@
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
 
-	<script src="~/js/routesindex.js"></script>
 
 	<script src="~/js/scheduling.js"></script>
 

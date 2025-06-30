@@ -77,8 +77,64 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 		}
 
+        public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeks(RetrivePatternWeeksDTO dto)
+        {
+            var trips = new List<PatternWeekDTO>();
 
-		public async Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForDaysInWeekAsync(ScheduleDTO dto)
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                using (var command = new SqlCommand("sp_GetPatternWeeks", connection))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@RouteId", dto.RouteId);
+                    command.Parameters.AddWithValue("@Time", dto.Time);
+                    command.Parameters.AddWithValue("@StartDate", dto.StartDate);
+                    command.Parameters.AddWithValue("@EndDate", dto.EndDate);
+
+                    try
+                    {
+                        await connection.OpenAsync();
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (reader.Read())
+                            {
+                                trips.Add(new()
+                                {
+                                    WeekOrder = reader.GetInt32(reader.GetOrdinal("WeekOrder")),
+                                    StartDate = reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                                    EndDate = reader.GetDateTime(reader.GetOrdinal("EndDate")),
+                                    OccupiedWeekDaysCode = reader.GetInt32(reader.GetOrdinal("OccupaiedWeekDaysCode")),
+                                    UnassignedTrips = reader.GetInt32(reader.GetOrdinal("UnassignedTrips")),
+                                    AllTrips = reader.GetInt32(reader.GetOrdinal("AllTrips")),
+
+
+
+                                });
+                            }
+
+                        }
+
+
+                    }
+                    catch
+                    {
+                        return trips;
+                    }
+
+
+                }
+
+
+            }
+
+
+            return trips;
+        }
+
+        public async Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForDaysInWeekAsync(ScheduleDTO dto)
 		{
 			var trips = new List<ScheduledTripBaseDTO>();
 

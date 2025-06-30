@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Runtime.CompilerServices;
 using TravelCompany.Application.Services.Recurrings;
 using TravelCompany.Application.Services.Travels;
-using TravelCompany.Domain.DTOs;
 
 namespace Travel_Company_MVC.Controllers
 {
-    [Authorize]
+	[Authorize]
     public class TripsController : Controller
     {
 
@@ -30,26 +28,6 @@ namespace Travel_Company_MVC.Controllers
             return View();
         }
 
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetRouteTripPattern(int routeId)
-        //{
-
-        //    return PartialView("_RouteTrips");
-        //    //return PartialView("_RouteTrips",await _recurringService.GetRouteTripPattern(routeId));
-        //}
-
-
-        [HttpGet]
-        public async Task<IActionResult> GetRouteTripsPatters(int routeId)
-        {
-
-            //var pattern = await _recurringService.GetRouteTripPattern(routeId);
-
-            //return PartialView("Views/Routes/_RouteTrips.cshtml", pattern);
-            return PartialView("Views/Routes/_RouteTrips.cshtml");
-
-        }
 
         [HttpGet]
         public async Task< IActionResult> ScheduledTrips()
@@ -137,6 +115,40 @@ namespace Travel_Company_MVC.Controllers
             return PartialView("_ScheduledTripRow", model);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTripsPatterns(int routeId = 1)
+        {
+
+            var patterns =await  _tripService.GetTripsPattern(routeId);
+
+            var model = _mapper.Map<IEnumerable<TripsPatternViewModel>>(patterns);
+
+            return View("TripsPatterns", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRouteTripsPatters(int routeId)
+        {
+
+			var patterns = await _tripService.GetTripsPattern(routeId);
+
+			var model = _mapper.Map<IEnumerable<TripsPatternViewModel>>(patterns);
+
+			return PartialView("_TripsPatterns" , model);
+            //return PartialView("_RouteTrips",await _recurringService.GetRouteTripPattern(routeId));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetPatternWeeks([FromBody] RetrivePatternWeeksDTO dto)
+        {
+
+            var weeks = await _tripService.GetPatternWeeksAsync(dto);
+
+            return PartialView("_TripPatternWeeks", weeks);
+        }
+
+        /// Private Methods ////////////////////////////////////////////////////////////////////////////
 
         private ScheduledTripViewModel _setTripTimigDetailsModel(Trip mainTrip , Trip? returnTrip)
         {

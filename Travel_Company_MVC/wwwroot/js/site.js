@@ -1,7 +1,7 @@
 ﻿
 var updatedRow;
 var html;
-const table = InitilaizeMetronicDatatable();
+/*const table = InitilaizeMetronicDatatable();*/
 
 function addRowToTable(newRow, form) {
 
@@ -34,31 +34,59 @@ function addRowToTable(newRow, form) {
  //   SuccessMessage();
     HideModal();
 }
-function InitilaizeDatatable() {
 
-
-    return new DataTable('#kt_datatable_dom_positioning');
+function testtt(tableId) {
+    table = InitilaizeMetronicDatatable(tableId);
 }
-function InitilaizeMetronicDatatable(tableId ='#kt_datatable_dom_positioning') {
+function InitilaizeDatatable(tableId = '#kt_datatable_dom_positioning') {
 
 
-   // $("#kt_datatable_dom_positioning").DataTable({
-   return $(tableId).DataTable({
-        "language": {
-            "lengthMenu": "Show _MENU_",
-        },
-        "dom":
-            "<'row mb-2'" +
-            "<'col-sm-6 d-flex align-items-center justify-conten-start dt-toolbar'l>" +
-            "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar'f>" +
-            ">" +
+    return new DataTable(tableId);
+}
+function InitilaizeMetronicDatatable(tableId ='Data_Table') {
+    $(document).ready(function () {
 
-            "<'table-responsive'tr>" +
+        // Store DataTable instance in a variable
+        const table = $('#' + tableId).DataTable({
+            language: {
+                lengthMenu: "Show _MENU_",
+            },
+            dom:
+                "<'row mb-2 mt-2 me-2'" +
+                "<'col-sm-6 d-flex align-items-center justify-conten-start dt-toolbar xxx'l>" +
+                "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar 'f>" +
+                ">" +
 
-            "<'row mt-5'" +
-            "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
-            "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
-            ">"
+                "<'table-responsive'tr>" +
+
+                "<'row mt-5'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">"
+        });
+
+        //// Create the dropdown
+        //const $dropdown = $(`
+        //    <select id="statusFilter" class="form-select form-select-sm ms-19" style="width: auto;">
+        //        <option value="">All Statuses</option>
+        //        <option value="Pending">Pending</option>
+        //        <option value="Unassigned">Unassigned</option>
+        //    </select>
+        //`);
+
+
+        //// Append dropdown inside the custom search container
+
+        //$('.xxx').append($dropdown2);
+
+        //// The index of your status column (0-based)
+        //const statusColumnIndex = 1; // adjust if needed
+
+        //// Bind change event on dropdown, using the table variable
+        //$('#statusFilter').on('change', function () {
+        //    const value = $(this).val();
+        //    table.column(statusColumnIndex).search(value).draw();
+        //});
     });
 }
 function ErrorMessage(errorMessage = "Something went wrong!", errorTitle ="Error Message") {
@@ -293,8 +321,14 @@ function RenderModal() {
                 modalBody.innerHTML = html;
                 
 
-                if (button.hasAttribute('data-has-table'))
-                    InitilaizeMetronicDatatable();
+                if (button.hasAttribute('data-has-table')) {
+
+                    let tableId = button.getAttribute('data-table-id')
+                    //testtt(tableId)
+                    InitilaizeMetronicDatatable(tableId);
+                  //  InitilaizeDatatable(tableId);
+
+                }
                 // Reinitialize validation
                 $.validator.unobtrusive.parse(modalBody);
 
@@ -311,80 +345,185 @@ function RenderModal() {
     })
 
 }
+
 function handleTableChiled() {
-
-    // let table = $('#kt_datatable_dom_positioning').DataTable();
-
-    document.querySelector('#kt_datatable_dom_positioning tbody').addEventListener('click', async function (e) {
-
-
+    document.body.addEventListener('click', async function (e) {
 
         if (e.target.closest(".js-table-chiled")) {
 
             let tr = e.target.closest('tr');
             if (!tr) return;
 
-            //let detailsJson = tr.getAttribute("data-details");
+            let button = e.target.closest('a');
 
-            //let detailsObject = JSON.parse(detailsJson);
+            // Dynamically get the correct DataTable instance
+            let dt = $(tr).closest('table').DataTable();
+            let row = dt.row(tr);
 
-            let row = table.row(tr);
-
+            // If this row is already open, just close it
             if (row.child.isShown()) {
-                row.child.hide();
-                // Animate hiding
                 $('.child-slide', row.child()).slideUp(50, function () {
-                    row.child.hide(); // Hide the DataTable row after animation completes
+                    row.child.hide();
                 });
-            } else {
+            } 
+            else {
+                // ❗Close any other open child row
+                dt.rows().every(function () {
+                    if (this.child.isShown()) {
+                        this.child.hide();
+                    }
+                });
+
+
 
                 try {
+                    const url = button.getAttribute('data-url');
+                    let response;
 
-
-                    let test = e.target.closest('a').getAttribute('data-url');
-                    const response = await fetch(e.target.closest('a').getAttribute('data-url'));
-
-
+                    if (button.hasAttribute('data-json-data')) {
+                        const jsonData = button.getAttribute('data-json-data');
+                        response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: jsonData
+                        });
+                    } else {
+                        response = await fetch(url);
+                    }
 
                     if (!response.ok)
                         throw new Error('Failed to load partial view');
 
-                     html = await response.text();
-
-
-
+                    let html = await response.text();
                     row.child(html).show();
 
-                    //$('.child-slide', row.child()).slideDown(600); // Animate it
+                    // Optional animation (make sure child has class `child-slide` if you want this)
+                    // $('.child-slide', row.child()).slideDown(200);
+
                     initilazeTimePicker();
-                    // Reinitialize validation
                     $.validator.unobtrusive.parse(tr.nextElementSibling);
-
-
-                } catch {
-
-
+                } catch (err) {
+                    console.error('Child row load error:', err);
                 }
-
-
-
-
-
-
 
             }
         }
-
-
-
-
-
-
-
-
     });
-
 }
+
+
+//function handleTableChiled() {
+
+//    // let table = $('#kt_datatable_dom_positioning').DataTable();
+
+//    document.body.addEventListener('click', async function (e) {
+//    //document.querySelector('#kt_datatable_dom_positioning tbody').addEventListener('click', async function (e) {
+
+
+
+//        if (e.target.closest(".js-table-chiled")) {
+
+//            let tr = e.target.closest('tr');
+//            if (!tr) return;
+
+//            let button = e.target.closest('a');
+
+//            //let detailsJson = tr.getAttribute("data-details");
+
+//            //let detailsObject = JSON.parse(detailsJson);
+
+//            let dt = $(tr).closest('table').DataTable();
+//            let row = dt.row(tr);
+
+//            //let row = table.row(tr);
+
+//            console.log(row);
+//            console.log(tr);
+
+//            if (row.child.isShown()) {
+//                row.child.hide();
+//                // Animate hiding
+//                $('.child-slide', row.child()).slideUp(50, function () {
+//                    row.child.hide(); // Hide the DataTable row after animation completes
+//                });
+//            }
+//        } else {
+//            // ❗Close any other open child row
+//            dt.rows().every(function () {
+//                if (this.child.isShown()) {
+//                    this.child.hide();
+//                }
+//            });
+
+
+
+
+
+
+//                try {
+
+
+//                    const url = button.getAttribute('data-url');
+
+//                    let response;
+
+//                    if (button.hasAttribute('data-json-data')) {
+
+//                        const jsonData = button.getAttribute('data-json-data');
+
+//                         response = await fetch(url, {
+//                            method: 'POST',
+//                            headers: {
+//                                'Content-Type': 'application/json' // IMPORTANT!
+//                            },
+//                            body: jsonData
+//                        })
+
+//                    }
+//                    else 
+//                        response = await fetch(url);
+
+
+
+//                    if (!response.ok)
+//                        throw new Error('Failed to load partial view');
+
+//                     html = await response.text();
+
+
+
+//                    row.child(html).show();
+
+//                    initilazeTimePicker();
+//                    $.validator.unobtrusive.parse(tr.nextElementSibling);
+
+
+//                } catch {
+
+
+//                }
+
+
+
+
+
+
+
+            
+//        }
+
+
+
+
+
+
+
+
+//    });
+
+//}
 function RenderCard() {
 
     document.body.addEventListener('click', async function (event) {

@@ -24,8 +24,16 @@
 
 	<div class="col-md-8  h-500px p-2">
 
-	
-			<table id="kt_datatable_dom_positioning" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+@* 		@{
+			var tableId = "test";
+			if (Model.ISFromScheduling)
+			{
+				tableId = "routes-list-table";
+			}
+			
+		} *@
+
+		<table id="Routes_List_Table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
 				<thead>
 					<tr class="fw-bold fs-6 text-gray-800 px-7">
 						<th></th>

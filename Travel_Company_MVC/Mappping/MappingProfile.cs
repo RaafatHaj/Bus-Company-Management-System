@@ -23,6 +23,7 @@ namespace Travel_Company_MVC.Mappping
 
 
             CreateMap<Trip, TripViewModel>().ReverseMap();
+            CreateMap<TripPattern, TripsPatternViewModel>().ReverseMap();
 
            
 

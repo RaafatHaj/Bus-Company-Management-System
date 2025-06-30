@@ -123,8 +123,7 @@
 
         <div class="separator separator-dashed border-gray  my-10"></div>
 
-
-
+   
         <partial name="~/Views/Trips/_ScheduledTrips.cshtml" model="@Model" />
 	</div>
 </div>
@@ -143,10 +142,11 @@
 
 @section Scripts {
 
+    <script>
+        InitilaizeMetronicDatatable('Scheduled_Trips_Table');
 
-	<script src="~/js/routesindex.js"></script>
+    </script>
 
-    <script src="~/js/scheduledtrips.js" ></script>
     <script src="~/js/VehicleAvalibility.js"></script>
 
 

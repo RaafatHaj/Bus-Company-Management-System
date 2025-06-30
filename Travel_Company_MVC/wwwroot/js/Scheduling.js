@@ -1,5 +1,5 @@
 ﻿
-
+var tripsTimings;
 // Handling Templates ...
 document.querySelectorAll('.recurring-radio').forEach(radio => {
     radio.addEventListener('change', function () {
@@ -143,7 +143,6 @@ async function  getRouteTripRecurringPatterns(url) {
 
             throw new Error('Failed to load partial view');
 
-            console.log(response)
         }
 
         const html = await response.text();
@@ -151,7 +150,20 @@ async function  getRouteTripRecurringPatterns(url) {
 
         document.getElementById("trips-patterns").innerHTML = html;
 
-        InitilaizeMetronicDatatable('#route_scheduled_trips_patterns');  
+        let timings = document.getElementById("patterns_timings");
+
+
+        tripsTimings = undefined;
+
+        if (timings)
+            tripsTimings = JSON.parse(timings.value); 
+
+        console.log(tripsTimings);
+
+
+        InitilaizeMetronicDatatable('Trips_Patterns_Table');  
+
+        KTMenu.createInstances();
 
     } catch {
 
@@ -172,6 +184,23 @@ function enableFilds() {
 
     card.classList.remove('opacity-50');
 }
+
+//document.getElementById('trip-time').addEventListener('change', function (event) {
+
+//    //tripsTimings
+//    let box = document.getElementById('tripsTimings');
+
+//    if (tripsTimings && tripsTimings.includes(this.value)) {
+
+
+//        box.innerHTML = `<h1>Done</h1>`
+
+//    }
+//    else
+//        box.innerHTML = "";
+
+
+//})
 document.body.addEventListener('click', async function (event) {
 
     if (event.target && event.target.closest('.js-select-route')) {
@@ -194,19 +223,21 @@ document.body.addEventListener('click', async function (event) {
 
             const html = await response.text();
 
-
-            document.getElementById('route-background').className = 'd-flex border border-dashed rounded';
-            const addButton = document.getElementById('add-route-button');
-            addButton.className = 'btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 ms-20  js-render-modal animate__animated animate__fadeInDown ';
-            addButton.innerHTML =`     <i class="ki-duotone ki-pencil fs-2 ">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>`
+            HandleAddRouteButton();
             document.getElementById("route-details").innerHTML = html;
 
 
-            const url = btn.getAttribute('date-recurring-patterns-url');
+            const url = btn.getAttribute('data-trips-patterns-url');
             getRouteTripRecurringPatterns(url);
+
+            //$('#kt_datatable_dom_positioning').DataTable().destroy();
+            //let test = document.getElementById('testttt');
+            //console.log(test);
+
+            //InitilaizeMetronicDatatable(test); 
+
+
+
 
 
         } catch {
@@ -220,7 +251,16 @@ document.body.addEventListener('click', async function (event) {
     }
 })
 
+function HandleAddRouteButton() {
 
+    document.getElementById('route-background').className = 'd-flex border border-dashed rounded';
+    const addButton = document.getElementById('add-route-button');
+    addButton.className = 'btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 ms-20  js-render-modal animate__animated animate__fadeInDown ';
+    addButton.innerHTML = `     <i class="ki-duotone ki-pencil fs-2 ">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>`
+}
 
 //InitilaizeMetronicDatatable();
 
@@ -231,6 +271,34 @@ $(document).ready(function () {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",
+        onChange: function (selectedDates, dateStr, instance) {
+        
+            //tripsTimings
+            let box = document.getElementById('pattern_exists');
+            let editBox = document.getElementById('editing_checkbox');
+            let fullTime = dateStr + ":00";
+            console.log("Time selected:", fullTime);
+
+            if (tripsTimings && tripsTimings.includes(fullTime)) {
+
+
+                box.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-danger">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
+`
+                editBox.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-danger">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
+`;
+
+            }
+            else {
+
+                box.innerHTML = "";
+                editBox.innerHTML = "";
+            }
+     
+
+
+
+            // You can also access selectedDates[0] as a Date object
+        }
     });
 
     $("#reverse-trip-time").flatpickr({

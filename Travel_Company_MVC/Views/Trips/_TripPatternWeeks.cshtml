@@ -1,0 +1,96 @@
+﻿@model IList<PatternWeekDTO>
+
+@* <div class="d-flex justify-content-end py-6 px-9">
+	<button type="submit" class="btn btn-primary btn-sm ">Submit</button>
+</div>
+ *@
+<div class=" scroll-y h-300px px-10 ">
+
+
+	<table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+		<thead class="">
+			<tr class="fw-bold fs-6 text-gray-800 px-7">
+				@* 	<th>VehicleId</th> *@
+				<th>Week Order</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Days</th>
+				<th>Trips</th>
+				<th></th>
+
+			</tr>
+		</thead>
+		<tbody>
+
+			@{
+
+				var colors = new[] { "bg-primary",  "bg-warning" };
+				var bulletColor = "bg-primary";
+				var index = 0;
+			}
+
+			@for (int i= 0; i < Model.Count; i++)
+			{
+				<tr>
+
+					@{
+						if (i != 0)
+						{
+							if (Model[i].OccupiedWeekDaysCode != Model[i - 1].OccupiedWeekDaysCode)
+							{
+								index = index == 0 ? 1 : 0;
+								// index = index + 1 == 2 ? 0 : index + 1;
+								bulletColor = colors[index];
+							}
+						}
+					
+
+						var weekOrder = "th";
+						if (Model[i].WeekOrder == 1) weekOrder = "st";
+						else if (Model[i].WeekOrder == 2) weekOrder = "nd";
+						else if (Model[i].WeekOrder == 3) weekOrder = "rd";
+					}
+
+					
+					<td>
+						<div class=" d-flex gap-1">
+							<span class="bullet bullet-dot  @bulletColor me-1 mt-2  "></span>
+							<span>@Model[i].WeekOrder </span>
+							<span class="text-muted">@weekOrder</span>
+
+						</div>
+					</td>
+
+					<td>@Model[i].StartDate.ToString("dd MMM yyyy")</td>
+					<td>@Model[i].EndDate.ToString("dd MMM yyyy")</td>
+					<td>
+
+						<div class="d-flex gap-4 ms">
+
+							<div class="text-muted  fs-7">Mon</div>
+							<div class="text-primary  fs-7">Tue</div>
+							<div class="text-muted  fs-7d">Wed</div>
+							<div class="text-primary  fs-7">Thu</div>
+							<div class="text-primary  fs-7">Fri</div>
+							<div class="text-muted  fs-7">Sat</div>
+							<div class="text-primary  fs-7">Sun</div>
+
+						</div>
+						
+@* 						@Model[i].OccupiedWeekDaysCode
+ *@						
+					
+					</td>
+					<td>@Model[i].UnassignedTrips <span class="text-muted">Unassingned</span></td>
+					<td>@Model[i].AllTrips <span class="text-muted">Total</span></td>
+
+				</tr>
+			}
+
+
+
+		</tbody>
+	</table>
+
+
+</div>

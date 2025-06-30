@@ -40,7 +40,9 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public IVehicleRepository Vehicles => new VehicleRepository(_context, _connectionStrings.DefaultConnection);
 
-        public async Task BeginTransactionAsync()
+		public IBaseRepository<TripPattern> TripPatterns => new BaseRepository<TripPattern>(_context);
+
+		public async Task BeginTransactionAsync()
         {
             if (_currentTransaction != null) return; // Already started
             _currentTransaction = await _context.Database.BeginTransactionAsync();

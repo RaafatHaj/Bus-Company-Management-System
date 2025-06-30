@@ -67,7 +67,8 @@ namespace Travel_Company_MVC.Controllers
 
 
 
-
+		///////////////////////////////////////////////////////////////////////////////////// Privete Methods
+	
 		private void _validateScheuleType(ScheduleTripsViewModel model)
 		{
 

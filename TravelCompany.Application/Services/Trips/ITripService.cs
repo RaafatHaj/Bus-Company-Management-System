@@ -15,7 +15,8 @@ namespace TravelCompany.Application.Services.Travels
         Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId);
         Task<(bool Success, Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto);
 
-
+        Task<IEnumerable<TripPattern>> GetTripsPattern(int routeId);
+        Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(RetrivePatternWeeksDTO dto);
 
 
     }

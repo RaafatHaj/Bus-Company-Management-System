@@ -1,4 +1,4 @@
-﻿@using TravelCompany.Domain.Entities
+﻿    @using TravelCompany.Domain.Entities
 
 @model route
 
@@ -110,7 +110,7 @@
 
         <td>
             <div class=" mt-7 me-5">
-                <i class="ki-solid ki-black-right fs-2x text-danger  "></i>
+                <i class="ki-solid ki-black-right fs-2x text-primary  "></i>
             </div>
 
         </td>
@@ -166,7 +166,7 @@
 
             <a class="btn btn-sm btn-icon btn-light btn-active-light-primary toggle h-25px w-25px js-select-route"
                data-route-id="@Model.RouteId" data-url="/Routes/GetRouteDetails?routeID=@Model.RouteId"
-               date-recurring-patterns-url="/Trips/GetRouteTripsPatters?routeId=@Model.RouteId">
+               data-trips-patterns-url="/Trips/GetRouteTripsPatters?routeId=@Model.RouteId">
                 <i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
                 <i class="ki-duotone ki-minus fs-4 m-0 toggle-on"></i>
             </a>
