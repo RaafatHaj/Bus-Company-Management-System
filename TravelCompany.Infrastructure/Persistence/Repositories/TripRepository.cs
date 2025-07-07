@@ -220,7 +220,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			using (var connection = new SqlConnection(_connectionString))
 			{
 
-				using (var command = new SqlCommand("sp_ScheduleTripsForEverySingleDay", connection))
+				using (var command = new SqlCommand("sp_ScheduleTripsForEverySingleDay1", connection))
 				{
 
 					command.CommandType = CommandType.StoredProcedure;

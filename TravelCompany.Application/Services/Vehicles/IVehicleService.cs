@@ -10,7 +10,7 @@ namespace TravelCompany.Application.Services.Vehicles
     public interface IVehicleService
     {
 
-        Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(DateTime tripTime, int departureStationId, int tripSpanInMinits);
+        Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(int tripId);
 
         Task<(bool Success, string? Message, ScheduledTripDTO? Trip)> AssignVehicleToTripAsync(ScheduledTripDTO dto);
 

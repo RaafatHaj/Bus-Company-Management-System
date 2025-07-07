@@ -12,7 +12,7 @@
 					@* 	<th>VehicleId</th> *@
 					<th>Plak Number</th>
 					<th>Model</th>
-					<th></th>
+					<th>Home Station</th>
 					<th>From</th>
 					<th>To</th>
 
@@ -56,9 +56,9 @@
 						</td>
 							
 						<td>@vehicle.VehicleModel</td>
-						<td>@(vehicle.IsAvailable ? "Available" : "Not Available")</td>
-						<td>@(vehicle.AvailibiltyStartTime is null ? DateTime.Now : vehicle.AvailibiltyStartTime)</td>
-						<td>@(vehicle.AvailibiltyEndTime is null ? "Open" : vehicle.AvailibiltyEndTime)</td>
+						<td>@(vehicle.HomeStation)</td>
+						<td>@(vehicle.AvailibiltyStartTime)</td>
+						<td>@(vehicle.AvailibiltyEndTime)</td>
 
 					</tr>
 				}

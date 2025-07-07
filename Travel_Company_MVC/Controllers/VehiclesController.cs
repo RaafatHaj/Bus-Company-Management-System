@@ -32,7 +32,7 @@ namespace Travel_Company_MVC.Controllers
             TempData["TripSpanInMinits"] = tripSpanInMinits;
             TempData["TripId"] = tripId;
 
-            var vehicles = await _vehicleService.GetAvailableVehicles(tripTime, departureStationId, tripSpanInMinits);
+            var vehicles = await _vehicleService.GetAvailableVehicles(tripId);
 
             return PartialView("_AvailableVehiclesForTrip", vehicles);
         }

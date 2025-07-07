@@ -17,9 +17,9 @@ namespace Travel_Company_MVC.ViewModels
 		public TimeSpan DepartureTime { get; set; }
 
 
-		[Display(Name = "Return Time"), Required(ErrorMessage = Errors.RequiredFiled)]
-		[AssertThat("ReturnTime != DepartureTime", ErrorMessage = Errors.ReturnTimeIsEquel) ]
-		public TimeSpan ReturnTime { get; set; }
+		//[Display(Name = "Return Time"), Required(ErrorMessage = Errors.RequiredFiled)]
+		//[AssertThat("ReturnTime != DepartureTime", ErrorMessage = Errors.ReturnTimeIsEquel) ]
+		//public TimeSpan ReturnTime { get; set; }
 
 
 		//[AssertThat("Seats>0 && Seats<45", ErrorMessage = "Seat number should be between 1 and 45 seat")]
@@ -65,7 +65,7 @@ namespace Travel_Company_MVC.ViewModels
 		[Display(Name = "Days In Week")]
 		public IList<WeekDay>? WeekDays { get; set; } = new List<WeekDay>();
 
-
+		public bool IsEditStatus { get; set; }= false;
 
 	}
 }

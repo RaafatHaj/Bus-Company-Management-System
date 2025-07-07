@@ -1,19 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
-using TravelCompany.Domain.Eums;
 
 namespace TravelCompany.Infrastructure.Persistence.Repositories
 {
-    public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
+	public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
     {
 
 
@@ -28,20 +21,18 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
         }
 
 
-        public async Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(DateTime tripTime, int departureStationId, int tripSpanInMinits)
+        public async Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(int tripId)
         {
             var vehicles = new List<AvailableTripVehicleDTO>();
             using (var connection = new SqlConnection(_connectionString))
             {
 
-                using (var command = new SqlCommand("sp_GetAvailableVehicleForTrip", connection))
+                using (var command = new SqlCommand("sp_GetAvailableVehicleForTrip3", connection))
                 {
 
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@TripTime", tripTime);
-                    command.Parameters.AddWithValue("@StationId", departureStationId);
-                    command.Parameters.AddWithValue("@TripSpanInMinits", tripSpanInMinits);
+                    command.Parameters.AddWithValue("@TripId", tripId);
 
 
                     try
@@ -53,12 +44,12 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
                             {
                                 vehicles.Add(new()
                                 {
-                                    VehicleId= reader.GetInt32(reader.GetOrdinal("VehicleId")),
+                                    VehicleId= reader.GetInt32(reader.GetOrdinal("VehicleId")),                                   
+                                    HomeStation= reader.GetString(reader.GetOrdinal("HomeStation")),
                                     VehicleNumber= reader.GetString(reader.GetOrdinal("VehicleNumber")),
                                     VehicleModel= reader.GetString(reader.GetOrdinal("Type")),
-                                    IsAvailable = reader.GetInt32(reader.GetOrdinal("IsAvailable")) == 1 ? true : false,
-                                    AvailibiltyStartTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityStartTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityStartTime")),
-                                    AvailibiltyEndTime = reader.IsDBNull(reader.GetOrdinal("AvalibilityEndTime")) ? null : reader.GetDateTime(reader.GetOrdinal("AvalibilityEndTime"))
+                                    AvailibiltyStartTime =reader.GetDateTime(reader.GetOrdinal("AvailabilityStartDate")),
+                                    AvailibiltyEndTime =reader.GetDateTime(reader.GetOrdinal("AvailabilityEndDate"))
                                 });
                             }
 
@@ -90,7 +81,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
 
-                using (var command = new SqlCommand("sp_AssignVehicleToTrip", connection))
+                using (var command = new SqlCommand("sp_AssignVehicleToTrip3", connection))
                 {
 
                     command.CommandType = CommandType.StoredProcedure;

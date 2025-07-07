@@ -28,6 +28,8 @@
 
 <form class="js-confirm-form" asp-action="ScheduleNewTrips" method="post" >
 
+	<input id="edit_status" type="hidden" asp-for="IsEditStatus" />
+ 
 	<div class="d-flex flex-column gap-10">
 
 		<div class="card ">
@@ -175,6 +177,7 @@
 
 
 							</div>
+							
 							<div id="pattern_exists" class="ms-3 mt-5">
 							</div>
 
@@ -368,10 +371,7 @@
 			
 					</div>
 
-					<div id="editing_checkbox">
-
-
-					</div>
+				
 
 				</div>
 
@@ -394,6 +394,16 @@
 
 
 
+				<!--begin::Edit Box-->
+				<div id="editing_checkbox" class="rounded border d-flex flex-column p-5  mb-3 ">
+
+				
+
+
+				</div>
+				<!--end::Edit Box-->
+
+
 			</div>
 
 			<div class="d-flex justify-content-end py-6 px-9">
@@ -409,6 +419,53 @@
 
 
 </form>
+
+
+<template id="editing_checkbox_template">
+
+
+	<div class="d-flex flex-column pe-0 pe-sm-10 mb-4">
+		<!--begin::Title-->
+		<h5 class="required  mb-1 ">Schedule Update Type</h5>
+		<!--end::Title-->
+		<!--begin::Content-->
+		<span class="text-muted ">Select how the schedule should be updated between [StartDate] and [EndDate].</span>
+		<!--end::Content-->
+	</div>
+
+	<div class="ms-5">
+
+
+		<div class="form-check form-check-custom form-check-solid form-check-sm ">
+			<input class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check1" value="false" checked>
+			<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check1">
+			
+
+					<span>Add New Pattern Without Conflict</span>
+					<span class="text-muted">Keep the existing scheduled pattern and add a new one that will not conflict with it.</span>
+
+
+				
+			</label>
+		</div>
+
+		<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+			<input  class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check2" value="true">
+			<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check2">
+				
+					<span>Replace Existing Pattern</span>
+					<span class="text-muted">Remove the current scheduled pattern and apply the new one.</span>
+
+
+			</label>
+		</div>
+
+	</div>
+
+
+
+
+</template>
 <template id="template-recurring-@PatternType.Daily"></template>
 
 <template id="template-recurring-@PatternType.Weekly">

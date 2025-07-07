@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using TravelCompany.Application.Common.Interfaces;
-using TravelCompany.Application.Common.Interfaces.Repositories;
+﻿using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Application.Services.Travels;
 using TravelCompany.Domain.Const;
 using TravelCompany.Domain.DTOs;
 
 namespace TravelCompany.Application.Services.Vehicles
 {
-    public class VehicleService : IVehicleService
+	public class VehicleService : IVehicleService
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -84,9 +77,9 @@ namespace TravelCompany.Application.Services.Vehicles
 
         }
 
-        public async Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(DateTime tripTime, int departureStationId, int tripSpanInMinits)
+        public async Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(int tripId)
         {
-            return await _unitOfWork.Vehicles.GetAvailableVehicles(tripTime, departureStationId, tripSpanInMinits);
+            return await _unitOfWork.Vehicles.GetAvailableVehicles(tripId);
         }
     }
 }

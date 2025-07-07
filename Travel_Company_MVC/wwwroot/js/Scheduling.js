@@ -277,19 +277,21 @@ $(document).ready(function () {
             let box = document.getElementById('pattern_exists');
             let editBox = document.getElementById('editing_checkbox');
             let fullTime = dateStr + ":00";
+            let editBoxTemplate = document.getElementById("editing_checkbox_template");
+
             console.log("Time selected:", fullTime);
 
             if (tripsTimings && tripsTimings.includes(fullTime)) {
 
-
-                box.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-danger">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
+              
+                box.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-gray-900">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
 `
-                editBox.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-danger">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
-`;
+                editBox.innerHTML = editBoxTemplate.innerHTML;
 
             }
             else {
 
+                //editStatus.value = 'true';
                 box.innerHTML = "";
                 editBox.innerHTML = "";
             }
@@ -311,4 +313,33 @@ $(document).ready(function () {
 
 
 
+});
+
+
+
+
+
+
+document.addEventListener('change', function (e) {
+    if (e.target.matches('.checkbox-radio')) {
+
+        let editStatus = document.getElementById("edit_status");
+        editStatus.value = e.target.value;
+
+        const name = e.target.name;
+        const checkboxes = document.querySelectorAll(`.checkbox-radio[name="${name}"]`);
+
+        if (e.target.checked) {
+            // Uncheck all others
+            checkboxes.forEach(cb => {
+                if (cb !== e.target) cb.checked = false;
+            });
+        } else {
+            // Prevent unchecking the only selected checkbox
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            if (checkedCount === 0) {
+                e.target.checked = true; // re-check it
+            }
+        }
+    }
 });
