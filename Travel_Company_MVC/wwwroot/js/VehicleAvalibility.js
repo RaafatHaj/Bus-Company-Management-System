@@ -2,10 +2,15 @@
 
 function test() {
 
+    let test = document.getElementById('1');
+    let test2 = document.getElementById('2');
 
+    console.log(test.value);
+    console.log(test2.value);
 
     initilazeMainTimePicker();
     initilazeReturnTimePicker();
+
     initilazeMainDatePicker()
     initilazeReturnDatePicker();
 }

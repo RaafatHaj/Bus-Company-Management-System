@@ -33,6 +33,7 @@ namespace TravelCompany.Domain.Entities
 
         //public bool IsIrregular { get; set; }
         public int? MainTripId { get; set; }
+        public int? ReturnTripId { get; set; }
 
         public TripAssignment? TripAssignment { get; set; }
 

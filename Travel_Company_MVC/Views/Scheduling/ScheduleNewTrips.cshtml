@@ -10,6 +10,9 @@
 	<link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 
 	<style>
+
+
+
 		.sticky-card {
 			position: sticky;
 			top: 100px; /* Distance from top when it becomes "stuck" */
@@ -25,6 +28,12 @@
 	</style>
 
 }
+
+<div>
+
+	
+
+</div>
 
 <form class="js-confirm-form" asp-action="ScheduleNewTrips" method="post" >
 
@@ -196,6 +205,11 @@
 
 				</div>
 				<!--end::Time-->
+				<!--begin::Edit Box-->
+				<div id="editing_checkbox" class="rounded border d-flex flex-column p-5  mb-3 ">
+				</div>
+				<!--end::Edit Box-->
+
 				<!--begin::Recuring Type-->
 				<div class="rounded border p-5 d-flex flex-column pb-10">
 
@@ -394,14 +408,14 @@
 
 
 
-				<!--begin::Edit Box-->
+@* 				<!--begin::Edit Box-->
 				<div id="editing_checkbox" class="rounded border d-flex flex-column p-5  mb-3 ">
 
 				
 
 
 				</div>
-				<!--end::Edit Box-->
+				<!--end::Edit Box--> *@
 
 
 			</div>
@@ -437,7 +451,7 @@
 
 
 		<div class="form-check form-check-custom form-check-solid form-check-sm ">
-			<input class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check1" value="false" checked>
+			<input class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check1" value="false" >
 			<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check1">
 			
 

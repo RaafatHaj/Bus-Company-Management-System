@@ -3,6 +3,21 @@
 
 	<div id="PageContainer">
 
+		<div>
+		@TempData["TripDateAndTime"]
+
+		</div>
+		<div>
+		@TempData["ReturnTripDateTime"]
+
+
+		</div>
+		<div>
+		@TempData["TripId"]
+
+
+		</div>
+
 	<div class=" scroll-y h-500px px-10 ">
 
 
@@ -34,9 +49,21 @@
 							data.VehicleId = vehicle.VehicleId;
 							data.VehicleModel = vehicle.VehicleModel;
 							data.VehicleNumber = vehicle.VehicleNumber;
-							data.AvalibilityStartDateAndTime = vehicle.AvailibiltyStartTime;
-							data.AvalibilityEndDateAndTime = vehicle.AvailibiltyEndTime;
+							data.AvalibilityStartDateTime = vehicle.AvailibiltyStartTime;
+							data.AvalibilityEndDateTime = vehicle.AvailibiltyEndTime;
 							data.TripId = Convert.ToInt32(TempData["TripId"]);
+
+							data.MainTripDateTime = Convert.ToDateTime(TempData["TripDateAndTime"]);
+
+							if (TempData["ReturnTripDateTime"] != null && DateTime.TryParse(TempData["ReturnTripDateTime"]!.ToString(), out var returnTripDate))
+							{
+								data.ReturnTripDateTime = returnTripDate;
+							}
+							else
+							{
+								data.ReturnTripDateTime = null;
+							}
+
 
 							var jsonData = JsonConvert.SerializeObject(data);
 					

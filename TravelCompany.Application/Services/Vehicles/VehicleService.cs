@@ -17,14 +17,14 @@ namespace TravelCompany.Application.Services.Vehicles
             _tripService = tripService;
         }
 
-        public async Task<(bool Success, string? Message, ScheduledTripDTO? Trip)> AssignVehicleToTripAsync(ScheduledTripDTO dto)
+        public async Task<(bool Success, string? Message, ScheduledTripDTO? Trip)> AssignVehicleToTripAsync(AssignVehicleDTO dto)
         {
 
 
-            var mainTripDateTime=dto.Date+dto.Time;
-            var returnTripDateTime = dto.ReturnDate + dto.ReturnTime;
+            //var mainTripDateTime=dto.Date+dto.Time;
+            //var returnTripDateTime = dto.ReturnDate + dto.ReturnTime;
 
-            if (returnTripDateTime < mainTripDateTime.AddMinutes(dto.TripTimeSpanInMInits + AppConsts.MinBreak))
+            if (dto.ReturnTripNewDateTime < dto.MainTripNewDateTime.AddMinutes(dto.TripTimeSpanInMInits + AppConsts.MinBreak))
                 return (false, "Return trip time should be after Main trip time plus Trip duration and Break minimum default dureation.", null);
 
 

@@ -6,35 +6,28 @@ namespace Travel_Company_MVC.ViewModels
     public class VehicleAvalibilityViewModel
     {
 
+		public int TripId { get; set; }
+		public int VehicleId { get; set; }
 
-        public int VehicleId { get; set; }
+        public string VehicleModel { get; set; } = null!;
+        public string VehicleNumber { get; set; }=null!;
+        public DateTime AvalibilityStartDateTime { get; set; }
+        public DateTime AvalibilityEndDateTime { get; set; }
 
-        public string? VehicleModel { get; set; } = null!;
-        public string? VehicleNumber { get; set; }=null!;
-        public DateTime? AvalibilityStartDateAndTime { get; set; }
-        public DateTime? AvalibilityEndDateAndTime { get; set; }
-
-        public DateTime? MainTripStartDateAndTime { get; set; }
-        public DateTime? ReturnTripStartDateAndTime { get; set; }
-        public DateTime? MainTripEndDateAndTime { get; set; }
-        public DateTime? ReturnTripEndDateAndTime { get; set; }
-
-
-        public int TripId { get; set; }
-        public int? TripTimeSpanInMinits { get; set; }
-        public string? DepartureStationName { get; set; } = null!;
-        public string? DistinationStationName { get; set; } = null!;
+        public DateTime MainTripDateTime { get; set; }
+        public DateTime MainTripNewDate { get; set; }
+        public TimeSpan MainTripNewTime { get; set; }
 
 
-        public DateTime? MainTripDate { get; set; }
-        public DateTime? ReturnTripDate { get; set; }
-        public TimeSpan? MainTripTime { get; set; }
-        public TimeSpan? ReturnTripTime { get; set; }
+        public DateTime? ReturnTripDateTime { get; set; }
+        public DateTime ReturnTripNewDate { get; set; }
+        public TimeSpan ReturnTripNewTime { get; set; }
 
-        // TripID
-        // VehicleId
-        // MainTripDateAndTime
-        // ReturnTripDateAndTime
+        public string DepartureStationName { get; set; } = null!;
+        public string DistinationStationName { get; set; } = null!;
+        public int TripTimeSpanInMinits { get; set; }
 
-    }
+
+
+	}
 }

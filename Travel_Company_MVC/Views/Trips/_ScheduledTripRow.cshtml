@@ -14,13 +14,17 @@
         <!--begin::Item-->
         <div class="m-0 d-flex">
 
-            
+
+            <i class="ki-duotone fw-semibold  ki-black-up fs-1 ">  </i>
 
 @*             <span class="bullet bullet-vertical h-40px bg-gray me-5"></span>
  *@
             <!--begin::Label-->
             <!--begin::Title-->
             <div>
+
+
+
                 <a href="#"
                    class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.Date.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
                 <div class="d-flex gap-2 mt-1">
@@ -76,7 +80,7 @@
     {
         <td>
 
-            <div class="text-muted fw-semibold fs-7">
+            <div class="text-muted fw-semibold fs-7 ms-6">
             <span class="">
                     No Return Trip
 
@@ -174,9 +178,15 @@
         }
         else
         {
+
+
+
+            var returnTripDateTime = Model.ReturnDate != null ? Model.ReturnDate.Value.Add(Model.ReturnTime!.Value).ToString("yyyy-MM-dd HH:mm") : null;
+            var tripDateTie = Model.Date.Add(Model.Time).ToString("yyyy-MM-dd HH:mm");
+
             <div>
                 <a href="#" class="text-muted fw-semibold fs-7 text-hover-primary js-render-modal"
-                   data-url="/Vehicles/GetAvailableVehicles?tripTime=@Model.Date.Add(Model.Time).ToString("o")&departureStationId=@Model.DepartureStationId&tripSpanInMinits=@Model.TripTimeSpanInMInits&tripId=@Model.TripId"
+                   data-url="/Vehicles/GetAvailableVehicles?tripDateTime=@tripDateTie&returnTripDateTime=@returnTripDateTime&tripId=@Model.TripId"
                    data-large-modal="true"
                    data-title="Availavle Vehicles"
                    data-sub-title="all vehicles existed in the station at trip time."

@@ -16,6 +16,8 @@ namespace TravelCompany.Domain.DTOs
         public PatternType RecurringPattern { get; set; }
         public DataTable? WeekDays { get; set; }
         public DataTable? CustomDates { get; set; }
+		public bool IsEditStatus { get; set; } 
+
 
 	}
 }

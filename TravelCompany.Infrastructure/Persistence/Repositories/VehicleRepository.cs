@@ -24,6 +24,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<AvailableTripVehicleDTO>> GetAvailableVehicles(int tripId)
         {
             var vehicles = new List<AvailableTripVehicleDTO>();
+
             using (var connection = new SqlConnection(_connectionString))
             {
 
@@ -72,7 +73,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             return vehicles;
         }
 
-        public async Task<(bool Success,int ReturnTrpId , string ErrorMessage)> SetVehicleForTrip(ScheduledTripDTO dto)
+        public async Task<(bool Success,int ReturnTrpId , string ErrorMessage)> SetVehicleForTrip(AssignVehicleDTO dto)
         {
             bool isSuccess = false;
             int returnTrpId = 0;
@@ -86,14 +87,18 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@TripId", dto.TripId);
+					command.Parameters.AddWithValue("@TripId", dto.TripId);
                     command.Parameters.AddWithValue("@VehicleId", dto.VehicleId);
-                    command.Parameters.AddWithValue("@MainTripDateTime", dto.Date + dto.Time);
-                    command.Parameters.AddWithValue("@ReturnTripDateTime", dto.ReturnDate + dto.ReturnTime);
+
+                    command.Parameters.AddWithValue("@MainTripDateTime", dto.MainTripDateTime);
+                    command.Parameters.AddWithValue("@MainTripCurrentDateTime", dto.MainTripNewDateTime);
+
+					command.Parameters.AddWithValue("@ReturnTripDateTime", dto.ReturnTripDateTime ?? (object)DBNull.Value);
+					command.Parameters.AddWithValue("@ReturnTripCurrentDateTime", dto.ReturnTripNewDateTime);
 
 
-                    
-                    command.Parameters.Add(new SqlParameter("@IsAssigend", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+
+					command.Parameters.Add(new SqlParameter("@IsAssigend", SqlDbType.Bit) { Direction = ParameterDirection.Output });
                     command.Parameters.Add(new SqlParameter("@ReturnTripId", SqlDbType.Int) { Direction = ParameterDirection.Output });
                     command.Parameters.Add(new SqlParameter("@ErrorMessage", SqlDbType.NVarChar,500) { Direction = ParameterDirection.Output });
 

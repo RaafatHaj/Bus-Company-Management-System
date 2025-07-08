@@ -25,11 +25,11 @@ namespace Travel_Company_MVC.Controllers
         }
 
         [HttpGet("/Vehicles/GetAvailableVehicles")]
-        public async Task<IActionResult> GetAvailableVehicles(DateTime tripTime, int departureStationId, int tripSpanInMinits , int tripId)
+        public async Task<IActionResult> GetAvailableVehicles(DateTime tripDateTime, DateTime? returnTripDateTime, int tripId)
         {
 
-            TempData["TripDateAndTime"] = tripTime;
-            TempData["TripSpanInMinits"] = tripSpanInMinits;
+            TempData["TripDateAndTime"] = tripDateTime;
+            TempData["ReturnTripDateTime"] = returnTripDateTime;
             TempData["TripId"] = tripId;
 
             var vehicles = await _vehicleService.GetAvailableVehicles(tripId);
@@ -53,62 +53,34 @@ namespace Travel_Company_MVC.Controllers
 
 
 
-
-
-     
-            model.MainTripStartDateAndTime = model.AvalibilityStartDateAndTime is not null ? model.AvalibilityStartDateAndTime.Value : DateTime.Now;
-
-            model.ReturnTripStartDateAndTime = model.MainTripStartDateAndTime?.AddMinutes(model.TripTimeSpanInMinits.Value);
-
-            if (model.AvalibilityEndDateAndTime is not null)
-            {
-                model.MainTripEndDateAndTime = model.AvalibilityEndDateAndTime?.AddMinutes(model.TripTimeSpanInMinits.Value * -2);
-                model.ReturnTripEndDateAndTime = model.MainTripEndDateAndTime?.AddMinutes(model.TripTimeSpanInMinits.Value * -1);
-            }
-            else
-            {
-                model.MainTripEndDateAndTime = null;
-                model.ReturnTripEndDateAndTime = null;
-            }
-
-			//if (TempData["TripDateAndTime"] is not null )
-   //         {
-   //             var tripTime = Convert.ToDateTime(TempData["TripDateAndTime"]);
-   //             var tripSpanInMinits = Convert.ToInt32(TempData["TripSpanInMinits"]);
-   //             var tripId = Convert.ToInt32(TempData["TripId"]);
-
-   //             trip = await _tripService.FindTripByIdAsync(tripId);
-
-
-   //         }
-   //         TempData["TripId"] = trip?.Id;
-   //         TempData["DepartureStationName"] = trip?.Route!.FirstStation!.StationName;
-   //         TempData["DistinationStationName"] = trip?.Route!.LastStation!.StationName;
-
-
 			return PartialView("_VahicleAvalibility" , model);
         }
 
         [HttpPost]
 
-        public async Task<IActionResult> AssignVehicleToTrip( VehicleAvalibilityViewModel model)
+        public async Task<IActionResult> AssignVehicleToTrip(VehicleAvalibilityViewModel model)
         {
 
-            var trip =await _tripService.FindTripByIdAsync(model.TripId );
+            var trip = await _tripService.FindTripByIdAsync(model.TripId);
 
             if (trip == null)
                 return BadRequest(new { errorTitle = "Trip Not Found!", errorMessage = "There is no trip found , refresh the page and try again." });
 
 
-            var dto = new ScheduledTripDTO();
+            var dto = new AssignVehicleDTO
+            {
+                TripId=model.TripId,
+                VehicleId=model.VehicleId,
+                MainTripDateTime=model.MainTripDateTime,
+                ReturnTripDateTime=model.ReturnTripDateTime,
+                MainTripNewDateTime=model.MainTripNewDate.Add(model.MainTripNewTime),
+                ReturnTripNewDateTime=model.ReturnTripNewDate.Add(model.ReturnTripNewTime),
+                TripTimeSpanInMInits=model.TripTimeSpanInMinits
+            
+           
+            };
 
-            dto.TripId=trip.Id;
-            dto.Date = model.MainTripDate!.Value;
-            dto.Time=model.MainTripTime!.Value;
-            dto.DepartureStationId = trip.Route!.FirstStationId;
-            dto.ReturnTime=model.ReturnTripTime!.Value;
-            dto.ReturnDate=model.ReturnTripDate!.Value;
-            dto.VehicleId = model.VehicleId;
+      
 
             var result=await _vehicleService.AssignVehicleToTripAsync(dto);
 

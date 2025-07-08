@@ -141,18 +141,20 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			using (var connection = new SqlConnection(_connectionString))
 			{
 
-				using (var command = new SqlCommand("sp_ScheduleTripsForDaysInWeek", connection))
+				using (var command = new SqlCommand("sp_ScheduleTripsForDaysInWeek1", connection))
 				{
 
 					command.CommandType = CommandType.StoredProcedure;
 
 					command.Parameters.AddWithValue("@RouteId", dto.RouteId);
 					command.Parameters.AddWithValue("@Time", dto.DepartureTime);
-					command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
+					//command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
 					command.Parameters.AddWithValue("@Seats", dto.Seats);
 					command.Parameters.AddWithValue("@StartDate", dto.StartDate);
 					command.Parameters.AddWithValue("@EndDate", dto.EndDate);
 					command.Parameters.AddWithValue("@Duration", dto.ScheduleDuration);
+					command.Parameters.AddWithValue("@IsEditMode", dto.IsEditStatus);
+
 
 
 					var weekDays = new SqlParameter
@@ -227,11 +229,12 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 					command.Parameters.AddWithValue("@RouteId", dto.RouteId);
 					command.Parameters.AddWithValue("@Time", dto.DepartureTime);
-					command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
+					//command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
 					command.Parameters.AddWithValue("@Seats", dto.Seats);
 					command.Parameters.AddWithValue("@StartDate", dto.StartDate);
 					command.Parameters.AddWithValue("@EndDate", dto.EndDate);
 					command.Parameters.AddWithValue("@Duration", dto.ScheduleDuration);
+					command.Parameters.AddWithValue("@IsEditMode", dto.IsEditStatus);
 
 
 					//var weekDays = new SqlParameter
@@ -298,14 +301,14 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			using (var connection = new SqlConnection(_connectionString))
 			{
 
-				using (var command = new SqlCommand("[sp_ScheduleTripsForSpecificDates]", connection))
+				using (var command = new SqlCommand("[sp_ScheduleTripsForSpecificDates1]", connection))
 				{
 
 					command.CommandType = CommandType.StoredProcedure;
 
 					command.Parameters.AddWithValue("@RouteId", dto.RouteId);
 					command.Parameters.AddWithValue("@Time", dto.DepartureTime);
-					command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
+					//command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
 					command.Parameters.AddWithValue("@Seats", dto.Seats);
 
 

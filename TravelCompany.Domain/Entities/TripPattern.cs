@@ -25,8 +25,12 @@ namespace TravelCompany.Domain.Entities
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+        public int OccupiedWeeksNumber {  get; set; }
+        public int EmptyWeeksNumber { get; set; }
 
-        public int? TripsNumber { get; set; }
+
+
+		public int? TripsNumber { get; set; }
         public int? UnassignedTripsNumber { get; set; }
 
         public ICollection<Week> Weeks { get; set; } = new List<Week>();

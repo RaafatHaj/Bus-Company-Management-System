@@ -326,6 +326,8 @@ document.addEventListener('change', function (e) {
         let editStatus = document.getElementById("edit_status");
         editStatus.value = e.target.value;
 
+        console.log(editStatus.value)
+
         const name = e.target.name;
         const checkboxes = document.querySelectorAll(`.checkbox-radio[name="${name}"]`);
 

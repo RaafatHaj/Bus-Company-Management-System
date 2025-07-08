@@ -148,18 +148,20 @@
 
                                     
 
-                                        @(Model.MainTripStartDateAndTime?.ToString("HH:mm"))
+                                        @(Model.AvalibilityStartDateTime.ToString("HH:mm"))
                                         <span class="text-gray-500 fw-semibold fs-7">
-                                            @(Model.MainTripStartDateAndTime?.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                                            @(Model.AvalibilityStartDateTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
                                         </span>
                                     </div>
 
 
   
 
-                                    <span class="text-muted fw-semibold fs-7 ">@Model.MainTripStartDateAndTime?.ToString("dd")
-                                        <span class="text-primary">@Model.MainTripStartDateAndTime?.ToString("MMM")
-                                        </span> @Model.MainTripStartDateAndTime?.ToString("yyyy")
+                                    <span class="text-muted fw-semibold fs-7 ">
+                                        @Model.AvalibilityStartDateTime.ToString("dd")
+                                        <span class="text-primary">
+                                            @Model.AvalibilityStartDateTime.ToString("MMM")
+                                        </span> @Model.AvalibilityStartDateTime.ToString("yyyy")
                                     </span>
 
 
@@ -179,33 +181,21 @@
 
                                         <div>
 
-                                        @if (Model.AvalibilityEndDateAndTime is not null)
-                                        {
-                                       
+                                      
                                             <div>
-                                                @(Model.MainTripEndDateAndTime?.ToString("HH:mm")))
+                                                @(Model.AvalibilityEndDateTime.ToString("HH:mm"))
                                                 <span class="text-gray-500 fw-semibold fs-7">
-                                                    @(Model.MainTripEndDateAndTime?.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                                                    @(Model.AvalibilityEndDateTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
                                                 </span>
                                             </div>
 
                                             <span class="text-muted fw-semibold fs-7 ">
-                                                @Model.MainTripEndDateAndTime?.ToString("dd")
+                                                @Model.AvalibilityEndDateTime.ToString("dd")
                                                 <span class="text-primary">
-                                                    @Model.MainTripEndDateAndTime?.ToString("MMM")
-                                                </span> @Model.MainTripEndDateAndTime?.ToString("yyyy")
+                                                    @Model.AvalibilityEndDateTime.ToString("MMM")
+                                                </span> @Model.AvalibilityEndDateTime.ToString("yyyy")
                                             </span>
-                                        }
-                                        else
-                                        {
-
-                                      
-
-                                            <div>
-                                              ...
-                                            </div>
-
-                                        }
+                                    
 
                                         </div>
                   
@@ -228,9 +218,9 @@
                             <label for="" class="form-label me-2" style="white-space: nowrap;">Main Trip :</label>
 
                             <div class="d-flex gap-4">
-                                <input asp-for="MainTripTime" class="form-control form-control-solid form-control-sm flatpickr-main-time" placeholder="Pick time" id="reverse-trip-time" type="text">
+                                <input asp-for="MainTripNewTime" class="form-control form-control-solid form-control-sm flatpickr-main-time" placeholder="Pick time" id="reverse-trip-time" type="text">
 
-                                <input asp-for="MainTripDate" class="form-control form-control-solid form-control-sm flatpickr-main-date" placeholder="Pick date" id="reverse-trip-time" type="text">
+                                <input asp-for="MainTripNewDate" class="form-control form-control-solid form-control-sm flatpickr-main-date" placeholder="Pick date" id="reverse-trip-time" type="text">
 
 
                             </div>
@@ -281,7 +271,7 @@
                                             plus
                                         </span>
                                         <span class="text-danger">
-                                            @(TimeSpan.FromMinutes(Model.TripTimeSpanInMinits!.Value).ToString(@"h\:mm")) h
+                                            @(TimeSpan.FromMinutes(Model.TripTimeSpanInMinits).ToString(@"h\:mm")) h
                                         </span>
                                         <span class="text-primary">
                                             +@(AppConsts.MinBreak) min
@@ -309,9 +299,9 @@
                             <label for="" class="form-label me-2" style="white-space: nowrap;">Return Trip :</label>
 
                         <div class="d-flex gap-4">
-                            <input asp-for="ReturnTripTime" class="form-control form-control-solid form-control-sm flatpickr-return-timr" placeholder="Pick time" id="reverse-trip-time" type="text">
+                            <input asp-for="ReturnTripNewTime" class="form-control form-control-solid form-control-sm flatpickr-return-timr" placeholder="Pick time" id="reverse-trip-time" type="text">
 
-                            <input asp-for="ReturnTripDate" class="form-control form-control-solid form-control-sm flatpickr-return-date" placeholder="Pick date" id="reverse-trip-time" type="text">
+                            <input asp-for="ReturnTripNewDate" class="form-control form-control-solid form-control-sm flatpickr-return-date" placeholder="Pick date" id="reverse-trip-time" type="text">
 
 
                         </div>
@@ -331,6 +321,9 @@
 
             <input asp-for="TripId" type="hidden" />
             <input asp-for="VehicleId" type="hidden" />
+
+            <input id="1" asp-for="MainTripDateTime" type="hidden"/>
+            <input id="2" asp-for="ReturnTripDateTime" type="hidden"/>
 
 
 
