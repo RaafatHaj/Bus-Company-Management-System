@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250713080434_removeSchedulesTable")]
+    partial class removeSchedulesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,17 +166,17 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<int>("StationOrder")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan?>("ActualArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("ActualArrivalDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("ActualDepartureTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("ActualDepartureDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("ArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ArrivalDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("DepartureTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("DepartureDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StationId")
                         .HasColumnType("int");

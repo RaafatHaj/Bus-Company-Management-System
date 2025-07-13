@@ -27,7 +27,6 @@ namespace TravelCompany.Domain.Entities
         //  public ICollection<ScheduledTrip> ScheduledTrips { get; set; } = new List<ScheduledTrip>();
 
         public ICollection<TripAssignment> Assignments { get; set; } = new List<TripAssignment>();
-        public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     }
 }

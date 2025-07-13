@@ -16,14 +16,12 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<route> Routes { get; set; }
         public DbSet<RoutePoint> RoutePoints { get; set; }
         public DbSet<Trip> Trips { get; set; }
-        public DbSet<TravelStation> TravelStations { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<TripPattern> TripPatterns { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
         public DbSet<TripAssignment> TripAssignments { get; set; }
-        public DbSet<Week> Weeks { get; set; }
+        public DbSet<ActiveTrip> ActiveTrips { get; set; }
         public DbSet<ApplicationConst> ApplicationConsts { get; set; }
         
 
@@ -31,7 +29,7 @@ namespace TravelCompany.Infrastructure.Persistence
         {
 
             builder.Entity<RoutePoint>().HasKey(e => new {e.RouteId,e.PointId});
-            builder.Entity<TravelStation>().HasKey(e => new {e.ScheduledTravelId,e.StationOrder});
+            builder.Entity<ActiveTrip>().HasKey(e => new {e.TripId,e.StationOrder});
 
 
             builder.Entity<TripPattern>()
@@ -88,9 +86,6 @@ namespace TravelCompany.Infrastructure.Persistence
             .Property(e => e.Email)
             .HasColumnType("nvarchar(50)");
 
-            builder.Entity<Schedule>()
-            .Property(e => e.Date)
-            .HasColumnType("date");
 
 		
 

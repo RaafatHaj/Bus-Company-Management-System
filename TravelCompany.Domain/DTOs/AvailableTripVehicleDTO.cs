@@ -13,8 +13,8 @@ namespace TravelCompany.Domain.DTOs
         public string VehicleModel { get; set; } = null!;
         public string VehicleNumber { get; set; }=null!;
         //public bool IsAvailable { get; set; }
-        public DateTime AvailibiltyStartTime { get; set; }
-        public DateTime AvailibiltyEndTime { get; set; }
+        public DateTime AvailibiltyStartDateTime { get; set; }
+        public DateTime AvailibiltyEndDateTime { get; set; }
 
     }
 }

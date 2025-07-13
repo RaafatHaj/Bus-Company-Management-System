@@ -36,8 +36,15 @@ namespace TravelCompany.Domain.Entities
         public int? ReturnTripId { get; set; }
 
         public TripAssignment? TripAssignment { get; set; }
+        public bool? IsVehicleMoving { get; set; }
 
-        public ICollection<TravelStation> Details { get; set; } =new List<TravelStation>();
+        public int? StationStopMinutes{ get; set; }
+        public bool? HasBreak {  get; set; }
+        public int? BreakMinutes { get; set; }
+        public int? StationOrderNextToBreak { get; set; }
+
+		public ICollection<ActiveTrip> ActiveTrackStations { get; set; } = new List<ActiveTrip>();
+
 
 	}
 }

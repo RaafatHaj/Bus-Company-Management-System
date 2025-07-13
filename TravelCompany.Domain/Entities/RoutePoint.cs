@@ -15,6 +15,9 @@ namespace TravelCompany.Domain.Entities
         public int PointId { get; set; }
         public Point? Point { get; set; }
 
+        public int StationId { get; set; }
+        public Station? Station { get; set; }
+
         public int PointOrder {  get; set; }
     }
 }

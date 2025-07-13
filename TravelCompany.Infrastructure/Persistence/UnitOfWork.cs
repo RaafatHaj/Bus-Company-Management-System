@@ -32,8 +32,6 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public IBaseRepository<RoutePoint> RoutePoints => new BaseRepository<RoutePoint>(_context);
 
-        public IBaseRepository<TravelStation> TravelStations =>  new BaseRepository<TravelStation>(_context);
-
         public ITripRepository Trips => new TripRepository(_context , _connectionStrings.DefaultConnection);
 
         //public IBaseRepository<TripPattern> Recurrings => new BaseRepository<TripPattern>(_context);

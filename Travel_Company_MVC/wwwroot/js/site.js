@@ -5,9 +5,7 @@ var html;
 
 function addRowToTable(newRow, form) {
 
-    console.log(updatedRow);
-    console.log(newRow);
-
+ 
     if (updatedRow !== undefined) {
 
         table.row(updatedRow).remove().draw();
@@ -288,14 +286,27 @@ function RenderModal() {
 
                 const response = await fetch(button.getAttribute('data-url'));
 
-                if (button.hasAttribute('data-updete'))
-                    updatedRow = event.target.closest('tr');
+                //if (button.hasAttribute('data-updete'))
+                //    updatedRow = event.target.closest('tr');
 
-
-                if (button.hasAttribute("data-large-modal"))
+                //modal-dialog modal-lg
+                if (button.hasAttribute("data-large-modal")) {
+                    document.getElementById("ModalDialog").classList.add("modal-lg")
                     document.getElementById("ModalDialog").classList.add("modal-xl")
-                else
+
+                }
+                else if (button.hasAttribute("data-middle-modal")) {
+                    document.getElementById("ModalDialog").classList.add("modal-lg")
                     document.getElementById("ModalDialog").classList.remove("modal-xl")
+
+                }
+                else {
+                    document.getElementById("ModalDialog").classList.remove("modal-xl")
+                    document.getElementById("ModalDialog").classList.add("modal-lg")
+                }
+               
+
+
 
                     if (!response.ok)
                     throw new Error('Failed to load partial view');
@@ -308,7 +319,6 @@ function RenderModal() {
                 if (button.hasAttribute('data-updete')) 
                     updatedRow = event.target.closest('tr');
 
-            console.log(updatedRow)
 
                 if (button.hasAttribute('data-title')) 
                     document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
@@ -634,7 +644,7 @@ function GoToPreviousPage() {
 
             let container = document.getElementById("PageContainer")
 
-            container.innerHTML = html;
+            container.outerHTML = html;
 
         }
     })

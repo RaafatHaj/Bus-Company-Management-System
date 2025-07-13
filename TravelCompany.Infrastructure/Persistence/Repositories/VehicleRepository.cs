@@ -49,8 +49,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
                                     HomeStation= reader.GetString(reader.GetOrdinal("HomeStation")),
                                     VehicleNumber= reader.GetString(reader.GetOrdinal("VehicleNumber")),
                                     VehicleModel= reader.GetString(reader.GetOrdinal("Type")),
-                                    AvailibiltyStartTime =reader.GetDateTime(reader.GetOrdinal("AvailabilityStartDate")),
-                                    AvailibiltyEndTime =reader.GetDateTime(reader.GetOrdinal("AvailabilityEndDate"))
+                                    AvailibiltyStartDateTime =reader.GetDateTime(reader.GetOrdinal("AvailabilityStartDate")),
+                                    AvailibiltyEndDateTime =reader.GetDateTime(reader.GetOrdinal("AvailabilityEndDate"))
                                 });
                             }
 

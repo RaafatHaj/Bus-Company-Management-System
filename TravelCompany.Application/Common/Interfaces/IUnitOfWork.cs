@@ -19,7 +19,6 @@ namespace TravelCompany.Application.Common.Interfaces
         IBaseRepository<TripPattern> TripPatterns { get; }
         IScheduledTravelRepository  ScheduledTravels { get; }
         IBaseRepository<RoutePoint> RoutePoints { get; }
-        IBaseRepository <TravelStation> TravelStations { get; }
         IRezervationRepository  Reservations { get; }
 
         IVehicleRepository Vehicles { get; }

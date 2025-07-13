@@ -42,23 +42,23 @@ namespace TravelCompany.Application.Services.ScheduledTravels
 			throw new NotImplementedException();
 		}
 
-        public async Task <IEnumerable<ScheduledTravelDetailDTO>> RetriveScheduledTravelDetailAsync(int scheduledTravelId)
-        {
-            return await _unitOfWork.TravelStations.GetQueryable().Where(t => t.ScheduledTravelId == scheduledTravelId)
-                .Select(t=>new ScheduledTravelDetailDTO()
-                {
-                    ScheduledTravelId=t.ScheduledTravelId,
-                    StationOrder=t.StationOrder,
-                    StationId=t.StationId,
-                    StationName=t.Station!.StationName,
-                    Status=t.Status,
-                    Date=t.ArrvalDateAndTime.Date,
-                    ArrivalTime=t.ArrvalDateAndTime.TimeOfDay,
-                    AvailableSeats=t.AvailableSeats,
-                    BookedSeates=t.BookedSeates
-                })
-              .ToListAsync();
-        }
+        //public async Task <IEnumerable<ScheduledTravelDetailDTO>> RetriveScheduledTravelDetailAsync(int scheduledTravelId)
+        //{
+        //    return await _unitOfWork.TravelStations.GetQueryable().Where(t => t.ScheduledTravelId == scheduledTravelId)
+        //        .Select(t=>new ScheduledTravelDetailDTO()
+        //        {
+        //            ScheduledTravelId=t.ScheduledTravelId,
+        //            StationOrder=t.StationOrder,
+        //            StationId=t.StationId,
+        //            StationName=t.Station!.StationName,
+        //            Status=t.Status,
+        //            Date=t.ArrvalDateAndTime.Date,
+        //            ArrivalTime=t.ArrvalDateAndTime.TimeOfDay,
+        //            AvailableSeats=t.AvailableSeats,
+        //            BookedSeates=t.BookedSeates
+        //        })
+        //      .ToListAsync();
+        //}
 
         public async Task<IEnumerable<SuitableTravelDTO>> FindSuitableTravelsAsync(int stationAId, int StationBId)
         {
@@ -79,15 +79,15 @@ namespace TravelCompany.Application.Services.ScheduledTravels
         public async Task<bool> SetStationStatusAsLeftAsync(int stationId, int scheduledTravelId)
         {
 
-            var travel=await _unitOfWork.TravelStations.GetQueryable()
-                .SingleOrDefaultAsync(t => t.StationId == stationId && t.ScheduledTravelId == scheduledTravelId);
+            //var travel=await _unitOfWork.TravelStations.GetQueryable()
+            //    .SingleOrDefaultAsync(t => t.StationId == stationId && t.ScheduledTravelId == scheduledTravelId);
 
-            if(travel==null)
-                return false;
+            //if(travel==null)
+            //    return false;
 
-            travel.Status =travel.Status == StationStatus.Pending ? StationStatus.Left : StationStatus.Pending;
+            //travel.Status =travel.Status == StationStatus.Pending ? StationStatus.Left : StationStatus.Pending;
 
-            await _unitOfWork.SaveAsync();
+            //await _unitOfWork.SaveAsync();
 
             return true;
 
@@ -95,5 +95,10 @@ namespace TravelCompany.Application.Services.ScheduledTravels
             
             
         }
-    }
+
+		public Task<IEnumerable<ScheduledTravelDetailDTO>> RetriveScheduledTravelDetailAsync(int scheduledTravelId)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

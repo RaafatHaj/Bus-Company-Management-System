@@ -79,59 +79,59 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
             return travels;
         }
 
-        public async Task<IEnumerable<TravelStation>> GetScheduledTravelDetailsAsync(int scheduledTravelId)
-        {
-            var details=new List<TravelStation>();
+        //public async Task<IEnumerable<TravelStation>> GetScheduledTravelDetailsAsync(int scheduledTravelId)
+        //{
+        //    var details=new List<TravelStation>();
 
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                string query = @"select *from ScheduledTravelDetails where ScheduledTravelId=@scheduledTravelId";
+        //    using (var connection = new SqlConnection(_connectionString))
+        //    {
+        //        string query = @"select *from ScheduledTravelDetails where ScheduledTravelId=@scheduledTravelId";
 
-                using (var command = new SqlCommand(query, connection))
-                {
+        //        using (var command = new SqlCommand(query, connection))
+        //        {
 
-                    // command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@scheduledTravelId", scheduledTravelId);
+        //            // command.CommandType = CommandType.StoredProcedure;
+        //            command.Parameters.AddWithValue("@scheduledTravelId", scheduledTravelId);
 
-                    try
-                    {
-                        await connection.OpenAsync();
-                        using (var reader = await command.ExecuteReaderAsync())
-                        {
-                            while (reader.Read())
-                            {
-                                details.Add(new()
-                                {
+        //            try
+        //            {
+        //                await connection.OpenAsync();
+        //                using (var reader = await command.ExecuteReaderAsync())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        details.Add(new()
+        //                        {
 
-                                    ScheduledTravelId = reader.GetInt32(reader.GetOrdinal("ScheduledTravelId")),
-                                    StationOrder = reader.GetInt32(reader.GetOrdinal("StationOrder")),
-                                    StationId = reader.GetInt32(reader.GetOrdinal("StationId")),
-                                    Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
-                                  //  ArrivalTime = reader.GetTimeSpan(reader.GetOrdinal("ArrivalTime")),
-                                    AvailableSeats = reader.GetInt32(reader.GetOrdinal("AvailableSeats")),
-                                    BookedSeates = reader.GetInt32(reader.GetOrdinal("BookedSeates")),
+        //                            ScheduledTravelId = reader.GetInt32(reader.GetOrdinal("ScheduledTravelId")),
+        //                            StationOrder = reader.GetInt32(reader.GetOrdinal("StationOrder")),
+        //                            StationId = reader.GetInt32(reader.GetOrdinal("StationId")),
+        //                            Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
+        //                          //  ArrivalTime = reader.GetTimeSpan(reader.GetOrdinal("ArrivalTime")),
+        //                            AvailableSeats = reader.GetInt32(reader.GetOrdinal("AvailableSeats")),
+        //                            BookedSeates = reader.GetInt32(reader.GetOrdinal("BookedSeates")),
 
-                                });
-                            }
+        //                        });
+        //                    }
 
-                        }
-
-
-                    }
-                    catch
-                    {
-                        return details;
-                    }
+        //                }
 
 
-                }
+        //            }
+        //            catch
+        //            {
+        //                return details;
+        //            }
 
 
-            }
+        //        }
 
 
-            return details;
-        }
+        //    }
+
+
+        //    return details;
+        //}
 
         public async Task<IEnumerable<SuitableTravelDTO>> GetSuitableTravelsAsync(int stationAId, int StationBId)
         {

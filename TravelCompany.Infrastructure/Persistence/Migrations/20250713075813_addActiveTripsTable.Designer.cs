@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250713075813_addActiveTripsTable")]
+    partial class addActiveTripsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,17 +166,17 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<int>("StationOrder")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan?>("ActualArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("ActualArrivalDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan?>("ActualDepartureTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("ActualDepartureDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("ArrivalTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("ArrivalDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("DepartureTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("DepartureDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StationId")
                         .HasColumnType("int");
@@ -352,6 +355,45 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.HasIndex("StationId");
 
                     b.ToTable("RoutePoints");
+                });
+
+            modelBuilder.Entity("TravelCompany.Domain.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("ActiveTime")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("DriverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DriverStatus")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsShiftFull")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan?>("ShiftEndTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan?>("ShiftMinStartTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan?>("ShiftStartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
+
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Station", b =>
@@ -833,6 +875,17 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("Station");
                 });
 
+            modelBuilder.Entity("TravelCompany.Domain.Entities.Schedule", b =>
+                {
+                    b.HasOne("TravelCompany.Domain.Entities.Driver", "Driver")
+                        .WithMany("Schedules")
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
+                });
+
             modelBuilder.Entity("TravelCompany.Domain.Entities.Trip", b =>
                 {
                     b.HasOne("TravelCompany.Domain.Entities.route", "Route")
@@ -921,6 +974,8 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
             modelBuilder.Entity("TravelCompany.Domain.Entities.Driver", b =>
                 {
                     b.Navigation("Assignments");
+
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Station", b =>

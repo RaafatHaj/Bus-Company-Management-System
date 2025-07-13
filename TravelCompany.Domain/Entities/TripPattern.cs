@@ -33,7 +33,6 @@ namespace TravelCompany.Domain.Entities
 		public int? TripsNumber { get; set; }
         public int? UnassignedTripsNumber { get; set; }
 
-        public ICollection<Week> Weeks { get; set; } = new List<Week>();
 
 
     }

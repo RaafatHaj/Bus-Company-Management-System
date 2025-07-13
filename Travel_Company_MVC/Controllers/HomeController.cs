@@ -35,14 +35,14 @@ namespace Travel_Company_MVC.Controllers
             var stationIdClaim = User.FindFirst(CustomClaimType.StationId)?.Value;
             int stationId;
           
-            if( int.TryParse(stationIdClaim, out stationId))
-            {
-                var controlTable =await _unitOfWork.TravelStations.GetQueryable()
-                    .Where(t => t.StationId == stationId)
-                    .Include(t=>t.Station)
-                    .ToListAsync();
-                return View(controlTable);
-            }
+            //if( int.TryParse(stationIdClaim, out stationId))
+            //{
+            //    var controlTable =await _unitOfWork.TravelStations.GetQueryable()
+            //        .Where(t => t.StationId == stationId)
+            //        .Include(t=>t.Station)
+            //        .ToListAsync();
+            //    return View(controlTable);
+            //}
 
 
 

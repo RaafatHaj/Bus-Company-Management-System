@@ -9,6 +9,7 @@ namespace TravelCompany.Domain.Eums
 	public enum StationStatus
 	{
 		Pending=0,
-		Left=1
+		Arrived=1,
+		Left=2
 	}
 }
