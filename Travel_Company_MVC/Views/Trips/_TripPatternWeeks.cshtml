@@ -69,19 +69,16 @@
 						<div class="d-flex gap-4 ms">
 
 							@{
-								foreach (int day in WeekDaysCodes.Codes)
+								foreach (WeekDaysCode day in Enum.GetValues(typeof(WeekDaysCode)))
 								{
 									if ((Model[i].OccupiedWeekDaysCode & (int)day) == (int)day)
 									{
-										<div class="text-primary  fs-7">@((WeekDaysCode)day)</div>
-
+										<div class="text-primary fs-7">@day</div>
 									}
 									else
 									{
-										<div class="text-muted  fs-7">@((WeekDaysCode)day)</div>
-
+										<div class="text-muted fs-7">@day</div>
 									}
-
 								}
 							}
 
