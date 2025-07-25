@@ -17,6 +17,7 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 
 		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForSpecificDatesAsync(ScheduleDTO dto);
 		Task<IEnumerable<PatternWeekDTO>> GetPatternWeeks(RetrivePatternWeeksDTO dto);
+		Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);
 
 	}
 }

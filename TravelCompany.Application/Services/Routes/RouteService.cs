@@ -49,8 +49,11 @@ namespace TravelCompany.Application.Services.Routes
                 .Where(rp=>rp.RouteId==routeID)
                 .OrderBy(rp=>rp.PointOrder)
                 .Include(rp=>rp.Route)
+                .Include(rp=>rp.Station)
                 .Include(rp => rp.Point).ThenInclude(p=>p!.Station)
                 .ToListAsync();
         }
+
+       
     }
 }

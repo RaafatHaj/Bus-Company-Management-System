@@ -226,6 +226,9 @@ document.body.addEventListener('click', async function (event) {
             HandleAddRouteButton();
             document.getElementById("route-details").innerHTML = html;
 
+          
+
+
 
             const url = btn.getAttribute('data-trips-patterns-url');
             getRouteTripRecurringPatterns(url);
@@ -236,9 +239,29 @@ document.body.addEventListener('click', async function (event) {
 
             //InitilaizeMetronicDatatable(test); 
 
+            document.querySelectorAll('input').forEach(input => {
+                switch (input.type) {
+                    case 'checkbox':
+                    case 'radio':
+                        input.checked = false;
+                        break;
+                }
+            });
 
 
+            // Refresh the inputs ...
+            //Station_Stop_Duration
 
+            document.getElementById("trip-time").value = "";
+            document.getElementById("Station_Stop_Duration").value = "";
+            document.getElementById('recuring-details').innerHTML = "";
+            document.getElementById('duration-options').innerHTML = "";
+            document.getElementById("break_details").innerHTML = "";
+            document.getElementById("editing_checkbox").innerHTML = "";
+            document.getElementById('pattern_exists').innerHTML = "";
+
+
+           
 
         } catch {
 
@@ -250,6 +273,21 @@ document.body.addEventListener('click', async function (event) {
 
     }
 })
+
+document.getElementById("Station_Stop_Duration").addEventListener("change", function () {
+
+    let hiddenInput = document.getElementById("Hidden_Station_Stop_Duration");
+
+    let value = this.value.split(" ");
+
+    hiddenInput.value = value[0];
+
+
+})
+
+
+
+
 
 function HandleAddRouteButton() {
 
@@ -318,7 +356,90 @@ $(document).ready(function () {
 
 
 
+document.addEventListener('change',async function (e) {
+    if (e.target.matches('.long-break-checkbox')) {
+        let brakSettingsContainer = document.getElementById("break_details");
 
+
+        if (e.target.checked) {
+
+            const template = document.getElementById("long_break_template");
+
+            brakSettingsContainer.innerHTML = template.innerHTML;
+
+            let routeId = document.getElementById("Route_Id").value;
+
+            let url = e.target.getAttribute("data-url") + routeId;
+
+            const response = await fetch(url);
+
+
+            if (!response.ok)
+                throw new Error('Failed to load partial view');
+
+            const routeStationsJson = await response.json();
+            //const routeStations = JSON.parse(routeStationsJson)
+            const routeStationsDropdown = document.getElementById("Select_Station");
+
+            routeStationsJson.forEach(s => {
+
+                if (s.stationOrder !== routeStationsJson.length) {
+                    // Create a new option element
+                    let newOption = document.createElement("option");
+                    newOption.value = s.stationOrder+1;
+                    newOption.text = s.text;
+
+                    // Append the new option to the Dropdown List
+
+                    routeStationsDropdown.appendChild(newOption);
+                }
+              
+
+            })
+
+            $('#Select_Station').select2();
+
+            //break_dialer
+
+            // Dialer container element
+            var dialerElement = document.getElementById("break_dialer");
+
+            // Create dialer object and initialize a new instance
+            var dialerObject = new KTDialer(dialerElement, {
+                min: 5,
+                max: 40,
+                step: 5,
+                suffix: " Minutes",
+                decimals: 0
+            });
+
+
+            let hiddenInput = document.getElementById("Hidden_Break_Minutes");
+
+            let value = document.getElementById('Break_Minutes').value.split(" ");
+
+            hiddenInput.value = value[0];
+
+            document.getElementById('Break_Minutes').addEventListener("change", function () {
+
+
+
+                //let hiddenInput = document.getElementById("Hidden_Break_Minutes");
+
+                value = this.value.split(" ");
+
+                hiddenInput.value = value[0];
+
+            })
+
+        }
+        else {
+            brakSettingsContainer.innerHTML = "";
+        }
+
+
+    }
+});
 
 document.addEventListener('change', function (e) {
     if (e.target.matches('.checkbox-radio')) {

@@ -1,10 +1,11 @@
-﻿@model IList<PatternWeekDTO>
+﻿@using TravelCompany.Domain.Const
+@model IList<PatternWeekDTO>
 
 @* <div class="d-flex justify-content-end py-6 px-9">
 	<button type="submit" class="btn btn-primary btn-sm ">Submit</button>
 </div>
  *@
-<div class=" scroll-y h-300px px-10 ">
+<div class="  px-10 " style="max-height: 500px; overflow-y: auto;">
 
 
 	<table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
@@ -67,13 +68,22 @@
 
 						<div class="d-flex gap-4 ms">
 
-							<div class="text-muted  fs-7">Mon</div>
-							<div class="text-primary  fs-7">Tue</div>
-							<div class="text-muted  fs-7d">Wed</div>
-							<div class="text-primary  fs-7">Thu</div>
-							<div class="text-primary  fs-7">Fri</div>
-							<div class="text-muted  fs-7">Sat</div>
-							<div class="text-primary  fs-7">Sun</div>
+							@{
+								foreach (int day in WeekDaysCodes.Codes)
+								{
+									if ((Model[i].OccupiedWeekDaysCode & (int)day) == (int)day)
+									{
+										<div class="text-primary  fs-7">@((WeekDaysCode)day)</div>
+
+									}
+									else
+									{
+										<div class="text-muted  fs-7">@((WeekDaysCode)day)</div>
+
+									}
+
+								}
+							}
 
 						</div>
 						

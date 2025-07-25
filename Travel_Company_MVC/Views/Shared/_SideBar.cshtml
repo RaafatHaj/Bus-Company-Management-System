@@ -164,7 +164,15 @@
 						<!--begin:Menu item-->
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link " asp-controller="Trips" asp-action="GetTripsPatterns">
+							<a class="menu-link " asp-controller="Users" asp-action="Index">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Test Users</span>
+							</a>
+							<!--end:Menu link-->
+							<!--begin:Menu link-->
+							<a class="menu-link " asp-controller="Booking" asp-action="FindSuitableTravels">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
@@ -230,11 +238,11 @@
 							</a>
 							<!--end:Menu link-->
 							<!--begin:Menu link-->
-							<a class="menu-link" asp-controller="Scheduling" asp-action="ScheduleNewTrips">
+							<a class="menu-link" asp-controller="Trips" asp-action="TrackStationTripsIndex">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Edit Schedule</span>
+								<span class="menu-title">Tracking</span>
 							</a>
 							<!--end:Menu link-->
 						</div>

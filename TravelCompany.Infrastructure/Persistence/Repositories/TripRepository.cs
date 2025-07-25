@@ -9,6 +9,7 @@ using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
 using TravelCompany.Domain.Eums;
+using TravelCompany.Infrastructure.Persistence.Migrations;
 
 namespace TravelCompany.Infrastructure.Persistence.Repositories
 {
@@ -51,7 +52,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 							    	RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
 							    	Seats = reader.GetInt32(reader.GetOrdinal("Seats")),
 							    	HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
-							    	StatusCode = reader.GetInt64(reader.GetOrdinal("StatusCode")),
+							    	ArrivedStationOrder = reader.GetInt32(reader.GetOrdinal("StatusCode")),
 									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId"))
 
 								});
@@ -146,14 +147,26 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 					command.CommandType = CommandType.StoredProcedure;
 
+
 					command.Parameters.AddWithValue("@RouteId", dto.RouteId);
 					command.Parameters.AddWithValue("@Time", dto.DepartureTime);
 					//command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
-					command.Parameters.AddWithValue("@Seats", dto.Seats);
+					//command.Parameters.AddWithValue("@Seats", dto.Seats);
 					command.Parameters.AddWithValue("@StartDate", dto.StartDate);
 					command.Parameters.AddWithValue("@EndDate", dto.EndDate);
 					command.Parameters.AddWithValue("@Duration", dto.ScheduleDuration);
 					command.Parameters.AddWithValue("@IsEditMode", dto.IsEditStatus);
+
+					command.Parameters.AddWithValue("@HasBreak", dto.HasBreak);
+					command.Parameters.AddWithValue("@StationStopMinutes", dto.StationStopMinutes);
+
+					if (dto.HasBreak)
+					{
+						command.Parameters.AddWithValue("@StationOrderNextToBreak", dto.StationOrderNextToBreak);
+						command.Parameters.AddWithValue("@BreakMinutes", dto.BreakMinutes);
+					}
+
+
 
 
 
@@ -176,22 +189,24 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 							{
 								trips.Add(new()
 								{
-                                    TripId = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-                                    Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
-                                    Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
-                                    RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
-                                    Seats = reader.GetInt32(reader.GetOrdinal("Seats")),
-                                    HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
-                                    StatusCode = reader.GetInt64(reader.GetOrdinal("StatusCode")),
-                                    MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
-                                    DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
-                                    TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
-                                    VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
-                                    VehicleNUmber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
-                                    VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
+									TripId = reader.GetInt32(reader.GetOrdinal("Id")),
+									Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+									Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
+									Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
+									RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
+									Seats = reader.IsDBNull(reader.GetOrdinal("Seats")) ? null : reader.GetInt32(reader.GetOrdinal("Seats")),
+									HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
+									ArrivedStationOrder = reader.GetInt32(reader.GetOrdinal("ArrivedStationOrder")),
+									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
 
-                                });
+
+									DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
+									TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
+									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+									VehicleNUmber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
+									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
+
+								});
 							}
 
 						}
@@ -214,7 +229,6 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 		}
 
-
 		public async Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto)
 		{
 			var trips = new List<ScheduledTripBaseDTO>();
@@ -230,11 +244,21 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 					command.Parameters.AddWithValue("@RouteId", dto.RouteId);
 					command.Parameters.AddWithValue("@Time", dto.DepartureTime);
 					//command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
-					command.Parameters.AddWithValue("@Seats", dto.Seats);
+					//command.Parameters.AddWithValue("@Seats", dto.Seats);
 					command.Parameters.AddWithValue("@StartDate", dto.StartDate);
 					command.Parameters.AddWithValue("@EndDate", dto.EndDate);
 					command.Parameters.AddWithValue("@Duration", dto.ScheduleDuration);
 					command.Parameters.AddWithValue("@IsEditMode", dto.IsEditStatus);
+
+					command.Parameters.AddWithValue("@HasBreak", dto.HasBreak);
+					command.Parameters.AddWithValue("@StationStopMinutes", dto.StationStopMinutes);
+
+					if(dto.HasBreak)
+					{
+						command.Parameters.AddWithValue("@StationOrderNextToBreak", dto.StationOrderNextToBreak);
+						command.Parameters.AddWithValue("@BreakMinutes", dto.BreakMinutes);
+					}
+		
 
 
 					//var weekDays = new SqlParameter
@@ -261,10 +285,12 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 									Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
 									Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
 									RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
-									Seats = reader.GetInt32(reader.GetOrdinal("Seats")),
+									Seats = reader.IsDBNull(reader.GetOrdinal("Seats"))?null: reader.GetInt32(reader.GetOrdinal("Seats")) ,
 									HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
-									StatusCode = reader.GetInt64(reader.GetOrdinal("StatusCode")),
+									ArrivedStationOrder = reader.GetInt32(reader.GetOrdinal("ArrivedStationOrder")),
 									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
+
+
                                     DepartureStationId= reader.GetInt32(reader.GetOrdinal("FirstStationId")),
 									TripTimeSpanInMInits= reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
 									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
@@ -301,7 +327,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			using (var connection = new SqlConnection(_connectionString))
 			{
 
-				using (var command = new SqlCommand("[sp_ScheduleTripsForSpecificDates1]", connection))
+				using (var command = new SqlCommand("sp_ScheduleTripsForSpecificDates3", connection))
 				{
 
 					command.CommandType = CommandType.StoredProcedure;
@@ -309,7 +335,16 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 					command.Parameters.AddWithValue("@RouteId", dto.RouteId);
 					command.Parameters.AddWithValue("@Time", dto.DepartureTime);
 					//command.Parameters.AddWithValue("@ReverseTripTime", dto.ReturnTime);
-					command.Parameters.AddWithValue("@Seats", dto.Seats);
+					//command.Parameters.AddWithValue("@Seats", dto.Seats);
+
+					command.Parameters.AddWithValue("@HasBreak", dto.HasBreak);
+					command.Parameters.AddWithValue("@StationStopMinutes", dto.StationStopMinutes);
+
+					if (dto.HasBreak)
+					{
+						command.Parameters.AddWithValue("@StationOrderNextToBreak", dto.StationOrderNextToBreak);
+						command.Parameters.AddWithValue("@BreakMinutes", dto.BreakMinutes);
+					}
 
 
 					var weekDays = new SqlParameter
@@ -331,22 +366,24 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 							{
 								trips.Add(new()
 								{
-                                    TripId = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-                                    Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
-                                    Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
-                                    RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
-                                    Seats = reader.GetInt32(reader.GetOrdinal("Seats")),
-                                    HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
-                                    StatusCode = reader.GetInt64(reader.GetOrdinal("StatusCode")),
-                                    MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
-                                    DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
-                                    TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
-                                    VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
-                                    VehicleNUmber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
-                                    VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
+									TripId = reader.GetInt32(reader.GetOrdinal("Id")),
+									Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+									Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
+									Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
+									RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
+									Seats = reader.IsDBNull(reader.GetOrdinal("Seats")) ? null : reader.GetInt32(reader.GetOrdinal("Seats")),
+									HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
+									ArrivedStationOrder = reader.GetInt32(reader.GetOrdinal("ArrivedStationOrder")),
+									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
 
-                                });
+
+									DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
+									TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
+									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+									VehicleNUmber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
+									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
+
+								});
 							}
 
 						}
@@ -366,6 +403,66 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 
 			return trips;
+
+		}
+
+		public async Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId)
+		{
+			var tracks = new List<StationTrackDTO>();
+
+			using (var connection = new SqlConnection(_connectionString))
+			{
+
+				using (var command = new SqlCommand("sp_GetStationTripsTrack", connection))
+				{
+
+					command.CommandType = CommandType.StoredProcedure;
+
+					command.Parameters.AddWithValue("@StationId", stationId);
+
+					try
+					{
+						await connection.OpenAsync();
+						using (var reader = await command.ExecuteReaderAsync())
+						{
+							while (reader.Read())
+							{
+								tracks.Add(new()
+								{
+									TripId = reader.GetInt32(reader.GetOrdinal("TripId")),
+									StationOrder = reader.GetInt32(reader.GetOrdinal("StationOrder")),
+									StationId= reader.GetInt32(reader.GetOrdinal("StationId")),
+									StationName= reader.GetString(reader.GetOrdinal("StationName")),
+									Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
+									PreviousStation = reader.IsDBNull(reader.GetOrdinal("PreviousStation")) ? null : reader.GetString(reader.GetOrdinal("PreviousStation")),
+									NexttStation = reader.IsDBNull(reader.GetOrdinal("NexttStation")) ? null : reader.GetString(reader.GetOrdinal("NexttStation")),
+									ArrivalDateTime = reader.GetDateTime(reader.GetOrdinal("ArrivalDateTime")),
+									DepartureDateTime = reader.GetDateTime(reader.GetOrdinal("DepartureDateTime")),
+									TripStatus = (TripStatus)reader.GetInt32(reader.GetOrdinal("TripStatus")),
+									RouteName = reader.GetString(reader.GetOrdinal("RouteName")),
+									EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance"))
+
+
+								});
+							}
+
+						}
+
+
+					}
+					catch
+					{
+						return tracks;
+					}
+
+
+				}
+
+
+			}
+
+
+			return tracks;
 
 		}
 

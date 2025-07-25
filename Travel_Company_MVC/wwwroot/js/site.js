@@ -1,11 +1,13 @@
 ﻿
 var updatedRow;
 var html;
+var table;
 /*const table = InitilaizeMetronicDatatable();*/
 
-function addRowToTable(newRow, form) {
+function addRowToTable( newRow, form) {
 
- 
+
+
     if (updatedRow !== undefined) {
 
         table.row(updatedRow).remove().draw();
@@ -45,7 +47,7 @@ function InitilaizeMetronicDatatable(tableId ='Data_Table') {
     $(document).ready(function () {
 
         // Store DataTable instance in a variable
-        const table = $('#' + tableId).DataTable({
+         table = $('#' + tableId).DataTable({
             language: {
                 lengthMenu: "Show _MENU_",
             },
@@ -227,8 +229,13 @@ function SubmitAjaxForm() {
 
                         let responseData = await response.text();
 
-                        if (event.target.hasAttribute('data-updete'))
-                            updatedRow = event.target.closest('tr');
+                        //if (event.target.hasAttribute('data-updete')) {
+                        //    updatedRow = event.target.closest('tr');
+                        //    tableId = event.target.getAttribute('data-table-id');
+
+                        //}
+
+
 
                         const callbackFunctionName = event.target.getAttribute('data-callback');
 
@@ -316,8 +323,9 @@ function RenderModal() {
             
                 
 
-                if (button.hasAttribute('data-updete')) 
+                if (event.target.hasAttribute('data-updete')) 
                     updatedRow = event.target.closest('tr');
+
 
 
                 if (button.hasAttribute('data-title')) 
@@ -335,7 +343,7 @@ function RenderModal() {
 
                     let tableId = button.getAttribute('data-table-id')
                     //testtt(tableId)
-                    InitilaizeMetronicDatatable(tableId);
+                    const modalTable= InitilaizeMetronicDatatable(tableId);
                   //  InitilaizeDatatable(tableId);
 
                 }
@@ -423,117 +431,6 @@ function handleTableChiled() {
     });
 }
 
-
-//function handleTableChiled() {
-
-//    // let table = $('#kt_datatable_dom_positioning').DataTable();
-
-//    document.body.addEventListener('click', async function (e) {
-//    //document.querySelector('#kt_datatable_dom_positioning tbody').addEventListener('click', async function (e) {
-
-
-
-//        if (e.target.closest(".js-table-chiled")) {
-
-//            let tr = e.target.closest('tr');
-//            if (!tr) return;
-
-//            let button = e.target.closest('a');
-
-//            //let detailsJson = tr.getAttribute("data-details");
-
-//            //let detailsObject = JSON.parse(detailsJson);
-
-//            let dt = $(tr).closest('table').DataTable();
-//            let row = dt.row(tr);
-
-//            //let row = table.row(tr);
-
-//            console.log(row);
-//            console.log(tr);
-
-//            if (row.child.isShown()) {
-//                row.child.hide();
-//                // Animate hiding
-//                $('.child-slide', row.child()).slideUp(50, function () {
-//                    row.child.hide(); // Hide the DataTable row after animation completes
-//                });
-//            }
-//        } else {
-//            // ❗Close any other open child row
-//            dt.rows().every(function () {
-//                if (this.child.isShown()) {
-//                    this.child.hide();
-//                }
-//            });
-
-
-
-
-
-
-//                try {
-
-
-//                    const url = button.getAttribute('data-url');
-
-//                    let response;
-
-//                    if (button.hasAttribute('data-json-data')) {
-
-//                        const jsonData = button.getAttribute('data-json-data');
-
-//                         response = await fetch(url, {
-//                            method: 'POST',
-//                            headers: {
-//                                'Content-Type': 'application/json' // IMPORTANT!
-//                            },
-//                            body: jsonData
-//                        })
-
-//                    }
-//                    else 
-//                        response = await fetch(url);
-
-
-
-//                    if (!response.ok)
-//                        throw new Error('Failed to load partial view');
-
-//                     html = await response.text();
-
-
-
-//                    row.child(html).show();
-
-//                    initilazeTimePicker();
-//                    $.validator.unobtrusive.parse(tr.nextElementSibling);
-
-
-//                } catch {
-
-
-//                }
-
-
-
-
-
-
-
-            
-//        }
-
-
-
-
-
-
-
-
-//    });
-
-//}
 function RenderCard() {
 
     document.body.addEventListener('click', async function (event) {
@@ -556,6 +453,31 @@ function RenderCard() {
 
 
                 document.getElementById(cardId).innerHTML = html;
+
+
+
+                if (button.hasAttribute('data-has-table')) {
+
+                    let tableId = button.getAttribute('data-table-id')
+                    //testtt(tableId)
+                    InitilaizeMetronicDatatable(tableId);
+                    //  InitilaizeDatatable(tableId);
+
+                }
+
+
+                if (button.hasAttribute('data-has-dropdown-list')) {
+
+                    KTMenu.createInstances();
+
+    
+
+                }
+
+                const callbackFunctionName = event.target.getAttribute('data-callback');
+
+                if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
+                    window[callbackFunctionName]();
 
 
                 // Reinitialize validation

@@ -42,9 +42,14 @@ namespace TravelCompany.Application.Services.Travels
                          .AsNoTracking().SingleOrDefaultAsync(t=>t.Id==tripId);
         }
 
+		public async Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId)
+        {
+            return await _unitOfWork.Trips.GetStationTripSTrack(stationId);
+        }
 
 
-        public async Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId)
+
+		public async Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId)
         {
             return await _unitOfWork.Trips.GetQueryable().SingleOrDefaultAsync(t => t.MainTripId==mainTripId);
 

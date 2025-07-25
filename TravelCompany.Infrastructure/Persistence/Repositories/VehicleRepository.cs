@@ -46,6 +46,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
                                 vehicles.Add(new()
                                 {
                                     VehicleId= reader.GetInt32(reader.GetOrdinal("VehicleId")),                                   
+                                    Seats= reader.GetInt32(reader.GetOrdinal("Seats")),                                   
                                     HomeStation= reader.GetString(reader.GetOrdinal("HomeStation")),
                                     VehicleNumber= reader.GetString(reader.GetOrdinal("VehicleNumber")),
                                     VehicleModel= reader.GetString(reader.GetOrdinal("Type")),

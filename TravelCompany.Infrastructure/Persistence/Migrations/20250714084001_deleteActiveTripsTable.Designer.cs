@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250714084001_deleteActiveTripsTable")]
+    partial class deleteActiveTripsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,57 +156,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("TravelCompany.Domain.Entities.ActiveTrip", b =>
-                {
-                    b.Property<int>("TripId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StationOrder")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ActualArrivalDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ActualDepartureDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ArrivalDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DepartureDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EstimatedDistance")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NexttStation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PreviousStation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RouteName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StationName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TripStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("TripId", "StationOrder");
-
-                    b.ToTable("ActiveTrips");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.ApplicationConst", b =>
@@ -401,9 +353,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArrivedStationOrder")
-                        .HasColumnType("int");
-
                     b.Property<int?>("BreakMinutes")
                         .HasColumnType("int");
 
@@ -413,14 +362,11 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<bool>("HasBookedSeat")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HasBreak")
+                    b.Property<bool?>("HasBreak")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsVehicleMoving")
+                    b.Property<bool?>("IsVehicleMoving")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("LateMinutes")
-                        .HasColumnType("int");
 
                     b.Property<int?>("MainTripId")
                         .HasColumnType("int");
@@ -431,14 +377,17 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<int>("RouteId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Seats")
+                    b.Property<int>("Seats")
                         .HasColumnType("int");
 
                     b.Property<int?>("StationOrderNextToBreak")
                         .HasColumnType("int");
 
-                    b.Property<int>("StationStopMinutes")
+                    b.Property<int?>("StationStopMinutes")
                         .HasColumnType("int");
+
+                    b.Property<long>("StatusCode")
+                        .HasColumnType("bigint");
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
@@ -757,17 +706,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TravelCompany.Domain.Entities.ActiveTrip", b =>
-                {
-                    b.HasOne("TravelCompany.Domain.Entities.Trip", "Trip")
-                        .WithMany("ActiveTrackStations")
-                        .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Trip");
-                });
-
             modelBuilder.Entity("TravelCompany.Domain.Entities.Driver", b =>
                 {
                     b.HasOne("TravelCompany.Domain.Entities.Station", "Station")
@@ -951,8 +889,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Trip", b =>
                 {
-                    b.Navigation("ActiveTrackStations");
-
                     b.Navigation("TripAssignment");
                 });
 

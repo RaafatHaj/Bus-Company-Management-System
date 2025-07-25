@@ -206,110 +206,9 @@
 				</div>
 				<!--end::Time-->
 
-				<div class="rounded border d-flex flex-column p-5  mb-3 ">
-
-				<div class="mb-5">
-					<!--begin::Label-->
-					<label class="required fw-semibold fs-6 mb-5">Role</label>
-					<!--end::Label-->
-					<!--begin::Roles-->
-					<!--begin::Input row-->
-					<div class="d-flex fv-row">
-						<!--begin::Radio-->
-						<div class="form-check form-check-custom form-check-solid">
-							<!--begin::Input-->
-							<input class="form-check-input me-3" name="user_role" type="radio" value="0" id="kt_modal_update_role_option_0" checked="checked">
-							<!--end::Input-->
-							<!--begin::Label-->
-							<label class="form-check-label" for="kt_modal_update_role_option_0">
-								<div class="fw-bold text-gray-800">Administrator</div>
-								<div class="text-gray-600">Best for business owners and company administrators</div>
-							</label>
-							<!--end::Label-->
-						</div>
-						<!--end::Radio-->
-					</div>
-					<!--end::Input row-->
-					<div class="separator separator-dashed my-5"></div>
-					<!--begin::Input row-->
-					<div class="d-flex fv-row">
-						<!--begin::Radio-->
-						<div class="form-check form-check-custom form-check-solid">
-							<!--begin::Input-->
-							<input class="form-check-input me-3" name="user_role" type="radio" value="1" id="kt_modal_update_role_option_1">
-							<!--end::Input-->
-							<!--begin::Label-->
-							<label class="form-check-label" for="kt_modal_update_role_option_1">
-								<div class="fw-bold text-gray-800">Developer</div>
-								<div class="text-gray-600">Best for developers or people primarily using the API</div>
-							</label>
-							<!--end::Label-->
-						</div>
-						<!--end::Radio-->
-					</div>
-					<!--end::Input row-->
-					<div class="separator separator-dashed my-5"></div>
-					<!--begin::Input row-->
-					<div class="d-flex fv-row">
-						<!--begin::Radio-->
-						<div class="form-check form-check-custom form-check-solid">
-							<!--begin::Input-->
-							<input class="form-check-input me-3" name="user_role" type="radio" value="2" id="kt_modal_update_role_option_2">
-							<!--end::Input-->
-							<!--begin::Label-->
-							<label class="form-check-label" for="kt_modal_update_role_option_2">
-								<div class="fw-bold text-gray-800">Analyst</div>
-								<div class="text-gray-600">Best for people who need full access to analytics data, but don't need to update business settings</div>
-							</label>
-							<!--end::Label-->
-						</div>
-						<!--end::Radio-->
-					</div>
-					<!--end::Input row-->
-					<div class="separator separator-dashed my-5"></div>
-					<!--begin::Input row-->
-					<div class="d-flex fv-row">
-						<!--begin::Radio-->
-						<div class="form-check form-check-custom form-check-solid">
-							<!--begin::Input-->
-							<input class="form-check-input me-3" name="user_role" type="radio" value="3" id="kt_modal_update_role_option_3">
-							<!--end::Input-->
-							<!--begin::Label-->
-							<label class="form-check-label" for="kt_modal_update_role_option_3">
-								<div class="fw-bold text-gray-800">Support</div>
-								<div class="text-gray-600">Best for employees who regularly refund payments and respond to disputes</div>
-							</label>
-							<!--end::Label-->
-						</div>
-						<!--end::Radio-->
-					</div>
-					<!--end::Input row-->
-					<div class="separator separator-dashed my-5"></div>
-					<!--begin::Input row-->
-					<div class="d-flex fv-row">
-						<!--begin::Radio-->
-						<div class="form-check form-check-custom form-check-solid">
-							<!--begin::Input-->
-							<input class="form-check-input me-3" name="user_role" type="radio" value="4" id="kt_modal_update_role_option_4">
-							<!--end::Input-->
-							<!--begin::Label-->
-							<label class="form-check-label" for="kt_modal_update_role_option_4">
-								<div class="fw-bold text-gray-800">Trial</div>
-								<div class="text-gray-600">Best for people who need to preview content data, but don't need to make any updates</div>
-							</label>
-							<!--end::Label-->
-						</div>
-						<!--end::Radio-->
-					</div>
-					<!--end::Input row-->
-					<!--end::Roles-->
-				</div>
-
-				</div>
-
 
 				<!--begin::Edit Box-->
-				<div id="editing_checkbox" class="rounded border d-flex flex-column p-5  mb-3 ">
+				<div id="editing_checkbox">
 				</div>
 				<!--end::Edit Box-->
 
@@ -334,6 +233,65 @@
 					</div>
 					<div class=" p-2 ps-8">
 
+
+						<!--begin::Input row-->
+						<div class="d-flex fv-row">
+							<!--begin::Radio-->
+							<div class="form-check form-check-custom form-check-solid form-check-sm">
+								<!--begin::Input-->
+								<input asp-for="RecurringPattern" class="form-check-input me-3 recurring-radio" type="radio" value="@PatternType.Daily" id="kt_radio_buttons_2_option_@PatternType.Daily" disabled>
+								<!--end::Input-->
+								<!--begin::Label-->
+								<label for="kt_radio_buttons_2_option_@PatternType.Daily" class="form-check-label" >
+									<div class="fw-bold text-gray-800">Every Single Day</div>
+									<div class="text-gray-600">The trip will run every calendar day without exception.</div>
+								</label>
+								<!--end::Label-->
+							</div>
+							<!--end::Radio-->
+						</div>
+						<!--end::Input row-->
+						<div class="separator separator-dashed my-5"></div>
+						<!--begin::Input row-->
+						<div class="d-flex fv-row">
+							<!--begin::Radio-->
+							<div class="form-check form-check-custom form-check-solid form-check-sm">
+								<!--begin::Input-->
+								<input asp-for="RecurringPattern" class="form-check-input me-3 recurring-radio" type="radio" value="@PatternType.Weekly" id="kt_radio_buttons_2_option_@PatternType.Weekly" disabled>
+								<!--end::Input-->
+								<!--begin::Label-->
+								<label for="kt_radio_buttons_2_option_@PatternType.Weekly" class="form-check-label">
+									<div class="fw-bold text-gray-800">Specific Days of the Week</div>
+									<div class="text-gray-600">Select one or more specific days on which the trip will recur (e.g., Mondays and Fridays).</div>
+								</label>
+								<!--end::Label-->
+							</div>
+							<!--end::Radio-->
+						</div>
+						<!--end::Input row-->
+						<div class="separator separator-dashed my-5"></div>
+						<!--begin::Input row-->
+						<div class="d-flex fv-row">
+							<!--begin::Radio-->
+							<div class="form-check form-check-custom form-check-solid form-check-sm">
+								<!--begin::Input-->
+								<input asp-for="RecurringPattern" class="form-check-input me-3 recurring-radio custom-recurring" type="radio" value="@PatternType.Custom" id="kt_radio_buttons_2_option_@PatternType.Custom" disabled>
+								<!--end::Input-->
+								<!--begin::Label-->
+								<label for="kt_radio_buttons_2_option_@PatternType.Custom" class="form-check-label">
+									<div class="fw-bold text-gray-800">Custom Schedule</div>
+									<div class="text-gray-600">Select specific dates for the trip from the calendar.</div>
+								</label>
+								<!--end::Label-->
+							</div>
+							<!--end::Radio-->
+						</div>
+						<!--end::Input row-->
+
+
+
+
+@* 
 							<!--begin::Option-->
 							<div class="d-flex">
 							<input asp-for="RecurringPattern" type="radio" class="btn-check recurring-radio" value="@PatternType.Daily" id="kt_radio_buttons_2_option_@PatternType.Daily" disabled />
@@ -382,7 +340,7 @@
 						</div>
 				    
 				    		<!--end::Option-->
-
+ *@
 					
 
 
@@ -390,7 +348,7 @@
 					</div>
 
 
-					<div class="ps-13 " id="recuring-details">
+					<div class="ps-13 mt-7 " id="recuring-details">
 					</div>
 
 
@@ -398,7 +356,13 @@
 				</div>
 				<!--end::Recuring Type-->
 				<!--begin::Duration-->
-				<div class="rounded border p-5 d-flex flex-column " id="duration-settings">
+				<div id="duration-settings" class="rounded border p-5 d-flex flex-column pb-10">
+
+
+
+
+
+
 
 					<div class="d-flex p-2">
 
@@ -419,45 +383,50 @@
 
 
 					</div>
-					<div class="d-flex p-2 ps-8">
+					<div class=" p-2 ps-8">
 
-						<div>
-							<!--begin::Option-->
-							<div class="d-flex">
-								<input type="radio" class="btn-check" value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" disabled />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_5_option_5">
-									<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-										<span class="text-gray-900 ">Specific period</span>
 
-					
-
+						<!--begin::Input row-->
+						<div class="d-flex fv-row">
+							<!--begin::Radio-->
+							<div class="form-check form-check-custom form-check-solid form-check-sm">
+								<!--begin::Input-->
+								<input  class="form-check-input me-3 recurring-radio" type="radio"value="1" name="radio_trip_duration" id="kt_radio_buttons_5_option_5" disabled>
+								<!--end::Input-->
+								<!--begin::Label-->
+								<label for="kt_radio_buttons_5_option_5" class="form-check-label">
+									<div class="fw-bold text-gray-800">Specific period</div>
+									<div class="text-gray-600">Select both a start and end date for the trip from the calendar.</div>
 								</label>
+								<!--end::Label-->
 							</div>
-
-							<!--end::Option-->
-							<!--begin::Option-->
-							<div class="d-flex">
-								<input type="radio" class="btn-check" value="2" name="radio_trip_duration" id="kt_radio_buttons_6_option_6" disabled />
-							<label class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2" for="kt_radio_buttons_6_option_6">
-									<i class="ki-solid ki-abstract-8 pe-2 ms-2"></i>
-								
-										<span class="text-gray-900 ">Fixed duration</span>
-
-
-								</label>
-							</div>
-
-							<!--end::Option-->
-
-
+							<!--end::Radio-->
 						</div>
-
+						<!--end::Input row-->
+						<div class="separator separator-dashed my-5"></div>
+						<!--begin::Input row-->
+						<div class="d-flex fv-row">
+							<!--begin::Radio-->
+							<div class="form-check form-check-custom form-check-solid form-check-sm">
+								<!--begin::Input-->
+								<input class="form-check-input me-3 recurring-radio" type="radio" value="2" name="radio_trip_duration" id="kt_radio_buttons_5_option_6" disabled>
+								<!--end::Input-->
+								<!--begin::Label-->
+								<label for="kt_radio_buttons_5_option_6" class="form-check-label">
+									<div class="fw-bold text-gray-800">Fixed duration</div>
+									<div class="text-gray-600">Select a start date and specify the duration (e.g., 3 months).</div>
+								</label>
+								<!--end::Label-->
+							</div>
+							<!--end::Radio-->
+						</div>
+						<!--end::Input row-->
 
 
 					</div>
 
 
-					<div class="ps-13 " id="duration-options">
+					<div class="ps-13 mt-7" id="duration-options">
 					</div>
 
 
@@ -465,51 +434,125 @@
 				</div>
 				<!--end::Duration-->
 
-				<!--begin::SeatsNumber-->
-	    		<div id="time-block" class="rounded border d-flex flex-column p-5  mb-3 ">
 
-				<div class="d-flex flex-column p-2">
+		
+			
 
-					<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
-						<!--begin::Title-->
-						<h5 class="required  mb-1 ">Capacity</h5>
-						<!--end::Title-->
-						<!--begin::Content-->
-						<span class="text-muted ">Set the capacity of the vehicle </span>
-						<!--end::Content-->
-					</div>
+				<!--begin::Station Stop Duration-->
+				<div id="time-block" class="rounded border d-flex flex-column p-5  mb-3 ">
 
-					<div class="m-4 mt-0 d-flex">
-						<div>
-							<input asp-for="Seats" class="form-control form-control-solid flatpickr-input" placeholder="Seats Number" type="text" disabled>
-							<span asp-validation-for="Seats" class="text-danger d-block"></span>
+					<div class="d-flex flex-column p-2">
+
+						<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+							<!--begin::Title-->
+							<h5 class="required  mb-1 ">Station Stop Duration</h5>
+							<!--end::Title-->
+							<!--begin::Content-->
+							<span class="text-muted ">Specify the duration (in minutes) that the bus is scheduled to stop at each station.</span>
+							<!--end::Content-->
+						</div>
+
+
+						<input type="hidden" asp-for="StationStopMinutes" id="Hidden_Station_Stop_Duration" />
+						<input type="hidden" asp-for="BreakMinutes" id="Hidden_Break_Minutes" />
+
+
+						<div class="m-4 mt-0 d-flex">
+							<!--begin::Dialer-->
+							<div class="input-group w-md-200px"
+								 data-kt-dialer="true"
+								 data-kt-dialer-max="20"
+								 data-kt-dialer-min="5"
+								 data-kt-dialer-suffix=" Minutes"
+								 data-kt-dialer-step="5"
+
+								<!--begin::Decrease control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease" disabled>
+									<i class="ki-duotone ki-minus fs-2"></i>
+								</button>
+								<!--end::Decrease control-->
+								<!--begin::Input control-->
+							
+								<input id="Station_Stop_Duration" type="text" class="form-control"  placeholder="Minutes"  data-kt-dialer-control="input"  />
+								<!--end::Input control-->
+								<!--begin::Increase control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase" disabled>
+									<i class="ki-duotone ki-plus fs-2"></i>
+								</button>
+								<!--end::Increase control-->
+							</div>
+							<!--end::Dialer-->
 
 						</div>
-			
+
+
+
 					</div>
 
-				
+
+
+				</div>
+				<!--end::Station Stop Duration-->
+
+
+
+
+				<!--begin::Include Long Break-->
+				<div class="rounded border p-5 d-flex flex-column pb-10">
+
+
+
+					<div class="d-flex p-2">
+
+						<div class="d-flex flex-column pe-0 pe-sm-10 ">
+							<!--begin::Title-->
+							<h5 class="  mb-1 ">Long Break</h5>
+							<!--end::Title-->
+@* 							<span asp-validation-for="RecurringPattern" class="text-danger d-block"></span>
+ *@
+						
+						</div>
+
+
+
+					</div>
+					<div class=" p-2 ps-8">
+
+
+						
+						<div class="form-check form-check-custom form-check-solid me-10 form-check-sm ">
+						<input asp-for="HasBreak" class="form-check-input  long-break-checkbox "
+								   data-url="/Routes/GetRouteStationsJsonAsync1?routeId="
+								   type="checkbox" id="check4" disabled>
+						<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check4">
+
+
+						<span>Include Long Break</span>
+						<span class="text-muted">Indicate whether this trip includes a scheduled long break (e.g., for rest or meals).</span>
+
+
+
+						</label>
+						</div> 
+
+
+					</div>
+
+
+
+			
+
+					<div class="ps-13 mt-7 " id="break_details">
+
+
+
+					</div>
+
+
 
 				</div>
 
-@* 				<div class="d-flex flex-wrap ">
-					<div class="d-flex">
-						<div class="m-4">
-
-							<label for="" class="form-label required">Departure Time</label>
-							<input class="form-control form-control-solid flatpickr-input" placeholder="Seats Number"  type="text" readonly="readonly">
-						</div>
-
-					</div>
-
-			
-				</div> *@
-
-
-			</div>
-				<!--end::SeatsNumber-->
-
-
+				<!--end::Include Long Break-->
 
 @* 				<!--begin::Edit Box-->
 				<div id="editing_checkbox" class="rounded border d-flex flex-column p-5  mb-3 ">
@@ -537,49 +580,127 @@
 
 </form>
 
+<!--animate__animated animate__fadeInDown-->
 
-<template id="editing_checkbox_template">
+<template id="long_break_template">
 
 
-	<div class="d-flex flex-column pe-0 pe-sm-10 mb-4">
-		<!--begin::Title-->
-		<h5 class="required  mb-1 ">Schedule Update Type</h5>
-		<!--end::Title-->
-		<!--begin::Content-->
-		<span class="text-muted ">Select how the schedule should be updated between [StartDate] and [EndDate].</span>
-		<!--end::Content-->
+	<div class="d-flex flex-column  mb-7 mt-3">
+
+
+		<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+			<!--begin::Title-->
+			<h5 class="  mb-1 ">Configuration </h5>
+			<!--end::Title-->
+			<!--begin::Content-->
+			<span class="text-muted ">Specify where the long break will occur and its duration. Select the station before the break; the station after the break will be assigned automatically.</span>
+			<!--end::Content-->
+
+		</div>
+
+
+		<div class="d-flex gap-3 ">
+
+			<span class="mt-3">- Break Dureation : </span>
+
+			<div class="m-4 mt-0 d-flex">
+				<!--begin::Dialer-->
+				<div class="input-group w-md-200px" id="break_dialer"
+					 data-kt-dialer="true"
+					 data-kt-dialer-max="40"
+					 data-kt-dialer-min="5"
+					 data-kt-dialer-step="5"
+					 data-kt-dialer-suffix=" Minutes">
+
+					<!--begin::Decrease control-->
+					<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease">
+						<i class="ki-duotone ki-minus fs-2"></i>
+					</button>
+					<!--end::Decrease control-->
+					<!--begin::Input control-->
+					<input id="Break_Minutes" type="text" class="form-control" readonly placeholder="Minutes" value="30" data-kt-dialer-control="input" />
+					<!--end::Input control-->
+					<!--begin::Increase control-->
+					<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
+						<i class="ki-duotone ki-plus fs-2"></i>
+					</button>
+					<!--end::Increase control-->
+				</div>
+				<!--end::Dialer-->
+
+			</div>
+
+
+
+
+		</div>
+
+		<div class="d-flex gap-4">
+
+			<span class="mt-2">- Break starts after :</span>
+
+			<div class="w-300px">
+				<select asp-for="StationOrderNextToBreak" id="Select_Station" class="form-select  form-select-sm  " data-control="select2" data-placeholder="Select an option">
+					<option></option>
+				</select>
+
+			</div>
+
+		</div>
+
 	</div>
 
-	<div class="ms-5">
 
 
-		<div class="form-check form-check-custom form-check-solid form-check-sm ">
-			<input class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check1" value="false" >
-			<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check1">
-			
+
+
+</template>
+
+<template id="editing_checkbox_template">
+	<div  class="rounded border p-5 d-flex flex-column ">
+		<div class="d-flex flex-column pe-0 pe-sm-10 mb-4">
+			<!--begin::Title-->
+			<h5 class="required  mb-1 ">Schedule Update Type</h5>
+			<!--end::Title-->
+			<!--begin::Content-->
+			<span class="text-muted ">Select how the schedule should be updated between [StartDate] and [EndDate].</span>
+			<!--end::Content-->
+		</div>
+
+		<div class="ms-5">
+
+
+			<div class="form-check form-check-custom form-check-solid form-check-sm ">
+				<input class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check1" value="false">
+				<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check1">
+
 
 					<span>Add New Pattern Without Conflict</span>
 					<span class="text-muted">Keep the existing scheduled pattern and add a new one that will not conflict with it.</span>
 
 
-				
-			</label>
-		</div>
 
-		<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
-			<input  class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check2" value="true">
-			<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check2">
-				
+				</label>
+			</div>
+
+			<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
+				<input class="form-check-input checkbox-radio" type="checkbox" name="group1" id="check2" value="true">
+				<label class="form-check-label text-gray-900 mt-5 d-flex flex-column" for="check2">
+
 					<span>Replace Existing Pattern</span>
 					<span class="text-muted">Remove the current scheduled pattern and apply the new one.</span>
 
 
-			</label>
+				</label>
+			</div>
+
 		</div>
+
+
 
 	</div>
 
-
+	
 
 
 </template>
@@ -587,7 +708,7 @@
 
 <template id="template-recurring-@PatternType.Weekly">
 
-	<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
+	<div class="d-flex flex-column  mb-7 mt-3">
 
 		
 			<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
@@ -626,45 +747,6 @@
 					    
 					</div>
 					}
-	
-
-
-
-
-@* 
-
-				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
-					<input class="form-check-input" type="checkbox" />
-					<label class="form-check-label text-gray-900 " for="">
-						Small checkbox
-					</label>
-				</div>
-
-				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
-					<input class="form-check-input" type="checkbox" />
-					<label class="form-check-label text-gray-900 " for="">
-						Small checkbox
-					</label>
-				</div>
-
-				
-				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
-					<input class="form-check-input" type="checkbox" />
-					<label class="form-check-label text-gray-900 " for="">
-						Small checkbox
-					</label>
-				</div>
-
-
-				<div class="form-check form-check-custom form-check-solid form-check-sm mb-4">
-					<input class="form-check-input" type="checkbox" />
-					<label class="form-check-label text-gray-900 " for="">
-						Small checkbox
-					</label>
-				</div> *@
-
-
-
 
 
 			</div>
@@ -729,11 +811,10 @@
 		<input type="text"
 			  asp-for="CustomDates" value=""
 			   style="display: none;" />
-@* 		<span asp-validation-for="CustomDatesValidation" class="text-danger"></span>
- *@
+
 	</div>
 
-		<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 mt-3">
+		<div class="d-flex flex-column mb-7 mt-3">
 
 
 			<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
@@ -770,14 +851,18 @@
 	<input type="hidden" asp-for="StartDate" />
 	<input type="hidden" asp-for="EndDate" />
 
-		<div class="d-flex flex-column animate__animated animate__fadeInDown mb-7 ">
+		<div class="d-flex flex-column  mb-7 ">
 
-
-	
+		
 			<label for="" class="form-label required d-block">Date Range</label>
 			<span class="text-muted mb-7">Select the start and end dates of your trip.</span>
+			<div class="w-400px">
+			<input class="form-control form-control-solid form-control-sm flatpickr-input " placeholder="Specific Perios" id="specific-period" type="text" readonly="readonly">
 
-		<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Specific Perios" id="specific-period" type="text" readonly="readonly">
+
+			</div>
+
+	
 
 		</div>
 
@@ -787,7 +872,7 @@
 </template>
 
 <template  id="template-duration-2">
-	<div class="d-flex animate__animated animate__fadeInDown mb-7 ">
+	<div class="d-flex  mb-7 ">
 
 	
 		<div class="d-flex  pe-0 pe-sm-10 mb-7">
@@ -814,7 +899,7 @@
 					</div>
 					<div class="">
 
-						<label asp-for="ScheduleDuration">How Long</label>
+						<label asp-for="ScheduleDuration" class="mb-2 required">How Long</label>
 
 						<select asp-for="ScheduleDuration" class="form-select form-select-solid form-select-sm" aria-label="Select example">
 							@foreach (var option in Model.Durations!)
@@ -910,6 +995,14 @@
 				button.style.display = 'block';
 			}
 		});
+
+
+
+
+
+
+
+
 	</script>
 
 

@@ -23,8 +23,8 @@ namespace Travel_Company_MVC.ViewModels
 
 
 		//[AssertThat("Seats>0 && Seats<45", ErrorMessage = "Seat number should be between 1 and 45 seat")]
-        [Display(Name = "Vehicle Capacity"), Required(ErrorMessage = Errors.RequiredFiled)]
-		public int Seats { get; set; }
+  //      [Display(Name = "Vehicle Capacity"), Required(ErrorMessage = Errors.RequiredFiled)]
+		//public int Seats { get; set; }
 
 
 		[Display(Name = "Recurring Pattern"), Required(ErrorMessage = Errors.RequiredFiled)]
@@ -66,6 +66,11 @@ namespace Travel_Company_MVC.ViewModels
 		public IList<WeekDay>? WeekDays { get; set; } = new List<WeekDay>();
 
 		public bool IsEditStatus { get; set; }= false;
+
+		public bool HasBreak {  get; set; }
+		public int? BreakMinutes { get; set; }
+		public int ? StationOrderNextToBreak {  get; set; }
+		public int StationStopMinutes { get; set; }
 
 	}
 }

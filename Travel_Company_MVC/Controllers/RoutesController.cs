@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TravelCompany.Application.Services.Routes;
 
 namespace Travel_Company_MVC.Controllers
@@ -50,7 +51,54 @@ namespace Travel_Company_MVC.Controllers
 			return PartialView("_RouteStations", details);
 		}
 
+
+
         [HttpGet]
+        public async Task<IActionResult> GetRouteStationsJsonAsync(int routeId)
+        {
+            var stations = await _routeService.GetRouteStationsAsync(routeId);
+
+            if (stations == null)
+                return NotFound();
+
+            var filterdStations = stations.Select(s => new SelectListItem
+            {
+                Value=s.StationId.ToString(),
+                Text=s.Station!.StationName
+
+            });
+
+
+            return Json(filterdStations);
+
+
+
+		}
+
+        [HttpGet]
+		public async Task<IActionResult> GetRouteStationsJsonAsync1(int routeId)
+		{
+			var stations = await _routeService.GetRouteStationsAsync(routeId);
+
+			if (stations == null)
+				return NotFound();
+
+            var filterdStations = stations.Select(s => new 
+            {
+                Value = s.StationId.ToString(),
+                Text = s.Point.Station.StationName,
+                stationOrder=s.PointOrder
+
+            }).ToList();
+
+
+			return Json(filterdStations);
+
+
+
+		}
+
+		[HttpGet]
         public async Task<IActionResult> GetRouteDetails(int routeId)
         {
             var route = await _routeService.GetRouteDetails(routeId);

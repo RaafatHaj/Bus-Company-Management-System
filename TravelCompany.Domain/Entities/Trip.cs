@@ -21,9 +21,9 @@ namespace TravelCompany.Domain.Entities
         public route? Route { get; set; }
 
 		//public TimeSpan TravelTime { get; set; }
-		public int Seats { get; set; }
+		public int? Seats { get; set; }
         public bool HasBookedSeat { get; set; }
-        public long StatusCode { get; set; }
+        public int ArrivedStationOrder { get; set; }
 
         //public int? DriverId { get; set; }
         //public Driver? Driver { get; set; }
@@ -36,12 +36,13 @@ namespace TravelCompany.Domain.Entities
         public int? ReturnTripId { get; set; }
 
         public TripAssignment? TripAssignment { get; set; }
-        public bool? IsVehicleMoving { get; set; }
+        public bool IsVehicleMoving { get; set; }
 
-        public int? StationStopMinutes{ get; set; }
-        public bool? HasBreak {  get; set; }
+        public int StationStopMinutes{ get; set; }
+        public bool HasBreak {  get; set; }
         public int? BreakMinutes { get; set; }
         public int? StationOrderNextToBreak { get; set; }
+        public int? LateMinutes { get; set; }
 
 		public ICollection<ActiveTrip> ActiveTrackStations { get; set; } = new List<ActiveTrip>();
 

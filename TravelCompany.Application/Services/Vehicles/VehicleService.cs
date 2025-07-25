@@ -62,7 +62,7 @@ namespace TravelCompany.Application.Services.Vehicles
                 RouteId=mainTrip.RouteId,
                 Seats=mainTrip.Seats,
                 HasBookedSeat=mainTrip.HasBookedSeat,
-                StatusCode=mainTrip.StatusCode,
+                ArrivedStationOrder=mainTrip.ArrivedStationOrder,
 
 
                 ReturnTripId =returnTrip?.Id,

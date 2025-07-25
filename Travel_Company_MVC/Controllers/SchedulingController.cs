@@ -49,6 +49,7 @@ namespace Travel_Company_MVC.Controllers
 
 			var dto = _mapScheduleDTO(model);
 
+
 			var result =await _tripService.ScheduleTripsAsync(dto);
 
 			if(!result.Success)

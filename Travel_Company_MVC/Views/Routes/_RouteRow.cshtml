@@ -29,87 +29,21 @@
                 <div class="m-0">
 
 
-                    <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
                     <!--begin::Label-->
                     <!--begin::Title-->
 
                     <a href="#"
-                       class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.FirstStation.StationName</a>
+                       class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.FirstStation!.StationName</a>
 
+                <span class="text-muted fw-semibold fs-7 ">From</span>
 
-
-
-                    @*
-                    <!--begin::Timeline-->
-                    <div class="timeline timeline-border-dashed">
-                    <!--begin::Timeline item-->
-                    <div class="timeline-item pb-5">
-                    <!--begin::Timeline line-->
-                    <div class="timeline-line"></div>
-                    <!--end::Timeline line-->
-                    <!--begin::Timeline icon-->
-                    <div class="timeline-icon  pulse pulse-danger">
-
-
-                    <i class="fa fa-genderless text-danger fs-1"></i>
-
-                    <span class="pulse-ring border-3"></span>
-
-                    </div>
-                    <!--end::Timeline icon-->
-                    <!--begin::Timeline content-->
-                    <div class="timeline-content m-0">
-                    <!--begin::Label-->
-                    <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
-                    <!--begin::Label-->
-                    <!--begin::Title-->
-                    <a href="#"
-                    class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.FirstStation.StationName</a>
-                    <!--end::Title-->
-
-                    </div>
-                    <!--end::Timeline content-->
-                    </div>
-                    <!--end::Timeline item-->
-                    <!--begin::Timeline item-->
-                    <div class="timeline-item">
-                    <!--begin::Timeline line-->
-                    <div class="timeline-line"></div>
-                    <!--end::Timeline line-->
-                    <!--begin::Timeline icon-->
-                    <div class="timeline-icon pulse pulse-warning">
-
-
-                    <i class="fa fa-genderless text-warning fs-1"></i>
-                    <span class="pulse-ring border-3"></span>
-
-
-                    </div>
-                    <!--end::Timeline icon-->
-                    <!--begin::Timeline content-->
-                    <div class="timeline-content m-0">
-                    <!--begin::Label-->
-                    <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
-                    <!--begin::Label-->
-                    <!--begin::Title-->
-                    <a href="#"
-                    class="fs-6 text-gray-800 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a>
-                    <!--end::Title-->
-                    <!--begin::Title-->
-
-                    </div>
-                    <!--end::Timeline content-->
-                    </div>
-                    <!--end::Timeline item-->
-                    </div>
-                    <!--end::Timeline--> *@
                 </div>
                 <!--end::Item-->
             </div>
         </td>
 
         <td>
-            <div class=" mt-7 me-5">
+            <div class=" me-5">
                 <i class="ki-solid ki-black-right fs-2x text-primary  "></i>
             </div>
 
@@ -127,12 +61,12 @@
 
 
 
-                    <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
+                 
                     <!--begin::Label-->
                     <!--begin::Title-->
                     <a href="#"
-                       class="text-gray-900 fw-bold d-block text-hover-primary">@Model.LastStation.StationName</a>
-
+                       class="text-gray-900 fw-bold d-block text-hover-primary">@Model.LastStation!.StationName</a>
+                <span class="text-muted fw-semibold fs-7 ">To</span>
 
                 </div>
                 <!--end::Item-->

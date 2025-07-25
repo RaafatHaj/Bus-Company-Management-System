@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelCompany.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TravelCompany.Infrastructure.Persistence.Migrarions
+namespace TravelCompany.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250720192433_editTripsTableSomeTypsToNotAllowNull")]
+    partial class editTripsTableSomeTypsToNotAllowNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -401,9 +404,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArrivedStationOrder")
-                        .HasColumnType("int");
-
                     b.Property<int?>("BreakMinutes")
                         .HasColumnType("int");
 
@@ -419,9 +419,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<bool>("IsVehicleMoving")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LateMinutes")
-                        .HasColumnType("int");
-
                     b.Property<int?>("MainTripId")
                         .HasColumnType("int");
 
@@ -431,7 +428,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<int>("RouteId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Seats")
+                    b.Property<int>("Seats")
                         .HasColumnType("int");
 
                     b.Property<int?>("StationOrderNextToBreak")
@@ -439,6 +436,9 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     b.Property<int>("StationStopMinutes")
                         .HasColumnType("int");
+
+                    b.Property<long>("StatusCode")
+                        .HasColumnType("bigint");
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");

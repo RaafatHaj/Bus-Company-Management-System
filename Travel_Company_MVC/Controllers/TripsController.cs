@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using TravelCompany.Application.Services.Recurrings;
+using TravelCompany.Application.Services.Stations;
 using TravelCompany.Application.Services.Travels;
 
 namespace Travel_Company_MVC.Controllers
@@ -14,15 +16,18 @@ namespace Travel_Company_MVC.Controllers
         private readonly IRecurringServcie _recurringService;
         private readonly ITripService _tripService;
         private readonly IMapper _mapper;
+        private readonly IStationService _stationService;
 
-        public TripsController(IRecurringServcie recurringService, ITripService tripService, IMapper mapper)
-        {
-            _recurringService = recurringService;
-            _tripService = tripService;
-            _mapper = mapper;
-        }
 
-        [HttpGet]
+		public TripsController(IRecurringServcie recurringService, ITripService tripService, IMapper mapper, IStationService stationService)
+		{
+			_recurringService = recurringService;
+			_tripService = tripService;
+			_mapper = mapper;
+			_stationService = stationService;
+		}
+
+		[HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -147,6 +152,53 @@ namespace Travel_Company_MVC.Controllers
 
             return PartialView("_TripPatternWeeks", weeks);
         }
+
+        [HttpGet]
+        public async Task< IActionResult> TrackStationTripsIndex ()
+        {
+            var model = new TrackStationTripsViewModel();
+			var stations = await _stationService.GetAllStationsAsync();
+
+			if (stations == null)
+				return NotFound();
+
+			model.Stations = stations.Select(s => new SelectListItem()
+			{
+				Value = s.StationId.ToString(),
+				Text = s.StationName
+			}).ToList();
+
+
+
+
+			return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TrackStationTrips(int StationId)
+        {
+
+            var result = await _tripService.GetStationTripSTrack(StationId);
+
+            return PartialView("_StationTripsTrack" , result);
+
+            //var stations = await _stationService.GetAllStationsAsync();
+
+            //if (stations == null)
+            //    return NotFound();
+
+            //var stationsList = stations.Select(s => new SelectListItem()
+            //{
+            //    Value = s.StationId.ToString(),
+            //    Text = s.StationName
+            //}).ToList();
+
+
+
+
+            //return View(stationsList);
+        }
+
 
         /// Private Methods ////////////////////////////////////////////////////////////////////////////
 

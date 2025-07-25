@@ -24,9 +24,9 @@ namespace TravelCompany.Domain.DTOs
         public string? VehicleModel { get; set; }   
 
         public int RouteId { get; set; }
-        public int Seats { get; set; }
+        public int? Seats { get; set; }
         public bool HasBookedSeat { get; set; }
 
-        public long StatusCode { get; set; }
+        public int ArrivedStationOrder { get; set; }
     }
 }

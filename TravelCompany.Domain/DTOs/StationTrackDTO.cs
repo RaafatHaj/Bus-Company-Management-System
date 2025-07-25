@@ -5,29 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelCompany.Domain.Eums;
 
-namespace TravelCompany.Domain.Entities
+namespace TravelCompany.Domain.DTOs
 {
-	public class ActiveTrip
+	public class StationTrackDTO
 	{
 
 		public int TripId { get; set; }
-		public Trip? Trip { get; set; }
-		public int StationOrder { get; set; }
+		public int StationOrder {  get; set; }
 		public int StationId { get; set; }
 		public string StationName { get; set; } = null!;
 		public StationStatus Status { get; set; }
 		public string? PreviousStation { get; set; }
 		public string? NexttStation { get; set; }
-
-		public DateTime ArrivalDateTime { get; set; }
+		public DateTime ArrivalDateTime {  get; set; }
 		public DateTime DepartureDateTime { get; set; }
-		public DateTime ActualArrivalDateTime { get; set; }
-		public DateTime ActualDepartureDateTime { get; set; }
-
 		public TripStatus TripStatus { get; set; }
 		public string RouteName { get; set; } = null!;
 		public int EstimatedDistance { get; set; }
-
 
 	}
 }

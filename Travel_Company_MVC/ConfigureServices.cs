@@ -68,7 +68,7 @@ namespace Travel_Company_MVC
 			services.AddSingleton(cloudinary);
 
 
-			// Register May Custom class instead the default one so that i add my custom class , its implementation in Helper Folder .... 
+			// Register My Custom class instead the default one so that i add my custom class , its implementation in Helper Folder .... 
 
 			services.AddScoped< IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory >();
 
