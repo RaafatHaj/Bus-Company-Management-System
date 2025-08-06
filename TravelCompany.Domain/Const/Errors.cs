@@ -10,7 +10,8 @@ namespace TravelCompany.Domain.Const
 	{
 		public const string ScheduleDatesRequired = "You should select the dates you want to schedule the travel at";
 		public const string ScheduleDaysRequired = "You should select the days you want to schedule the travel at";
-		public const string RequiredFiled = "Requird field";
+		public const string RequiredFiled = "*";
+		public const string RequiredWithMessage = "* {0} is required";
 		public const string MaxLength = "Length con not be more then {1} charecter";
 		public const string Duplicated = "Another record with the same {0} is alrady exists";
         public const string ConfirmPasswordNotMatch = "The password and confirmation password do not match.";
@@ -21,5 +22,6 @@ namespace TravelCompany.Domain.Const
         public const string MaxSize = "File cannot be more that 2 MB!";
         public const string NotAllowedExtension = "Only .png, .jpg, .jpeg files are allowed!";
         public const string ReturnTimeIsEquel = "Return time can not be the same of departure time.";
+        public const string UnValidTurkishMobilPhone = "The number in not valid phone number.";
     }
 }

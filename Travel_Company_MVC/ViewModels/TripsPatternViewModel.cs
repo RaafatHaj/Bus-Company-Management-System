@@ -21,7 +21,7 @@
 
 		public int? TripsNumber { get; set; }
 		public int? UnassignedTripsNumber { get; set; }
-
+		public int OccupiedWeeksNumber { get; set; }
 
 
 	}

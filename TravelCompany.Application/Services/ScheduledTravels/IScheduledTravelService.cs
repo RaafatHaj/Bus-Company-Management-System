@@ -14,8 +14,7 @@ namespace TravelCompany.Application.Services.ScheduledTravels
 
         Task<IEnumerable<ScheduledTravelsMainViewDTO>> RetriveMainScheduledTravelsAsync();
         Task<IEnumerable<ScheduledTravelDetailDTO>> RetriveScheduledTravelDetailAsync(int scheduledTravelId);
-        Task<IEnumerable<SuitableTravelDTO>> FindSuitableTravelsAsync(int stationAId, int StationBId);
-        Task<IEnumerable<int>> GetAvaliableSeats(GetAvaliableSeatsDTO dto);
+        Task<IEnumerable<SuitableTripDTO>> FindSuitableTravelsAsync(int stationAId, int stationBId, DateTime tipDate);
 
         Task<bool> SetStationStatusAsLeftAsync(int stationId, int scheduledTravelId);
 

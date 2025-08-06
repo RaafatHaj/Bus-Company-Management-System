@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
@@ -466,7 +467,128 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 		}
 
+        public async Task<IEnumerable<SuitableTripDTO>> GetSuitableTripsAsync(int stationAId, int stationBId, DateTime tripDate)
+        {
+            var travels = new List<SuitableTripDTO>();
 
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                using (var command = new SqlCommand("sp_FindSuitableTrip", connection))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@StationAId", stationAId);
+                    command.Parameters.AddWithValue("@StationBId", stationBId);
+                    command.Parameters.Add("@Date", SqlDbType.Date).Value = tripDate.Date;
+
+                    try
+                    {
+                        await connection.OpenAsync();
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            while (reader.Read())
+                            {
+                                travels.Add(new()
+                                {
+
+                                    TripId = reader.GetInt32(reader.GetOrdinal("TripId")),
+                                    StationStatus = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
+
+                                    StationAOrder = reader.GetInt32(reader.GetOrdinal("StationOrder")),
+									StationAId= reader.GetInt32(reader.GetOrdinal("StationId")),
+									StationAName = reader.GetString(reader.GetOrdinal("StationName")),
+                                    DateAndTime = reader.GetDateTime(reader.GetOrdinal("DepartureDateTime")),
+									ArrivalDateAndTime= reader.GetDateTime(reader.GetOrdinal("StationBArrivalTime")),
+
+									StationBName = reader.GetString(reader.GetOrdinal("StationBName")),
+									StationBId= reader.GetInt32(reader.GetOrdinal("StationBId")),
+									RouteName = reader.GetString(reader.GetOrdinal("RouteName"))
+
+
+
+
+                                });
+                            }
+
+                        }
+
+
+                    }
+                    catch
+                    {
+                        return travels;
+                    }
+
+
+                }
+
+
+            }
+
+
+            return travels;
+
+        }
+
+		public async Task<(long SeatCode , IList<BookedSeatsDTO> AvalibleSeats)> GetAvaliableSeatsAsync(int tripId, int stationAId, int stationBId)
+		{
+			var avaliableSeats = new List<BookedSeatsDTO>();
+			long seatCode = 0;
+
+			using (var connection = new SqlConnection(_connectionString))
+			{
+
+				using (var command = new SqlCommand("sp_GetAvaliableSeats", connection))
+				{
+
+					command.CommandType = CommandType.StoredProcedure;
+
+					command.Parameters.AddWithValue("@TripId", tripId);
+					command.Parameters.AddWithValue("@StationAId", stationAId);
+					command.Parameters.AddWithValue("@StationBId", stationBId);
+
+					command.Parameters.Add(new SqlParameter("@SeatCode", SqlDbType.BigInt) { Direction = ParameterDirection.Output });
+
+
+					try
+					{
+						await connection.OpenAsync();
+						using (var reader = await command.ExecuteReaderAsync())
+						{
+							while (reader.Read())
+							{
+								avaliableSeats.Add(new(){
+
+								 SeatNumber=reader.GetInt32(reader.GetOrdinal("SeatNumber")),
+								 Status =(SeatStatus)reader.GetInt32(reader.GetOrdinal("Status"))
+								
+								});
+							}
+
+
+						}
+							seatCode= (long)command.Parameters["@SeatCode"].Value;
+
+
+					}
+					catch
+					{
+						return (seatCode,avaliableSeats);
+					}
+
+
+				}
+
+
+			}
+
+
+			return (seatCode, avaliableSeats);
+
+
+		}
 
 	}
 }

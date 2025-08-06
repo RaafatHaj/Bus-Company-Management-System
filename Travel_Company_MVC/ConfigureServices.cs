@@ -41,8 +41,6 @@ namespace Travel_Company_MVC
 
 			services.Configure<IdentityOptions>(options =>
 			{
-
-
                 // Default Lockout settings.
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);

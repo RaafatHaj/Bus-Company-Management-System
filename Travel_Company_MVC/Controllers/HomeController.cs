@@ -30,25 +30,12 @@ namespace Travel_Company_MVC.Controllers
         }
 
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var stationIdClaim = User.FindFirst(CustomClaimType.StationId)?.Value;
-            int stationId;
-          
-            //if( int.TryParse(stationIdClaim, out stationId))
-            //{
-            //    var controlTable =await _unitOfWork.TravelStations.GetQueryable()
-            //        .Where(t => t.StationId == stationId)
-            //        .Include(t=>t.Station)
-            //        .ToListAsync();
-            //    return View(controlTable);
-            //}
 
-
-
-
-            return View();
-        }
+			return RedirectToAction("TrackStationTripsIndex", "Trips",
+                new { stationId = User.FindFirst(CustomClaimType.StationId)!.Value });
+		}
 
         [HttpGet]
         public IActionResult Test()

@@ -113,9 +113,9 @@
 						if (track.Status == StationStatus.Moved)
 							statusColor = "badge-light-danger";
 						else if (track.Status == StationStatus.Pending)
-							statusColor = "badge-light-success";
-						else if (track.Status == StationStatus.Arrived)
 							statusColor = "badge-light-warning";
+						else if (track.Status == StationStatus.Arrived)
+							statusColor = "badge-light-primary";
 
 					}
 
@@ -176,15 +176,15 @@
 					@{
 						string color = "";
 						if (track.TripStatus == TripStatus.Unassigned)
-							color = "badge-light-warning";
-						else if (track.TripStatus == TripStatus.Pending)
 							color = "badge-light";
+						else if (track.TripStatus == TripStatus.Pending)
+							color = "badge-light-warning";
 						else if (track.TripStatus == TripStatus.Active)
 							color = "badge-light-primary";
 						else if (track.TripStatus == TripStatus.Canseled)
 							color = "badge-light-danger";
 						else if (track.TripStatus == TripStatus.Complete)
-							color = "badge-light";
+							color = "badge-light-success";
 
 					}
 

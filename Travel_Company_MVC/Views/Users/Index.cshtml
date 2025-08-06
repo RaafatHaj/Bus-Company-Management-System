@@ -5,17 +5,48 @@
 
 }
 
-<div class="card mt-3">
+<div class="d-flex justify-content-end mb-20">
 
-    <button class="btn btn-outline-primary btn-sm js-render-modal" data-url="/Users/Create"
+    <button class="btn btn-light-primary btn-sm js-render-modal" data-url="/Users/Create"
             data-travel-id="" data-title="Add User">
-        Details
+        New User
     </button>
 </div>
-<div class="card">
+
 
     <div class="table-responsive mt-3 mb-3">
-        <table class="table table-hover table-row-dashed table-row-gray-300 gy-0 gx-0 align-middle" id="datatable">
+
+     
+        <table id="Users_List_Table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <thead>
+                <tr class="fw-bold fs-6 text-gray-800 px-7">
+                    <th>UserName</th>
+                    <th>Email</th>
+                    <th>FullName</th>
+                    <th>Available</th>
+                    <th>Station</th>
+                    <th>Updated On</th>
+                    <th class="text-end"><span class="me-10">Actions</span></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var user in Model)
+                {
+                    <partial name="_UserRow" model="@user" />
+                }
+
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+     @*    <table class="table table-hover table-row-dashed table-row-gray-300 gy-0 gx-0 align-middle" id="datatable">
             <thead>
                 <tr class="fw-bold fs-6 text-gray-800" style="height: 20px; padding:0px">
                     <th class="text-dark  fw-bold" style="padding:20px 20px!important;" scope="col">UserName</th>
@@ -37,10 +68,10 @@
 
             </tbody>
          </table>
+ *@
 
-    </div>
 
-</div>
+
 
 
 

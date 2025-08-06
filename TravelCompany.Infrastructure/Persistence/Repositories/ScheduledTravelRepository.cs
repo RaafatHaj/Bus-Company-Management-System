@@ -133,19 +133,21 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
         //    return details;
         //}
 
-        public async Task<IEnumerable<SuitableTravelDTO>> GetSuitableTravelsAsync(int stationAId, int StationBId)
+        public async Task<IEnumerable<SuitableTripDTO>> GetSuitableTravelsAsync(int stationAId, int stationBId ,DateTime tripDate)
         {
-            var travels= new List<SuitableTravelDTO>();
+            var travels= new List<SuitableTripDTO>();
+
             using (var connection = new SqlConnection(_connectionString))
             {
 
-                using (var command = new SqlCommand("sp_FindSuitableTravel2", connection))
+                using (var command = new SqlCommand("sp_FindSuitableTrip", connection))
                 {
 
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@StationAId", stationAId);
-                    command.Parameters.AddWithValue("@StationBId", StationBId);
+                    command.Parameters.AddWithValue("@StationBId", stationBId);
+                    command.Parameters.AddWithValue("@Date", tripDate);
 
                     try
                     {
@@ -157,23 +159,15 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
                                 travels.Add(new()
                                 {
 
-                                    ScheduledTravelID= reader.GetInt32(reader.GetOrdinal("ScheduledTravelId")),
-                                    Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
+                                    TripId= reader.GetInt32(reader.GetOrdinal("TripId")),
+                                    StationStatus = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
 
-                                    StationAOrder=reader.GetInt32(reader.GetOrdinal("SAOrder")),
-                                    StationAId = reader.GetInt32(reader.GetOrdinal("SAId")),
-                                    StationAName = reader.GetString(reader.GetOrdinal("SAName")),
-                                    StationAArrivalDateAndTime = reader.GetDateTime(reader.GetOrdinal("SAArrivalDateAndTime")),
+                                    StationAOrder=reader.GetInt32(reader.GetOrdinal("StationOrder")),
+                                    StationAName = reader.GetString(reader.GetOrdinal("StationName")),
+                                    DateAndTime = reader.GetDateTime(reader.GetOrdinal("DepartureDateTime")),
 
-                                    StationBOrder = reader.GetInt32(reader.GetOrdinal("SBOrder")),
-                                    StationBId = reader.GetInt32(reader.GetOrdinal("SBId")),
-                                    StationBName = reader.GetString(reader.GetOrdinal("SBName")),
-                                    StationBArrivalDateAndTime = reader.GetDateTime(reader.GetOrdinal("SBArrivalDateAndTime")),
-
-
-                                    AvailableSeats = reader.GetInt32(reader.GetOrdinal("AvailabelSeats")),
-                                    BookedSeats = reader.GetInt32(reader.GetOrdinal("BookedSeats")),
-                                    RouteStationsNumber= reader.GetInt32(reader.GetOrdinal("RouteStationsNumber")),
+                                    StationBName = reader.GetString(reader.GetOrdinal("StationBName")),
+                                    RouteName = reader.GetString(reader.GetOrdinal("RouteName"))
                                     
 
 
@@ -201,52 +195,52 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
         }
 
-        public async Task<IEnumerable<int>> GetAvaliableSeatsAsync(GetAvaliableSeatsDTO dto)
-        {
-            var avaliableSeats = new List<int>();
-            using (var connection = new SqlConnection(_connectionString))
-            {
+        //public async Task<IEnumerable<int>> GetAvaliableSeatsAsync(GetAvaliableSeatsDTO dto)
+        //{
+        //    var avaliableSeats = new List<int>();
+        //    using (var connection = new SqlConnection(_connectionString))
+        //    {
 
-                using (var command = new SqlCommand("sp_GetAvaliableSeats", connection))
-                {
+        //        using (var command = new SqlCommand("sp_GetAvaliableSeats", connection))
+        //        {
 
-                    command.CommandType = CommandType.StoredProcedure;
+        //            command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@AllSeatsNumber", dto.seatsNumbers);
-                    command.Parameters.AddWithValue("@StationAOrder", dto.StationAOrder);
-                    command.Parameters.AddWithValue("@StationBOrder", dto.StationBOrder);
-                    command.Parameters.AddWithValue("@AllStationsNumber", dto.RouteStationsNumber);
-                    command.Parameters.AddWithValue("@ScheduledTravelId", dto.ScheduledTravelId);
+        //            command.Parameters.AddWithValue("@AllSeatsNumber", dto.seatsNumbers);
+        //            command.Parameters.AddWithValue("@StationAOrder", dto.StationAOrder);
+        //            command.Parameters.AddWithValue("@StationBOrder", dto.StationBOrder);
+        //            command.Parameters.AddWithValue("@AllStationsNumber", dto.RouteStationsNumber);
+        //            command.Parameters.AddWithValue("@ScheduledTravelId", dto.ScheduledTravelId);
 
-                    try
-                    {
-                        await connection.OpenAsync();
-                        using (var reader = await command.ExecuteReaderAsync())
-                        {
-                            while (reader.Read())
-                            {
-                                avaliableSeats.Add(reader.GetInt32(reader.GetOrdinal("SeatNumber")));
-                            }
+        //            try
+        //            {
+        //                await connection.OpenAsync();
+        //                using (var reader = await command.ExecuteReaderAsync())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        avaliableSeats.Add(reader.GetInt32(reader.GetOrdinal("SeatNumber")));
+        //                    }
 
-                        }
-
-
-                    }
-                    catch
-                    {
-                        return avaliableSeats;
-                    }
+        //                }
 
 
-                }
+        //            }
+        //            catch
+        //            {
+        //                return avaliableSeats;
+        //            }
 
 
-            }
+        //        }
 
 
-            return avaliableSeats;
+        //    }
 
-        }
+
+        //    return avaliableSeats;
+
+        //}
 
 
 

@@ -1,76 +1,184 @@
 ﻿@model BookTicketViewModel
 
+@{
 
-@* 		public string PersonId { get; set; } = null!;
-		public string PersonName { get; set; } = null!;
-		public string PersonPhone { get; set; } = null!;
-		public string? PersonEmail { get; set; } *@
-
-
-<form method="post" asp-action="BookSeat2">
-
-
-	<input type="hidden" asp-for="ScheduledTravelId" />
-	<input type="hidden" asp-for="StationAOrder" />
-	<input type="hidden" asp-for="StationAId" />
-	<input type="hidden" asp-for="StationBOrder" />
-	<input type="hidden" asp-for="StationBId" />
-	<input type="hidden" asp-for="RouteStationsNumber" />
-	<input type="hidden" asp-for="SeatNumber" />
-	<input type="hidden" asp-for="PersonGendor" />
+	var breadcrumb = new List<string>
+							{
+								"Bookings",
+								"Pick Ticket",
+								"Passangers Info"
+							};
+	ViewData["Breadcrumb"] = breadcrumb;
+}
 
 
-	<div class="mb-5">
+@if(!Model.BookedSeats.Any())
+{
+	<h1>Please Select Seat From Previous Page</h1>
+}
+else
+{
+	<form class="js-confirm-form" method="post" asp-action="BookSeat"
+		  data-confirm-message="true"
+		  data-title="Confirm Booking"
+		  data-message="Are you sure you want to confirm booking ?">
 
-		<div class="form-floating mb-3">
 
-			<input type="text" asp-for="PersonId" class="form-control form-control-sm form-control-solid" placeholder="Id Number" autocomplete="off" />
-			<label asp-for="PersonId"></label>
+
+		<input type="hidden" asp-for="TripId" />
+		<input type="hidden" asp-for="SeatCode" />
+		<input type="hidden" asp-for="StationAId" />
+		<input type="hidden" asp-for="StationBId" />
+		<input type="hidden" asp-for="TripDepatureDateTime" />
+
+
+		<!--begin::--Connection-->
+		<div class="rounded border d-flex flex-column p-5  mb-15 ">
+
+			<div class="d-flex p-2">
+				<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+					<h5 class="  mb-1 ">Connection Info</h5>
+					<span class="text-muted ">Set connection info for the passangers.</span>
+				</div>
+
+
+
+			</div>
+
+			<div class="d-flex flex-wrap ">
+				<div class="m-4">
+
+					<label asp-for="PersonPhone" class="form-label required">Phon Number</label>
+					<input asp-for="PersonPhone" type="text" class="form-control form-control-solid " placeholder="5** / 05** / 00905**"
+						   oninput="
+           this.value = this.value
+               .replace(/[^0-9+]/g, '')                        // remove non-digit, non-+
+               .slice(0, 14);                                  // limit max length to 13
+		   ">
+					<span asp-validation-for="PersonPhone" class="text-danger d-block mt-4"></span>
+
+
+				</div>
+
+				<div class="m-4">
+
+					<label asp-for="PersonEmail" class="form-label">Email</label>
+					<input asp-for="PersonEmail" type="email" class="form-control form-control-solid " placeholder="Email">
+					<span asp-validation-for="PersonEmail" class="text-danger d-block mt-4"></span>
+
+				</div>
+			</div>
+
+
 		</div>
+		<!--end::Connection-->
+		<!--begin::--Passengers Info-->
+		<div class="rounded border d-flex flex-column p-5  mb-3 ">
 
-		<span asp-validation-for="PersonId" class="text-danger d-block"></span>
-	</div>
+			<div class="d-flex p-2">
+				<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+					<h5 class="  mb-1 ">Passengers Info</h5>
+					<span class="text-muted ">Set personal information for passangers.</span>
+				</div>
 
-		<div class="mb-5">
 
-		<div class="form-floating mb-3">
 
-			<input type="text" asp-for="PersonName" class="form-control form-control-sm form-control-solid" placeholder="Full Name" autocomplete="off" />
-			<label asp-for="PersonName"></label>
+			</div>
+			@for (int i = 0; i < Model.BookedSeats.Count; i++)
+			{
+
+
+				<div class="separator separator-dashed border-gray-300	 my-10"></div>
+
+				<div class="d-flex flex-wrap ">
+					<div class="m-4">
+
+						<input type="hidden" asp-for="@Model.BookedSeats[i].SeatNumber" value="@Model.BookedSeats[i].SeatNumber" />
+						<label class="form-label ">Seat Number</label>
+						<input type="text" value="@Model.BookedSeats[i].SeatNumber" class="form-control form-control-solid " readonly="readonly" disabled>
+
+
+
+					</div>
+
+				</div>
+
+				<div class="d-flex flex-wrap ">
+					<div class="m-4 me-md-20">
+
+
+						<label asp-for="@Model.BookedSeats[i].PersonFirstName" class="form-label ">First Name</label>
+						<input asp-for="@Model.BookedSeats[i].PersonFirstName" type="text" class="form-control form-control-solid " placeholder="First Name">
+						<span asp-validation-for="@Model.BookedSeats[i].PersonFirstName" class="text-danger d-block mt-4"></span>
+
+
+
+					</div>
+
+					<div class="m-4">
+
+						<label asp-for="@Model.BookedSeats[i].PersonLasttName" class="form-label ">Last Name</label>
+						<input asp-for="@Model.BookedSeats[i].PersonLasttName" type="text" class="form-control form-control-solid " placeholder="Last Name">
+						<span asp-validation-for="@Model.BookedSeats[i].PersonLasttName" class="text-danger d-block mt-4"></span>
+
+
+
+					</div>
+				</div>
+
+				<div class="d-flex flex-wrap ">
+					<div class="m-4 me-md-20">
+
+						<label asp-for="@Model.BookedSeats[i].PersonId" class="form-label ">ID Number</label>
+						<input asp-for="@Model.BookedSeats[i].PersonId" type="text" class="form-control form-control-solid " placeholder="ID Number">
+						<span asp-validation-for="@Model.BookedSeats[i].PersonId" class="text-danger d-block mt-4"></span>
+
+
+
+					</div>
+
+					<div class="m-4">
+
+						<label asp-for="@Model.BookedSeats[i].PersonGender" class="form-label ">Gender</label>
+						<select asp-for="@Model.BookedSeats[i].PersonGender" class="form-select form-select-solid" data-control="select2" data-placeholder="Gender" data-hide-search="true">
+
+							<option value="0">Female</option>
+							<option value="1">Male</option>
+							<option selected></option>
+						</select>
+						<span asp-validation-for="@Model.BookedSeats[i].PersonGender" class="text-danger d-block mt-4"></span>
+
+
+
+						@* 	<label asp-for="@Model.BookedSeats[i].PersonGender" class="form-label ">Gender</label>
+				<input asp-for="@Model.BookedSeats[i].PersonGender" type="text"  class="form-control form-control-solid " placeholder="Gender">
+				<span asp-validation-for="@Model.BookedSeats[i].PersonGender" class="text-danger d-block"></span>
+				*@
+					</div>
+				</div>
+
+
+
+			}
+
+
 		</div>
-
-		<span asp-validation-for="PersonName" class="text-danger d-block"></span>
-	</div>
-
-		<div class="mb-5">
-
-		<div class="form-floating mb-3">
-
-			<input type="text" asp-for="PersonPhone" class="form-control form-control-sm form-control-solid" placeholder="Phone Number" autocomplete="off" />
-			<label asp-for="PersonPhone"></label>
+		<!--end::Passengers Info-->
+		<div class="d-flex justify-content-end py-6 px-9">
+			<button type="submit" class="btn btn-light-primary btn-sm ">Find Ticket</button>
 		</div>
-
-		<span asp-validation-for="PersonPhone" class="text-danger d-block"></span>
-	</div>
-
-	<div class="mb-5">
-
-		<div class="form-floating mb-3">
-
-			<input type="text" asp-for="PersonEmail" class="form-control form-control-sm form-control-solid" placeholder="Email" autocomplete="off" />
-			<label asp-for="PersonEmail"></label>
-		</div>
-
-		<span asp-validation-for="PersonEmail" class="text-danger d-block"></span>
-	</div>
+	</form>
+}
 
 
 
-	<button class="btn btn-primary" type="submit">submit</button>
+@section Scripts {
 
 
 
-</form>
+
+	<partial name="_ValidationScriptsPartial" />
 
 
 
+}

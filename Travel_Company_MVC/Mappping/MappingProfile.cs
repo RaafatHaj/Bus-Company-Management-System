@@ -28,10 +28,7 @@ namespace Travel_Company_MVC.Mappping
            
 
 
-            CreateMap<SuitableTravelDTO,SuitableTravelViewModel>()
-                .ForMember(dest=>dest.Time , opt=>opt.MapFrom(src=>src.StationAArrivalDateAndTime.TimeOfDay))
-                .ForMember(dest=>dest.Date , opt=>opt.MapFrom(src=>src.StationAArrivalDateAndTime))
-                ;
+            CreateMap<SuitableTripDTO,SuitableTravelViewModel>().ReverseMap();
 
             CreateMap<ApplicationUser, UserViewModel>();
 
@@ -43,9 +40,9 @@ namespace Travel_Company_MVC.Mappping
                 .ForMember(dest => dest.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToUpper()));
 
 
-            CreateMap<GetAvaliableSeatsDTO, BookTicketViewModel>();
+            //CreateMap<GetAvaliableSeatsDTO, BookTicketViewModel>();
             
-            CreateMap<BookTicketViewModel,BookingSeatDTO>();
+            CreateMap<BookTicketViewModel,BookTicketDTO>();
 
 
 

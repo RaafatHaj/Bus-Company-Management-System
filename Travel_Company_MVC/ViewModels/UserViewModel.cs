@@ -9,6 +9,7 @@
         public string Email { get; set; } = null!;
         public bool IsDeleted { get; set; }
         public DateTime? LastUpdatedOn { get; set; }
+        public string? StationName { get; set; }
 
 
     }

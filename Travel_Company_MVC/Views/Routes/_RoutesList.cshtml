@@ -20,9 +20,9 @@
 
 
 
-<div class="row">
+<div class="d-flex gap-5">
 
-	<div class="col-md-8  h-500px p-2">
+	<div class="flex-grow-1  p-2">
 
 @* 		@{
 			var tableId = "test";
@@ -48,15 +48,18 @@
 				<tbody>
 
 				
-						@foreach (var route in Model.Routes)
-						{
+			
+					@foreach (var route in Model.Routes)
+					{
 
 
-							ViewData["Extra"] = Model.ISFromScheduling;
+						ViewData["Extra"] = Model.ISFromScheduling;
 
 
-							<partial name="_RouteRow" model="route" />
-						}
+						<partial name="_RouteRow" model="route" />
+					}
+			
+				
 					
 
 
@@ -66,11 +69,14 @@
 	
 	</div>
 
-	<div class="col-md-4">
+	
+		<div class="card card-xl-stretch mb-xl-8 sticky-card scroll-y h-500px w-300px " id="route-details-card">
+			
+		
 
-		<div class="card card-xl-stretch mb-xl-8 sticky-card scroll-y h-500px" id="route-details-card">
+			
 		</div>
-	</div>
+	
 
 </div>
 

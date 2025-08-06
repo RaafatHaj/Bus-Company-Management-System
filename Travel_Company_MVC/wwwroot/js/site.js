@@ -185,23 +185,94 @@ function SumbitForm() {
         if (event.target && event.target.matches(".js-confirm-form")) {
             event.preventDefault();
 
-            ConfirmationMessage().then( (confirmed) => {
+            const customValidationFunction = event.target.getAttribute('data-custom-validation');
 
-                if (confirmed) 
-                    event.target.submit(); 
+            if (customValidationFunction && typeof window[customValidationFunction] === 'function') {
+                let isValid = window[customValidationFunction](event.target);
+                if (!isValid)
+                    return;
 
-               
+            }
 
-            }).catch(() => {
 
-                ErrorMessage();
-            });
+            if (event.target.hasAttribute('data-confirm-message')) {
 
+                let title = event.target.getAttribute('data-title');
+                let message = event.target.getAttribute('data-message');
+
+                ConfirmationMessage(title, message).then((confirmed) => {
+
+                    if (confirmed)
+                        event.target.submit();
+
+
+
+                }).catch(() => {
+
+                    ErrorMessage();
+                });
+
+            }
+                
         }
 
 
     })
 
+}
+async function  _submitAjaxForm(target) {
+    try {
+
+        const url = target.getAttribute('data-url');
+        const formData = new FormData(target);
+
+
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+
+        if (response.ok) {
+
+            let responseData = await response.text();
+
+            //if (event.target.hasAttribute('data-updete')) {
+            //    updatedRow = event.target.closest('tr');
+            //    tableId = event.target.getAttribute('data-table-id');
+
+            //}
+
+
+
+            const callbackFunctionName = target.getAttribute('data-callback');
+
+            if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
+                window[callbackFunctionName](responseData);
+
+
+
+            if (target.hasAttribute('success-message')) {
+
+                SuccessMessage(target.getAttribute('success-message'));
+            }
+
+
+
+            HideModal();
+
+        }
+        else {
+            const errorData = await response.json(); // ← this is the key fix
+            ErrorMessage(errorData.errorMessage, errorData.errorTitle);
+
+        }
+
+    }
+    catch {
+        ErrorMessage();
+
+    }
 }
 function SubmitAjaxForm() {
     document.body.addEventListener('submit', async function (event) {
@@ -210,64 +281,28 @@ function SubmitAjaxForm() {
     {
         event.preventDefault();
 
-        ConfirmationMessage().then(async (confirmed) => {
 
-            if (confirmed) {
-                try {
+        if (event.target.hasAttribute('data-confirm-message')) {
 
-                    const url = event.target.getAttribute('data-url');
-                    const formData = new FormData(event.target);
-
-               
-           
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        body: formData
-                    })
-
-                    if (response.ok) {
-
-                        let responseData = await response.text();
-
-                        //if (event.target.hasAttribute('data-updete')) {
-                        //    updatedRow = event.target.closest('tr');
-                        //    tableId = event.target.getAttribute('data-table-id');
-
-                        //}
+            let title = event.target.getAttribute('data-title');
+            let message = event.target.getAttribute('data-message');
 
 
 
-                        const callbackFunctionName = event.target.getAttribute('data-callback');
+            ConfirmationMessage(title, message).then(async (confirmed) => {
 
-                        if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
-                            window[callbackFunctionName](responseData, event.target);
-
-
-
-                        if (event.target.hasAttribute('success-message')) {
-
-                            SuccessMessage(event.target.getAttribute('success-message'));
-                        }
-                      
-
-
-                        HideModal();
-
-                    }
-                    else {
-                        const errorData = await response.json(); // ← this is the key fix
-                        ErrorMessage(errorData.errorMessage, errorData.errorTitle);
-
-                    }
-  
-                }
-                catch {
-                    ErrorMessage();
+                if (confirmed) {
+                    _submitAjaxForm(event.target);
 
                 }
+            });
+        }
+        else {
+            _submitAjaxForm(event.target);
 
-            } 
-        });
+        }
+
+   
 
     }
 
@@ -327,6 +362,8 @@ function RenderModal() {
                     updatedRow = event.target.closest('tr');
 
 
+                if (button.hasAttribute('data-has-drowpdownlist')) 
+                KTMenu.createInstances();
 
                 if (button.hasAttribute('data-title')) 
                     document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
@@ -380,12 +417,11 @@ function handleTableChiled() {
 
             // If this row is already open, just close it
             if (row.child.isShown()) {
-                $('.child-slide', row.child()).slideUp(50, function () {
-                    row.child.hide();
-                });
+
+                row.child.hide();
             } 
             else {
-                // ❗Close any other open child row
+                // Close any other open child row
                 dt.rows().every(function () {
                     if (this.child.isShown()) {
                         this.child.hide();
@@ -417,8 +453,6 @@ function handleTableChiled() {
                     let html = await response.text();
                     row.child(html).show();
 
-                    // Optional animation (make sure child has class `child-slide` if you want this)
-                    // $('.child-slide', row.child()).slideDown(200);
 
                     initilazeTimePicker();
                     $.validator.unobtrusive.parse(tr.nextElementSibling);
@@ -593,4 +627,21 @@ SumbitForm();
 handleTableChiled();
 GoToNextPageAjax();
 GoToPreviousPage();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const currentPath = window.location.pathname.toLowerCase();
+
+    document.querySelectorAll('.menu-link[href]').forEach(link => {
+        const href = link.getAttribute('href').toLowerCase();
+        if (currentPath === href ) {
+            link.classList.add('active');
+            const accordion = link.closest('.menu-accordion');
+            if (accordion) {
+                accordion.classList.add('here', 'show');
+            }
+        }
+    });
+});
+
+
 

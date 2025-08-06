@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @using TravelCompany.Infrastructure.Persistence.Entities
+@using Travel_Company_MVC.Helper
 
 @inject UserManager<ApplicationUser> UserManager
 
@@ -129,7 +130,8 @@
 				<!--begin:Menu item-->
 				<div class="menu-item">
 					<!--begin:Menu link-->
-					<a class="menu-link " href="/">
+					<a class="menu-link " asp-controller="Trips" asp-action="TrackStationTripsIndex"
+					   asp-route-stationId="@User.FindFirst(CustomClaimType.StationId)!.Value">
 						<span class="menu-icon">
 
 							<i class="ki-duotone ki-home fs-2 ">
@@ -161,45 +163,17 @@
 					<!--end:Menu link-->
 					<!--begin:Menu sub-->
 					<div class="menu-sub menu-sub-accordion">
+				
 						<!--begin:Menu item-->
 						<div class="menu-item">
-							<!--begin:Menu link-->
-							<a class="menu-link " asp-controller="Users" asp-action="Index">
-								<span class="menu-bullet">
-									<span class="bullet bullet-dot"></span>
-								</span>
-								<span class="menu-title">Test Users</span>
-							</a>
-							<!--end:Menu link-->
-							<!--begin:Menu link-->
-							<a class="menu-link " asp-controller="Booking" asp-action="FindSuitableTravels">
-								<span class="menu-bullet">
-									<span class="bullet bullet-dot"></span>
-								</span>
-								<span class="menu-title">Test Route Trips</span>
-							</a>
-							<!--end:Menu link-->
-							<!--begin:Menu link-->
-							<a class="menu-link " asp-controller="Routes" asp-action="Create">
-								<span class="menu-bullet">
-									<span class="bullet bullet-dot"></span>
-								</span>
-								<span class="menu-title">Test Route Create</span>
-							</a>
-							<!--end:Menu link-->
-
-						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
-						<div class="menu-item">
-							<!--begin:Menu link-->
+				@* 			<!--begin:Menu link-->
 							<a class="menu-link " asp-controller="Trips" asp-action="ScheduledTrips">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
 								<span class="menu-title">Test Scheduled Trips</span>
 							</a>
-							<!--end:Menu link-->
+							<!--end:Menu link--> *@
 						</div>
 						<!--end:Menu item-->
 
@@ -224,7 +198,7 @@
 					</span>
 					<!--end:Menu link-->
 					<!--begin:Menu sub-->
-					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" style="display: none; overflow: hidden;">
+					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" >
 
 
 						<!--begin:Menu item-->
@@ -238,7 +212,15 @@
 							</a>
 							<!--end:Menu link-->
 							<!--begin:Menu link-->
-							<a class="menu-link" asp-controller="Trips" asp-action="TrackStationTripsIndex">
+							<a class="menu-link" asp-controller="Trips" asp-action="ScheduledTrips">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Scheduled Trips</span>
+							</a>
+							<!--end:Menu link-->
+							<!--begin:Menu link-->
+							<a class="menu-link" href="#" >
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
@@ -265,7 +247,7 @@
 								<!--begin:Menu item-->
 								<div class="menu-item">
 									<!--begin:Menu link-->
-									<a class="menu-link" asp-controller="Scheduling" asp-action="ScheduleNewTrips">
+									<a href="#" class="menu-link">
 										<span class="menu-bullet">
 											<span class="bullet bullet-dot"></span>
 										</span>
@@ -277,7 +259,7 @@
 								<!--begin:Menu item-->
 								<div class="menu-item">
 									<!--begin:Menu link-->
-									<a class="menu-link" href="apps/user-management/users/view.html">
+									<a href="#" class="menu-link">
 										<span class="menu-bullet">
 											<span class="bullet bullet-dot"></span>
 										</span>
@@ -296,7 +278,7 @@
 					<!--end:Menu sub-->
 				</div>
 				<!--end:Menu item-->
-				<!--begin:Menu item Routes -->
+				<!--begin:Menu item --Routes -->
 				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 					<!--begin:Menu link-->
 					<span class="menu-link">
@@ -313,7 +295,7 @@
 					</span>
 					<!--end:Menu link-->
 					<!--begin:Menu sub-->
-					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" style="display: none; overflow: hidden;">
+					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" >
 
 
 						<!--begin:Menu item-->
@@ -327,7 +309,7 @@
 							</a>
 							<!--end:Menu link-->
 							<!--begin:Menu link-->
-							<a class="menu-link" href="#">
+							<a class="menu-link" asp-controller="Routes" asp-action="Create">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
@@ -341,38 +323,86 @@
 					</div>
 					<!--end:Menu sub-->
 				</div>
-				<!--end:Menu item-->
+				<!--end:Menu item Routes -->
+
 				<!--begin:Menu item Vehicles -->
-				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+
+				<div class="menu-item">
 					<!--begin:Menu link-->
-					<span class="menu-link">
+					<a class="menu-link " href="#">
 						<span class="menu-icon">
-							<i class="ki-duotone ki-bus  fs-2 ">
+
+							<i class="ki-duotone ki-bus  fs-2  ">
 								<span class="path1"></span>
 								<span class="path2"></span>
 								<span class="path3"></span>
 								<span class="path4"></span>
+								<span class="path5"></span>
 							</i>
+
 						</span>
 						<span class="menu-title">Vehicles</span>
+					</a>
+					<!--end:Menu link-->
+				</div>
+				<!--end:Menu item-->
+
+				<!--begin:Menu item Stations-->
+				<div class="menu-item">
+					<!--begin:Menu link-->
+					<a class="menu-link " href="#">
+						<span class="menu-icon">
+
+							<i class="ki-duotone ki-bank  fs-2     ">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+
+						</span>
+						<span class="menu-title">Stations</span>
+					</a>
+					<!--end:Menu link-->
+				</div>
+				<!--end:Menu item Stations-->
+
+				
+
+				<!--begin:Menu item --Bookings -->
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+					<!--begin:Menu link-->
+					<span class="menu-link">
+						<span class="menu-icon">
+							<i class="ki-duotone ki-questionnaire-tablet fs-2   ">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+						</span>
+						<span class="menu-title">Bookings</span>
 						<span class="menu-arrow"></span>
 					</span>
 					<!--end:Menu link-->
 					<!--begin:Menu sub-->
-					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120" style="display: none; overflow: hidden;">
+					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120">
 
 
 						<!--begin:Menu item-->
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link" asp-controller="Routes" asp-action="Index">
+							<a class="menu-link" asp-controller="Booking" asp-action="FindSuitableTravels">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Vehicles List</span>
+								<span class="menu-title">Pick Ticket</span>
 							</a>
 							<!--end:Menu link-->
-			
+							<!--begin:Menu link-->
+							<a class="menu-link" >
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Search</span>
+							</a>
+							<!--end:Menu link-->
 						</div>
 						<!--end:Menu item-->
 
@@ -380,7 +410,28 @@
 					</div>
 					<!--end:Menu sub-->
 				</div>
-				<!--end:Menu item-->
+				<!--end:Menu item Bookings -->
+
+
+				<!--begin:Menu item Users-->
+				<div class="menu-item">
+					<!--begin:Menu link-->
+					<a class="menu-link "  asp-controller="Users" asp-action="Index">
+						<span class="menu-icon">
+
+							<i class="ki-duotone ki-user fs-2">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+
+						</span>
+						<span class="menu-title">Users</span>
+					</a>
+					<!--end:Menu link-->
+				</div>
+				<!--end:Menu item Users-->
+
+				
 
 
 			</div>

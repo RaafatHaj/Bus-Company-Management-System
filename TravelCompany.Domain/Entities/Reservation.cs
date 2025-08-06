@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelCompany.Domain.Common;
+using TravelCompany.Domain.Eums;
 
 namespace TravelCompany.Domain.Entities
 {
-    public class Reservation
-    {
+    public class Reservation : BaseEntity
+	{
 
         public int Id { get; set; } 
 
-        public int ScheduledTravelId { get; set; }
-        public Trip? ScheduledTravel { get; set; }
+        public int TripId { get; set; }
+        public Trip? Trip { get; set; }
 
         public int StationAId {  get; set; }
         public Station? StationA { get; set; }
@@ -27,6 +29,7 @@ namespace TravelCompany.Domain.Entities
         public string PersonName { get; set; }=null!;
         public string PersonPhone { get; set; } = null!;
         public string? PersonEmail { get; set; }
-		public bool? PersonGendor { get; set; }
-	}
+        public SeatStatus PersonGender {  get; set; }
+        public DateTime TripDepartureDateTime { get; set; }
+    }
 }

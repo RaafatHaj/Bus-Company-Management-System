@@ -57,15 +57,15 @@
             @{
                 string color="";
                 if (Model.Status == TripStatus.Unassigned)
-                    color = "badge-light-warning";
-                else if (Model.Status == TripStatus.Pending)
                     color = "badge-light";
+                else if (Model.Status == TripStatus.Pending)
+                    color = "badge-light-warning";
                 else if (Model.Status == TripStatus.Active)
-                    color = "badge-light-primary";
+                    color = "badge-light-success";
                 else if (Model.Status == TripStatus.Canseled)
                     color = "badge-light-danger";
                 else if (Model.Status == TripStatus.Complete)
-                    color = "badge-light";
+                    color = "badge-light-primary";
 
             }
             <div class=" badge    @color ">@Model.Status</div>
@@ -131,15 +131,15 @@
                 @{
                     string color2 = "";
                     if (Model.ReturnStatus == TripStatus.Unassigned)
-                        color2 = "badge-light-warning";
-                    else if (Model.ReturnStatus == TripStatus.Pending)
                         color2 = "badge-light";
+                    else if (Model.ReturnStatus == TripStatus.Pending)
+                        color2 = "badge-light-warning";
                     else if (Model.ReturnStatus == TripStatus.Active)
                         color2 = "badge-light-primary";
                     else if (Model.ReturnStatus == TripStatus.Canseled)
                         color2 = "badge-light-danger";
                     else if (Model.ReturnStatus == TripStatus.Complete)
-                        color2 = "badge-light";
+                        color2 = "badge-light-success";
 
                 }
                 <div class=" badge  fw-semibold @color2 ">@Model.ReturnStatus</div>

@@ -32,7 +32,7 @@ namespace Travel_Company_MVC.Controllers
         [HttpGet]
         public async Task< IActionResult >Index()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            //var user = await _userManager.FindByIdAsync(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
 
             var users= await  _userManager.Users.ToListAsync();

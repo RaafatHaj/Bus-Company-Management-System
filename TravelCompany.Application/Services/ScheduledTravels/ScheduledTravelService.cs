@@ -12,7 +12,7 @@ using TravelCompany.Domain.Eums;
 
 namespace TravelCompany.Application.Services.ScheduledTravels
 {
-    internal class ScheduledTravelService : IScheduledTravelService
+    internal class ScheduledTravelService 
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -60,15 +60,15 @@ namespace TravelCompany.Application.Services.ScheduledTravels
         //      .ToListAsync();
         //}
 
-        public async Task<IEnumerable<SuitableTravelDTO>> FindSuitableTravelsAsync(int stationAId, int StationBId)
+        public async Task<IEnumerable<SuitableTripDTO>> FindSuitableTravelsAsync(int stationAId, int stationBId ,DateTime tipDate)
         {
-            return await _unitOfWork.ScheduledTravels.GetSuitableTravelsAsync(stationAId, StationBId);
+            return await _unitOfWork.ScheduledTravels.GetSuitableTravelsAsync(stationAId, stationBId , tipDate);
         }
 
-        public async Task<IEnumerable<int>> GetAvaliableSeats(GetAvaliableSeatsDTO dto)
-        {
-            return await _unitOfWork.ScheduledTravels.GetAvaliableSeatsAsync(dto);
-        }
+        //public async Task<IEnumerable<int>> GetAvaliableSeats(GetAvaliableSeatsDTO dto)
+        //{
+        //    return await _unitOfWork.ScheduledTravels.GetAvaliableSeatsAsync(dto);
+        //}
 
 
         //public async Task<bool> SetStationStatusAsLeftAsync(int stationId,int scheduledTravelId)
@@ -100,5 +100,7 @@ namespace TravelCompany.Application.Services.ScheduledTravels
 		{
 			throw new NotImplementedException();
 		}
+
+	
 	}
 }

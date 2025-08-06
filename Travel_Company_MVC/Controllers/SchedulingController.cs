@@ -31,9 +31,16 @@ namespace Travel_Company_MVC.Controllers
 		[HttpGet]
 		public  IActionResult ScheduleNewTrips()
         {
-			//var routes = await _routeService.GetAllRoutesAsync();
+            var breadcrumb = new List<string>
+                            {
+                                "Trips",
+                                "Scheduling"
+                            };
 
-			return View(_populateModel());
+            ViewData["Breadcrumb"] = breadcrumb;
+            //var routes = await _routeService.GetAllRoutesAsync();
+
+            return View(_populateModel());
 		}
 
 		[HttpPost]

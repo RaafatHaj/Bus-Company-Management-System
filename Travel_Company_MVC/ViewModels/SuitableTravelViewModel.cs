@@ -6,22 +6,17 @@ namespace Travel_Company_MVC.ViewModels
     public class SuitableTravelViewModel
     {
 
-        public int ScheduledTravelID { get; set; }
-        public StationStatus Status { get; set; }
+        public int TripId { get; set; }
+        public StationStatus StationStatus { get; set; }
 
         public int StationAOrder { get; set; }
-        public string StationAName { get; set; } = null!;
-        public DateTime Date{ get; set; }
-        public TimeSpan Time { get; set; }
+		public int StationAId { get; set; }
+		public string StationAName { get; set; } = null!;
+        public DateTime DateAndTime{ get; set; }
+		public DateTime ArrivalDateAndTime { get; set; }
 
-
-        public int StationBOrder { get; set; }
-        public string StationBName { get; set; } = null!;
-
-
-        public int AvailableSeats { get; set; }
-        public int BookedSeats { get; set; }
-
-        public int RouteStationsNumber { get; set; }
+		public string StationBName { get; set; } = null!;
+		public int StationBId { get; set; }
+		public string RouteName { get; set;} = null!;
     }
 }

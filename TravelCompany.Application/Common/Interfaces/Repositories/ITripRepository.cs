@@ -14,7 +14,8 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 		Task<IEnumerable<Trip>> GetAllTripsAsync();
 		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForDaysInWeekAsync(ScheduleDTO dto);
 		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForEverySingleDayAsync(ScheduleDTO dto);
-
+        Task<IEnumerable<SuitableTripDTO>> GetSuitableTripsAsync(int stationAId, int StationBId, DateTime tripDate);
+		Task<(long SeatCode, IList<BookedSeatsDTO> AvalibleSeats)> GetAvaliableSeatsAsync(int tripId, int stationAId, int stationBId);
 		Task<IEnumerable<ScheduledTripBaseDTO>> ScheduleTripsForSpecificDatesAsync(ScheduleDTO dto);
 		Task<IEnumerable<PatternWeekDTO>> GetPatternWeeks(RetrivePatternWeeksDTO dto);
 		Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);

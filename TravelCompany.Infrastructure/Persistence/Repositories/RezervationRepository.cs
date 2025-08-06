@@ -25,10 +25,10 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			_connectionString = connectionString;
 		}
 
-		public async Task<(bool IsBooked , int? ReserbationId)> BookSeatAsync(BookingSeatDTO dto)
+		public async Task<(bool IsBooked , IEnumerable<int> ReservationIDs)> BookSeatAsync(BookTicketDTO dto)
 		{
 			var isBooked = false;
-			var reservationId = 0;
+			var reservationIDs = new List<int>();
 
 			using (var connection = new SqlConnection(_connectionString))
 			{
@@ -38,37 +38,49 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 					command.CommandType = CommandType.StoredProcedure;
 
-					command.Parameters.AddWithValue("@ScheduledTravelId", dto.ScheduledTravelId);
+					command.Parameters.AddWithValue("@TripId", dto.TripId);
+					command.Parameters.AddWithValue("@SeatCode", dto.SeatCode);
 					command.Parameters.AddWithValue("@StationAId", dto.StationAId);
 					command.Parameters.AddWithValue("@StationBId", dto.StationBId);
-					command.Parameters.AddWithValue("@SeatNumber", dto.SeatNumber);
-					command.Parameters.AddWithValue("@PersonId", dto.PersonId);
-					command.Parameters.AddWithValue("@PersonName", dto.PersonName);
 					command.Parameters.AddWithValue("@PersonPhone", dto.PersonPhone);
 					command.Parameters.AddWithValue("@PersonEmail", dto.PersonEmail);
-					command.Parameters.AddWithValue("@PersonGender", dto.PersonGendor);
-					command.Parameters.AddWithValue("@StationAOrder", dto.StationAOrder);
-					command.Parameters.AddWithValue("@StationBOrder", dto.StationBOrder);
-					command.Parameters.AddWithValue("@StationsNumber", dto.RouteStationsNumber);
+					command.Parameters.AddWithValue("@UserId", dto.CreatedById);
+					command.Parameters.AddWithValue("@TripDepartureDateTime", dto.TripDepatureDateTime);
 
 
 
 					command.Parameters.Add(new SqlParameter("@IsBooked", SqlDbType.Bit) { Direction = ParameterDirection.Output });
-					command.Parameters.Add(new SqlParameter("@ReservationId", SqlDbType.Int) { Direction = ParameterDirection.Output });
+
+
+					var BookedSeats = new SqlParameter
+					{
+						ParameterName = "@BookedSeatsInfo",
+						SqlDbType = SqlDbType.Structured,
+						TypeName = "dbo.BookedSeatType",
+						Value = dto.BookedSeatsTable
+					};
+
+					command.Parameters.Add(BookedSeats);
 
 					try
 					{
 						await connection.OpenAsync();
 
-						await command.ExecuteNonQueryAsync();
+						using (var reader = await command.ExecuteReaderAsync())
+						{
+							while (reader.Read())
+							{
+								reservationIDs.Add(reader.GetInt32(reader.GetOrdinal("ReservationId")));
+							}
 
+
+						}
 						isBooked = (bool)command.Parameters["@IsBooked"].Value;
-                        reservationId= (int)command.Parameters["@ReservationId"].Value;
 
-                    }
+					}
 					catch
 					{
-						return (false, null);
+						return (isBooked, reservationIDs);
 					}
 
 
@@ -78,7 +90,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			}
 
 
-			return (isBooked,reservationId);
+			return (isBooked, reservationIDs);
 
 		}
 	}

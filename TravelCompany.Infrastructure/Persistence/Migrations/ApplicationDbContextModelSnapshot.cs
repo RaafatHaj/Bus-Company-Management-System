@@ -303,11 +303,26 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastUpdatedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("LastUpdatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PersonEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("PersonGendor")
-                        .HasColumnType("bit");
+                    b.Property<int>("PersonGender")
+                        .HasColumnType("int");
 
                     b.Property<string>("PersonId")
                         .IsRequired()
@@ -321,9 +336,6 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ScheduledTravelId")
-                        .HasColumnType("int");
-
                     b.Property<long>("SeatCode")
                         .HasColumnType("bigint");
 
@@ -336,13 +348,23 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<int>("StationBId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("TripDepartureDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ScheduledTravelId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LastUpdatedById");
 
                     b.HasIndex("StationAId");
 
                     b.HasIndex("StationBId");
+
+                    b.HasIndex("TripId");
 
                     b.ToTable("Reservations");
                 });
@@ -680,7 +702,7 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StationId")
+                    b.Property<int>("StationId")
                         .HasColumnType("int");
 
                     b.Property<string>("StationName")
@@ -702,6 +724,8 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("StationId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -800,11 +824,13 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Reservation", b =>
                 {
-                    b.HasOne("TravelCompany.Domain.Entities.Trip", "ScheduledTravel")
+                    b.HasOne("TravelCompany.Infrastructure.Persistence.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("ScheduledTravelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("TravelCompany.Infrastructure.Persistence.Entities.ApplicationUser", "LastUpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("LastUpdatedById");
 
                     b.HasOne("TravelCompany.Domain.Entities.Station", "StationA")
                         .WithMany()
@@ -818,11 +844,21 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ScheduledTravel");
+                    b.HasOne("TravelCompany.Domain.Entities.Trip", "Trip")
+                        .WithMany()
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("LastUpdatedBy");
 
                     b.Navigation("StationA");
 
                     b.Navigation("StationB");
+
+                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.RoutePoint", b =>
@@ -935,6 +971,17 @@ namespace TravelCompany.Infrastructure.Persistence.Migrarions
                     b.Navigation("FirstStation");
 
                     b.Navigation("LastStation");
+                });
+
+            modelBuilder.Entity("TravelCompany.Infrastructure.Persistence.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("TravelCompany.Domain.Entities.Station", "Station")
+                        .WithMany()
+                        .HasForeignKey("StationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Station");
                 });
 
             modelBuilder.Entity("TravelCompany.Domain.Entities.Driver", b =>

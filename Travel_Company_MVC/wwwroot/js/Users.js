@@ -22,3 +22,6 @@ function addRowToTable(newRow, form) {
     SuccessMessage();
     HideModal();
 }
+
+
+InitilaizeMetronicDatatable('Users_List_Table');

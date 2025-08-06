@@ -10,7 +10,7 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 {
     public interface IRezervationRepository: IBaseRepository<Reservation>
 	{
-		Task<(bool IsBooked, int? ReserbationId)> BookSeatAsync(BookingSeatDTO dto);
+		Task<(bool IsBooked, IEnumerable<int> ReservationIDs)> BookSeatAsync(BookTicketDTO dto);
 
 	}
 }

@@ -1,4 +1,4 @@
-﻿@model BookingViewModel;
+﻿@model PickTicketViewModel;
 
 
 
@@ -6,48 +6,159 @@
 @section Styles {
     <link href="~/lib/datatables.net-bs5/datatables.bootstrap5.min.css" rel="stylesheet" />
 
+	<style>
+		.bus-container {
+			width: fit-content;
+			margin: 20px auto;
+			font-family: sans-serif;
+			text-align: center;
+		}
+
+		.bus-front {
+			font-weight: bold;
+			margin-bottom: 10px;
+			font-size: 18px;
+		}
+
+		.seats-layout {
+			display: flex;
+			justify-content: center;
+			gap: 5px;
+		}
+
+		.seat-column {
+			display: flex;
+			flex-direction: column-reverse; /* bottom to top */
+			gap: 8px;
+		}
+
+		.seat {
+			width: 40px;
+			height: 40px;
+			border-radius: 5px;
+			line-height: 40px;
+			text-align: center;
+			color: white;
+			font-weight: bold;
+		}
+
+			/* Seat States */
+			.seat.Empty {
+/* 				outline: 2px solid gold;
+ */		    	background-color: gray; /* green/gray empty seat */
+				cursor: pointer;
+			}
+
+			.seat.BookedMale {
+				background-color: royalblue; /* blue */
+				cursor: not-allowed;
+			}
+
+			.seat.BookedFemale {
+				background-color: crimson; /* pink */
+				cursor: not-allowed;
+			}
+
+			.seat.selected {
+				background-color: orange;
+				/* outline: 2px solid gold; */
+			}
+
+		.gap-space {
+			height: 20px;
+			background: transparent;
+			cursor: default;
+		}
+
+		.aisle {
+			width: 5px;
+		}
+	</style>
+
 }
 
+@{
 
-<form method="post" class="js-ajax-form" data-callback="findSuitableTravels"
-      data-url="/Booking/FindSuitableTravels">
+	var breadcrumb = new List<string>
+							{
+								"Bookings",
+								"Pick Ticket"
+							};
 
-        <input type="hidden" value="@Model.JsonStations" id="JsonStations"/>
-        <div class="row">
+	ViewData["Breadcrumb"] = breadcrumb;
+}
 
-                        <div class="row m-4">
-                            <div class="col-md-4">
-                               <select class="form-select form-select-sm  " id="js-stationA" asp-for="@Model.StationAId" asp-items="@Model.Stations"
-                                aria-label="Small select example">
-                                    <option selected></option>
-                               </select>
-                               <span asp-validation-for="@Model.StationAId" class="text-danger"></span>
-                            </div>
+<div>
+    <form class="js-ajax-form" method="post" data-callback="findSuitableTravels"
+          data-url="/Booking/FindSuitableTravels">
 
-                            <div class="col-md-4">
-                                <select class="form-select form-select-sm" asp-for="@Model.StationBId" asp-items="@Model.Stations" id="js-stationB"
-                                     aria-label="Small select example">
-                                    <option selected></option>
-                                </select>
-                                    <span asp-validation-for="@Model.StationBId" class="text-danger"></span>
-                            </div >
-                    <div class="col-md-4">
+        <input type="hidden" value="@Model.JsonStations" id="JsonStations" />
 
-                                <button type="submit" class="btn btn-outline-primary ">Find</button>  
-                            </div>
-    
-                        </div>
+
+        <div class="d-flex gap-4 align-items-center flex-wrap ">
+
+
+			
+				<div class="d-flex align-items-center justify-content-center m-4">
+
+				<span asp-validation-for="StationAId" class="text-danger me-1"></span>
+					<label for="" class="form-label me-2" style="white-space: nowrap;">From :</label>
+
+					<select class="form-select form-select-sm w-200px " id="js-stationA" data-control="select2" asp-for="@Model.StationAId" asp-items="@Model.Stations"
+							data-placeholder="Departure">
+						<option></option>
+					</select>
+					
+
+				
+				</div>
+			
+
+               
+
+
+            <i class="ki-solid ki-arrow-right-left  text-dark-300 fs-2tx  p-0  "></i>
+
+
+
+                <div class="d-flex align-items-center justify-content-center m-4">
+				<span asp-validation-for="StationBId" class="text-danger me-1"></span>
+                    <label for="" class="form-label me-2" style="white-space: nowrap;">To :</label>
+                <select class="form-select form-select-sm w-200px" data-control="select2" asp-for="@Model.StationBId" asp-items="@Model.Stations" id="js-stationB"
+                            data-placeholder="Destination">
+                        <option></option>
+                    </select>
+                    
+                </div>
+
            
-                 
 
-     
+         
+
+
+
+
+            <div class="d-flex align-items-center ">
+                <label for="" class="form-label me-2" style="white-space: nowrap;">Date :</label>
+                <input asp-for="TripDate" class="form-control form-control-solid form-control-sm flatpickr-input w-200px" placeholder="Date" id="fixed-duration" type="date" readonly="readonly">
+				<span asp-validation-for="TripDate" class="text-danger"></span>
+
+            </div>
+
+            <div class="d-flex justify-content-end py-6 px-9">
+                <button type="submit" class="btn btn-light-primary btn-sm ">Find Ticket</button>
+            </div>
         </div>
 
-   
 
 
+    </form>
 
-</form>
+
+</div>
+
+<div class="separator separator-dashed border-gray-400 my-10"></div>
+
 
 <div id="suitable-travels-container">
 
@@ -56,9 +167,13 @@
 
 
 
+
 @section Scripts {
 
 
+
+
+	<partial name="_ValidationScriptsPartial" />
 
     <script src="~/lib/datatables.net/datatables.min.js"></script>
     <script src="~/lib/datatables.net-bs5/datatables.bootstrap5.min.js"></script>

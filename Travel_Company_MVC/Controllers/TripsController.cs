@@ -38,9 +38,15 @@ namespace Travel_Company_MVC.Controllers
         public async Task< IActionResult> ScheduledTrips()
         {
 
+			var breadcrumb = new List<string>
+                        	{
+                        		"Trips",
+                        		"Scheduled Trips"
+                        	};
 
+			ViewData["Breadcrumb"] = breadcrumb;
 
-            if (TempData["Trips"] is string tripsJson)
+			if (TempData["Trips"] is string tripsJson)
             {
                 var tripsModel = JsonConvert.DeserializeObject<IEnumerable<ScheduledTripViewModel>>(tripsJson);
                 return View(tripsModel);
@@ -52,6 +58,22 @@ namespace Travel_Company_MVC.Controllers
 
             return View(trips); // fallback
 
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetScheduledTrips(int routeId , TimeSpan time)
+        {
+            var tripsList = await _tripService.RetriveAllTripsAsync(routeId , time);
+
+            var returnTripsIds=tripsList.Select(t=>t.ReturnTripId).ToList();
+
+            var returnTripsList = await _tripService.RetriveAllTripsAsync(returnTripsIds);
+
+
+            var trips = _setTripsModel(tripsList, returnTripsList);
+
+            return PartialView("_ScheduledTrips", trips);
         }
 
         [HttpGet]
@@ -154,7 +176,7 @@ namespace Travel_Company_MVC.Controllers
         }
 
         [HttpGet]
-        public async Task< IActionResult> TrackStationTripsIndex ()
+        public async Task< IActionResult> TrackStationTripsIndex (int stationId=0)
         {
             var model = new TrackStationTripsViewModel();
 			var stations = await _stationService.GetAllStationsAsync();
@@ -168,7 +190,8 @@ namespace Travel_Company_MVC.Controllers
 				Text = s.StationName
 			}).ToList();
 
-
+            if (stationId != 0)
+                model.StationId = stationId;
 
 
 			return View(model);
@@ -268,6 +291,43 @@ namespace Travel_Company_MVC.Controllers
 
                     });
            
+
+
+            }
+
+            return tripsModel;
+        }
+
+        private IEnumerable<ScheduledTripViewModel> _setTripsModel(IEnumerable<Trip> trips , IEnumerable<Trip> returnTripsList)
+        {
+            var tripsModel = new List<ScheduledTripViewModel>();
+
+            //var mainTrips = trips.Where(t => t.MainTripId == null)
+            //    .ToList();
+
+            foreach (var trip in trips)
+            {
+                var returnTrip = returnTripsList.SingleOrDefault(t => t.MainTripId == trip.Id);
+
+                tripsModel.Add(new()
+                {
+                    TripId = trip.Id,
+                    Date = trip.Date,
+                    Time = trip.Time,
+                    Status = trip.status,
+                    DepartureStationId = trip.Route!.FirstStationId,
+                    TripTimeSpanInMInits = trip.Route!.EstimatedTime,
+                    VehicleId = trip.TripAssignment?.VehicleId,
+                    VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
+                    VehicleModel = trip.TripAssignment?.Vehicle?.Type,
+
+                    ReturnTripId = returnTrip?.Id,
+                    ReturnDate = returnTrip?.Date,
+                    ReturnTime = returnTrip?.Time,
+                    ReturnStatus = returnTrip?.status
+
+                });
+
 
 
             }

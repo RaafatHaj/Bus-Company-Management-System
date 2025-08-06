@@ -17,7 +17,7 @@ namespace TravelCompany.Application.Services.Rezervations
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<(bool IsBooked, int? ReserbationId)> BookTicketAsync(BookingSeatDTO dto)
+		public async Task<(bool IsBooked, IEnumerable<int> ReservationIDs)> BookSeatAsync(BookTicketDTO dto)
 		{
 			return await _unitOfWork.Reservations.BookSeatAsync(dto);
 		}
@@ -26,7 +26,7 @@ namespace TravelCompany.Application.Services.Rezervations
 		{
 
 			var passengers=await _unitOfWork.Reservations.GetQueryable()
-				.Where(r=>r.ScheduledTravelId==scheduledTravelId && r.StationAId==stationId).ToListAsync();
+				.Where(r=>r.TripId==scheduledTravelId && r.StationAId==stationId).ToListAsync();
 
 			return passengers;
 

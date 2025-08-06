@@ -1,181 +1,18 @@
 ﻿
 var stationAId;
 var stationBId;
-function  childRowContent(details) {
-
-
-
-    try {
-        let url = "/Booking/GetAvaliableSeats";
-
-        fetch(url, {
-            method: 'Get',
-            headers: {
-                'Content-Type': 'application/json', // Make sure to set the correct content type
-            },
-            body: details
-        }).then(response => response.json())
-            .then(data => {
-                return (
-                    '<dl class="child-row-content">' +
-                    '<dt>Full name:</dt>' +
-                    '<dd>' + "[test]" + '</dd>' +
-                    '<dt>Position:</dt>' +
-                    '<dd>' + "[test]" + '</dd>' +
-                    '<dt>Office:</dt>' +
-                    '<dd>' + "[test]" + '</dd>' +
-                    '<dt>Salary:</dt>' +
-                    '<dd>' + "[test]" + '</dd>' +
-                    '</dl>'
-                );
-
-            })
-
-  
-    }
-    catch {
-        console.log("Cancelled.");
-
-    }
-
-
-    // Steps ...
-    // 1.Deserilize details attribute ...
-    // 2.Ajax requst to with Data ...
-    // 3.Render result ...
-
-   // Parse the JSON stored in 'data-details'
-
-
-
-}
-
-function test2(s) {
-   
-    return ` <button class="btn btn-sm btn-primary" >${s}</button>`;
-}
-function test(data) {
-
-   
-  
-
-    let result = `<div class="child-row-content">`
-
-    for (var i = 0; i < data.length; i++) {
-
-    }
-
-
-    data.forEach((s) => {
-
-   
-        result += test2(s);
-        
-    })
-
-    result += ` </div>`;
-   
-    return result;
-}
-
 
 const travelContainer = document.getElementById("suitable-travels-container");
 
-function findSuitableTravels(results , form) {
+function findSuitableTravels(results ) {
 
 
     travelContainer.innerHTML = "";
     travelContainer.innerHTML = results;
 
-    const table = InitilaizeDatatable();
 
-
-    document.querySelector('#datatable tbody').addEventListener('click',async function (e) {
-
-        if (e.target.closest('.child-row-content')) {
-            return; 
-        }
-
-        if (e.target.matches(".js-table-actions")) {
-            return;
-        }
-
-        let tr = e.target.closest('tr');
-        if (!tr) return; 
-
-        let detailsJson = tr.getAttribute("data-details");
-
-        let detailsObject = JSON.parse(detailsJson);
-
-        let row = table.row(tr);
-
-        let url = tr.getAttribute("data-url");
-        stationAId = document.getElementById("js-stationA").value;
-        stationBId = document.getElementById("js-stationB").value;
-        console.log(stationAId);
-        console.log(stationBId);
-
-        detailsObject.stationAId = stationAId;
-        detailsObject.stationBId = stationBId;
-
-        detailsJson = JSON.stringify(detailsObject);
-
-        try {
-         //   let url = "/Booking/GetAvaliableSeats";
-
-             let response = await fetch(url, {
-                method: 'Post',
-                headers: {
-                    'Content-Type': 'application/json', // Make sure to set the correct content type
-                },
-                body: detailsJson
-            });
-
-            if (response.ok) {
-
-                let data = await response.text();
-
-
-                if (row.child.isShown()) {
-
-                    row.child.hide();
-                } else {
-                    console.log(data)
-                    row.child(data).show();
-                }
-
-            }
-
-
-
-  
-
-
-        }
-        catch {
-            console.log("Cancelled.");
-
-        }
-
-     
-    });
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -208,9 +45,106 @@ function FillStationBDropdownList(selectedStationId) {
 
     })
 }
-document.getElementById("js-stationA").addEventListener("change", function () {
 
-    FillStationBDropdownList(this.value) 
+
+$(document).ready(function () {
+
+    $('#js-stationA').on('select2:select', function () {
+
+        FillStationBDropdownList(this.value)
+    });
+
+
+
+    $('.flatpickr-input').flatpickr({
+     
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        defaultDate: "today"
+    })
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+document.body.addEventListener('click',async function (e) {
+
+    const button = e.target.closest(".js-details-child");
+
+    if (button) {
+
+      
+
+        let childId = button.getAttribute("data-child-id");
+        let child = document.getElementById(childId);
+
+        //const allTrips = Array.from(document.querySelectorAll('.js-details-child')).filter(t => t.getAttribute('data-child-id') != childId);
+        const allTrips = document.querySelectorAll(`.js-details-child:not([data-child-id="${childId}"])`);
+        allTrips.forEach(t => {
+            let containerId = t.getAttribute('data-child-id');
+            document.getElementById(containerId).innerHTML = "";
+        })
+
+   
+
+        if (child.innerHTML == "") {
+
+            try {
+
+                const url = button.getAttribute('data-url');
+                const response = await fetch(url);
+
+                if (!response.ok)
+                    throw new Error('Failed to load partial view');
+
+
+                const html = await response.text();
+
+
+
+                child.innerHTML = html;
+
+
+                document.querySelectorAll('.seat.Empty').forEach(seat => {
+                    seat.addEventListener('click', function () {
+                        this.classList.toggle('selected');
+                        document.querySelector('.error-block').innerHTML = "";
+                    });
+                });
+
+            }
+            catch
+            {
+
+            }
+
+        }
+        else
+            child.innerHTML = "";
+
+
+    }
 
 })
+ 
+});
 
+
+function validateSelectedSeats(form) {
+
+    const checkboxes = form.querySelectorAll('input[type="checkbox"][name*="BookedSeats"][name$=".IsSelected"]');
+
+    const selectedSeats = Array.from(checkboxes).filter(cb => cb.checked);
+
+    if (selectedSeats.length === 0) {
+
+
+        document.querySelector('.error-block').innerHTML="* Select one seat at least to book."
+
+        return false; 
+    }
+
+    document.querySelector('.error-block').innerHTML = ""
+
+    return true; 
+
+}

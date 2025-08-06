@@ -1,6 +1,84 @@
-﻿@model BookTicketViewModel
+﻿@* @model BookTicketViewModel
+ *@
 
-<form method="get" asp-action="BookSeat">
+ @model SelectSeatViewModel
+
+<form method="get" class="js-confirm-form" asp-action="BookSeat"
+	  data-confirm-message="true"
+	  data-title="Confirm Seats"
+	  data-message="Are you sure would you like to pick these seats?"
+	  data-custom-validation="validateSelectedSeats">
+	
+
+	<input  type="hidden" asp-for="TripId"/>
+	<input  type="hidden" asp-for="SeatCode"/>
+	<input  type="hidden" asp-for="StationAId"/>
+	<input  type="hidden" asp-for="StationBId"/>
+	<input  type="hidden" asp-for="TripDepatureDateTime"/>
+
+	<div class="bus-container">
+		<div class="seats-layout">
+		
+		
+
+			@for(int i=0;i<Model.BookedSeats.Count/4;i++)
+			{
+				
+					<div class="seat-column">
+
+					@for (int j=i*4;j<(i*4)+4;j++)
+					{
+						if((i*4)+2==j)
+						{
+							<div class="gap-space"></div>
+						}
+
+						<input type="hidden" asp-for="@Model.BookedSeats[j].SeatNumber" />
+						<input type="hidden" asp-for="@Model.BookedSeats[j].Status" />
+
+						if (@Model.BookedSeats[j].Status !=SeatStatus.Empty)
+						{
+							<div class="seat @(Model.BookedSeats[j].Status)">@(j + 1)</div>
+						}
+						else
+						{
+							<input asp-for="@Model.BookedSeats[j].IsSelected" type="checkbox" id="seat-@j" class="d-none" />
+							<label class="seat @(Model.BookedSeats[j].Status)" for="seat-@j">@(j + 1)</label>
+						}
+
+					
+
+					}
+
+
+					</div>
+					<div class="aisle"></div>
+				
+					
+		
+			}
+
+
+		</div>
+	</div>
+
+	<div class="d-flex justify-content-center">
+		<span class="error-block text-danger mt-4 "></span>
+
+	</div>
+
+	<div class="d-flex justify-content-end gap-10">
+
+		<button class="btn btn-sm btn-light-primary" type="submit">submit</button>
+
+	</div>
+
+
+</form>
+
+
+
+@* <form method="get" asp-action="BookSeat">
 
 
 	<input type="hidden" asp-for="ScheduledTravelId" />
@@ -56,3 +134,4 @@
 
 
 </form>
+ *@

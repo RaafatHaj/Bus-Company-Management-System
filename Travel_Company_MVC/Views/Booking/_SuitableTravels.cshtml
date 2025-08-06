@@ -3,73 +3,149 @@
 
 @if(Model.Count>0)
 {
-    <div class="table-responsive mt-3 mb-3">
-        <table class="table table-hover table-row-dashed table-row-gray-300 gy-0 gx-0 align-middle" id="datatable">
-            <thead>
-                <tr class="fw-bold fs-6 text-gray-800" >
-                    <th class="text-dark  fw-bold"     scope="col">Date</th>
-                    <th class="text-dark  fw-bold"   scope="col">Time</th>
-       @*              <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Status</th>
-                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Avaliable Seats</th>
-                    <th class="text-dark  fw-bold" style="padding:20px 5px!important" scope="col">Booked Seats</th> *@
-                    <th class="text-dark  fw-bold "     scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+	<div class=" mx-5 mx-xl-10 pt-0 pb-15">
+	
 
-                @foreach (var travel in Model)
-                {
-                    var seatsNumbers = travel.AvailableSeats + travel.BookedSeats;
+	@foreach(var trip in Model)
+	{
+		<!--begin::Users-->
+		<div class="mh-475px me-n7 pe-7">
+			<!--begin::User-->
+			<div class="border  border-hover-primary p-7 rounded mb-7">
 
-                    var additionalData = new
-                    {
-                        seatsNumbers,
-                        travel.StationAOrder,
-                        travel.StationBOrder,
-                        travel.RouteStationsNumber,
-                        travel.ScheduledTravelID
+				<!--begin::Wrapper-->
+				<div class="p-0">
 
-                    };
+					<div class="d-flex justify-content-between">
 
-                    var jsonData = Json.Serialize(additionalData);
+						<div>
 
-                    <tr data-details='@jsonData' data-url="/Booking/GetAvaliableSeats">
+							<div class="d-flex gap-2">
+								<span class="bullet bullet-dot  bg-gray-500  mt-5  "></span>
 
-                        <td style="padding:10px 20px!important;">@travel.Date.Date.ToString("dd-MM-yyyy")</td>
-                        <td style="padding:10px 5px!important">@travel.Time</td>
-                        <td style="padding:10px 5px!important">
-                            <button class="btn btn-outline-primary btn-sm js-render-modal  js-table-actions"
-                                    data-title="Travel Details">
-                                Details
-                            </button>
-                        </td> 
+								<span class="text-gray-900 fw-bold d-block fs-1">
+									@trip.DateAndTime.ToString("HH:mm")
+									<span class="text-muted fw-semibold fs-7">
+										@(trip.DateAndTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+									</span>
+									<span class="text-primary ms-2 fs-5">@trip.DateAndTime.ToString("ddd")</span>
+								</span>
 
 
-           @*              <td style="padding:10px 5px!important">
-                            <h6 class="badge text-bg-@((byte)travel.Status==0 ?"warning":"success")">  @travel.Status</h6>
-                        </td>
-                        <td class="text-success" style="padding:10px 5px!important">@travel.AvailableSeats</td>
-                        <td class ="text-danger" style="padding:10px 5px!important"> @travel.BookedSeats</td>
-                        <td style="padding:10px 5px!important">
-                            <button class="btn btn-outline-primary btn-sm js-render-modal" data-url="/ScheduledTravels/ScheduledTravelDetials?scheduledTravelId=@travel.ScheduledTravelId"
-                                    data-travel-id="@travel.ScheduledTravelId" data-large-modal="true" data-title="Travel Details">
-                                Details
-                            </button>
-                        </td> *@
-                    </tr>
-                }
+
+							</div>
+
+							<div class="text-muted fw-semibold fs-7 ms-5">
+								<span class="text-primary">
+									@trip.DateAndTime.ToString("dd")
+								</span>
+								@trip.DateAndTime.ToString("MMM")
+								@trip.DateAndTime.ToString("yyyy").
+							</div>
+						</div>
+
+						<div class="d-flex mt-2 align-items-start gap-5">
+							<div>
 
 
-            </tbody>
-        </table>
+								<span class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2">@trip.StationAName</span>
 
-    </div>
+								<span class="text-muted fw-semibold fs-7 ms-3 ">From</span>
 
+							</div>
+							<div>
+
+								@* 	<i class="ki-duotone ki-arrow-right   fs-2x text-primary ">
+						<span class="path1"></span>
+						<span class="path2"></span>
+						</i> *@
+
+								<i class="ki-duotone ki-double-right  fs-2x text-primary">
+									<span class="path1"></span>
+									<span class="path2"></span>
+								</i>
+
+
+
+							</div>
+
+							<div>
+
+
+								<span class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2">@trip.StationBName</span>
+
+								<span class="text-muted fw-semibold fs-7 ms-3 ">To</span>
+
+							</div>
+
+						</div>
+
+						<div class="d-flex gap-2 mt-2 me-15">
+
+							<div class="d-flex flex-column align-items-end ">
+
+
+								<span class="text-muted d-block  fs-5 ms-3 ">Duration : </span>
+								<span class="text-muted d-block  fs-5 ms-3 ">Route : </span>
+
+
+							</div>
+							<div>
+									@{
+										var tripHours = trip.ArrivalDateAndTime - trip.DateAndTime;
+									}
+									<span class="text-gray-900 fw-bold  text-hover-primary fs-5 ">@(tripHours.Hours.ToString("D2") + ":" + tripHours.Minutes.ToString("D2"))</span>
+								<span class="text-muted fw-semibold fs-7">Hour</span>
+								<span class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2">@trip.RouteName</span>
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+					<!--begin::Footer-->
+					<div class="d-flex flex-column">
+						<!--begin::Separator-->
+						<div class="separator separator-dashed border-muted my-5"></div>
+						<!--end::Separator-->
+						<!--begin::Action-->
+						<div class="d-flex flex-stack justify-content-end">
+					@* 		<!--begin::Progress-->
+							<div class="d-flex flex-column mw-200px">
+								<div class="d-flex align-items-center mb-2">
+									<span class="text-gray-700 fs-6 fw-semibold me-2">90%</span>
+									<span class="text-muted fs-8">Booked Seats</span>
+								</div>
+							</div>
+							<!--end::Progress--> *@
+							<!--begin::Button-->
+							<a class="btn btn-sm btn-light-primary js-details-child"
+							   data-child-id="@trip.TripId"
+								   data-url="/Booking/GetAvaliableSeats?tripId=@trip.TripId&stationAId=@trip.StationAId&stationBId=@trip.StationBId&tripDepartureDateTime=@trip.DateAndTime">Seats</a>
+							<!--end::Button-->
+						</div>
+						<!--end::Action-->
+					</div>
+					<!--end::Footer-->
+				</div>
+				<!--end::Wrapper-->
+
+				<div id="@trip.TripId" class="">
+				</div>
+			</div>
+			<!--end::User-->
+
+		</div>
+		<!--end::Users-->
+	}
+	</div>
 }
 else
 {
     <div class="mt-5 text-center">
-        <p>There is no found travels!</p>
+        <h3>There is no found travels!</h3>
     </div>
 }
 

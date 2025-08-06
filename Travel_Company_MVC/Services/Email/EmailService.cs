@@ -41,7 +41,7 @@ namespace Travel_Company_MVC.Services.Email
 
     // Understanding Confirming Email Steps ...
 
-    // 1. Generate Code => there is a built in function in identity to genetate it , it is uniqe whith the user 
+    // 1. Generate Code => there is a built in function in identity to genetate it , it is uniqe with the user 
     //     the function is =>  var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
     // 2. Generate Url using Url.Page => pass the Code and userID as a parameters to it

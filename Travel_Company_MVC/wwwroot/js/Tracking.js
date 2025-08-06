@@ -21,17 +21,33 @@ $('#Select_Station').on('change', function () {
 
 //});
 
-function liveTable() {
 
-    setInterval(() => {
-        let tableBody = $('#Tracking_Table tbody');
-        let firstRow = tableBody.find('tr:first');
 
-        // Animate row upwards and move to end
-        firstRow.fadeOut(0, function () {
-            $(this).appendTo(tableBody).fadeIn(0);
-        });
 
-    }, 4000);
+//function liveTable() {
 
-}
+//    setInterval(() => {
+//        let tableBody = $('#Tracking_Table tbody');
+//        let firstRow = tableBody.find('tr:first');
+
+//        // Animate row upwards and move to end
+//        firstRow.fadeOut(0, function () {
+//            $(this).appendTo(tableBody).fadeIn(0);
+//        });
+
+//    }, 4000);
+
+//}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // data-station-id
+
+    let button = document.getElementById('Track_Button');
+
+    if (parseInt(button.getAttribute('data-station-id')) > 0) {
+        button.click();
+
+    }
+})
