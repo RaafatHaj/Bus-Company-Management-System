@@ -45,7 +45,9 @@ namespace Travel_Company_MVC.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetRouteStations(int routeID)
         {
-            var details = await _routeService.GetRouteStationsAsync(routeID);
+			await Task.Delay(3000);
+
+			var details = await _routeService.GetRouteStationsAsync(routeID);
 
 
 			return PartialView("_RouteStations", details);

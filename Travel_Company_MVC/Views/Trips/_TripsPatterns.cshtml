@@ -22,43 +22,57 @@ else
 
     <input id="patterns_timings" type="hidden" value="@patternsTimingsJSon" />
 
+    <div class="border border-dashed  rounded p-7">
+
+        <div class="mb-10">
+            <h5>
+                Scheduled Trips
+            </h5>
+            <span class="text-muted ">All scheduled trips pattern in terms of time.</span>
+
+        </div>
+
+        <div class="separator separator-dashed border-muted my-5"></div>
+
+
+
+        <div class="table-responsive">
+
+            <table id="Trips_Patterns_Table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 scroll m-10 animate__animated  animate__fadeIn animate__slower">
+                <thead>
+                    <tr class="fw-bold fs-6 text-gray-800 px-7">
+                        <th>Pattern</th>
+                        <th></th>
+                        <th>Duration</th>
+                        <th></th>
+
+                        <th></th>
+                        <th>Actions</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+
+
+                    @foreach (var pattern in Model)
+                    {
+                        <partial name="_TripPatternRow.cshtml" model="pattern" />
+
+                    }
 
 
 
 
-    <div class="table-responsive">
 
-        <table id="Trips_Patterns_Table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 scroll m-10 animate__animated  animate__fadeIn animate__slower">
-            <thead>
-                <tr class="fw-bold fs-6 text-gray-800 px-7">
-                    <th>Pattern</th>
-                    <th></th>
-                    <th>Duration</th>
-                    <th></th>
-                 
-                    <th></th>
-                    <th>Actions</th>
+                </tbody>
+            </table>
 
 
-                </tr>
-            </thead>
-            <tbody>
-
-
-
-                @foreach (var pattern in Model)
-                {
-                    <partial name="_TripPatternRow.cshtml" model="pattern" />
-
-                }
-
-
-
-
-
-            </tbody>
-        </table>
-
-
+        </div>
     </div>
+
+
+ 
 }

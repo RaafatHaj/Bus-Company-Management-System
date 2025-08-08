@@ -82,7 +82,18 @@
 
         <a href="#"
            class="text-gray-900 fw-bold d-block text-hover-primary js-render-card"
-           data-url="/Routes/GetRouteStations?routeID=@Model.RouteId" data-card-id="route-details-card">@Model.StationsNumber Stations</a>
+           data-url="/Routes/GetRouteStations?routeID=@Model.RouteId" data-card-id="route-details-card">
+            <span class="indicator-label">
+                @Model.StationsNumber Stations
+            </span>
+            <span class="indicator-progress">
+                @Model.StationsNumber Stations<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+           
+       
+       
+       
+       </a>
 
 
             <div class="badge badge-light fw-bold">@TimeSpan.FromMinutes(Model.EstimatedTime).ToString(@"hh\:mm") hours</div>

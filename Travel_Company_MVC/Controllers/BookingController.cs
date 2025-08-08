@@ -39,8 +39,9 @@ namespace Travel_Company_MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> FindSuitableTravels()
         {
+		
 
-            var stations = await _stationService.GetAllStationsAsync();
+			var stations = await _stationService.GetAllStationsAsync();
 
             if (stations == null)
                 return NotFound();
@@ -65,7 +66,9 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> FindSuitableTravels(PickTicketViewModel model)
         {
 
-            if (!ModelState.IsValid)
+			await Task.Delay(3000);
+
+			if (!ModelState.IsValid)
                 return BadRequest();
 
 

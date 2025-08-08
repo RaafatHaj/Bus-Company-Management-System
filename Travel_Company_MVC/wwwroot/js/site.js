@@ -223,6 +223,9 @@ function SumbitForm() {
 async function  _submitAjaxForm(target) {
     try {
 
+        const button = target.querySelector('[type="submit"]');
+        button.setAttribute("data-kt-indicator", "on");
+
         const url = target.getAttribute('data-url');
         const formData = new FormData(target);
 
@@ -258,6 +261,7 @@ async function  _submitAjaxForm(target) {
             }
 
 
+            button.removeAttribute("data-kt-indicator");
 
             HideModal();
 
@@ -456,8 +460,7 @@ function handleTableChiled() {
 
                     initilazeTimePicker();
                     $.validator.unobtrusive.parse(tr.nextElementSibling);
-                } catch (err) {
-                    console.error('Child row load error:', err);
+                } catch {
                 }
 
             }
@@ -469,11 +472,13 @@ function RenderCard() {
 
     document.body.addEventListener('click', async function (event) {
 
-        if (event.target && event.target.matches('.js-render-card')) {
+        if (event.target && event.target.closest('.js-render-card')) {
 
             event.preventDefault()
-            const button = event.target;
+            const button = event.target.closest('.js-render-card');
             const cardId = button.getAttribute('data-card-id');
+
+            button.setAttribute("data-kt-indicator", "on");
 
             try {
 
@@ -513,7 +518,9 @@ function RenderCard() {
                 if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
                     window[callbackFunctionName]();
 
+              
 
+                button.removeAttribute("data-kt-indicator");
                 // Reinitialize validation
                 $.validator.unobtrusive.parse(modalBody);
 

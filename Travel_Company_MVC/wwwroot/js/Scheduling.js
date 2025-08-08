@@ -291,7 +291,7 @@ document.getElementById("Station_Stop_Duration").addEventListener("change", func
 
 function HandleAddRouteButton() {
 
-    document.getElementById('route-background').className = 'd-flex border border-dashed rounded';
+    document.getElementById('route-background').className = 'd-flex border border-dashed border-hover-primary rounded';
     const addButton = document.getElementById('add-route-button');
     addButton.className = 'btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 ms-20  js-render-modal animate__animated animate__fadeInDown ';
     addButton.innerHTML = `     <i class="ki-duotone ki-pencil fs-2 ">

@@ -4,53 +4,143 @@
 <div class="animate__animated animate__fadeInDown">
 
     <input id="Route_Id" type="hidden" asp-for="RouteId" />
-@* 
-    <div id="time-block" class="rounded border d-flex flex-column p-5  mb-3 ">
 
-        <div class="d-flex p-2">
+	<div class="mh-475px me-n7 pe-7">
+        <div class="mb-7">
 
+            <div class="d-flex align-items-center ">
 
+@*                <span class="bullet h-7px w-7px  bullet-dot  bg-success me-2 mb-2"></span>
+ *@          @*       <i class="ki-duotone ki-check fs-2x text-success mb-2">
+                </i>
+ *@
+ <div>
+     <div class="d-flex">
 
-            <div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
-                <!--begin::Title-->
-                <h5 class="  mb-1 ">Trip Time</h5>
-                <!--end::Title-->
-                <!--begin::Content-->
-                <span class="text-muted ">Set the times for your trip</span>
-                <!--end::Content-->
+                        <h5>
+                            Route
+                        </h5>
+                        <span class="bullet   bullet-dot  bg-success ms-2 mt-2"></span>
+     </div>
+                   
+                    <span class="text-muted ">Details of selected route.</span>
+
+ </div>
+              
+
+                
             </div>
-
-
-
+          
         </div>
+			<div class="p-0">
 
-        <div class="d-flex flex-wrap ">
-            <div class="d-flex flex-column">
-                <div class="d-flex">
-                    <div class="m-4">
+				<div class="d-flex gap-10 justify-content-between">
 
-                        <label class="form-label required" for="DepartureTime">Departure Time</label>
-                        <input class="form-control form-control-solid flatpickr-input" placeholder="Pick time" id="trip-time" type="text" readonly="readonly" data-val="true" data-val-required="Requird field" name="DepartureTime" value="00:00:00">
-                        <span class="text-danger d-block field-validation-valid" data-valmsg-for="DepartureTime" data-valmsg-replace="true"></span>
+					<div>
+
+						<div class="d-flex gap-2">
+                        <span class="bullet bullet-dot  bg-gray-900  mt-5  "></span>
+
+							<span class="text-gray-900 fw-bold d-block fs-1">
+								@Model.RouteName
+								
+							</span>
 
 
+
+						</div>
+
+						<div class="text-muted fw-semibold fs-7 ms-5">
+							<span class="text-primary">
+								350
+							</span>
+							km.
+						</div>
+					</div>
+
+					<div class="d-flex mt-2 align-items-start gap-5">
+						<div>
+
+
+							<span class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2">@Model.FirstStation!.StationName</span>
+
+							<span class="text-muted fw-semibold fs-7 ms-3 ">From</span>
+
+						</div>
+						<div>
+
+							<i class="ki-duotone ki-double-right  fs-2x text-primary">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+
+
+
+						</div>
+
+						<div>
+
+
+							<span class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2">@Model.LastStation!.StationName</span>
+
+							<span class="text-muted fw-semibold fs-7 ms-3 ">To</span>
+
+						</div>
+
+					</div>
+
+					
+
+				</div>
+
+            <div class="d-flex gap-4 mt-10 me-15">
+
+                <div class="d-flex flex-column align-items-start gap-3 ">
+
+                    <div class="d-flex ">
+                        <span class="bullet bullet-dot  bg-gray-900  mt-3 "></span>
+                        <span class="text-gray-800 d-block  fs-5 ms-3 ">Duration : </span>
+                        </div>
+                    <div class="d-flex ">
+                        <span class="bullet bullet-dot  bg-gray-900  mt-3 "></span>
+
+                        <span class="text-gray-800 d-block  fs-5 ms-3 ">Stations : </span>
 
                     </div>
-
+              
 
 
                 </div>
+                <div class="d-flex flex-column align-items-start gap-3">
 
-                <div id="pattern_exists" class="ms-3 mt-5"></div>
+                    <div>
+                        <span class="text-gray-900 fw-bold  fs-5 ">@TimeSpan.FromMinutes(Model.EstimatedTime).ToString(@"hh\:mm") </span>
+                        <span class="text-muted fw-semibold fs-7">Hour</span>
+
+                    </div>
+                
+
+                    <a href="#" class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2 js-render-modal"
+                       data-route-id="@Model.RouteId" data-url="/Routes/GetRouteStations?routeID=@Model.RouteId">
+                        @Model.StationsNumber<span class="text-muted fw-semibold text-hover-primary fs-7"> Station</span>
+                    </a>
+
+@* 						<span class="text-gray-900 fw-bold d-block text-hover-primary fs-5 me-2">@Model.StationsNumber</span>
+ *@					
+                  
+                </div>
 
             </div>
 
-        </div>
+
+			</div>
+		
+
+	</div>
 
 
-    </div>
- *@
-     <div class="d-flex gap-10">
+
+@*      <div class="d-flex gap-10">
 
         <div class="d-flex">
 			<span class="bullet bullet-vertical h-40px bg-primary me-5"></span>
@@ -129,7 +219,7 @@
         </div>
 
     </div> 
-
+ *@
 
 </div>
 

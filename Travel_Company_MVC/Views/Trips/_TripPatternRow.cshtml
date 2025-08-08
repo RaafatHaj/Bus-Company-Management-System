@@ -31,13 +31,15 @@ Multiple Reccuring Pattern Exists *@
             }
 
             <div class="d-flex">
-            <span class="bullet bullet-dot  bg-gray-500  mt-3  "></span>
+            <span class="bullet bullet-dot  bg-gray-500  mt-4  "></span>
             <div>
-                <a href="#"
-                   class="text-gray-900 fw-bold text-hover-primary mb-1 ms-2">
+                <div 
+                   class="text-gray-900 fw-bold  fs-1 mb-1 ms-2">
                     @DateTime.Today.Add(Model.Time).ToString("HH:mm")
-                    @(Model.Time > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
-                </a>
+                    <span class="text-muted fw-semibold fs-7">
+                        @(Model.Time > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                    </span>
+                </div>
                 <div class="d-flex gap-1">
 
                     @{
@@ -54,7 +56,7 @@ Multiple Reccuring Pattern Exists *@
                     }
 
 
-                    <a href="#" class=" badge fw-semibold  @color  ">@Model.PatternType</a>
+                    <div class=" badge fw-semibold  @color  ">@Model.PatternType</div>
 
 
                     <span class="text-muted fw-semibold fs-7 ">@(Convert.ToInt32(Model.Percentage))%</span>
@@ -147,8 +149,8 @@ Multiple Reccuring Pattern Exists *@
                 <!--begin::Label-->
                 <!--begin::Title-->
 
-                <a href="#"
-                   class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.StartDate!.Value.ToString("dd MMM yyyy")</a>
+                <div 
+                   class="text-gray-900 fw-bold  me-2">@Model.StartDate!.Value.ToString("dd MMM yyyy")</div>
                 <span class="text-muted fw-semibold fs-7">From</span>
 
 
@@ -174,8 +176,8 @@ Multiple Reccuring Pattern Exists *@
                 <!--begin::Label-->
                 <!--begin::Title-->
 
-                <a href="#"
-                   class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.EndDate!.Value.ToString("dd MMM yyyy")</a>
+                <div 
+                   class="text-gray-900 fw-bold  me-2">@Model.EndDate!.Value.ToString("dd MMM yyyy")</div>
                 <span class="text-muted fw-semibold fs-7 ">To</span>
 
 
