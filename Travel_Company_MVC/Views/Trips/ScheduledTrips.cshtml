@@ -12,112 +12,129 @@
 <div class="card ">
 
 
-
-	<!--begin::Header-->
-	<div class="card-header border-0 pt-5 mb-5">
-		<h3 class="card-title align-items-start flex-column">
-			<span class="card-label fw-bold text-gray-900">Scheduled Trips</span>
-			<span class="text-muted mt-1 fw-semibold fs-7">Total @(Model.Count) trips</span>
-		</h3>
-		<!--begin::Toolbar-->
-		<div class="card-toolbar">
-
-			<a href="#" class="btn btn-sm btn-light-success btn-active-light-primary">
-				<i class="ki-duotone ki-plus fs-2"></i>New Trip
-			</a>
-
-
-		</div>
-		<!--end::Toolbar-->
-	</div>
-	<!--end::Header-->
-
 	<div class="card-body mb-2 px-9  ">
-@*         src="~/assets/images/300-17.jpg" *@
 
 
 
-        <div class=" p-5 d-flex ">
+        <div class="">
 
-            <span class="bullet bullet-vertical h-40px bg-warning me-5"></span>
+			<!--begin::Route-->
+			<input id="route-id" type="hidden" />
+@* 			<input id="route-id" type="hidden" asp-for="@Model.RouteId" />
+			<span asp-validation-for="@Model.RouteId" class="text-danger d-block"></span> *@
+			<div class="d-flex">
 
-            <div class="d-flex gap-10">
+				<div id="route-background" class="d-flex rounded">
+					<div class=" d-flex flex-column  flex-sm-row align-items-center justify-content-between  p-5 ">
+						<!--begin::Icon-->
+						<div id="route-details" class="d-flex p-2">
+							<!--begin::Wrapper-->
+							<div class="d-flex flex-column pe-0 pe-sm-10">
+								<!--begin::Title-->
+								<h5 class="required mb-1">Route</h5>
+								<!--end::Title-->
+								<!--begin::Content-->
+								<span class="text-muted ">Select route of the trips from existed routes.</span>
+								<!--end::Content-->
+							</div>
+							<!--end::Wrapper-->
+							<!--begin::Close-->
 
-                <div>
-
-                    <!--begin::Route Name-->
-                    <div class="d-flex flex-column">
-                        <a href="#"
-                           class="text-gray-900 fw-bold text-hover-primary mb-1">D4-A</a>
-                        <span class="text-muted fw-semibold fs-7">350 km</span>
-                    </div>
-
-
-                    <!--begin::Route Name-->
-                </div>
-                <div>
-
-                    <!--begin::Item-->
-                    <div class="m-0">
-
-
-                        <span class="text-muted fw-semibold fs-7 text-uppercase">From</span>
-                        <!--begin::Label-->
-                        <!--begin::Title-->
-
-                        <a href="#"
-                           class="text-gray-900 fw-bold d-block text-hover-primary me-2">Damascus</a>
-
-
-                    </div>
-                    <!--end::Item-->
-
-                </div>
-
-                <div>
-                    <div class=" mt-5 me-5">
-                        <i class="ki-solid ki-black-right fs-2x text-danger  "></i>
-                    </div>
-
-                </div>
-
-                <div>
-                    <div class="tab-pane fade show active"
-                         id="kt_list_widget_16_tab_1"
-                         role="tabpanel">
-
-
-                        <!--begin::Item-->
-                        <div class="m-0">
+						</div>
+						<div class="flex-shrink-0 p-2 align-self-end">
 
 
 
 
-                            <span class="text-muted fw-semibold fs-7 text-uppercase">To</span>
-                            <!--begin::Label-->
-                            <!--begin::Title-->
-                            <a href="#"
-                               class="text-gray-900 fw-bold d-block text-hover-primary">Aleppo</a>
+
+							<a id="add-route-button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
+							   data-large-modal="true" data-url="/Routes/FetchAllRoutes"
+							   data-has-table="true"
+							   data-table-id="Routes_List_Table"
+							   data-title="Routes List"
+							   data-sub-title="select trip route from routes list , or create new one.">
+								<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
+								Select
+							</a>
+
+						</div>
+
+						<!--end::Close-->
+					</div>
+
+				</div>
+
+			</div>
+
+			<!--end::Route-->
+
+			<div class=" p-2 ps-8 mt-10">
 
 
-                        </div>
-                        <!--end::Item-->
-                    </div>
-                </div>
+				<!--begin::Input row-->
+				<div class="d-flex fv-row">
+					<!--begin::Radio-->
+					<div class="form-check form-check-custom form-check-solid form-check-sm">
+						<!--begin::Input-->
+						<input  class="form-check-input me-3 trip-search-radio" name="hi" type="radio" value="" id="trip-pattern-radio" checked>
+						<!--end::Input-->
+						<!--begin::Label-->
+						<label for="trip-pattern-radio" class="form-check-label">
+							<div class="fw-bold text-gray-800">Trip Patterns</div>
+							<div class="text-gray-600">View the recurring schedule templates for this route.</div>
+						</label>
+						<!--end::Label-->
+					</div>
+					<!--end::Radio-->
+				</div>
+				<!--end::Input row-->
+				<div class="separator separator-dashed my-5"></div>
+				<!--begin::Input row-->
+				<div class="d-flex fv-row">
+					<!--begin::Radio-->
+					<div class="form-check form-check-custom form-check-solid form-check-sm">
+						<!--begin::Input-->
+						<input class="form-check-input me-3 trip-search-radio" name="hi" type="radio" value="" id="specific-trips-radio"
+							   data-has-sub-options="true">
+						<!--end::Input-->
+						<!--begin::Label-->
+						<label for="specific-trips-radio" class="form-check-label">
+							<div class="fw-bold text-gray-800">Specific Trips</div>
+							<div class="text-gray-600">View actual trips scheduled for this route.</div>
+						</label>
+						<!--end::Label-->
+					</div>
+					<!--end::Radio-->
+				</div>
+				<!--end::Input row-->
+			</div>
 
-                <div>
-
-                    <div class="text-gray-800  mb-2 ms-2">
-                        4<span> station</span>
-                    </div>
-
-                    <div class="badge badge-light fw-bold">4 hours</div>
-                </div>
-
-            </div>
+			<div id="date-search-box" class="ps-13 mt-7" >
 
 
 
+			</div>
+
+		
+	
+			<div class="d-flex justify-content-end  px-9">
+				<button type="submit" class="btn btn-sm btn-light-primary btn-active-primary ">
+					@* <i class="ki-duotone ki-eye fs-1">
+						<span class="path1"></span>
+						<span class="path2"></span>
+						<span class="path3"></span>
+					</i> *@
+
+					<i class="bi bi-search"></i>
+					<span class="indicator-label">
+						Find
+					</span>
+					<span class="indicator-progress">
+						Finding... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+					</span>
+
+				</button>
+			</div>
         </div>
 
 
@@ -131,6 +148,125 @@
 
 
 
+<template id="date-search-box-template">
+
+	<div class="d-flex   ">
+		<div class="d-flex  pe-0 pe-sm-10 mb-7">
+			<div class="d-flex flex-column ">
+
+				<div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+					<span class="text-muted ">Select a month to see all trips within that month, or select a specific date to view trips operating on that day.</span>
+				</div>
+
+
+				<div class="d-flex flex-column gap-5 flex-md-row gap-md-10">
+
+					<div>
+						<label class="form-label required d-block">Search Options</label>
+						<select id="search-options-select2" class="form-select form-select-sm form-select-solid w-200px " data-control="select2" data-placeholder="Date Options" data-hide-search="true">
+
+							<option value="month">Certain Month</option>
+							<option value="date">Certain Date</option>
+							<option selected></option>
+						</select>
+
+
+
+					</div>
+					<div id="date-options-box" class="d-flex flex-column align-items-center gap-5 mt-8">
+
+
+
+
+
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+
+
+
+
+</template>
+
+<template id="date-options-box-template-date">
+	<div>
+
+
+	<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Date" type="text" readonly="readonly">
+	<span class="text-danger d-block"></span>
+	</div> 
+</template>
+
+<template id="date-options-box-template-month" >
+
+
+
+		<div>
+
+			<select id="month-options-select2" class="form-select form-select-sm form-select-solid w-200px " data-control="select2" data-placeholder="Month">
+
+				<option value="1">1 January</option>
+				<option value="2">2 February</option>
+				<option value="3">3 March</option>
+				<option value="4">4 April</option>
+				<option value="5">5 May</option>
+				<option value="6">6 June</option>
+				<option value="7">7 July</option>
+				<option value="8">8 August</option>
+				<option value="9">9 September</option>
+				<option value="10">10 October</option>
+				<option value="11">11 November</option>
+				<option value="12">12 December</option>
+				<option selected></option>
+			</select>
+
+		</div>
+
+
+		<div>
+
+			<div class="m-4 mt-0 d-flex">
+				<!--begin::Dialer-->
+				<div class="input-group w-md-200px" id="year_dialer"
+					 data-kt-dialer="true"
+					 data-kt-dialer-max="2050"
+					 data-kt-dialer-min="1990"
+					 data-kt-dialer-step="1"
+					 data-kt-dialer-suffix=" Year">
+
+					<!--begin::Decrease control-->
+					<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease">
+						<i class="ki-duotone ki-minus fs-2"></i>
+					</button>
+					<!--end::Decrease control-->
+					<!--begin::Input control-->
+					<input id="Break_Minutes" type="text" class="form-control" readonly placeholder="Minutes" value="2025" data-kt-dialer-control="input" />
+					<!--end::Input control-->
+					<!--begin::Increase control-->
+					<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
+						<i class="ki-duotone ki-plus fs-2"></i>
+					</button>
+					<!--end::Increase control-->
+				</div>
+				<!--end::Dialer-->
+
+			</div>
+
+
+
+
+		</div>
+	
+
+
+</template>
 
 
 @section Plugins {
@@ -147,7 +283,8 @@
 
     </script>
 
-    <script src="~/js/VehicleAvalibility.js"></script>
-
+@*     <script src="~/js/VehicleAvalibility.js"></script>
+ *@
+	<script src="~/js/scheduledtrips.js"></script>
 
 }

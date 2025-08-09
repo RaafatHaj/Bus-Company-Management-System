@@ -1,106 +1,197 @@
 ﻿
-//function handleTableChiled() {
+function test() {
 
-//   // let table = $('#kt_datatable_dom_positioning').DataTable();
+    let test = document.getElementById('1');
+    let test2 = document.getElementById('2');
 
-//    document.querySelector('#kt_datatable_dom_positioning tbody').addEventListener('click', async function (e) {
+    console.log(test.value);
+    console.log(test2.value);
 
-    
+    initilazeMainTimePicker();
+    initilazeReturnTimePicker();
 
-//        if (e.target.closest(".js-table-chiled")) {
-
-//            let tr = e.target.closest('tr');
-//            if (!tr) return;
-
-//            //let detailsJson = tr.getAttribute("data-details");
-
-//            //let detailsObject = JSON.parse(detailsJson);
-
-//            let row = table.row(tr);
-
-//            if (row.child.isShown()) {
-//                row.child.hide();
-//                // Animate hiding
-//                $('.child-slide', row.child()).slideUp(50, function () {
-//                    row.child.hide(); // Hide the DataTable row after animation completes
-//                });
-//            } else {
-
-//                try {
+    initilazeMainDatePicker()
+    initilazeReturnDatePicker();
+}
 
 
-//                    let test = tr.getAttribute('data-url');
-//                    const response = await fetch(tr.getAttribute('data-url'));
+function initilazeMainTimePicker() {
+    $(".flatpickr-main-time").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i"
+    });
+}
 
+function initilazeReturnTimePicker() {
+    $(".flatpickr-return-timr").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
 
+    });
+}
 
-//                    if (!response.ok)
-//                        throw new Error('Failed to load partial view');
+function initilazeMainDatePicker() {
+    $(".flatpickr-main-date").flatpickr({
+        minDate: "today",
+        maxDate: "",
+        jumpToDate: "today"
+    });
+}
 
-//                    const html = await response.text();
-
-                 
-
-//                    row.child(html).show();
-         
-//                    //$('.child-slide', row.child()).slideDown(600); // Animate it
-//                    initilazeTimePicker();
-//                    // Reinitialize validation
-//                    $.validator.unobtrusive.parse(tr.nextElementSibling);
-
-
-//                } catch {
-
-
-//                }
+function initilazeReturnDatePicker() {
+    $(".flatpickr-return-date").flatpickr({
+        minDate: "today",
+        maxDate: "",
+        jumpToDate: "today"
+    });
+}
 
 
 
+//  Handle Search Options ...
+function HandleSearchOptions() {
 
 
-   
-
-//            }
-//        }
-      
+    $('#search-options-select2').select2({
+        minimumResultsForSearch: Infinity // hides search box
+    });
 
 
-        
+    $('#search-options-select2').on('change', function (e) {
+
+        if (e.target.value === 'month') {
+
+            const content = document.getElementById('date-options-box');
+            const template = document.getElementById('date-options-box-template-month');
+            content.innerHTML = template.innerHTML;
+
+            // Dialer container element
+            var dialerElement = document.getElementById("year_dialer");
+
+            // Create dialer object and initialize a new instance
+            var dialerObject = new KTDialer(dialerElement, {
+
+                max: 2050,
+                step: 1,
+                suffix: " Year",
+                decimals: 0
+            });
+
+            $('#month-options-select2').select2();
+
+        }
+        else {
+
+            const content = document.getElementById('date-options-box');
+            const template = document.getElementById('date-options-box-template-date');
+            content.innerHTML = template.innerHTML;
+
+            $(".flatpickr-input").flatpickr({
+                jumpToDate: "today"
+            });
+
+        }
+
+    });
+}
+function ShowSubOptions() {
+
+    const content = document.getElementById('date-search-box');
+    const template = document.getElementById('date-search-box-template');
+    content.innerHTML = template.innerHTML;
+
+    HandleSearchOptions();
+
+
+}
+function HandleRadioButtonsSubOptions() {
+
+
+    document.querySelectorAll('.trip-search-radio').forEach(radio => {
+
+        radio.addEventListener('change', function () {
+
+           
+
+            if (radio.hasAttribute('data-has-sub-options')) {
+
+                ShowSubOptions();
+
+
+
+            }
+            else {
+                const content = document.getElementById('date-search-box');
+                content.innerHTML = "";
+
+            }
+
+        })
+     
+
+
+    })
+
+
+}
 
 
 
 
-//    });
 
-//}
-
-//function initilazeTimePicker(test,test) {
-//    $(".flatpickr-input").flatpickr({
-//        enableTime: true,
-//        noCalendar: true,
-//        dateFormat: "H:i",
-//    });
-//}
-//$(document).ready(function () {
-   
-
-//    $("#trip-time").flatpickr({
-//        enableTime: true,
-//        noCalendar: true,
-//        dateFormat: "H:i",
-//    });
+HandleRadioButtonsSubOptions();
 
 
+function HandleAddRouteButton() {
 
-//    $("#reverse-trip-time").flatpickr({
-//        enableTime: true,
-//        noCalendar: true,
-//        dateFormat: "H:i",
-//    });
+    document.getElementById('route-background').className = 'd-flex border border-dashed border-hover-primary rounded';
+    const addButton = document.getElementById('add-route-button');
+    addButton.className = 'btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 ms-20  js-render-modal animate__animated animate__fadeInDown ';
+    addButton.innerHTML = `     <i class="ki-duotone ki-pencil fs-2 ">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>`
+}
+
+document.body.addEventListener('click', async function (event) {
+
+    if (event.target && event.target.closest('.js-select-route')) {
+
+        event.preventDefault()
+
+        const btn = event.target.closest('.js-select-route');
+        const routeId = btn.getAttribute('data-route-id')
+        const test = document.getElementById('route-id');
+        test.value = routeId;
+       
+        try {
+
+            const response = await fetch(btn.getAttribute('data-url'));
+
+
+            if (!response.ok)
+                throw new Error('Failed to load partial view');
+
+            const html = await response.text();
+
+            HandleAddRouteButton();
+            document.getElementById("route-details").innerHTML = html;
 
 
 
 
 
-//});
-/*handleTableChiled();*/
+        } catch {
+
+
+        }
+
+        HideModal();
+
+
+    }
+})
+
+

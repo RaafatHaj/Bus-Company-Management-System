@@ -328,6 +328,28 @@ function RenderModal() {
             const button = event.target.closest('.js-render-modal');
            // const id = button.getAttribute('data-travel-id');
             // modal-xl
+
+            if (button.hasAttribute("data-large-modal")) {
+                document.getElementById("ModalDialog").classList.add("modal-lg")
+                document.getElementById("ModalDialog").classList.add("modal-xl")
+
+            }
+            else if (button.hasAttribute("data-middle-modal")) {
+                document.getElementById("ModalDialog").classList.add("modal-lg")
+                document.getElementById("ModalDialog").classList.remove("modal-xl")
+
+            }
+            else {
+                document.getElementById("ModalDialog").classList.remove("modal-xl")
+                document.getElementById("ModalDialog").classList.add("modal-lg")
+            }
+
+            const modalBody = document.getElementById("modal-body");
+
+            modalBody.innerHTML = "<h1>Please Wait...</h1>";
+            modal.show();
+
+
             try {
 
                 const response = await fetch(button.getAttribute('data-url'));
@@ -336,22 +358,7 @@ function RenderModal() {
                 //    updatedRow = event.target.closest('tr');
 
                 //modal-dialog modal-lg
-                if (button.hasAttribute("data-large-modal")) {
-                    document.getElementById("ModalDialog").classList.add("modal-lg")
-                    document.getElementById("ModalDialog").classList.add("modal-xl")
-
-                }
-                else if (button.hasAttribute("data-middle-modal")) {
-                    document.getElementById("ModalDialog").classList.add("modal-lg")
-                    document.getElementById("ModalDialog").classList.remove("modal-xl")
-
-                }
-                else {
-                    document.getElementById("ModalDialog").classList.remove("modal-xl")
-                    document.getElementById("ModalDialog").classList.add("modal-lg")
-                }
-               
-
+         
 
 
                     if (!response.ok)
@@ -375,8 +382,7 @@ function RenderModal() {
                 if (button.hasAttribute('data-sub-title'))
                     document.getElementById("ModalSubTitle").innerHTML = button.getAttribute("data-sub-title");
 
-                let modalBody = document.getElementById("modal-body");
-
+               
                 modalBody.innerHTML = html;
                 
 
@@ -397,7 +403,7 @@ function RenderModal() {
 
             }
 
-            modal.show();
+      /*      modal.show();*/
 
 
         }
