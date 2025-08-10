@@ -167,14 +167,25 @@ namespace TravelCompany.Application.Services.Travels
 
 		}
 
-		public async Task<IEnumerable<TripPattern>> GetTripsPattern(int routeId)
+		public async Task<IEnumerable<TripPattern>> GetTripsPatterns(int routeId)
 		{
 
 			return await _unitOfWork.TripPatterns.GetQueryable().Where(p=>p.RouteId == routeId).ToListAsync();
 
 		}
 
-        public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(RetrivePatternWeeksDTO dto)
+		public async Task<(IEnumerable<TripPattern>? TripsPatterns , IEnumerable<Trip>? Trips)> SearchForTrips(ScheduledTripsSearchDTO dto)
+		{
+			if(dto.SearchType == TripSearchType.TripPatterns)
+			{
+			    var tripsPatterns= await GetTripsPatterns(dto.RouteId);
+				return (tripsPatterns, null);
+			}
+
+			return (null, null);
+		}
+
+        public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(PatternWeeksRequestDTO dto)
         {
             return await _unitOfWork.Trips.GetPatternWeeks(dto);
         }
@@ -189,74 +200,6 @@ namespace TravelCompany.Application.Services.Travels
 			return await _unitOfWork.Trips.GetAvaliableSeatsAsync(tripId,  stationAId,  stationBId);
 		}
 
-		//public async Task<SchedulingResult> ScheduleNewTravelsAsync(ScheduleDTO schedule)
-		//{
-		//	var result = new SchedulingResult();
-
-		//	//var travel=await FindTravelAsync(schedule.TravelTime,schedule.RouteId);
-
-		//	//if(travel == null)
-		//	//{
-		//	//	//schedule.TravelId = await _unitOfWork.Travels.CreateTravelAsync(schedule);
-
-		//	//	if(schedule.TravelId > 0)
-		//	//	{
-
-		//	//	    //result.IsSuccess = await _unitOfWork.Travels.ScheculeTravelsAsync(schedule);
-		//	//		result.Status = "success";
-		//	//		result.Message = "New travel has been creatd , and scheduling done successfully ";
-
-		//	//		return result;
-		//	//	}
-
-
-		//	////}
-
-		//	////if(schedule.StartingDate > travel!.ScheduleEndingDate)
-		//	////{
-		//	////	// edit scheduleType
-		//	////	// remove Travel days from db
-		//	////	// schedule new travel as previous one
-
-		//	////	result.IsSuccess = true;
-
-		//	////	result.Status = "success";
-		//	////	result.Message = ", and scheduling done successfully ";
-
-		//	////	return result;
-
-		//	////}
-
-		//	////if (schedule.StartingDate < travel!.ScheduleEndingDate)
-		//	////{
-
-
-		//	////	// split the ScheduledTravels into two group 
-
-		//	////	// edit travel schedule type 
-		//	////	// remove travel days and edit it if nesserry
-
-		//	////	// Scedule travels after ScheduleEndingDate as normel as we do
-
-		//	////	// coming to ScheduledTravels that have dates after schedule.StartingDate
-		//	////	// asking user if they want to 
-		//	////	//      1- remove it and schedule by new aprouche ( handle bookings )
-		//	////	//      2- keep it and schedule new travels that not exist already
-
-		//	////	result.IsSuccess = false;
-		//	////	result.Status = "needMoreData";
-		//	////	result.Message = ", and scheduling done successfully ";
-
-		//	////	return result;
-
-		//	//}
-
-
-
-
-
-
-		//	return result;
-		//}
+	
 	}
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TravelCompany.Domain.DTOs
 {
-    public class RetrivePatternWeeksDTO
+    public class PatternWeeksRequestDTO
     {
 
         public int RouteId {  get; set; }

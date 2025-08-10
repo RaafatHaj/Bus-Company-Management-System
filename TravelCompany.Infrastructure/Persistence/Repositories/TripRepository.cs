@@ -79,7 +79,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 		}
 
-        public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeks(RetrivePatternWeeksDTO dto)
+        public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeks(PatternWeeksRequestDTO dto)
         {
             var trips = new List<PatternWeekDTO>();
 

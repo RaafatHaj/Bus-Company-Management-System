@@ -213,6 +213,9 @@ function SumbitForm() {
                 });
 
             }
+            else {
+                event.target.submit();
+            }
                 
         }
 

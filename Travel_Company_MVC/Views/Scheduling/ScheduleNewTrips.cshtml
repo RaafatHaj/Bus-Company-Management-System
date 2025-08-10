@@ -35,7 +35,10 @@
 
 </div>
 
-<form class="js-confirm-form" asp-action="ScheduleNewTrips" method="post" >
+<form class="js-confirm-form" asp-action="ScheduleNewTrips" method="post"
+	  data-confirm-message="true"
+	  data-title="Scheduling Confirming"
+	  data-message="Are you sure you want to set this schedule?">
 
 	<input id="edit_status" type="hidden" asp-for="IsEditStatus" />
  

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using TravelCompany.Application.Services.Recurrings;
 using TravelCompany.Application.Services.Stations;
@@ -35,33 +36,72 @@ namespace Travel_Company_MVC.Controllers
 
 
         [HttpGet]
-        public async Task< IActionResult> ScheduledTrips()
+        public  IActionResult ScheduledTrips()
         {
 
-			var breadcrumb = new List<string>
-                        	{
-                        		"Trips",
-                        		"Scheduled Trips"
-                        	};
+			
 
-			ViewData["Breadcrumb"] = breadcrumb;
-
-			if (TempData["Trips"] is string tripsJson)
-            {
-                var tripsModel = JsonConvert.DeserializeObject<IEnumerable<ScheduledTripViewModel>>(tripsJson);
-                return View(tripsModel);
-            }
+			//if (TempData["Trips"] is string tripsJson)
+   //         {
+   //             var tripsModel = JsonConvert.DeserializeObject<IEnumerable<ScheduledTripViewModel>>(tripsJson);
+   //             return View(tripsModel);
+   //         }
 
 
-            var tripsList = await _tripService.RetriveAllTripsAsync();
-            var trips = _setTripsModel(tripsList);
+            //var tripsList = await _tripService.RetriveAllTripsAsync();
+            //var trips = _setTripsModel(tripsList);
+            var model = new ScheduledTripsSearchViewModel();
 
-            return View(trips); // fallback
+			return View(model); // fallback
 
         }
 
 
-        [HttpGet]
+
+
+        //      [HttpPost]
+        //      public async Task<IActionResult> FindScheduledTripsAsync( ScheduledTripsSearchViewModel model)
+        //      {
+        //	if (!ModelState.IsValid)
+        //		return BadRequest();
+
+        //	return View("~/Views/Trips/ScheduledTrips.cshtml");
+        //}
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> GetScheduledTrips(ScheduledTripsSearchViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            //var result = await _tripService.SearchForTrips(_mapper.Map<ScheduledTripsSearchDTO>(model));
+
+            if (model.SearchType == TripSearchType.TripPatterns)
+            {
+                var patterns = await _tripService.GetTripsPatterns(model.RouteId);
+
+                var resultModel = _mapper.Map<IEnumerable<TripsPatternViewModel>>(patterns);
+
+                return PartialView("_TripsPatterns", resultModel);
+            }
+            else
+            {
+                var tripsList = await _tripService.RetriveAllTripsAsync();
+                var trips = _setTripsModel(tripsList);
+
+                return PartialView("_ScheduledTrips", trips);
+
+            }
+
+          
+		}
+
+
+
+		[HttpGet]
         public async Task<IActionResult> GetScheduledTrips(int routeId , TimeSpan time)
         {
             var tripsList = await _tripService.RetriveAllTripsAsync(routeId , time);
@@ -80,7 +120,7 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> GetTripTimingDetails(int tripId)
         {
 
-            var trip =await _tripService.FindTripByIdAsync(tripId);
+            var trip = await _tripService.FindTripByIdAsync(tripId);
 
             if (trip is null)
                 return BadRequest();
@@ -91,83 +131,72 @@ namespace Travel_Company_MVC.Controllers
             var model = _setTripTimigDetailsModel(trip, returnTrip);
 
 
-            return PartialView("_TripTimingDetails",model);
+            return PartialView("_TripTimingDetails", model);
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> EditTripTiming(ScheduledTripViewModel model)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> EditTripTiming(ScheduledTripViewModel model)
+        //{
 
-            //var trip = await _tripService.FindTripByIdAsync(model.TripId);
+        //    //var trip = await _tripService.FindTripByIdAsync(model.TripId);
 
-            //if(trip==null)
-            //    return BadRequest();
+        //    //if(trip==null)
+        //    //    return BadRequest();
 
-            var result = await _tripService.EditTripTimeAsync(_mapper.Map<TripTimingDTO>(model));
+        //    var result = await _tripService.EditTripTimeAsync(_mapper.Map<TripTimingDTO>(model));
 
-            if (!result.Success)
-                return BadRequest();
-
-
-            model.TripId = result.Trip!.Id;
-            model.Date = result.Trip.Date;
-            model.Time = result.Trip.Time;
+        //    if (!result.Success)
+        //        return BadRequest();
 
 
-            if (model.ReturnTripId!=null)
-            {
-
-                var result2 = await _tripService.EditTripTimeAsync(new TripTimingDTO()
-                {
-                    TripId = model.ReturnTripId!.Value,
-                    Date = model.ReturnDate!.Value,
-                    Time = model.ReturnTime!.Value
+        //    model.TripId = result.Trip!.Id;
+        //    model.Date = result.Trip.Date;
+        //    model.Time = result.Trip.Time;
 
 
-                });
+        //    if (model.ReturnTripId!=null)
+        //    {
+
+        //        var result2 = await _tripService.EditTripTimeAsync(new TripTimingDTO()
+        //        {
+        //            TripId = model.ReturnTripId!.Value,
+        //            Date = model.ReturnDate!.Value,
+        //            Time = model.ReturnTime!.Value
+
+
+        //        });
 
 
 
-                if (!result2.Success)
-                    return BadRequest();
+        //        if (!result2.Success)
+        //            return BadRequest();
 
 
-                model.ReturnTripId = result2.Trip!.Id;
-                model.ReturnDate   = result2.Trip.Date;
-                model.ReturnTime   = result2.Trip.Time;
+        //        model.ReturnTripId = result2.Trip!.Id;
+        //        model.ReturnDate   = result2.Trip.Date;
+        //        model.ReturnTime   = result2.Trip.Time;
 
-            }
+        //    }
 
-            return PartialView("_ScheduledTripRow", model);
+        //    return PartialView("_ScheduledTripRow", model);
 
-        }
+        //}
+
 
         [HttpGet]
-        public async Task<IActionResult> GetTripsPatterns(int routeId = 1)
+        public async Task<IActionResult> GetTripsPatterns(int routeId)
         {
 
-            var patterns =await  _tripService.GetTripsPattern(routeId);
-
-            var model = _mapper.Map<IEnumerable<TripsPatternViewModel>>(patterns);
-
-            return View("TripsPatterns", model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetRouteTripsPatters(int routeId)
-        {
-
-			var patterns = await _tripService.GetTripsPattern(routeId);
+			var patterns = await _tripService.GetTripsPatterns(routeId);
 
 			var model = _mapper.Map<IEnumerable<TripsPatternViewModel>>(patterns);
 
 			return PartialView("_TripsPatterns" , model);
-            //return PartialView("_RouteTrips",await _recurringService.GetRouteTripPattern(routeId));
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetPatternWeeks([FromBody] RetrivePatternWeeksDTO dto)
+        public async Task<IActionResult> GetPatternWeeks([FromBody] PatternWeeksRequestDTO dto)
         {
 
             var weeks = await _tripService.GetPatternWeeksAsync(dto);

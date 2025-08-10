@@ -61,23 +61,25 @@ function HandleSearchOptions() {
 
     $('#search-options-select2').on('change', function (e) {
 
-        if (e.target.value === 'month') {
+        if (e.target.value === 'SpecificMonth') {
 
             const content = document.getElementById('date-options-box');
             const template = document.getElementById('date-options-box-template-month');
             content.innerHTML = template.innerHTML;
 
-            // Dialer container element
-            var dialerElement = document.getElementById("year_dialer");
+            HandleDialerEvent();
 
-            // Create dialer object and initialize a new instance
-            var dialerObject = new KTDialer(dialerElement, {
+            //// Dialer container element
+            //var dialerElement = document.getElementById("year_dialer");
 
-                max: 2050,
-                step: 1,
-                suffix: " Year",
-                decimals: 0
-            });
+            //// Create dialer object and initialize a new instance
+            //var dialerObject = new KTDialer(dialerElement, {
+
+            //    max: 2050,
+            //    step: 1,
+            //    suffix: " Year",
+            //    decimals: 0
+            //});
 
             $('#month-options-select2').select2();
 
@@ -139,6 +141,53 @@ function HandleRadioButtonsSubOptions() {
 
 
 
+function HandleDialerEvent() {
+
+
+
+    // Dialer container element
+    var dialerElement = document.getElementById("year_dialer");
+
+    // Create dialer object and initialize a new instance
+    var dialerObject = new KTDialer(dialerElement, {
+
+        max: 2050,
+        step: 1,
+        suffix: " Year",
+        decimals: 0
+    });
+
+
+
+    let hiddenInput = document.getElementById("hidden-year");
+
+    let value = document.getElementById('search-year').value.split(" ");
+
+    hiddenInput.value = value[0];
+
+    document.getElementById('search-year').addEventListener("change", function () {
+
+        value = this.value.split(" ");
+
+        hiddenInput.value = value[0];
+
+    })
+}
+
+
+function RenderSearchResult(data) {
+
+
+    const resultBox = document.getElementById('search-result');
+
+    resultBox.innerHTML = data;
+
+    const scroiingButton = document.getElementById("scrolling-button");
+    scroiingButton.click();
+
+    InitilaizeMetronicDatatable('Trips_Patterns_Table');  
+    KTMenu.createInstances();
+}
 
 
 HandleRadioButtonsSubOptions();

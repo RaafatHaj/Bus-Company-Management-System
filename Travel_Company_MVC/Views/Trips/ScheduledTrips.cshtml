@@ -1,4 +1,4 @@
-﻿@model IList<ScheduledTripViewModel>;
+﻿@model ScheduledTripsSearchViewModel;
 
 @section Styles {
 
@@ -8,141 +8,155 @@
 }
 
 
+@{
+	var breadcrumb = new List<string>
+							{
+								"Trips",
+								"Scheduled Trips"
+							};
+
+	ViewData["Breadcrumb"] = breadcrumb;
+}
 
 <div class="card ">
 
-
 	<div class="card-body mb-2 px-9  ">
 
+		<form class="js-ajax-form" method="post"
+			  data-url="/Trips/GetScheduledTrips"
+			  data-callback="RenderSearchResult">
 
 
-        <div class="">
+			<div class="">
 
-			<!--begin::Route-->
-			<input id="route-id" type="hidden" />
-@* 			<input id="route-id" type="hidden" asp-for="@Model.RouteId" />
-			<span asp-validation-for="@Model.RouteId" class="text-danger d-block"></span> *@
-			<div class="d-flex">
+				<!--begin::Route-->
+				<input asp-for="@Model.RouteId" id="route-id" type="hidden" />
+				<span asp-validation-for="@Model.RouteId" class="text-danger d-block"></span>
+				<input type="hidden" asp-for="@Model.Year" id="hidden-year" />
+				<div class="d-flex">
 
-				<div id="route-background" class="d-flex rounded">
-					<div class=" d-flex flex-column  flex-sm-row align-items-center justify-content-between  p-5 ">
-						<!--begin::Icon-->
-						<div id="route-details" class="d-flex p-2">
-							<!--begin::Wrapper-->
-							<div class="d-flex flex-column pe-0 pe-sm-10">
-								<!--begin::Title-->
-								<h5 class="required mb-1">Route</h5>
-								<!--end::Title-->
-								<!--begin::Content-->
-								<span class="text-muted ">Select route of the trips from existed routes.</span>
-								<!--end::Content-->
+					<div id="route-background" class="d-flex rounded">
+						<div class=" d-flex flex-column  flex-sm-row align-items-center justify-content-between  p-5 ">
+							<!--begin::Icon-->
+							<div id="route-details" class="d-flex p-2">
+								<!--begin::Wrapper-->
+								<div class="d-flex flex-column pe-0 pe-sm-10">
+									<!--begin::Title-->
+									<h5 class="required mb-1">Route</h5>
+									<!--end::Title-->
+									<!--begin::Content-->
+									<span class="text-muted ">Select route of the trips from existed routes.</span>
+									<!--end::Content-->
+								</div>
+								<!--end::Wrapper-->
+								<!--begin::Close-->
+
 							</div>
-							<!--end::Wrapper-->
-							<!--begin::Close-->
+							<div class="flex-shrink-0 p-2 align-self-end">
 
+
+
+
+
+								<a id="add-route-button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
+								   data-large-modal="true" data-url="/Routes/FetchAllRoutes"
+								   data-has-table="true"
+								   data-table-id="Routes_List_Table"
+								   data-title="Routes List"
+								   data-sub-title="select trip route from routes list , or create new one.">
+									<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
+									Select
+								</a>
+
+							</div>
+
+							<!--end::Close-->
 						</div>
-						<div class="flex-shrink-0 p-2 align-self-end">
+
+					</div>
+
+				</div>
+
+				<!--end::Route-->
+
+				<div class=" p-2 ps-8 mt-10">
 
 
-
-
-
-							<a id="add-route-button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  btn-active-primary  js-render-modal"
-							   data-large-modal="true" data-url="/Routes/FetchAllRoutes"
-							   data-has-table="true"
-							   data-table-id="Routes_List_Table"
-							   data-title="Routes List"
-							   data-sub-title="select trip route from routes list , or create new one.">
-								<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
-								Select
-							</a>
-
+					<!--begin::Input row-->
+					<div class="d-flex fv-row">
+						<!--begin::Radio-->
+						<div class="form-check form-check-custom form-check-solid form-check-sm">
+							<!--begin::Input-->
+							<input asp-for="@Model.SearchType" class="form-check-input me-3 trip-search-radio" type="radio" value="@TripSearchType.TripPatterns" id="trip-pattern-radio" checked>
+							<!--end::Input-->
+							<!--begin::Label-->
+							<label for="trip-pattern-radio" class="form-check-label">
+								<span class="fw-bold d-block text-gray-800">Trip Patterns</span>
+								<span class="text-gray-600">View the recurring schedule templates for this route.</span>
+							</label>
+							<!--end::Label-->
 						</div>
-
-						<!--end::Close-->
+						<!--end::Radio-->
 					</div>
-
+					<!--end::Input row-->
+					<div class="separator separator-dashed my-5"></div>
+					<!--begin::Input row-->
+					<div class="d-flex fv-row">
+						<!--begin::Radio-->
+						<div class="form-check form-check-custom form-check-solid form-check-sm">
+							<!--begin::Input-->
+							<input asp-for="@Model.SearchType" class="form-check-input me-3 trip-search-radio"  type="radio" value="@TripSearchType.SpecificTrips" id="specific-trips-radio"
+								   data-has-sub-options="true">
+							<!--end::Input-->
+							<!--begin::Label-->
+							<label for="specific-trips-radio" class="form-check-label">
+								<span class="fw-bold text-gray-800 d-block">Specific Trips</span>
+								<span class="text-gray-600">View actual trips scheduled for this route.</span>
+							</label>
+							<!--end::Label-->
+						</div>
+						<!--end::Radio-->
+					</div>
+					<!--end::Input row-->
 				</div>
 
-			</div>
-
-			<!--end::Route-->
-
-			<div class=" p-2 ps-8 mt-10">
-
-
-				<!--begin::Input row-->
-				<div class="d-flex fv-row">
-					<!--begin::Radio-->
-					<div class="form-check form-check-custom form-check-solid form-check-sm">
-						<!--begin::Input-->
-						<input  class="form-check-input me-3 trip-search-radio" name="hi" type="radio" value="" id="trip-pattern-radio" checked>
-						<!--end::Input-->
-						<!--begin::Label-->
-						<label for="trip-pattern-radio" class="form-check-label">
-							<div class="fw-bold text-gray-800">Trip Patterns</div>
-							<div class="text-gray-600">View the recurring schedule templates for this route.</div>
-						</label>
-						<!--end::Label-->
-					</div>
-					<!--end::Radio-->
+				<div id="date-search-box"  class="ps-13 mt-7">
 				</div>
-				<!--end::Input row-->
-				<div class="separator separator-dashed my-5"></div>
-				<!--begin::Input row-->
-				<div class="d-flex fv-row">
-					<!--begin::Radio-->
-					<div class="form-check form-check-custom form-check-solid form-check-sm">
-						<!--begin::Input-->
-						<input class="form-check-input me-3 trip-search-radio" name="hi" type="radio" value="" id="specific-trips-radio"
-							   data-has-sub-options="true">
-						<!--end::Input-->
-						<!--begin::Label-->
-						<label for="specific-trips-radio" class="form-check-label">
-							<div class="fw-bold text-gray-800">Specific Trips</div>
-							<div class="text-gray-600">View actual trips scheduled for this route.</div>
-						</label>
-						<!--end::Label-->
-					</div>
-					<!--end::Radio-->
+
+
+				<a id="scrolling-button" href="#search-result" class="d-none" data-kt-scroll-toggle>
+
+				</a>
+				<div class="d-flex justify-content-end  px-9">
+					<button type="submit" class="btn btn-sm btn-light-primary btn-active-primary "
+							>
+						<i class="bi bi-search"></i>
+						<span class="indicator-label">
+							Find
+						</span>
+						<span class="indicator-progress">
+							Finding... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+						</span>
+
+					</button>
 				</div>
-				<!--end::Input row-->
 			</div>
 
-			<div id="date-search-box" class="ps-13 mt-7" >
 
-
-
-			</div>
-
-		
-	
-			<div class="d-flex justify-content-end  px-9">
-				<button type="submit" class="btn btn-sm btn-light-primary btn-active-primary ">
-					@* <i class="ki-duotone ki-eye fs-1">
-						<span class="path1"></span>
-						<span class="path2"></span>
-						<span class="path3"></span>
-					</i> *@
-
-					<i class="bi bi-search"></i>
-					<span class="indicator-label">
-						Find
-					</span>
-					<span class="indicator-progress">
-						Finding... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-					</span>
-
-				</button>
-			</div>
-        </div>
+		</form>
 
 
         <div class="separator separator-dashed border-gray  my-10"></div>
 
+		<div id="search-result" data-kt-scroll-offset="100">
+
+
+		</div>
    
-        <partial name="~/Views/Trips/_ScheduledTrips.cshtml" model="@Model" />
-	</div>
+@*         <partial name="~/Views/Trips/_ScheduledTrips.cshtml" model="@Model" />
+ *@
+
+    </div>
 </div>
 
 
@@ -150,7 +164,7 @@
 
 <template id="date-search-box-template">
 
-	<div class="d-flex   ">
+	<div class="d-flex">
 		<div class="d-flex  pe-0 pe-sm-10 mb-7">
 			<div class="d-flex flex-column ">
 
@@ -163,14 +177,14 @@
 
 					<div>
 						<label class="form-label required d-block">Search Options</label>
-						<select id="search-options-select2" class="form-select form-select-sm form-select-solid w-200px " data-control="select2" data-placeholder="Date Options" data-hide-search="true">
+						<select asp-for="@Model.DateType" id="search-options-select2" class="form-select form-select-sm form-select-solid w-200px " data-control="select2" data-placeholder="Date Options" data-hide-search="true">
 
-							<option value="month">Certain Month</option>
-							<option value="date">Certain Date</option>
+							<option value="@TripSearchDateType.SpecificMonth">Specific Month</option>
+							<option value="@TripSearchDateType.SpecificDate">Specific Date</option>
 							<option selected></option>
 						</select>
 
-
+						<span asp-validation-for="DateType" PersonGender" class="text-danger d-block mt-4"></span>
 
 					</div>
 					<div id="date-options-box" class="d-flex flex-column align-items-center gap-5 mt-8">
@@ -189,6 +203,8 @@
 
 	</div>
 
+	</div>
+
 
 
 
@@ -199,8 +215,8 @@
 	<div>
 
 
-	<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Date" type="text" readonly="readonly">
-	<span class="text-danger d-block"></span>
+		<input asp-for="@Model.TripDate" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Date" type="text" readonly="readonly">
+		<span asp-validation-for="@Model.TripDate" class="text-danger d-block"></span>
 	</div> 
 </template>
 
@@ -210,7 +226,7 @@
 
 		<div>
 
-			<select id="month-options-select2" class="form-select form-select-sm form-select-solid w-200px " data-control="select2" data-placeholder="Month">
+		<select asp-for="@Model.Month" id="month-options-select2" class="form-select form-select-sm form-select-solid w-200px " data-control="select2" data-placeholder="Month">
 
 				<option value="1">1 January</option>
 				<option value="2">2 February</option>
@@ -226,7 +242,7 @@
 				<option value="12">12 December</option>
 				<option selected></option>
 			</select>
-
+		<span asp-validation-for="@Model.Month" class="text-danger d-block"></span>
 		</div>
 
 
@@ -247,7 +263,7 @@
 					</button>
 					<!--end::Decrease control-->
 					<!--begin::Input control-->
-					<input id="Break_Minutes" type="text" class="form-control" readonly placeholder="Minutes" value="2025" data-kt-dialer-control="input" />
+					<input  id="search-year" type="text" class="form-control" readonly placeholder="Minutes" value="2025" data-kt-dialer-control="input" />
 					<!--end::Input control-->
 					<!--begin::Increase control-->
 					<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
