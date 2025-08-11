@@ -2,228 +2,484 @@
 @model ScheduledTripViewModel;
 
 
-<div class="border-gray-300 border-start   child-slide">
 
-    <form class="js-ajax-form" method="post"
-          data-url="/Trips/EditTripTiming"
-          data-callback="addRowToTable"
-          data-update-ui="true"
-          data-updete="true">
+<div class="border-gray-300 border-start    child-slide pt-7">
+	<div class="d-flex justify-content-center">
+		<div>
+			<div class="d-flex">
+				<div id="vehicle-details" class="border border-dashed border-hover-primary rounded ms-4 p-4">
+					<div class="d-flex">
+						<span class="text-gray-900 fw-bold fs-5 ">Vehicle</span>
+						<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
 
-          <input type="hidden" asp-for="TripId" />
-          <input type="hidden" asp-for="Date" />
-          <input type="hidden" asp-for="Status" />
+					</div>
 
-        @if(Model.ReturnTripId!=null)
-        {
-            <input type="hidden" asp-for="ReturnTripId" />
-            <input type="hidden" asp-for="ReturnDate" />
-            <input type="hidden" asp-for="ReturnStatus" />
-        }
+					@* 	<div class="d-flex gap-10">
+					<span class="text-muted fw-semibold mt-3">No Vehicle Assigned Yet</span>
 
-        <div class="d-flex gap-10 align-items-center flex-wrap ">
-            <div>
-                <div class="d-flex align-items-center justify-content-center m-4">
+					<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
+					data-url="">
+					<i class="ki-duotone ki-pencil fs-2">
+					<span class="path1"></span>
+					<span class="path2"></span>
+					</i>
+					</a>
 
-                    <label for="" class="form-label me-2" style="white-space: nowrap;">Main Trip :</label>
-                    <input asp-for="Time" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="trip-time" type="text" >
-                </div>
+					</div> *@
 
-                <div class="ms-5">
-                    <div class="d-flex mt-7  ms-5">
+					<div class="d-flex gap-10 mt-6">
+						<div class="d-flex gap-2">
+							<i class="ki-solid ki-verify text-warning  mt-1 "></i>
+							<div>
 
-                        @* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+								<span class="text-gray-900 fw-bold d-block ">16 PDS 188</span>
+								<span class="text-gray-500 fs-7 fw-semibold d-blok">Mercedec</span>
 
+							</div>
 
-                        <div class="d-flex flex-column pe-0 pe-sm-10 mb-2 text-gray-800">
-                            <!--begin::Title-->
-                            <!--end::Title-->
-                            <!--begin::Content-->
-                            <span class="text-muted ">Times of scheduled trips at <span class="text-primary">@Model.Date.ToString("dd MMM yyyy", CultureInfo.InvariantCulture).</span></span>
-                            <!--end::Content-->
-                        </div>
+						</div>
+						<div>
+							<span class="text-gray-900 fw-bold d-block ">40</span>
+							<span class="text-muted fw-semibold ">Seat</span>
+						</div>
+						<div>
+							<span class="text-gray-900 fw-bold d-block ">Damascus-Center</span>
+							<span class="text-muted fw-semibold ">Home Station</span>
+						</div>
 
+						@{
 
+							// var returnTripDateTime = Model.ReturnDate != null ? Model.ReturnDate.Value.Add(Model.ReturnTime!.Value).ToString("yyyy-MM-dd HH:mm") : null;
+							// var tripDateTie = Model.Date.Add(Model.Time).ToString("yyyy-MM-dd HH:mm");
+						}
+						<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-render-modal"
+						   data-url="/Vehicles/GetAvailableVehicles?tripId=@Model.TripId"
+						   data-large-modal="true"
+						   data-title="Availavle Vehicles"
+						   data-sub-title="all vehicles existed in the station at trip time."
+						   data-updete="true"
+						   data-table-id="Scheduled_Trips_Table">
+							<i class="ki-duotone ki-pencil fs-2">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+						</a>
 
-                    </div>
-                    <div class="" style="width:310px">
-                        <div class="tns tns-default" style="direction: ltr">
-                            <!--begin::Slider-->
-                            <div data-tns="true"
-                                 data-tns-loop="false"
-                                 data-tns-swipe-angle="false"
-                                 data-tns-speed="500"
-                                 data-tns-autoplay="false"
-                                 data-tns-autoplay-timeout="18000"
-                                 data-tns-controls="true"
-                                 data-tns-nav="false"
-                                 data-tns-items="3"
-                                 data-tns-center="false"
-                                 data-tns-dots="false"
-                                 data-tns-prev-button="#kt_team_slider_prev2"
-                                 data-tns-next-button="#kt_team_slider_next2">
-
-                                <!--begin::Item-->
-                                <div class=" badge badge-light-primary fw-bold mt-2 me-1">
-                                    8:00 am
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
-                                    10:00 am
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
-                                    13:00 pm
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
-                                    17:00 pm
-                                </div>
-                                <!--end::Item-->
-                                ...
-                            </div>
-                            <!--end::Slider-->
-                            <!--begin::Slider button-->
-                            <button class="btn btn-icon btn-active-color-primary " id="kt_team_slider_prev2">
-                                <span class="svg-icon fs-3x">
-                                    <i class="ki-solid ki-left    fs-2x   "></i>
-                                </span>
-                            </button>
-                            <!--end::Slider button-->
-                            <!--begin::Slider button-->
-                            <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next2">
-                                <span class="svg-icon fs-3x">
-                                    <i class="ki-solid ki-right    fs-2x   "></i>
-
-                                </span>
-                            </button>
-                            <!--end::Slider button-->
-                        </div>
+					</div>
 
 
-                    </div>
-                </div>
+				</div>
 
-            </div>
 
-            <div class=" align-self-start mt-5 mx-5">
+			</div>
 
-                <i class="ki-solid ki-arrow-right-left  text-dark-300 fs-2tx m-0 p-0  "></i>
+
+			<form class="js-ajax-form" method="post"
+				  data-url="/Trips/EditTripTiming"
+				  data-callback="addRowToTable"
+				  data-update-ui="true"
+				  data-updete="true">
+
+				<input id="main-route-id" type="hidden" asp-for="@Model.RouteId" value="@Model.RouteId"/>
+				@{
+
+					if(Model.ReturnRouteId is not null)
+					{
+						<input id="return-route-id" type="hidden" asp-for="@Model.ReturnRouteId" value="@Model.ReturnRouteId" />
+					}
+				}
+
+				<div class="d-flex gap-10 flex-wrap mt-10 ">
+					<div class="ms-5">
+						<div class="d-flex">
+							<span class="text-gray-900 fw-bold ms-4 fs-5">Main Trip</span>
+							<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
+
+						</div>
+
+
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Time :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input flatpicker-time" placeholder="Pick time" id="trip-time" type="text">
+						</div>
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Date :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input flatpicker-date" placeholder="Pick Date" id="trip-time" type="text">
+						</div>
 
 
 
+						<!--begin::Station Stop Duration-->
+						<div class="d-flex align-items-center m-4 mt-7 ">
 
 
-            </div>
-
-
-            <div>
-
-
+							<span class="text-gray-800 fs-5 fw-normal  mb-1 ">Station Stop Duration :</span>
 
 
 
-                <div class="d-flex align-items-center justify-content-center m-4">
-
-                    <label for="" class="form-label me-2" style="white-space: nowrap;">Return Trip :</label>
-                    <input asp-for="ReturnTime" class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text" >
-                </div>
-
-                <div class="ms-5">
-                    <div class="d-flex mt-7  ms-5">
-
-                        @* 	<i class="ki-outline ki-watch  fs-2hx pe-2 "></i> *@
+							@*
+							<input type="hidden" asp-for="StationStopMinutes" id="Hidden_Station_Stop_Duration" />
+							<input type="hidden" asp-for="BreakMinutes" id="Hidden_Break_Minutes" /> *@
 
 
-                        <div class="d-flex flex-column pe-0 pe-sm-10 mb-2 text-gray-800">
-                            <!--begin::Title-->
-                            <!--end::Title-->
-                            <!--begin::Content-->
-                            <span class="text-muted ">Times of scheduled trips at <span class="text-primary">@Model.ReturnDate?.ToString("dd MMM yyyy", CultureInfo.InvariantCulture).</span></span>
-                            <!--end::Content-->
-                        </div>
+							<div class="m-4 mt-0 d-flex">
+								<!--begin::Dialer-->
+								<div id="main-trip-stop-munites" class="input-group w-md-200px"
+									 data-kt-dialer="true"
+									 data-kt-dialer-max="20"
+									 data-kt-dialer-min="5"
+									 data-kt-dialer-suffix=" Minutes"
+									 data-kt-dialer-step="5">
+
+								<!--begin::Decrease control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease" >
+									<i class="ki-duotone ki-minus fs-2"></i>
+								</button>
+								<!--end::Decrease control-->
+								<!--begin::Input control-->
+
+								<input id="Station_Stop_Duration" type="text" class="form-control"  placeholder="Minutes"  data-kt-dialer-control="input"  />
+								<!--end::Input control-->
+								<!--begin::Increase control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase" >
+									<i class="ki-duotone ki-plus fs-2"></i>
+								</button>
+
+								<!--end::Increase control-->
+							</div>
+								<!--end::Dialer-->
+
+							</div>
 
 
 
-                    </div>
-                    <div class="" style="width:310px">
-                        <div class="tns tns-default" style="direction: ltr">
-                            <!--begin::Slider-->
-                            <div data-tns="true"
-                                 data-tns-loop="false"
-                                 data-tns-swipe-angle="false"
-                                 data-tns-speed="500"
-                                 data-tns-autoplay="false"
-                                 data-tns-autoplay-timeout="18000"
-                                 data-tns-controls="true"
-                                 data-tns-nav="false"
-                                 data-tns-items="3"
-                                 data-tns-center="false"
-                                 data-tns-dots="false"
-                                 data-tns-prev-button="#kt_team_slider_prev1"
-                                 data-tns-next-button="#kt_team_slider_next1">
-
-                                <!--begin::Item-->
-                                <div class=" badge badge-light-primary fw-bold mt-2 me-1">
-                                    8:00 am
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
-                                    10:00 am
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
-                                    13:00 pm
-                                </div>
-                                <!--end::Item-->
-                                <!--begin::Item-->
-                                <div class="badge badge-light-primary fw-bold mt-2 me-1">
-                                    17:00 pm
-                                </div>
-                                <!--end::Item-->
-                                ...
-                            </div>
-                            <!--end::Slider-->
-                            <!--begin::Slider button-->
-                            <button class="btn btn-icon btn-active-color-primary " id="kt_team_slider_prev1">
-                                <span class="svg-icon fs-3x">
-                                    <i class="ki-solid ki-left    fs-2x   "></i>
-                                </span>
-                            </button>
-                            <!--end::Slider button-->
-                            <!--begin::Slider button-->
-                            <button class="btn btn-icon btn-active-color-primary" id="kt_team_slider_next1">
-                                <span class="svg-icon fs-3x">
-                                    <i class="ki-solid ki-right    fs-2x   "></i>
-
-                                </span>
-                            </button>
-                            <!--end::Slider button-->
-                        </div>
+						</div>
 
 
-                    </div>
-                </div>
+						<!--end::Station Stop Duration-->
+						<!--begin::Include Long Break-->
+						<div class=" p-5 d-flex flex-column ">
 
-            </div>
 
-        </div>
+							<div class=" ">
+
+
+
+								<div class="form-check form-check-custom form-check-solid me-10 form-check-sm ">
+									<input class="form-check-input  long-break-checkbox "
+										   data-url="/Routes/GetRouteStationsJsonAsync1?routeId="
+										   type="checkbox" id="main">
+									<label class="form-check-labe text-gray-800  fs-5 fw-normal ms-2" for="main">
+										Include Long Break
+
+									</label>
+								</div>
+
+
+							</div>
 
 
 
 
-        <div class="d-flex justify-content-end py-6 px-9">
-            <button type="submit" class="btn btn-primary btn-sm ">Submit</button>
-        </div>
+
+							@* <div class="ps-13 mt-7 " id="break_details">
+							</div> *@
 
 
-    </form>
+
+						</div>
+
+						<!--end::Include Long Break-->
+
+
+
+						<div id="main-trip-break-container" class="d-flex flex-column   ms-10 align-self-start">
+						</div>
+
+
+
+
+					</div>
+
+					<div class="mx-2 align-self-start mt-18">
+
+						<i class="ki-solid ki-arrow-right-left  text-dark-300 fs-2tx m-0 p-0  "></i>
+
+
+
+
+
+					</div>
+
+
+					<div>
+
+
+
+						<div class="d-flex">
+							<span class="text-gray-900 fw-bold ms-4 fs-5">Return Trip</span>
+							<span class="bullet   bullet-dot  bg-danger ms-2 mt-3"></span>
+
+						</div>
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Time :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input flatpicker-time" placeholder="Pick time" id="reverse-trip-time" type="text">
+						</div>
+
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Date :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input flatpicker-date" placeholder="Pick Date" id="reverse-trip-time" type="text">
+						</div>
+
+
+
+						<!--begin::Station Stop Duration-->
+						<div class="d-flex align-items-center m-4 mt-7 ">
+
+
+							<span class="text-gray-800 fs-5 fw-normal  mb-1 ">Station Stop Duration :</span>
+
+
+
+							@*
+							<input type="hidden" asp-for="StationStopMinutes" id="Hidden_Station_Stop_Duration" />
+							<input type="hidden" asp-for="BreakMinutes" id="Hidden_Break_Minutes" /> *@
+
+
+							<div class="m-4 mt-0 d-flex">
+								<!--begin::Dialer-->
+								<div id="return-trip-stop-munites" class="input-group w-md-200px"
+									 data-kt-dialer="true"
+									 data-kt-dialer-max="20"
+									 data-kt-dialer-min="5"
+									 data-kt-dialer-suffix=" Minutes"
+									 data-kt-dialer-step="5">
+
+								<!--begin::Decrease control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease" >
+									<i class="ki-duotone ki-minus fs-2"></i>
+								</button>
+								<!--end::Decrease control-->
+								<!--begin::Input control-->
+
+								<input id="Station_Stop_Duration" type="text" class="form-control"  placeholder="Minutes"  data-kt-dialer-control="input"  />
+								<!--end::Input control-->
+								<!--begin::Increase control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase" >
+									<i class="ki-duotone ki-plus fs-2"></i>
+								</button>
+
+								<!--end::Increase control-->
+							</div>
+								<!--end::Dialer-->
+
+							</div>
+
+
+
+						</div>
+
+
+
+						<!--end::Station Stop Duration-->
+						<!--begin::Include Long Break-->
+						<div class=" p-5 d-flex flex-column ">
+
+
+							<div class=" ">
+
+
+
+								<div class="form-check form-check-custom form-check-solid me-10 form-check-sm ">
+									<input class="form-check-input  long-break-checkbox "
+										   data-url="/Routes/GetRouteStationsJsonAsync1?routeId="
+										   type="checkbox" id="return">
+									<label class="form-check-labe text-gray-800  fs-5 fw-normal ms-2" for="return">
+										Include Long Break
+
+									</label>
+								</div>
+
+
+							</div>
+
+
+
+
+
+							@* <div class="ps-13 mt-7 " id="break_details">
+							</div> *@
+
+
+
+						</div>
+
+						<!--end::Include Long Break-->
+
+
+
+						<div id="return-trip-break-container" class="d-flex flex-column  ms-10  align-self-end">
+						</div>
+
+
+
+
+
+
+
+					</div>
+
+				</div>
+
+				<div class="d-flex">
+					<div class="d-flex align-items-center justify-content-start">
+
+					
+
+
+
+
+					</div>
+
+					<div class="d-flex align-items-center justify-content-end">
+
+
+
+					
+
+
+					</div>
+
+				</div>
+			
+
+
+				<div class="d-flex justify-content-end py-6 px-9">
+					<button type="submit" class="btn btn-primary btn-sm ">Submit</button>
+				</div>
+
+
+			</form>
+
+		</div>
+
+
+	</div>
+
 
 
 </div>
 
+<template id="main-trip-break-template">
+
+
+	<div class="d-flex align-items-center gap-7 ">
+
+		<span class="text-gray-800 fs-5 fw-normal  mb-1">Break Dureation : </span>
+
+		<div class="m-4 ms-0 mt-0 d-flex">
+			<!--begin::Dialer-->
+			<div class="input-group w-md-200px" id="main-trip-break"
+				 data-kt-dialer="true"
+				 data-kt-dialer-max="40"
+				 data-kt-dialer-min="5"
+				 data-kt-dialer-step="5"
+				 data-kt-dialer-suffix=" Minutes">
+
+				<!--begin::Decrease control-->
+				<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease">
+					<i class="ki-duotone ki-minus fs-2"></i>
+				</button>
+				<!--end::Decrease control-->
+				<!--begin::Input control-->
+				<input id="main-break-minutes" type="text" class="form-control" readonly placeholder="Minutes" value="30" data-kt-dialer-control="input" />
+				<!--end::Input control-->
+				<!--begin::Increase control-->
+				<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
+					<i class="ki-duotone ki-plus fs-2"></i>
+				</button>
+				<!--end::Increase control-->
+			</div>
+			<!--end::Dialer-->
+
+		</div>
+
+
+
+
+	</div>
+
+	<div class="d-flex align-items-center gap-5">
+
+		<span class="text-gray-800 fs-5 fw-normal  mb-1">Break starts after :</span>
+
+		<div class="w-200px">
+			<select id="main-select-station" class="form-select  form-select-sm  " data-control="select2" data-placeholder="Select an option">
+				<option></option>
+			</select>
+
+		</div>
+
+	</div>
+
+</template>
+
+<template id="return-trip-break-template">
+
+
+
+	<div class="d-flex align-items-center gap-7 ">
+
+		<span class="text-gray-800 fs-5 fw-normal  mb-1">Break Dureation : </span>
+
+		<div class="m-4 ms-0 mt-0 d-flex">
+			<!--begin::Dialer-->
+			<div class="input-group w-md-200px" id="retrun-trip-break"
+				 data-kt-dialer="true"
+				 data-kt-dialer-max="40"
+				 data-kt-dialer-min="5"
+				 data-kt-dialer-step="5"
+				 data-kt-dialer-suffix=" Minutes">
+
+				<!--begin::Decrease control-->
+				<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease">
+					<i class="ki-duotone ki-minus fs-2"></i>
+				</button>
+				<!--end::Decrease control-->
+				<!--begin::Input control-->
+				<input id="return-break-minutes" type="text" class="form-control" readonly placeholder="Minutes" value="30" data-kt-dialer-control="input" />
+				<!--end::Input control-->
+				<!--begin::Increase control-->
+				<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
+					<i class="ki-duotone ki-plus fs-2"></i>
+				</button>
+				<!--end::Increase control-->
+			</div>
+			<!--end::Dialer-->
+
+		</div>
+
+
+
+
+	</div>
+
+	<div class="d-flex align-items-center gap-5">
+
+		<span class="text-gray-800 fs-5 fw-normal  mb-1">Break starts after :</span>
+
+		<div class="w-200px">
+			<select id="return-select-station" class="form-select  form-select-sm  " data-control="select2" data-placeholder="Select an option">
+				<option></option>
+			</select>
+
+		</div>
+
+	</div>
+
+
+</template>

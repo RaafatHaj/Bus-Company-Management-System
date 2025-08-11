@@ -467,6 +467,12 @@ function handleTableChiled() {
                     row.child(html).show();
 
 
+                    const callbackFunctionName = button.getAttribute('data-callback');
+
+                    if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
+                        window[callbackFunctionName]();
+
+
                     initilazeTimePicker();
                     $.validator.unobtrusive.parse(tr.nextElementSibling);
                 } catch {

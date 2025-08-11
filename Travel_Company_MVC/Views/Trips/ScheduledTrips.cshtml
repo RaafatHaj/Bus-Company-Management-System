@@ -1,4 +1,5 @@
-﻿@model ScheduledTripsSearchViewModel;
+﻿
+@model ScheduledTripsSearchViewModel;
 
 @section Styles {
 
@@ -31,6 +32,8 @@
 
 				<!--begin::Route-->
 				<input asp-for="@Model.RouteId" id="route-id" type="hidden" />
+			
+
 				<span asp-validation-for="@Model.RouteId" class="text-danger d-block"></span>
 				<input type="hidden" asp-for="@Model.Year" id="hidden-year" />
 				<div class="d-flex">
@@ -152,9 +155,556 @@
 
 
 		</div>
-   
-@*         <partial name="~/Views/Trips/_ScheduledTrips.cshtml" model="@Model" />
- *@
+
+		<!--Test Child-->
+
+
+
+
+		<div class="border-gray-300 border-start   child-slide">
+
+			<div class="d-flex gap-9 align-items-start">
+				<div class="border border-dashed border-hover-primary rounded ms-4 p-4">
+					<div class="d-flex">
+						<span class="text-gray-900 fw-bold fs-5 ">Vehicle</span>
+						<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
+
+					</div>
+
+				@* 	<div class="d-flex gap-10"> 
+						<span class="text-muted fw-semibold mt-3">No Vehicle Assigned Yet</span>
+
+						<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
+						   data-url="">
+							<i class="ki-duotone ki-pencil fs-2">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+						</a>
+
+					</div> *@
+
+					<div class="d-flex gap-10 mt-6">
+						 <div class="d-flex gap-2">
+							<i class="ki-solid ki-verify text-warning  mt-1 "></i>
+							<div>
+
+								<span class="text-gray-900 fw-bold d-block ">16 PDS 188</span>
+								<span class="text-gray-500 fs-7 fw-semibold d-blok">Mercedec</span>
+
+							</div>
+
+						</div>
+						<div>
+							<span class="text-gray-900 fw-bold d-block ">40</span>
+							<span class="text-muted fw-semibold ">Seat</span>
+						</div>
+						<div>
+							<span class="text-gray-900 fw-bold d-block ">Damascus-Center</span>
+							<span class="text-muted fw-semibold ">Home Station</span>
+						</div> 
+
+					<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
+						   data-url="">
+							<i class="ki-duotone ki-pencil fs-2">
+								<span class="path1"></span>
+								<span class="path2"></span>
+							</i>
+						</a> 
+
+					</div>
+
+
+				</div>
+
+				<div class="mt-4">
+
+					<div class="d-flex">
+						<span class="text-gray-900 fw-bold fs-5 ">Avaliability Space</span>
+						<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
+
+					</div>
+
+
+
+					<div class="d-flex gap-5 mt-6">
+
+			
+						<span class="d-block text-muted fw-semibold fs-7">
+						    <span class="text-primary">26</span>
+							<span class="text-gray-900 fw-bold fs-5 ">Aug</span>
+							<span>2025</span>
+							<span>/</span>
+							<span class="text-gray-900 fw-bold  fs-5">10:00</span>
+							<span>Am</span>
+							<span class="text-primary">Sun</span>
+				        </span>
+
+				
+
+						<i class="ki-duotone ki-black-right fs-1">
+						</i>
+
+						<span class="d-block text-muted fw-semibold fs-7">
+							<span class="text-primary">28</span>
+							<span class="text-gray-900 fw-bold fs-5 ">Aug</span>
+							<span>2025</span>
+							<span>/</span>
+							<span class="text-gray-900 fw-bold  fs-5">10:00</span>
+							<span>Am</span>
+							<span class="text-primary">Fri</span>
+						</span>
+					</div>
+		
+					
+					<div class="d-flex gap-5 mt-6">
+
+			
+						<span class="d-block text-muted fw-semibold fs-7">
+						    <span class="text-primary">26</span>
+							<span class="text-gray-900 fw-bold fs-5 ">Aug</span>
+							<span>2025</span>
+							<span>/</span>
+							<span class="text-gray-900 fw-bold  fs-5">10:00</span>
+							<span>Am</span>
+							<span class="text-primary">Sun</span>
+				        </span>
+
+				
+
+						<i class="ki-duotone ki-black-right fs-1">
+						</i>
+
+						<span class="d-block text-muted fw-semibold fs-7">
+							<span class="text-primary">28</span>
+							<span class="text-gray-900 fw-bold fs-5 ">Aug</span>
+							<span>2025</span>
+							<span>/</span>
+							<span class="text-gray-900 fw-bold  fs-5">10:00</span>
+							<span>Am</span>
+							<span class="text-primary">Fri</span>
+						</span>
+					</div>
+
+
+
+					<div class="d-flex gap-5 mt-6">
+
+
+						<span class="d-block text-muted fw-semibold fs-7">
+							<span class="text-primary">26</span>
+							<span class="text-gray-900 fw-bold fs-5 ">Aug</span>
+							<span>2025</span>
+							<span>/</span>
+							<span class="text-gray-900 fw-bold  fs-5">10:00</span>
+							<span>Am</span>
+							<span class="text-primary">Sun</span>
+						</span>
+
+
+
+						<i class="ki-duotone ki-black-right fs-1">
+						</i>
+
+						<span class="d-block text-muted fw-semibold fs-7">
+							<span class="text-primary">28</span>
+							<span class="text-gray-900 fw-bold fs-5 ">Aug</span>
+							<span>2025</span>
+							<span>/</span>
+							<span class="text-gray-900 fw-bold  fs-5">10:00</span>
+							<span>Am</span>
+							<span class="text-primary">Fri</span>
+						</span>
+					</div>
+
+
+
+
+				</div>
+
+			</div>
+
+	
+
+		
+
+		
+			<form class="js-ajax-form" method="post"
+				  data-url="/Trips/EditTripTiming"
+				  data-callback="addRowToTable"
+				  data-update-ui="true"
+				  data-updete="true">
+
+			
+
+				<div class="d-flex gap-10 align-items-center flex-wrap mt-10 ">
+					<div class="ms-5">
+						<div class="d-flex">
+							<span class="text-gray-900 fw-bold ms-4 fs-5">Main Trip</span>
+							<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
+
+						</div>
+				
+
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Time :</label>
+							<input  class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="trip-time" type="text">
+						</div>
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Date :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick Date" id="trip-time" type="text">
+						</div>
+
+					
+
+						<!--begin::Station Stop Duration-->
+						<div class="d-flex align-items-center m-4 mt-7 ">
+
+
+							<span class="text-gray-800 fs-5 fw-normal  mb-1 ">Station Stop Duration :</span>
+
+
+
+							@*
+							<input type="hidden" asp-for="StationStopMinutes" id="Hidden_Station_Stop_Duration" />
+							<input type="hidden" asp-for="BreakMinutes" id="Hidden_Break_Minutes" /> *@
+
+
+							<div class="m-4 mt-0 d-flex">
+								<!--begin::Dialer-->
+								<div class="input-group w-md-200px"
+									 data-kt-dialer="true"
+									 data-kt-dialer-max="20"
+									 data-kt-dialer-min="5"
+									 data-kt-dialer-suffix=" Minutes"
+									 data-kt-dialer-step="5"
+
+								<!--begin::Decrease control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease" >
+									<i class="ki-duotone ki-minus fs-2"></i>
+								</button>
+								<!--end::Decrease control-->
+								<!--begin::Input control-->
+
+								<input id="Station_Stop_Duration" type="text" class="form-control"  placeholder="Minutes"  data-kt-dialer-control="input"  />
+								<!--end::Input control-->
+								<!--begin::Increase control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase" >
+									<i class="ki-duotone ki-plus fs-2"></i>
+								</button>
+							
+								<!--end::Increase control-->
+							</div>
+						  		<!--end::Dialer-->
+
+							</div>
+
+
+
+						</div>
+
+					
+						<!--end::Station Stop Duration-->
+						<!--begin::Include Long Break-->
+						<div class=" p-5 d-flex flex-column ">
+
+
+							<div class=" ">
+
+
+
+								<div class="form-check form-check-custom form-check-solid me-10 form-check-sm ">
+									<input class="form-check-input  long-break-checkbox "
+										   data-url="/Routes/GetRouteStationsJsonAsync1?routeId="
+										   type="checkbox" id="ch">
+									<label class="form-check-labe text-gray-800  fs-5 fw-normal ms-2" for="ch">
+										Include Long Break
+
+									</label>
+								</div>
+
+
+							</div>
+
+
+
+
+
+							<div class="ps-13 mt-7 " id="break_details">
+							</div>
+
+
+
+						</div>
+
+						<!--end::Include Long Break-->
+
+
+						<div class="d-flex flex-column   ms-10">
+
+								
+
+
+							<div class="d-flex align-items-center gap-3 ">
+
+								<span class="text-gray-800 fs-5 fw-normal  mb-1">Break Dureation : </span>
+
+								<div class="m-4 mt-0 d-flex">
+									<!--begin::Dialer-->
+									<div class="input-group w-md-200px" id="break_dialer"
+										 data-kt-dialer="true"
+										 data-kt-dialer-max="40"
+										 data-kt-dialer-min="5"
+										 data-kt-dialer-step="5"
+										 data-kt-dialer-suffix=" Minutes">
+
+										<!--begin::Decrease control-->
+										<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease">
+											<i class="ki-duotone ki-minus fs-2"></i>
+										</button>
+										<!--end::Decrease control-->
+										<!--begin::Input control-->
+										<input id="Break_Minutes" type="text" class="form-control" readonly placeholder="Minutes" value="30" data-kt-dialer-control="input" />
+										<!--end::Input control-->
+										<!--begin::Increase control-->
+										<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
+											<i class="ki-duotone ki-plus fs-2"></i>
+										</button>
+										<!--end::Increase control-->
+									</div>
+									<!--end::Dialer-->
+
+								</div>
+
+
+
+
+							</div>
+
+							<div class="d-flex align-items-center gap-2">
+
+								<span class="text-gray-800 fs-5 fw-normal  mb-1">Break starts after :</span>
+
+								<div class="w-200px">
+									<select  id="Select_Station" class="form-select  form-select-sm  " data-control="select2" data-placeholder="Select an option">
+										<option></option>
+									</select>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+
+
+
+					</div>
+
+					<div class="mx-2 align-self-start mt-18">
+
+						<i class="ki-solid ki-arrow-right-left  text-dark-300 fs-2tx m-0 p-0  "></i>
+
+
+
+
+
+					</div>
+
+
+					<div>
+
+
+
+						<div class="d-flex">
+							<span class="text-gray-900 fw-bold ms-4 fs-5">Return Trip</span>
+							<span class="bullet   bullet-dot  bg-danger ms-2 mt-3"></span>
+
+						</div>
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Time :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick time" id="reverse-trip-time" type="text">
+						</div>
+
+						<div class="d-flex align-items-center justify-content-center m-4">
+
+							<label for="" class="form-label me-2" style="white-space: nowrap;">Date :</label>
+							<input class="form-control form-control-solid form-control-sm flatpickr-input" placeholder="Pick Date" id="reverse-trip-time" type="text">
+						</div>
+
+
+
+						<!--begin::Station Stop Duration-->
+						<div class="d-flex align-items-center m-4 mt-7 ">
+
+
+							<span class="text-gray-800 fs-5 fw-normal  mb-1 ">Station Stop Duration :</span>
+
+
+
+							@*
+							<input type="hidden" asp-for="StationStopMinutes" id="Hidden_Station_Stop_Duration" />
+							<input type="hidden" asp-for="BreakMinutes" id="Hidden_Break_Minutes" /> *@
+
+
+							<div class="m-4 mt-0 d-flex">
+								<!--begin::Dialer-->
+								<div class="input-group w-md-200px"
+									 data-kt-dialer="true"
+									 data-kt-dialer-max="20"
+									 data-kt-dialer-min="5"
+									 data-kt-dialer-suffix=" Minutes"
+									 data-kt-dialer-step="5"
+
+								<!--begin::Decrease control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease" disabled>
+									<i class="ki-duotone ki-minus fs-2"></i>
+								</button>
+								<!--end::Decrease control-->
+								<!--begin::Input control-->
+
+								<input id="Station_Stop_Duration" type="text" class="form-control"  placeholder="Minutes"  data-kt-dialer-control="input"  />
+								<!--end::Input control-->
+								<!--begin::Increase control-->
+								<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase" disabled>
+									<i class="ki-duotone ki-plus fs-2"></i>
+								</button>
+
+								<!--end::Increase control-->
+							</div>
+								<!--end::Dialer-->
+
+							</div>
+
+
+
+						</div>
+
+
+
+						<!--end::Station Stop Duration-->
+						<!--begin::Include Long Break-->
+						<div class=" p-5 d-flex flex-column ">
+
+
+							<div class=" ">
+
+
+
+								<div class="form-check form-check-custom form-check-solid me-10 form-check-sm ">
+									<input class="form-check-input  long-break-checkbox "
+										   data-url="/Routes/GetRouteStationsJsonAsync1?routeId="
+										   type="checkbox" id="ch1">
+									<label class="form-check-labe text-gray-800  fs-5 fw-normal ms-2" for="ch1">
+										Include Long Break
+
+									</label>
+								</div>
+
+
+							</div>
+
+
+
+
+
+							<div class="ps-13 mt-7 " id="break_details">
+							</div>
+
+
+
+						</div>
+
+						<!--end::Include Long Break-->
+
+
+						<div class="d-flex flex-column  ms-10 ">
+
+
+
+
+							<div class="d-flex align-items-center gap-3 ">
+
+								<span class="text-gray-800 fs-5 fw-normal  mb-1">Break Dureation : </span>
+
+								<div class="m-4 mt-0 d-flex">
+									<!--begin::Dialer-->
+									<div class="input-group w-md-200px" id="break_dialer"
+										 data-kt-dialer="true"
+										 data-kt-dialer-max="40"
+										 data-kt-dialer-min="5"
+										 data-kt-dialer-step="5"
+										 data-kt-dialer-suffix=" Minutes">
+
+										<!--begin::Decrease control-->
+										<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="decrease">
+											<i class="ki-duotone ki-minus fs-2"></i>
+										</button>
+										<!--end::Decrease control-->
+										<!--begin::Input control-->
+										<input id="Break_Minutes" type="text" class="form-control" readonly placeholder="Minutes" value="30" data-kt-dialer-control="input" />
+										<!--end::Input control-->
+										<!--begin::Increase control-->
+										<button class="btn btn-icon btn-outline btn-active-color-primary" type="button" data-kt-dialer-control="increase">
+											<i class="ki-duotone ki-plus fs-2"></i>
+										</button>
+										<!--end::Increase control-->
+									</div>
+									<!--end::Dialer-->
+
+								</div>
+
+
+
+
+							</div>
+
+							<div class="d-flex align-items-center gap-2">
+
+								<span class="text-gray-800 fs-5 fw-normal  mb-1">Break starts after :</span>
+
+								<div class="w-200px">
+									<select id="Select_Station" class="form-select  form-select-sm  " data-control="select2" data-placeholder="Select an option">
+										<option></option>
+									</select>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+
+
+
+
+
+					</div>
+
+				</div>
+
+
+
+
+				<div class="d-flex justify-content-end py-6 px-9">
+					<button type="submit" class="btn btn-primary btn-sm ">Submit</button>
+				</div>
+
+
+			</form>
+
+
+		</div>
+
+
+
+
+		<!--Test Child-->
 
     </div>
 </div>
@@ -294,10 +844,7 @@
 
 @section Scripts {
 
-    <script>
-         InitilaizeMetronicDatatable('Scheduled_Trips_Table');
 
-    </script>
 
 @*     <script src="~/js/VehicleAvalibility.js"></script>
  *@

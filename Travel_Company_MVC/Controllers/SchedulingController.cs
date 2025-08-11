@@ -52,7 +52,6 @@ namespace Travel_Company_MVC.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest();
 
-			//return Ok();
 
 			var dto = _mapScheduleDTO(model);
 

@@ -3,6 +3,8 @@
 	public class ScheduledTripViewModel
 	{
 
+		public int RouteId {  get; set; }
+		public string RouteName { get; set; } = null!;
 		public int TripId { get; set; }
 		public DateTime Date { get; set; }
 		public TimeSpan Time { get; set; }
@@ -10,7 +12,7 @@
 		public int TripTimeSpanInMInits { get; set; }
 		public TripStatus Status { get; set; }
 
-
+		public int? ReturnRouteId { get; set; }
 		public int? ReturnTripId { get; set; }
 		public DateTime? ReturnDate { get; set; }
 		public TimeSpan? ReturnTime { get; set; }

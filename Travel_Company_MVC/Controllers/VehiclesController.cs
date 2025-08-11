@@ -25,17 +25,25 @@ namespace Travel_Company_MVC.Controllers
         }
 
         [HttpGet("/Vehicles/GetAvailableVehicles")]
-        public async Task<IActionResult> GetAvailableVehicles(DateTime tripDateTime, DateTime? returnTripDateTime, int tripId)
+        public async Task<IActionResult> GetAvailableVehicles( int tripId)
         {
 
-            TempData["TripDateAndTime"] = tripDateTime;
-            TempData["ReturnTripDateTime"] = returnTripDateTime;
+            //TempData["TripDateAndTime"] = tripDateTime;
+            //TempData["ReturnTripDateTime"] = returnTripDateTime;
             TempData["TripId"] = tripId;
 
             var vehicles = await _vehicleService.GetAvailableVehicles(tripId);
 
             return PartialView("_AvailableVehiclesForTrip", vehicles);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> GetVehicleDetails([FromBody] VehicleDetailsViewModel model)
+        {
+            return PartialView("_VehicleDetails", model);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> GetVehicleAvalilbilty([FromBody] VehicleAvalibilityViewModel model)

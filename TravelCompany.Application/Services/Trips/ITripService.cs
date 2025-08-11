@@ -14,12 +14,11 @@ namespace TravelCompany.Application.Services.Travels
         Task<IEnumerable<Trip>> RetriveAllTripsAsync(IList<int?> returnTripsIds);
         Task<IEnumerable<SuitableTripDTO>> FindSuitableTripsAsync(int stationAId, int stationBId, DateTime tipDate);
 		Task<(long SeatCode, IList<BookedSeatsDTO> AvalibleSeats)> GetAvaliableSeatsAsync(int tripId, int stationAId, int stationBId);
-        Task<(IEnumerable<TripPattern>? TripsPatterns, IEnumerable<Trip>? Trips)> SearchForTrips(ScheduledTripsSearchDTO dto);
 		Task<(bool Success, IEnumerable<ScheduledTripBaseDTO>? Data)> ScheduleTripsAsync(ScheduleDTO schedule);
         Task<Trip?> FindTripByIdAsync(int tripId);
         Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId);
         Task<(bool Success, Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto);
-
+        Task<IEnumerable<Trip>> GetScheduledTrips(ScheduledTripsSearchDTO dto);
         Task<IEnumerable<TripPattern>> GetTripsPatterns(int routeId);
         Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(PatternWeeksRequestDTO dto);
         Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TravelCompany.Application.Services.Recurrings;
 using TravelCompany.Application.Services.Stations;
 using TravelCompany.Application.Services.Travels;
+using TravelCompany.Domain.Entities;
 
 namespace Travel_Company_MVC.Controllers
 {
@@ -89,7 +90,10 @@ namespace Travel_Company_MVC.Controllers
             }
             else
             {
-                var tripsList = await _tripService.RetriveAllTripsAsync();
+                var dto = _mapper.Map<ScheduledTripsSearchDTO>(model);
+
+                var tripsList = await _tripService.GetScheduledTrips(dto);
+
                 var trips = _setTripsModel(tripsList);
 
                 return PartialView("_ScheduledTrips", trips);
@@ -256,36 +260,24 @@ namespace Travel_Company_MVC.Controllers
 
         private ScheduledTripViewModel _setTripTimigDetailsModel(Trip mainTrip , Trip? returnTrip)
         {
-            if(returnTrip!=null)
-            {
-                return new ScheduledTripViewModel()
-                {
-
-                    TripId = mainTrip.Id,
-                    Date = mainTrip.Date,
-                    Time = mainTrip.Time,
-                    Status = mainTrip.status,
-
-
-                    ReturnTripId = returnTrip.Id,
-                    ReturnDate = returnTrip.Date,
-                    ReturnTime = returnTrip.Time,
-                    ReturnStatus = returnTrip.status
-
-
-                };
-            }
 
             return new ScheduledTripViewModel()
             {
-
-                TripId = mainTrip.Id,
+				RouteId = mainTrip.RouteId,
+				TripId = mainTrip.Id,
                 Date = mainTrip.Date,
                 Time = mainTrip.Time,
-                Status = mainTrip.status
+                Status = mainTrip.status,
+
+				ReturnRouteId = mainTrip.Route!.ReverseRouteId,
+				ReturnTripId = returnTrip?.Id,
+                ReturnDate = returnTrip?.Date,
+                ReturnTime = returnTrip?.Time,
+                ReturnStatus = returnTrip?.status
 
 
             };
+
 
 
 
@@ -296,33 +288,38 @@ namespace Travel_Company_MVC.Controllers
 
             var mainTrips = trips.Where(t => t.MainTripId == null)
                 .ToList();
-
-            foreach (var trip in mainTrips)
-            {
-                var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.Id);
+          
+                foreach (var trip in mainTrips)
+                {
+                    var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.Id);
 
                     tripsModel.Add(new()
                     {
+                        RouteId=trip.RouteId,
+                        RouteName=trip.Route!.RouteName,
                         TripId = trip.Id,
                         Date = trip.Date,
                         Time = trip.Time,
                         Status = trip.status,
-                        DepartureStationId=trip.Route!.FirstStationId,
-                        TripTimeSpanInMInits=trip.Route!.EstimatedTime,
-                        VehicleId=trip.TripAssignment?.VehicleId,
-                        VehicleNumber=trip.TripAssignment?.Vehicle?.VehicleNumber,
-                        VehicleModel=trip.TripAssignment?.Vehicle?.Type,
+                        DepartureStationId = trip.Route!.FirstStationId,
+                        TripTimeSpanInMInits = trip.Route!.EstimatedTime,
 
+                        VehicleId = trip.TripAssignment?.VehicleId ,
+                        VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber ,
+                        VehicleModel = trip.TripAssignment?.Vehicle?.Type ,
+
+                        ReturnRouteId=returnTrip?.RouteId,
                         ReturnTripId = returnTrip?.Id,
-                        ReturnDate = returnTrip?.Date,
-                        ReturnTime = returnTrip?.Time,
+                        ReturnDate =  returnTrip?.Date,
+                        ReturnTime =  returnTrip?.Time,
                         ReturnStatus = returnTrip?.status
 
                     });
-           
 
 
-            }
+
+                }
+            
 
             return tripsModel;
         }

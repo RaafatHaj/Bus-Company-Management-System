@@ -174,16 +174,48 @@ namespace TravelCompany.Application.Services.Travels
 
 		}
 
-		public async Task<(IEnumerable<TripPattern>? TripsPatterns , IEnumerable<Trip>? Trips)> SearchForTrips(ScheduledTripsSearchDTO dto)
+		public async Task<IEnumerable<Trip>> GetScheduledTrips(ScheduledTripsSearchDTO dto)
 		{
-			if(dto.SearchType == TripSearchType.TripPatterns)
+			if(dto.DateType == TripSearchDateType.SpecificDate)
 			{
-			    var tripsPatterns= await GetTripsPatterns(dto.RouteId);
-				return (tripsPatterns, null);
-			}
+				var trips= await _unitOfWork.Trips.GetQueryable().Where(t=>t.RouteId==dto.RouteId & t.Date==dto.TripDate)
+                            .Include(t => t.Route)
+                            .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle).AsNoTracking().ToListAsync();
 
-			return (null, null);
-		}
+                var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
+
+				var reutrnTrips = await RetriveAllTripsAsync(returnTripsIds);
+
+                trips.AddRange(reutrnTrips);
+
+				return trips;
+
+
+            }
+			else
+			{
+                var lastDayOfMonth = DateTime.DaysInMonth(dto.Year!.Value, dto.Month!.Value);
+
+                var endDate = new DateTime(dto.Year!.Value, dto.Month!.Value, lastDayOfMonth);
+				var firsDate=new DateTime(dto.Year!.Value, dto.Month!.Value, 1);
+
+				var trips= await _unitOfWork.Trips.GetQueryable()
+                        .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
+                        .Include(t => t.Route)
+                        .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle).AsNoTracking()
+                        .ToListAsync();
+
+                var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
+
+                var reutrnTrips = await RetriveAllTripsAsync(returnTripsIds);
+
+                trips.AddRange(reutrnTrips);
+
+                return trips;
+
+            }	      
+
+		} 
 
         public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(PatternWeeksRequestDTO dto)
         {

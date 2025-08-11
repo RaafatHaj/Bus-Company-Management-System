@@ -1,0 +1,13 @@
+﻿namespace Travel_Company_MVC.ViewModels
+{
+	public class VehicleDetailsViewModel
+	{
+		public int VehicleId { get; set; }
+		public int TripId { get; set; }
+		public string VehicleModel { get; set; } = null!;
+		public string VehicleNumber { get; set; } = null!;
+		public int Seats { get; set; }
+		public string HomeStation { get; set; }=null!;
+
+	}
+}

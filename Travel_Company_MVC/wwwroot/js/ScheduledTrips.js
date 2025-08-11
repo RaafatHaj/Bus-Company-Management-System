@@ -1,17 +1,32 @@
-﻿
-function test() {
+﻿var resultTableId = 'Trips_Patterns_Table';
+function initilizeDateTimePickers() {
 
-    let test = document.getElementById('1');
-    let test2 = document.getElementById('2');
 
-    console.log(test.value);
-    console.log(test2.value);
+    $(".flatpicker-time").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i"
+    });
 
-    initilazeMainTimePicker();
-    initilazeReturnTimePicker();
+    $(".flatpicker-date").flatpickr({
+        minDate: "today",
+        maxDate: "",
+        jumpToDate: "today"
+    });
 
-    initilazeMainDatePicker()
-    initilazeReturnDatePicker();
+
+
+    //let test = document.getElementById('1');
+    //let test2 = document.getElementById('2');
+
+    //console.log(test.value);
+    //console.log(test2.value);
+
+    //initilazeMainTimePicker();
+    //initilazeReturnTimePicker();
+
+    //initilazeMainDatePicker()
+    //initilazeReturnDatePicker();
 }
 
 
@@ -119,12 +134,17 @@ function HandleRadioButtonsSubOptions() {
 
             if (radio.hasAttribute('data-has-sub-options')) {
 
+                resultTableId = 'Scheduled_Trips_Table';
+
                 ShowSubOptions();
 
 
 
             }
             else {
+
+                resultTableId = 'Trips_Patterns_Table';
+
                 const content = document.getElementById('date-search-box');
                 content.innerHTML = "";
 
@@ -185,7 +205,8 @@ function RenderSearchResult(data) {
     const scroiingButton = document.getElementById("scrolling-button");
     scroiingButton.click();
 
-    InitilaizeMetronicDatatable('Trips_Patterns_Table');  
+    InitilaizeMetronicDatatable(resultTableId);  
+
     KTMenu.createInstances();
 }
 
@@ -244,3 +265,235 @@ document.body.addEventListener('click', async function (event) {
 })
 
 
+function HandleTripEditingChild() {
+
+    initilizeDateTimePickers();
+
+    // initilize dialers
+    KTDialer.createInstances();
+
+    HandleLongBreakEvents();
+}
+
+async function FillStationsSelectList(checkbox) {
+
+    
+
+    let routeId = document.getElementById(`${checkbox.id}-route-id`);
+
+    $(`#${checkbox.id}-select-station`).select2();
+
+
+    if (routeId === null)
+        return;
+
+    let url = checkbox.getAttribute("data-url") + routeId.value;
+
+    const response = await fetch(url);
+
+
+    if (!response.ok)
+        throw new Error('Failed to load partial view');
+
+    const routeStationsJson = await response.json();
+    const routeStationsDropdown = document.getElementById(`${checkbox.id}-select-station`);
+
+    routeStationsJson.forEach(s => {
+
+        if (s.stationOrder !== routeStationsJson.length) {
+            // Create a new option element
+            let newOption = document.createElement("option");
+            newOption.value = s.stationOrder + 1;
+            newOption.text = s.text;
+
+            // Append the new option to the Dropdown List
+
+            routeStationsDropdown.appendChild(newOption);
+        }
+
+
+    })
+
+}
+function HandleLongBreakEvents() {
+
+    const checkboxes = document.querySelectorAll('.long-break-checkbox');
+
+    checkboxes.forEach(checkbox => {
+
+        checkbox.addEventListener('change', async function (event) {
+
+            let container = document.getElementById(`${this.id}-trip-break-container`);
+            let template = document.getElementById(`${this.id}-trip-break-template`);
+
+            if (event.target.checked) {
+          
+
+                container.innerHTML = template.innerHTML;
+
+                // initilize dialers
+                KTDialer.createInstances();
+
+
+
+                FillStationsSelectList(event.target);
+
+
+
+
+
+            } else {
+
+                container.innerHTML = "";
+            }
+      
+
+
+
+        })
+    })
+    //document.addEventListener('change', async function (e) {
+
+    //    if (e.target.matches('.long-break-checkbox')) {
+    //        let brakSettingsContainer = document.getElementById("break_details");
+
+
+    //        if (e.target.checked) {
+
+    //            const template = document.getElementById("long_break_template");
+
+    //            brakSettingsContainer.innerHTML = template.innerHTML;
+
+    //            let routeId = document.getElementById("Route_Id").value;
+
+    //            let url = e.target.getAttribute("data-url") + routeId;
+
+    //            const response = await fetch(url);
+
+
+    //            if (!response.ok)
+    //                throw new Error('Failed to load partial view');
+
+    //            const routeStationsJson = await response.json();
+    //            //const routeStations = JSON.parse(routeStationsJson)
+    //            const routeStationsDropdown = document.getElementById("Select_Station");
+
+    //            routeStationsJson.forEach(s => {
+
+    //                if (s.stationOrder !== routeStationsJson.length) {
+    //                    // Create a new option element
+    //                    let newOption = document.createElement("option");
+    //                    newOption.value = s.stationOrder + 1;
+    //                    newOption.text = s.text;
+
+    //                    // Append the new option to the Dropdown List
+
+    //                    routeStationsDropdown.appendChild(newOption);
+    //                }
+
+
+    //            })
+
+    //            $('#Select_Station').select2();
+
+    //            //break_dialer
+
+    //            // Dialer container element
+    //            var dialerElement = document.getElementById("break_dialer");
+
+    //            // Create dialer object and initialize a new instance
+    //            var dialerObject = new KTDialer(dialerElement, {
+    //                min: 5,
+    //                max: 40,
+    //                step: 5,
+    //                suffix: " Minutes",
+    //                decimals: 0
+    //            });
+
+
+    //            let hiddenInput = document.getElementById("Hidden_Break_Minutes");
+
+    //            let value = document.getElementById('Break_Minutes').value.split(" ");
+
+    //            hiddenInput.value = value[0];
+
+    //            document.getElementById('Break_Minutes').addEventListener("change", function () {
+
+
+
+    //                //let hiddenInput = document.getElementById("Hidden_Break_Minutes");
+
+    //                value = this.value.split(" ");
+
+    //                hiddenInput.value = value[0];
+
+    //            })
+
+    //        }
+    //        else {
+    //            brakSettingsContainer.innerHTML = "";
+    //        }
+
+
+    //    }
+    //});
+
+
+
+
+
+}
+function HandleSelectVehicleEvent() {
+
+    document.body.addEventListener('click', async function (event) {
+
+        if (event.target && event.target.closest('.js-select-vehicle')) {
+
+            event.preventDefault()
+
+            const button = event.target.closest('.js-select-vehicle');
+
+            //const routeId = btn.getAttribute('data-route-id')
+
+            //const test = document.getElementById('route-id');
+            //test.value = routeId;
+
+            try {
+
+                const jsonData = button.getAttribute('data-json-data');
+
+                const response = await fetch(button.getAttribute('data-url'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // IMPORTANT!
+                    },
+                    body: jsonData
+                })
+
+
+
+                if (!response.ok)
+                    throw new Error('Failed to load partial view');
+
+                let container = document.getElementById("vehicle-details")
+
+                container.innerHTML = await response.text();
+
+
+
+
+
+            } catch {
+
+
+            }
+
+            HideModal();
+
+
+        }
+    })
+
+}
+
+HandleSelectVehicleEvent();

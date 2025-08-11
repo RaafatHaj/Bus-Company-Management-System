@@ -10,7 +10,7 @@ document.querySelectorAll('.recurring-radio').forEach(radio => {
         content.innerHTML = template.innerHTML;
 
         if (this.classList.contains("custom-recurring")) {
-
+                
             // Initialize Flatpickr on the newly added input
             const flatpickrInput = content.querySelector('#custom-schedule');
             if (flatpickrInput) {
