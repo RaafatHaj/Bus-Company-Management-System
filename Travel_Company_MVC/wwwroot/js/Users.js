@@ -1,7 +1,7 @@
 ﻿
 var updatedRow;
 
-function addRowToTable(newRow, form) {
+function UpdateTableRow(newRow, form) {
 
 
 

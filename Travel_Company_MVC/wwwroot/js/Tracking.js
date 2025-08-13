@@ -1,5 +1,5 @@
 ﻿
-InitilaizeMetronicDatatable('Tracking_Table');
+//InitilaizePageDatatable('Tracking_Table');
 
 // Note : in select2 Library we can not use Vanilla js to cahch chsnge on select input but JQuery
 //         becose it has custom handling , where select2 hide the oraganal select input and replace it with

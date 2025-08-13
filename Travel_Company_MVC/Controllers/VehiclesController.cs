@@ -131,7 +131,7 @@ namespace Travel_Company_MVC.Controllers
                 ReturnStatus=result.Trip!.ReturnStatus,
 
                 VehicleId= result.Trip!.VehicleId,
-                VehicleNumber= result.Trip!.VehicleNUmber,
+                VehicleNumber= result.Trip!.VehicleNumber,
                 VehicleModel= result.Trip!.VehicleModel
 
             };

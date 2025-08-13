@@ -42,16 +42,6 @@ namespace Travel_Company_MVC.Controllers
         {
 
 			
-
-			//if (TempData["Trips"] is string tripsJson)
-   //         {
-   //             var tripsModel = JsonConvert.DeserializeObject<IEnumerable<ScheduledTripViewModel>>(tripsJson);
-   //             return View(tripsModel);
-   //         }
-
-
-            //var tripsList = await _tripService.RetriveAllTripsAsync();
-            //var trips = _setTripsModel(tripsList);
             var model = new ScheduledTripsSearchViewModel();
 
 			return View(model); // fallback
@@ -150,10 +140,14 @@ namespace Travel_Company_MVC.Controllers
 			if (!result.Success)
 				return BadRequest(new { errorMessage = result.Message });
 
-			return Ok();
 
 			var editedTrip = new ScheduledTripViewModel
 			{
+
+
+				RouteId = result.Trip!.RouteId,
+				RouteName = result.Trip!.RouteName,
+
 				TripId = result.Trip!.TripId,
 				Date = result.Trip!.Date,
 				Time = result.Trip!.Time,
@@ -161,72 +155,22 @@ namespace Travel_Company_MVC.Controllers
 				TripTimeSpanInMInits = result.Trip!.TripTimeSpanInMInits,
 				Status = result.Trip!.Status,
 
+                ReturnRouteId= result.Trip!.ReturnRouteId,
 				ReturnTripId = result.Trip!.ReturnTripId,
 				ReturnDate = result.Trip!.ReturnDate,
 				ReturnTime = result.Trip!.ReturnTime,
 				ReturnStatus = result.Trip!.ReturnStatus,
 
 				VehicleId = result.Trip!.VehicleId,
-				VehicleNumber = result.Trip!.VehicleNUmber,
+				VehicleNumber = result.Trip!.VehicleNumber,
 				VehicleModel = result.Trip!.VehicleModel
 
 			};
-
-			//var dto = new AssignVehicleDTO();
-
-			//dto.TripId=model.TripId;
-			//dto.VehicleId = model.VehicleId;
-			//dto.MainTripDateTime = model.MainTripDate!.Value + model.MainTripTime!.Value;
-			//dto.ReturnTripDateTime = model.ReturnTripDate!.Value + model.ReturnTripTime!.Value;
-
 
 
 			return PartialView("~/Views/Trips/_ScheduledTripRow.cshtml", editedTrip);
 
 			
-
-            //var trip = await _tripService.FindTripByIdAsync(model.TripId);
-
-            //if(trip==null)
-            //    return BadRequest();
-
-            //var result = await _tripService.EditTripTimeAsync(_mapper.Map<TripTimingDTO>(model));
-
-            //if (!result.Success)
-            //    return BadRequest();
-
-
-            //model.TripId = result.Trip!.Id;
-            //model.Date = result.Trip.Date;
-            //model.Time = result.Trip.Time;
-
-
-            //if (model.ReturnTripId != null)
-            //{
-
-            //    var result2 = await _tripService.EditTripTimeAsync(new TripTimingDTO()
-            //    {
-            //        TripId = model.ReturnTripId!.Value,
-            //        Date = model.ReturnDate!.Value,
-            //        Time = model.ReturnTime!.Value
-
-
-            //    });
-
-
-
-            //    if (!result2.Success)
-            //        return BadRequest();
-
-
-            //    model.ReturnTripId = result2.Trip!.Id;
-            //    model.ReturnDate = result2.Trip.Date;
-            //    model.ReturnTime = result2.Trip.Time;
-
-            //}
-
-            //return PartialView("_ScheduledTripRow", model);
-
         }
 
 
@@ -298,9 +242,20 @@ namespace Travel_Company_MVC.Controllers
         }
 
 
-        /// Private Methods ////////////////////////////////////////////////////////////////////////////
+        [HttpGet]
+        public async Task<IActionResult> GetTripTrack(int tripId)
+        {
+            var track = await _tripService.GetTripTrackAsync(tripId);
 
-        private EditScheduledTripViewModle _setTripEditingViewModle(Trip mainTrip , Trip? returnTrip)
+            return PartialView("_TripTrack", _mapper.Map<IEnumerable<TripTrackViewModel>>(track));
+
+        }
+
+  
+
+		/// Private Methods ////////////////////////////////////////////////////////////////////////////
+
+		private EditScheduledTripViewModle _setTripEditingViewModle(Trip mainTrip , Trip? returnTrip)
         {
             // convert it to EditScheduledTripViewModle 
             return new EditScheduledTripViewModle()

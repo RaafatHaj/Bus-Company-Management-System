@@ -58,7 +58,7 @@ namespace TravelCompany.Application.Services.Vehicles
 
 
                 VehicleId = mainTrip.TripAssignment?.VehicleId,
-                VehicleNUmber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
+                VehicleNumber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
                 VehicleModel=mainTrip.TripAssignment?.Vehicle?.Type,
 
                 RouteId=mainTrip.RouteId,

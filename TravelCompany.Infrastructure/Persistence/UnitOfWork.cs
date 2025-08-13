@@ -22,7 +22,7 @@ namespace TravelCompany.Infrastructure.Persistence
 
         public IBaseRepository<Point> Points => new BaseRepository<Point>(_context);
 
-        public IBaseRepository<Station> Stations => new BaseRepository<Station>(_context);
+        public IStationRepository Stations => new StationRepository(_context, _connectionStrings.DefaultConnection);
 
         public IBaseRepository<route> Routes => new BaseRepository<route>(_context);
         public IRezervationRepository Reservations => new RezervationRepository(_context, _connectionStrings.DefaultConnection);

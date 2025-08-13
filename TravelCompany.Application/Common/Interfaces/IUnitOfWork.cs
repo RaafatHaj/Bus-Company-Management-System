@@ -13,7 +13,7 @@ namespace TravelCompany.Application.Common.Interfaces
     public interface IUnitOfWork
     {
         IBaseRepository<Point> Points { get; }
-        IBaseRepository<Station> Stations { get; }
+		IStationRepository Stations { get; }
         IBaseRepository<route> Routes { get; }
         ITripRepository Trips { get; }
         IBaseRepository<TripPattern> TripPatterns { get; }

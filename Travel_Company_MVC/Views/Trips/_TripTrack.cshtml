@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TripTrackViewModel>
+
+
+
+<table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
+	<thead>
+		<tr class="fw-bold fs-6 text-gray-800 px-7">
+			<th>Station Order</th>
+			<th>Station Name</th>
+			<th>ArrivalDateTime</th>
+			<th>DepartureDateTime</th>
+			<th>Status</th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+
+		@foreach (var station in Model)
+		{
+			<tr>
+				<td>@station.StationOrder</td>
+				<td>@station.StationName</td>
+				<td>@station.ArrivalDateTime</td>
+				<td>@station.DepartureDateTime</td>
+				<td>@station.Status</td>
+
+			</tr>
+
+		}
+
+
+
+	</tbody>
+</table>
+
+
+
+

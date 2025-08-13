@@ -161,7 +161,7 @@ async function  getRouteTripRecurringPatterns(url) {
         console.log(tripsTimings);
 
 
-        InitilaizeMetronicDatatable('Trips_Patterns_Table');  
+        InitilaizePageDatatable('Trips_Patterns_Table');  
 
         KTMenu.createInstances();
 

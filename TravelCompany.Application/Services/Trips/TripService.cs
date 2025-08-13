@@ -262,15 +262,17 @@ namespace TravelCompany.Application.Services.Travels
 
 
 				VehicleId = mainTrip.TripAssignment?.VehicleId,
-				VehicleNUmber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
+				VehicleNumber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
 				VehicleModel = mainTrip.TripAssignment?.Vehicle?.Type,
 
 				RouteId = mainTrip.RouteId,
+				RouteName=mainTrip.Route.RouteName,
+
 				Seats = mainTrip.Seats,
 				HasBookedSeat = mainTrip.HasBookedSeat,
 				ArrivedStationOrder = mainTrip.ArrivedStationOrder,
 
-
+				ReturnRouteId=returnTrip?.RouteId,
 				ReturnTripId = returnTrip?.Id,
 				ReturnTime = returnTrip?.Time,
 				ReturnDate = returnTrip?.Date,
@@ -281,6 +283,13 @@ namespace TravelCompany.Application.Services.Travels
 			return (true, "Vehicle assigned successfully.", trip);
 
 		}
-	
+
+		public async Task<IEnumerable<TripTrackDTO>> GetTripTrackAsync(int tripId)
+		{
+			return await _unitOfWork.Trips.GetTripTrackAsunc(tripId);
+
+		}
+
+
 	}
 }

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ScheduledTripViewModel>;
+
+@section Styles {
+
+	<link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+	<link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+
+}
+
+
+@{
+	var breadcrumb = new List<string>
+							{
+								"Trips",
+								"Scheduled Trips"
+							};
+
+	ViewData["Breadcrumb"] = breadcrumb;
+}
+
+<div class="card ">
+
+	<div class="card-body mb-2 px-9  ">
+
+
+        <div>
+
+            <div class="mb-10">
+                <div class="d-flex">
+
+                    <h5>
+                        Scheduled Trips
+                    </h5>
+                    <span class="bullet   bullet-dot  bg-success ms-2 mt-2"></span>
+                </div>
+
+                <span class="text-muted ">All scheduled trips pattern in terms of time.</span>
+
+            </div>
+
+            <div class="separator separator-dashed border-muted my-5"></div>
+
+            <div class="table-responsive">
+
+                <table id="Scheduled_Trips_Table" class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 scroll mt-5 scroll m-10 animate__animated  animate__fadeIn animate__slower">
+                    <thead>
+
+                        <tr class="fw-bold fs-6 text-gray-800 px-7">
+                            <th><span class="ms-6">Main</span></th>
+                            <th>Route</th>
+                            <th></th>
+                            <th><span class="ms-6">Return</span></th>
+                            <th></th>
+                            <th>
+                                <span class="ms-5">
+                                    Vehicle
+                                </span>
+                            </th>
+                            <th>Actions</th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var trip in Model)
+                        {
+
+                            <partial name="~/Views/Trips/_ScheduledTripRow.cshtml" model="@trip" />
+
+                        }
+
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+	</div>
+</div>
+
+
+
+@section Plugins {
+
+	<script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+	<script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+
+}
+
+@section Scripts {
+
+
+   <partial name="_ValidationScriptsPartial" />
+   <script src="~/js/scheduledtrips.js"></script>
+   <script>
+        InitilaizePageDatatable('Scheduled_Trips_Table');
+    </script>
+}

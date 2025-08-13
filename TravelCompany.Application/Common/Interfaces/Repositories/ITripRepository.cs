@@ -20,6 +20,7 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 		Task<IEnumerable<PatternWeekDTO>> GetPatternWeeks(PatternWeeksRequestDTO dto);
 		Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);
 		Task<(bool Success, int ReturnTrpId, string Message)> EditTrip(EditScheduledTripDTO dto);
+		Task<IEnumerable<TripTrackDTO>> GetTripTrackAsunc(int tripId);
 
 	}
 }

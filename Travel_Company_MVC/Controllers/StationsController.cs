@@ -23,5 +23,36 @@ namespace Travel_Company_MVC.Controllers
 
             return Json(stations);
         }
-    }
+
+
+		[HttpPost]
+		public async Task<IActionResult> MarkStationAsArrived(int tripId, int stationId, int stationOrder)
+		{
+
+            var result=await _stationService.SetStationAsArrived(tripId, stationId, stationOrder);
+
+            if (!result.Success)
+                return BadRequest();
+
+
+
+            return PartialView("_StationsTripsTrackRow", result.Data);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> MarkStationAsMoved(int tripId, int stationId, int stationOrder)
+		{
+			var result = await _stationService.SetStationAsMoved(tripId, stationId, stationOrder);
+
+			if (!result.Success)
+				return BadRequest();
+
+
+			return PartialView("_StationsTripsTrackRow", result.Data);
+		}
+
+
+
+
+	}
 }

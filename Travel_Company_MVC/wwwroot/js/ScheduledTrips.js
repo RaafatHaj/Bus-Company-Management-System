@@ -1,4 +1,7 @@
-﻿var resultTableId = 'Trips_Patterns_Table';
+﻿
+
+
+var resultTableId = 'Trips_Patterns_Table';
 function initilizeDateTimePickers() {
 
 
@@ -28,42 +31,6 @@ function initilizeDateTimePickers() {
     //initilazeMainDatePicker()
     //initilazeReturnDatePicker();
 }
-
-
-function initilazeMainTimePicker() {
-    $(".flatpickr-main-time").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i"
-    });
-}
-
-function initilazeReturnTimePicker() {
-    $(".flatpickr-return-timr").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-
-    });
-}
-
-function initilazeMainDatePicker() {
-    $(".flatpickr-main-date").flatpickr({
-        minDate: "today",
-        maxDate: "",
-        jumpToDate: "today"
-    });
-}
-
-function initilazeReturnDatePicker() {
-    $(".flatpickr-return-date").flatpickr({
-        minDate: "today",
-        maxDate: "",
-        jumpToDate: "today"
-    });
-}
-
-
 
 //  Handle Search Options ...
 function HandleSearchOptions() {
@@ -194,7 +161,6 @@ function HandleDialerEvent() {
     })
 }
 
-
 function RenderSearchResult(data) {
 
 
@@ -205,7 +171,7 @@ function RenderSearchResult(data) {
     const scroiingButton = document.getElementById("scrolling-button");
     scroiingButton.click();
 
-    InitilaizeMetronicDatatable(resultTableId);  
+    InitilaizePageDatatable(resultTableId);  
 
     KTMenu.createInstances();
 

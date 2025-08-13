@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelCompany.Application.Common.Interfaces;
+using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
 
 namespace TravelCompany.Application.Services.Stations
@@ -19,10 +20,15 @@ namespace TravelCompany.Application.Services.Stations
             return await _unitOfWork.Stations.GetQueryable().ToListAsync();
         }
 
-        //public Task<string> GetAllStationsJsonAsync()
-        //{
 
-        //    return JsonConvert.
-        //}
-    }
+		public async Task<(bool Success, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder)
+		{
+			return await _unitOfWork.Stations.SetStationAsArrived(tripId, stationId, stationOrder); 
+		}
+
+		public async Task<(bool Success, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder)
+		{
+			return await _unitOfWork.Stations.SetStationAsMoved(tripId, stationId, stationOrder);
+		}
+	}
 }

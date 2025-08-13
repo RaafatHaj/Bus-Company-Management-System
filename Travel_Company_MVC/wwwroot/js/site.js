@@ -1,10 +1,11 @@
 ﻿
+
 var updatedRow;
 var html;
 var table;
 /*const table = InitilaizeMetronicDatatable();*/
 
-function addRowToTable( newRow, form) {
+function UpdateTableRow( newRow) {
 
 
 
@@ -43,11 +44,57 @@ function InitilaizeDatatable(tableId = '#kt_datatable_dom_positioning') {
 
     return new DataTable(tableId);
 }
-function InitilaizeMetronicDatatable(tableId ='Data_Table') {
+function InitilaizePageDatatable(tableId ='Data_Table') {
     $(document).ready(function () {
 
         // Store DataTable instance in a variable
          table = $('#' + tableId).DataTable({
+            language: {
+                lengthMenu: "Show _MENU_",
+            },
+            dom:
+                "<'row mb-2 mt-2 me-2'" +
+                "<'col-sm-6 d-flex align-items-center justify-conten-start dt-toolbar xxx'l>" +
+                "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar 'f>" +
+                ">" +
+
+                "<'table-responsive'tr>" +
+
+                "<'row mt-5'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">"
+        });
+
+        //// Create the dropdown
+        //const $dropdown = $(`
+        //    <select id="statusFilter" class="form-select form-select-sm ms-19" style="width: auto;">
+        //        <option value="">All Statuses</option>
+        //        <option value="Pending">Pending</option>
+        //        <option value="Unassigned">Unassigned</option>
+        //    </select>
+        //`);
+
+
+        //// Append dropdown inside the custom search container
+
+        //$('.xxx').append($dropdown2);
+
+        //// The index of your status column (0-based)
+        //const statusColumnIndex = 1; // adjust if needed
+
+        //// Bind change event on dropdown, using the table variable
+        //$('#statusFilter').on('change', function () {
+        //    const value = $(this).val();
+        //    table.column(statusColumnIndex).search(value).draw();
+        //});
+    });
+}
+function InitilaizeModalDatatable(tableId = 'Data_Table') {
+    $(document).ready(function () {
+
+        // Store DataTable instance in a variable
+         $('#' + tableId).DataTable({
             language: {
                 lengthMenu: "Show _MENU_",
             },
@@ -178,6 +225,65 @@ function Toggle() {
     })
 
 }
+
+function HandleAjaxRequest() {
+
+
+    document.body.addEventListener('click', async function (event) {
+
+        if (event.target && event.target.closest('.js-ajax-request')) {
+
+            event.preventDefault()
+            const button = event.target.closest('.js-ajax-request');
+
+            const message = event.target.getAttribute('data-message');
+            const title = event.target.getAttribute('data-title');
+
+
+            ConfirmationMessage(title, message).then(async (confirmed) => {
+
+                if (confirmed) {
+
+                    try {
+
+                        const response = await fetch(button.getAttribute('data-url'), {
+
+                            method: 'POST'
+                        });
+
+                        if (!response.ok)
+                            throw new Error('Failed to load partial view');
+
+
+                        let responseData = await response.text();
+
+                        if (event.target.hasAttribute('data-updete-table'))
+                            updatedRow = event.target.closest('tr');
+
+
+                        const callbackFunctionName = button.getAttribute('data-callback');
+
+                        if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
+                            window[callbackFunctionName](responseData);
+
+
+                        SuccessMessage();
+
+                    } catch {
+
+                        ErrorMessage();
+                    }
+
+                }
+            })
+
+
+
+
+        }
+    })
+
+}
 function SumbitForm() {
 
     document.body.addEventListener('submit',  function (event) {
@@ -266,6 +372,7 @@ async function  _submitAjaxForm(target) {
 
             button.removeAttribute("data-kt-indicator");
 
+           
             HideModal();
 
         }
@@ -372,7 +479,7 @@ function RenderModal() {
             
                 
 
-                if (event.target.hasAttribute('data-updete')) 
+                if (event.target.hasAttribute('data-updete-table')) 
                     updatedRow = event.target.closest('tr');
 
 
@@ -393,7 +500,7 @@ function RenderModal() {
 
                     let tableId = button.getAttribute('data-table-id')
                     //testtt(tableId)
-                    const modalTable= InitilaizeMetronicDatatable(tableId);
+                    InitilaizeModalDatatable(tableId);
                   //  InitilaizeDatatable(tableId);
 
                 }
@@ -466,6 +573,8 @@ function handleTableChiled() {
                     let html = await response.text();
                     row.child(html).show();
 
+                    if (button.hasAttribute('data-updete-table'))
+                        updatedRow = e.target.closest('tr');
 
                     const callbackFunctionName = button.getAttribute('data-callback');
 
@@ -514,7 +623,7 @@ function RenderCard() {
 
                     let tableId = button.getAttribute('data-table-id')
                     //testtt(tableId)
-                    InitilaizeMetronicDatatable(tableId);
+                    InitilaizePageDatatable(tableId);
                     //  InitilaizeDatatable(tableId);
 
                 }
@@ -629,18 +738,6 @@ function GoToPreviousPage() {
 
 }
 
-//function initilazeTimePicker() {
-//    $(".flatpickr-input").flatpickr({
-//        enableTime: true,
-//        noCalendar: true,
-//        dateFormat: "H:i",
-//    });
-//}
-
-//function initilazeDateePicker() {
-//    $(".flatpickr-date").flatpickr();
-//}
-
 RenderModal();
 RenderCard();
 Toggle();
@@ -649,6 +746,7 @@ SumbitForm();
 handleTableChiled();
 GoToNextPageAjax();
 GoToPreviousPage();
+HandleAjaxRequest()
 
 document.addEventListener('DOMContentLoaded', function () {
     const currentPath = window.location.pathname.toLowerCase();

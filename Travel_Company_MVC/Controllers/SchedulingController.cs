@@ -66,7 +66,7 @@ namespace Travel_Company_MVC.Controllers
 
             //TempData["Trips"] = JsonConvert.SerializeObject(tripsModel);
   //          return RedirectToAction("ScheduledTrips", "Trips",tripsModel);
-            return View("~/Views/Trips/ScheduledTrips.cshtml", tripsModel);
+            return View("~/Views/Trips/NewScheduledTrips.cshtml", tripsModel);
 
 
 
@@ -106,20 +106,19 @@ namespace Travel_Company_MVC.Controllers
 
                 tripsModel.Add(new()
                 {
+                    RouteId = trip.RouteId,
+                    RouteName = trip.RouteName,
                     TripId = trip.TripId,
                     Date = trip.Date,
                     Time = trip.Time,
                     Status = trip.Status,
                     DepartureStationId = trip.DepartureStationId,
                     TripTimeSpanInMInits = trip.TripTimeSpanInMInits,
+
                     VehicleId = trip.VehicleId,
-                    VehicleNumber = trip.VehicleNUmber,
+                    VehicleNumber = trip.VehicleNumber,
                     VehicleModel = trip.VehicleModel,
 
-                    ReturnTripId = returnTrip?.TripId,
-                    ReturnDate = returnTrip?.Date,
-                    ReturnTime = returnTrip?.Time,
-                    ReturnStatus = returnTrip?.Status
 
                 });
 

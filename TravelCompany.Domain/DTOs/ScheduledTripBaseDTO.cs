@@ -12,6 +12,7 @@ namespace TravelCompany.Domain.DTOs
 
 
         public int TripId { get; set; }
+        public string RouteName { get; set; } = null!;
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
         public int DepartureStationId { get; set; }
@@ -20,7 +21,7 @@ namespace TravelCompany.Domain.DTOs
         public int? MainTripId { get; set; }
 
         public int? VehicleId { get; set; } 
-        public string? VehicleNUmber { get; set; }
+        public string? VehicleNumber { get; set; }
         public string? VehicleModel { get; set; }   
 
         public int RouteId { get; set; }
