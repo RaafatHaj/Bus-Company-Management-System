@@ -636,7 +636,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 						await command.ExecuteNonQueryAsync();
 
-						isSuccess = (bool)command.Parameters["@IsAssigend"].Value;
+						isSuccess = (bool)command.Parameters["@IsSuccess"].Value;
 						returnTrpId = (int)command.Parameters["@ReturnTripId"].Value;
 						message = (string)command.Parameters["@ErrorMessage"].Value;
 
