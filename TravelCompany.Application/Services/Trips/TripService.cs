@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
+using System.Data;
 using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
@@ -36,8 +37,8 @@ namespace TravelCompany.Application.Services.Travels
 
 			//return await query.SingleOrDefaultAsync();
 			return await _unitOfWork.Trips.GetQueryable()
-                         .Include(t => t.Route).ThenInclude(r => r.FirstStation)
-                         .Include(t => t.Route).ThenInclude(r => r.LastStation)
+                         .Include(t => t.Route).ThenInclude(r => r!.FirstStation)
+                         .Include(t => t.Route).ThenInclude(r => r!.LastStation)
                          .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
                          .AsNoTracking().SingleOrDefaultAsync(t=>t.Id==tripId);
         }
@@ -232,6 +233,54 @@ namespace TravelCompany.Application.Services.Travels
 			return await _unitOfWork.Trips.GetAvaliableSeatsAsync(tripId,  stationAId,  stationBId);
 		}
 
+
+		public async Task<(bool Success , string? Message, ScheduledTripDTO? Trip)> EditTrip(EditScheduledTripDTO dto)
+		{
+
+			var result = await _unitOfWork.Trips.EditTrip(dto);
+
+			if (!result.Success)
+				return (false, result.Message, null);
+
+			var mainTrip = await FindTripByIdAsync(dto.TripId);
+			var returnTrip = await FindTripByIdAsync(result.ReturnTrpId);
+
+			if (mainTrip is null || returnTrip is null)
+				return (false, "Some thing went worng on data base level.", null);
+
+
+			var trip = new ScheduledTripDTO
+			{
+
+				TripId = mainTrip.Id,
+				Date = mainTrip.Date,
+				Time = mainTrip.Time,
+				DepartureStationId = mainTrip.Route!.FirstStationId,
+				TripTimeSpanInMInits = mainTrip.Route.EstimatedTime,
+				Status = mainTrip.status,
+				MainTripId = mainTrip.MainTripId,
+
+
+				VehicleId = mainTrip.TripAssignment?.VehicleId,
+				VehicleNUmber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
+				VehicleModel = mainTrip.TripAssignment?.Vehicle?.Type,
+
+				RouteId = mainTrip.RouteId,
+				Seats = mainTrip.Seats,
+				HasBookedSeat = mainTrip.HasBookedSeat,
+				ArrivedStationOrder = mainTrip.ArrivedStationOrder,
+
+
+				ReturnTripId = returnTrip?.Id,
+				ReturnTime = returnTrip?.Time,
+				ReturnDate = returnTrip?.Date,
+				ReturnStatus = returnTrip?.status,
+
+			};
+
+			return (true, "Vehicle assigned successfully.", trip);
+
+		}
 	
 	}
 }

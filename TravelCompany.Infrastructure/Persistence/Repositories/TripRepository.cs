@@ -590,5 +590,71 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 		}
 
+		public async Task<(bool Success, int ReturnTrpId, string Message)> EditTrip(EditScheduledTripDTO dto)
+		{
+			bool isSuccess = false;
+			int returnTrpId = 0;
+			string message = "";
+
+			using (var connection = new SqlConnection(_connectionString))
+			{
+
+				using (var command = new SqlCommand("sp_EditTrip", connection))
+				{
+
+					command.CommandType = CommandType.StoredProcedure;
+
+
+
+					command.Parameters.AddWithValue("@TripId", dto.TripId);
+					command.Parameters.AddWithValue("@VehicleId", dto.VehicleId ?? (object)DBNull.Value);
+					command.Parameters.AddWithValue("@MainTrip_OldDateTime", dto.MainTripOldDateTime);
+					command.Parameters.AddWithValue("@ReturnTrip_OldDateTime", dto.ReturnTripOldDateTime ?? (object)DBNull.Value);
+					command.Parameters.AddWithValue("@MainTrip_NewDateTime", dto.MainTripNewDate.Add(dto.MainTripNewTime));
+					command.Parameters.AddWithValue("@ReturnTrip_NewDateTime", dto.ReturnTripNewDate.Add(dto.ReturnTripNewTime));
+					command.Parameters.AddWithValue("@MainTrip_HasBookedSeats", dto.MainTripHasBookedSeats);
+					command.Parameters.AddWithValue("@MainTrip_StationStopMinutes", dto.MainTripStationStopMinutes);
+					command.Parameters.AddWithValue("@MainTrip_HasBreak", dto.MainTripHasBreak);
+					command.Parameters.AddWithValue("@MainTrip_BreakMinutes", dto.MainTripBreakMinutes ?? (object)DBNull.Value);
+					command.Parameters.AddWithValue("@MainTrip_StationOrderNextToBreak", dto.MainTripStationOrderNextToBreak??(object)DBNull.Value);
+					command.Parameters.AddWithValue("@ReturnTrip_HasBookedSeats", dto.ReturnTripHasBookedSeats);
+					command.Parameters.AddWithValue("@ReturnTrip_StationStopMinutes", dto.ReturnTripStationStopMinutes);
+					command.Parameters.AddWithValue("@ReturnTrip_HasBreak", dto.ReturnTripHasBreak);
+					command.Parameters.AddWithValue("@ReturnTrip_BreakMinutes", dto.ReturnTripBreakMinutes?? (object)DBNull.Value);
+					command.Parameters.AddWithValue("@ReturnTrip_StationOrderNextToBreak", dto.ReturnTripStationOrderNextToBreak?? (object)DBNull.Value);
+				
+
+					command.Parameters.Add(new SqlParameter("@IsSuccess", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+					command.Parameters.Add(new SqlParameter("@ReturnTripId", SqlDbType.Int) { Direction = ParameterDirection.Output });
+					command.Parameters.Add(new SqlParameter("@ErrorMessage", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output });
+
+
+
+					try
+					{
+						await connection.OpenAsync();
+
+						await command.ExecuteNonQueryAsync();
+
+						isSuccess = (bool)command.Parameters["@IsAssigend"].Value;
+						returnTrpId = (int)command.Parameters["@ReturnTripId"].Value;
+						message = (string)command.Parameters["@ErrorMessage"].Value;
+
+
+					}
+					catch (Exception ex)
+					{
+						return (isSuccess, 0, ex.Message);
+					}
+
+
+				}
+
+
+			}
+
+
+			return (isSuccess, returnTrpId, message);
+		}
 	}
 }

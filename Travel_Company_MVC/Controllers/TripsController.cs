@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -121,7 +122,7 @@ namespace Travel_Company_MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTripTimingDetails(int tripId)
+        public async Task<IActionResult> GetTripEditingForm(int tripId)
         {
 
             var trip = await _tripService.FindTripByIdAsync(tripId);
@@ -132,60 +133,101 @@ namespace Travel_Company_MVC.Controllers
             var returnTrip = await _tripService.FindReturnTripByMainTripIdAsync(trip.Id);
 
 
-            var model = _setTripTimigDetailsModel(trip, returnTrip);
+            var model = _setTripEditingViewModle(trip, returnTrip);
 
 
-            return PartialView("_TripTimingDetails", model);
+            return PartialView("_TripEditing", model);
 
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditTripTiming(ScheduledTripViewModel model)
-        //{
-
-        //    //var trip = await _tripService.FindTripByIdAsync(model.TripId);
-
-        //    //if(trip==null)
-        //    //    return BadRequest();
-
-        //    var result = await _tripService.EditTripTimeAsync(_mapper.Map<TripTimingDTO>(model));
-
-        //    if (!result.Success)
-        //        return BadRequest();
+        [HttpPost]
+        public async Task<IActionResult> EditTrip(EditScheduledTripViewModle model)
+        {
 
 
-        //    model.TripId = result.Trip!.Id;
-        //    model.Date = result.Trip.Date;
-        //    model.Time = result.Trip.Time;
+			var result = await _tripService.EditTrip(_mapper.Map<EditScheduledTripDTO>(model));
+
+			if (!result.Success)
+				return BadRequest(new { errorMessage = result.Message });
+
+			return Ok();
+
+			var editedTrip = new ScheduledTripViewModel
+			{
+				TripId = result.Trip!.TripId,
+				Date = result.Trip!.Date,
+				Time = result.Trip!.Time,
+				DepartureStationId = result.Trip!.DepartureStationId,
+				TripTimeSpanInMInits = result.Trip!.TripTimeSpanInMInits,
+				Status = result.Trip!.Status,
+
+				ReturnTripId = result.Trip!.ReturnTripId,
+				ReturnDate = result.Trip!.ReturnDate,
+				ReturnTime = result.Trip!.ReturnTime,
+				ReturnStatus = result.Trip!.ReturnStatus,
+
+				VehicleId = result.Trip!.VehicleId,
+				VehicleNumber = result.Trip!.VehicleNUmber,
+				VehicleModel = result.Trip!.VehicleModel
+
+			};
+
+			//var dto = new AssignVehicleDTO();
+
+			//dto.TripId=model.TripId;
+			//dto.VehicleId = model.VehicleId;
+			//dto.MainTripDateTime = model.MainTripDate!.Value + model.MainTripTime!.Value;
+			//dto.ReturnTripDateTime = model.ReturnTripDate!.Value + model.ReturnTripTime!.Value;
 
 
-        //    if (model.ReturnTripId!=null)
-        //    {
 
-        //        var result2 = await _tripService.EditTripTimeAsync(new TripTimingDTO()
-        //        {
-        //            TripId = model.ReturnTripId!.Value,
-        //            Date = model.ReturnDate!.Value,
-        //            Time = model.ReturnTime!.Value
+			return PartialView("~/Views/Trips/_ScheduledTripRow.cshtml", editedTrip);
 
+			
 
-        //        });
+            //var trip = await _tripService.FindTripByIdAsync(model.TripId);
 
+            //if(trip==null)
+            //    return BadRequest();
 
+            //var result = await _tripService.EditTripTimeAsync(_mapper.Map<TripTimingDTO>(model));
 
-        //        if (!result2.Success)
-        //            return BadRequest();
+            //if (!result.Success)
+            //    return BadRequest();
 
 
-        //        model.ReturnTripId = result2.Trip!.Id;
-        //        model.ReturnDate   = result2.Trip.Date;
-        //        model.ReturnTime   = result2.Trip.Time;
+            //model.TripId = result.Trip!.Id;
+            //model.Date = result.Trip.Date;
+            //model.Time = result.Trip.Time;
 
-        //    }
 
-        //    return PartialView("_ScheduledTripRow", model);
+            //if (model.ReturnTripId != null)
+            //{
 
-        //}
+            //    var result2 = await _tripService.EditTripTimeAsync(new TripTimingDTO()
+            //    {
+            //        TripId = model.ReturnTripId!.Value,
+            //        Date = model.ReturnDate!.Value,
+            //        Time = model.ReturnTime!.Value
+
+
+            //    });
+
+
+
+            //    if (!result2.Success)
+            //        return BadRequest();
+
+
+            //    model.ReturnTripId = result2.Trip!.Id;
+            //    model.ReturnDate = result2.Trip.Date;
+            //    model.ReturnTime = result2.Trip.Time;
+
+            //}
+
+            //return PartialView("_ScheduledTripRow", model);
+
+        }
 
 
         [HttpGet]
@@ -258,22 +300,34 @@ namespace Travel_Company_MVC.Controllers
 
         /// Private Methods ////////////////////////////////////////////////////////////////////////////
 
-        private ScheduledTripViewModel _setTripTimigDetailsModel(Trip mainTrip , Trip? returnTrip)
+        private EditScheduledTripViewModle _setTripEditingViewModle(Trip mainTrip , Trip? returnTrip)
         {
-
-            return new ScheduledTripViewModel()
+            // convert it to EditScheduledTripViewModle 
+            return new EditScheduledTripViewModle()
             {
 				RouteId = mainTrip.RouteId,
 				TripId = mainTrip.Id,
-                Date = mainTrip.Date,
-                Time = mainTrip.Time,
-                Status = mainTrip.status,
+                MainTripOldDateTime=mainTrip.Date.Add(mainTrip.Time),
+                MainTripHasBookedSeats=mainTrip.HasBookedSeat,
+                MainTripStationStopMinutes=mainTrip.StationStopMinutes,
+                MainTripHasBreak=mainTrip.HasBreak,
+                MainTripBreakMinutes=mainTrip.BreakMinutes,
+                MainTripStationOrderNextToBreak=mainTrip.StationOrderNextToBreak,
+
+               
+
 
 				ReturnRouteId = mainTrip.Route!.ReverseRouteId,
 				ReturnTripId = returnTrip?.Id,
-                ReturnDate = returnTrip?.Date,
-                ReturnTime = returnTrip?.Time,
-                ReturnStatus = returnTrip?.status
+                ReturnTripOldDateTime=returnTrip?.Date.Add(returnTrip.Time),
+                ReturnTripHasBookedSeats=returnTrip==null?false :returnTrip!.HasBookedSeat,
+				ReturnTripStationStopMinutes = returnTrip==null?0:returnTrip!.StationStopMinutes,
+				ReturnTripHasBreak = returnTrip == null ? false : returnTrip!.HasBreak,
+				ReturnTripBreakMinutes = returnTrip?.BreakMinutes,
+				ReturnTripStationOrderNextToBreak = returnTrip?.StationOrderNextToBreak,
+
+
+				VehicleId =mainTrip.TripAssignment?.VehicleId
 
 
             };

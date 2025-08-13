@@ -22,6 +22,7 @@ namespace TravelCompany.Application.Services.Travels
         Task<IEnumerable<TripPattern>> GetTripsPatterns(int routeId);
         Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(PatternWeeksRequestDTO dto);
         Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);
+        Task<(bool Success, string? Message, ScheduledTripDTO? Trip)> EditTrip(EditScheduledTripDTO dto);
 
 
 

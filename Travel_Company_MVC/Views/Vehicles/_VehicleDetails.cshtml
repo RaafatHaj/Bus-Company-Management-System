@@ -2,60 +2,80 @@
 
 <div class="animate__animated animate__fadeInDown">
 
-	<div class="d-flex">
-		<span class="text-gray-900 fw-bold fs-5 ">Vehicle</span>
-		<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
+	
 
-	</div>
+	@if(Model.VehicleModel is null)
+	{
 
-	@* 	<div class="d-flex gap-10">
-	<span class="text-muted fw-semibold mt-3">No Vehicle Assigned Yet</span>
+		<div class="d-flex">
+			<span class="text-gray-900 fw-bold fs-5 ">Vehicle</span>
+			<span class="bullet   bullet-dot  bg-gray-500 ms-2 mt-3"></span>
 
-	<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
-	data-url="">
-	<i class="ki-duotone ki-pencil fs-2">
-	<span class="path1"></span>
-	<span class="path2"></span>
-	</i>
-	</a>
+		</div>
+		<div class="d-flex gap-10">
+			<span class="text-muted fw-semibold mt-3">No Vehicle Assigned Yet</span>
 
-	</div> *@
+			<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-render-modal"
+			   data-url="/Vehicles/GetAvailableVehicles?tripId=@Model.TripId"
+			   data-large-modal="true"
+			   data-title="Availavle Vehicles"
+			   data-sub-title="all vehicles existed in the station at trip time."
+			   data-updete="true"
+			   data-table-id="Scheduled_Trips_Table">
+				<i class="ki-duotone ki-pencil fs-2">
+					<span class="path1"></span>
+					<span class="path2"></span>
+				</i>
+			</a>
+		
+		</div>
+	}
+	else
+	{
+		<div class="d-flex">
+			<span class="text-gray-900 fw-bold fs-5 ">Vehicle</span>
+			<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
 
-	<div class="d-flex gap-10 mt-6">
-		<div class="d-flex gap-2">
-			<i class="ki-solid ki-verify text-warning  mt-1 "></i>
-			<div>
+		</div>
+		<div class="d-flex gap-10 mt-6">
+			<div class="d-flex gap-2">
+				<i class="ki-solid ki-verify text-warning  mt-1 "></i>
+				<div>
 
-				<span class="text-gray-900 fw-bold d-block ">@Model.VehicleNumber</span>
-				<span class="text-gray-500 fs-7 fw-semibold d-blok">@Model.VehicleModel</span>
+					<span class="text-gray-900 fw-bold d-block ">@Model.VehicleNumber</span>
+					<span class="text-gray-500 fs-7 fw-semibold d-blok">@Model.VehicleModel</span>
+
+				</div>
 
 			</div>
+			<div>
+				<span class="text-gray-900 fw-bold d-block ">@Model.Seats</span>
+				<span class="text-muted fw-semibold ">Seat</span>
+			</div>
+			<div>
+				<span class="text-gray-900 fw-bold d-block ">@Model.HomeStation</span>
+				<span class="text-muted fw-semibold ">Home Station</span>
+			</div>
+
+
+			<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-render-modal"
+			   data-url="/Vehicles/GetAvailableVehicles?tripId=@Model.TripId"
+			   data-large-modal="true"
+			   data-title="Availavle Vehicles"
+			   data-sub-title="all vehicles existed in the station at trip time."
+			   data-updete="true"
+			   data-table-id="Scheduled_Trips_Table">
+				<i class="ki-duotone ki-pencil fs-2">
+					<span class="path1"></span>
+					<span class="path2"></span>
+				</i>
+			</a>
 
 		</div>
-		<div>
-			<span class="text-gray-900 fw-bold d-block ">@Model.Seats</span>
-			<span class="text-muted fw-semibold ">Seat</span>
-		</div>
-		<div>
-			<span class="text-gray-900 fw-bold d-block ">@Model.HomeStation</span>
-			<span class="text-muted fw-semibold ">Home Station</span>
-		</div>
-		  
-		
-		<a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-render-modal"
-		   data-url="/Vehicles/GetAvailableVehicles?tripId=@Model.TripId"
-		   data-large-modal="true"
-		   data-title="Availavle Vehicles"
-		   data-sub-title="all vehicles existed in the station at trip time."
-		   data-updete="true"
-		   data-table-id="Scheduled_Trips_Table">
-			<i class="ki-duotone ki-pencil fs-2">
-				<span class="path1"></span>
-				<span class="path2"></span>
-			</i>
-		</a>
+	}
 
-	</div>
+
+
 
 
 

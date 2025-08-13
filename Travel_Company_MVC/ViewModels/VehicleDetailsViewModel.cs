@@ -4,10 +4,10 @@
 	{
 		public int VehicleId { get; set; }
 		public int TripId { get; set; }
-		public string VehicleModel { get; set; } = null!;
-		public string VehicleNumber { get; set; } = null!;
-		public int Seats { get; set; }
-		public string HomeStation { get; set; }=null!;
+		public string? VehicleModel { get; set; } 
+		public string? VehicleNumber { get; set; }
+		public int? Seats { get; set; }
+		public string? HomeStation { get; set; }=null!;
 
 	}
 }

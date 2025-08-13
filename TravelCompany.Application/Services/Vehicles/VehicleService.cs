@@ -1,7 +1,9 @@
-﻿using TravelCompany.Application.Common.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Application.Services.Travels;
 using TravelCompany.Domain.Const;
 using TravelCompany.Domain.DTOs;
+using TravelCompany.Domain.Entities;
 
 namespace TravelCompany.Application.Services.Vehicles
 {
@@ -81,5 +83,17 @@ namespace TravelCompany.Application.Services.Vehicles
         {
             return await _unitOfWork.Vehicles.GetAvailableVehicles(tripId);
         }
+
+        public async Task<Vehicle?> FindVehicleAsync(int vehicleId)
+        {
+
+            return await _unitOfWork.Vehicles
+                .GetQueryable()
+                .Include(v=>v.Station)
+                .FirstOrDefaultAsync(v => v.VehicleId == vehicleId);
+                
+
+        }
+
     }
 }

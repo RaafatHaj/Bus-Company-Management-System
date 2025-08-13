@@ -33,6 +33,8 @@ namespace Travel_Company_MVC.Mappping
 
             CreateMap<ScheduledTripsSearchDTO, ScheduledTripsSearchViewModel>().ReverseMap();
 
+            CreateMap<EditScheduledTripDTO, EditScheduledTripViewModle>().ReverseMap();
+
             CreateMap<ApplicationUser, UserViewModel>();
 
             CreateMap<ApplicationUser, UserFormViewModel>();

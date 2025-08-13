@@ -470,10 +470,10 @@ function handleTableChiled() {
                     const callbackFunctionName = button.getAttribute('data-callback');
 
                     if (callbackFunctionName && typeof window[callbackFunctionName] === 'function')
-                        window[callbackFunctionName]();
+                        window[callbackFunctionName](tr.nextElementSibling);
 
 
-                    initilazeTimePicker();
+                    //initilazeTimePicker();
                     $.validator.unobtrusive.parse(tr.nextElementSibling);
                 } catch {
                 }

@@ -10,8 +10,8 @@ function initilizeDateTimePickers() {
 
     $(".flatpicker-date").flatpickr({
         minDate: "today",
-        maxDate: "",
-        jumpToDate: "today"
+        maxDate: ""
+    //    jumpToDate: "today"
     });
 
 
@@ -208,6 +208,9 @@ function RenderSearchResult(data) {
     InitilaizeMetronicDatatable(resultTableId);  
 
     KTMenu.createInstances();
+
+  
+
 }
 
 
@@ -265,7 +268,11 @@ document.body.addEventListener('click', async function (event) {
 })
 
 
-function HandleTripEditingChild() {
+function HandleTripEditingChild(data) {
+
+    HandleVehicle();
+
+    HandleSelectVehicleEvent();
 
     initilizeDateTimePickers();
 
@@ -273,7 +280,42 @@ function HandleTripEditingChild() {
     KTDialer.createInstances();
 
     HandleLongBreakEvents();
+
+    HandleDialersEvents();
+ 
+
+    // Reinitialize validation
+    $.validator.unobtrusive.parse(data);
+
+
 }
+
+function HandleDialersEvents() {
+
+    let dialerInput = document.querySelectorAll('.dialer-input');
+
+    dialerInput.forEach(input => {
+
+        
+        let CurrentValue = input.value.split(' ');
+        let hiddenInput = document.getElementById(`${input.id}-hidden-input`)
+
+        hiddenInput.value = CurrentValue[0];
+
+        input.addEventListener('change', function(){
+
+
+            let value = input.value.split(' ');
+            let hiddenInput = document.getElementById(`${input.id}-hidden-input`)
+
+            hiddenInput.value = value[0];
+
+        })
+
+    })
+
+}
+
 
 async function FillStationsSelectList(checkbox) {
 
@@ -314,6 +356,16 @@ async function FillStationsSelectList(checkbox) {
 
     })
 
+
+    // Select station if existed ...
+
+    const stationOrder = document.getElementById(`${checkbox.id}-selected-station`).value;
+
+    if (stationOrder !== "")
+        $(`#${checkbox.id}-select-station`).val(stationOrder).trigger('change');
+
+
+
 }
 function HandleLongBreakEvents() {
 
@@ -335,7 +387,7 @@ function HandleLongBreakEvents() {
                 KTDialer.createInstances();
 
 
-
+                HandleDialersEvents();
                 FillStationsSelectList(event.target);
 
 
@@ -351,94 +403,13 @@ function HandleLongBreakEvents() {
 
 
         })
+
+        if (checkbox.checked) {
+
+            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
     })
-    //document.addEventListener('change', async function (e) {
-
-    //    if (e.target.matches('.long-break-checkbox')) {
-    //        let brakSettingsContainer = document.getElementById("break_details");
-
-
-    //        if (e.target.checked) {
-
-    //            const template = document.getElementById("long_break_template");
-
-    //            brakSettingsContainer.innerHTML = template.innerHTML;
-
-    //            let routeId = document.getElementById("Route_Id").value;
-
-    //            let url = e.target.getAttribute("data-url") + routeId;
-
-    //            const response = await fetch(url);
-
-
-    //            if (!response.ok)
-    //                throw new Error('Failed to load partial view');
-
-    //            const routeStationsJson = await response.json();
-    //            //const routeStations = JSON.parse(routeStationsJson)
-    //            const routeStationsDropdown = document.getElementById("Select_Station");
-
-    //            routeStationsJson.forEach(s => {
-
-    //                if (s.stationOrder !== routeStationsJson.length) {
-    //                    // Create a new option element
-    //                    let newOption = document.createElement("option");
-    //                    newOption.value = s.stationOrder + 1;
-    //                    newOption.text = s.text;
-
-    //                    // Append the new option to the Dropdown List
-
-    //                    routeStationsDropdown.appendChild(newOption);
-    //                }
-
-
-    //            })
-
-    //            $('#Select_Station').select2();
-
-    //            //break_dialer
-
-    //            // Dialer container element
-    //            var dialerElement = document.getElementById("break_dialer");
-
-    //            // Create dialer object and initialize a new instance
-    //            var dialerObject = new KTDialer(dialerElement, {
-    //                min: 5,
-    //                max: 40,
-    //                step: 5,
-    //                suffix: " Minutes",
-    //                decimals: 0
-    //            });
-
-
-    //            let hiddenInput = document.getElementById("Hidden_Break_Minutes");
-
-    //            let value = document.getElementById('Break_Minutes').value.split(" ");
-
-    //            hiddenInput.value = value[0];
-
-    //            document.getElementById('Break_Minutes').addEventListener("change", function () {
-
-
-
-    //                //let hiddenInput = document.getElementById("Hidden_Break_Minutes");
-
-    //                value = this.value.split(" ");
-
-    //                hiddenInput.value = value[0];
-
-    //            })
-
-    //        }
-    //        else {
-    //            brakSettingsContainer.innerHTML = "";
-    //        }
-
-
-    //    }
-    //});
-
-
 
 
 
@@ -453,10 +424,10 @@ function HandleSelectVehicleEvent() {
 
             const button = event.target.closest('.js-select-vehicle');
 
-            //const routeId = btn.getAttribute('data-route-id')
 
-            //const test = document.getElementById('route-id');
-            //test.value = routeId;
+            const vehicleId = button.getAttribute('data-vehicle-id')
+            const vehicleIdInput = document.getElementById('vehicle-id');
+            vehicleIdInput.value = vehicleId;
 
             try {
 
@@ -496,4 +467,48 @@ function HandleSelectVehicleEvent() {
 
 }
 
-HandleSelectVehicleEvent();
+async function HandleVehicle() {
+
+    const vehicleIdHiddenInput = document.getElementById('vehicle-id');
+
+    console.log(vehicleIdHiddenInput.value);
+
+  
+
+    if (vehicleIdHiddenInput.value === "")
+        return;
+
+
+    try {
+
+        const jsonData = vehicleIdHiddenInput.getAttribute('data-json-data');
+
+        const response = await fetch(vehicleIdHiddenInput.getAttribute('data-url'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // IMPORTANT!
+            },
+            body: jsonData
+        })
+
+
+
+        if (!response.ok)
+            throw new Error('Failed to load partial view');
+
+        let container = document.getElementById("vehicle-details")
+
+        container.innerHTML = await response.text();
+
+
+
+
+
+    } catch {
+
+
+    }
+
+
+}
+

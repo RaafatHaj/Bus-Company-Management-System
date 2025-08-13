@@ -41,8 +41,28 @@ namespace Travel_Company_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> GetVehicleDetails([FromBody] VehicleDetailsViewModel model)
         {
-            return PartialView("_VehicleDetails", model);
-        }
+            if (model.VehicleModel != null)
+                return PartialView("_VehicleDetails", model);
+
+
+            var vehicle = await _vehicleService.FindVehicleAsync(model.VehicleId);
+
+            if(vehicle == null)
+				return PartialView("_VehicleDetails", model);
+
+            var veiwModel = new VehicleDetailsViewModel
+            {
+                VehicleId=vehicle.VehicleId,
+                TripId=model.TripId,
+                VehicleModel=vehicle.Type,
+                VehicleNumber=vehicle.VehicleNumber,
+                Seats=vehicle.Seats,
+                HomeStation=vehicle.Station?.StationName
+
+
+            };
+			return PartialView("_VehicleDetails", veiwModel);
+		}
 
 
         [HttpPost]

@@ -6,49 +6,7 @@
 
 <tr>
 
-	@{
 
-
-
-		// var data = new VehicleAvalibilityViewModel();
-
-		// data.VehicleId = Model.VehicleId;
-		// data.VehicleModel = Model.VehicleModel;
-		// data.VehicleNumber = Model.VehicleNumber;
-		// data.AvalibilityStartDateTime = Model.AvailibiltyStartDateTime;
-		// data.AvalibilityEndDateTime = Model.AvailibiltyEndDateTime;
-		// data.TripId = Convert.ToInt32(TempData["TripId"]);
-
-		// data.MainTripDateTime = Convert.ToDateTime(TempData["TripDateAndTime"]);
-
-		// if (TempData["ReturnTripDateTime"] != null && DateTime.TryParse(TempData["ReturnTripDateTime"]!.ToString(), out var returnTripDate))
-		// {
-		// 	data.ReturnTripDateTime = returnTripDate;
-		// }
-		// else
-		// {
-		// 	data.ReturnTripDateTime = null;
-		// }
-
-
-		var data=new VehicleDetailsViewModel();
-
-
-		data.VehicleId = Model.VehicleId;
-		data.VehicleModel = Model.VehicleModel;
-		data.VehicleNumber = Model.VehicleNumber;
-		data.Seats = Model.Seats;
-		data.HomeStation = "Damascuse";
-
-		if (int.TryParse(TempData["TripId"]?.ToString(), out var tripId))
-		{
-			data.TripId = tripId;
-		}
-
-		var jsonData = JsonConvert.SerializeObject(data);
-
-
-	}
 
 
 	<td>
@@ -56,8 +14,8 @@
 		<div class="flex-grow-1 me-2">
 			<a href="#" class="text-gray-900 fw-bold d-block text-hover-primary js-next-page-ajax"
 			   data-url="/Vehicles/GetVehicleDetails"
-			   data-json-data="@jsonData"
-			   data-callback-4="@("test")">
+@* 			   data-json-data="@jsonData"
+ *@			   data-callback-4="@("test")">
 			   @Model.VehicleNumber</a>
 			<span class="text-gray-500 fs-7 fw-semibold ">@Model.VehicleModel</span>
 		</div>
@@ -161,11 +119,32 @@
 	</td>
 	<td>
 
+		@{
+
+			var data = new VehicleDetailsViewModel();
+
+
+			data.VehicleId = Model.VehicleId;
+			data.VehicleModel = Model.VehicleModel;
+			data.VehicleNumber = Model.VehicleNumber;
+			data.Seats = Model.Seats;
+			data.HomeStation = "Damascuse";
+
+			if (int.TryParse(TempData["TripId"]?.ToString(), out var tripId))
+			{
+				data.TripId = tripId;
+			}
+
+			var jsonData = JsonConvert.SerializeObject(data);
+
+
+		}
 
 		<!--Not : class to move tho assigning page => js-next-page-ajax -->
 
 		<a href="#" class="btn btn-sm btn-light   js-select-vehicle"
 		   data-url="/Vehicles/GetVehicleDetails"
+		   data-vehicle-id="@Model.VehicleId"
 		   data-json-data="@jsonData"
 		   data-callback-4="@("test")">
 			<i class="ki-solid ki-plus     "></i>Select
