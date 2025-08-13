@@ -12,14 +12,48 @@
 
     <td >
 
-        <!--begin::Item-->
+        <div class="m-0 d-flex">
+
+
+            <i class="ki-duotone fw-semibold  ki-black-up   fs-1 mt-1 ">  </i>
+
+            <div>
+
+                <div class="">
+
+                    <span class="text-gray-900 fw-bold d-block fs-3">
+                         @DateTime.Today.Add(Model.Time).ToString("HH:mm")
+                        <span class="text-muted fw-semibold fs-7">
+                            @(Model.Time > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                        </span>
+                        <span class="text-primary fw-normal  fs-6  ">@Model.Date.ToString("ddd")</span>
+                    </span>
+
+
+
+                </div>
+
+                <div class="text-muted fw-semibold fs-7 ">
+                    <span class="text-primary fs-5">
+                        @Model.Date.ToString("dd")
+                    </span>
+                    @Model.Date.ToString("MMM")
+                    @Model.Date.ToString("yyyy").
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+     @*    <!--begin::Item-->
         <div class="m-0 d-flex">
 
 
             <i class="ki-duotone fw-semibold  ki-black-up fs-1 ">  </i>
 
-@*             <span class="bullet bullet-vertical h-40px bg-gray me-5"></span>
- *@
             <!--begin::Label-->
             <!--begin::Title-->
             <div>
@@ -46,7 +80,7 @@
 
         </div>
         <!--end::Item-->
-
+ *@
 
     </td>
     <td>
@@ -120,31 +154,71 @@
     else
     {
         <td>
-            <!--begin::Item-->
+
             <div class="m-0 d-flex">
 
-                <i class="ki-duotone fw-semibold  ki-black-down fs-1 ">  </i>
 
-    
+                <i class="ki-duotone fw-semibold  ki-black-down   fs-1 mt-1 ">  </i>
 
                 <div>
-                    <a href="#"
-                       class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.ReturnDate?.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
-                    <div class="d-flex gap-2 mt-1">
 
-                        <span class="text-muted fw-semibold fs-7">
+                    <div class="">
+
+                        <span class="text-gray-900 fw-bold d-block fs-3">
                             @DateTime.Today.Add(Model.ReturnTime!.Value).ToString("HH:mm")
-                            @(Model.ReturnTime!.Value > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                            <span class="text-muted fw-semibold fs-7">
+                                @(Model.ReturnTime!.Value > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                            </span>
+                            <span class="text-primary fw-normal  fs-6  ">@Model.ReturnDate!.Value.ToString("ddd")</span>
                         </span>
-                        <span class="text-primary">@Model.ReturnDate?.ToString("ddd")</span>
+
 
 
                     </div>
-                
+
+                    <div class="text-muted fw-semibold fs-7 ">
+                        <span class="text-primary fs-5">
+                            @Model.ReturnDate!.Value.ToString("dd")
+                        </span>
+                        @Model.ReturnDate!.Value.ToString("MMM")
+                        @Model.ReturnDate!.Value.ToString("yyyy").
+                    </div>
                 </div>
-       
+
+
+
             </div>
-            <!--end::Item-->
+
+
+
+        @*
+        <!--begin::Item-->
+        <div class="m-0 d-flex">
+
+        <i class="ki-duotone fw-semibold  ki-black-down fs-1 ">  </i>
+
+
+
+        <div>
+        <a href="#"
+        class="text-gray-900 fw-bold d-block text-hover-primary me-2">@Model.ReturnDate?.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</a>
+        <div class="d-flex gap-2 mt-1">
+
+        <span class="text-muted fw-semibold fs-7">
+        @DateTime.Today.Add(Model.ReturnTime!.Value).ToString("HH:mm")
+        @(Model.ReturnTime!.Value > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+        </span>
+        <span class="text-primary">@Model.ReturnDate?.ToString("ddd")</span>
+
+
+        </div>
+
+        </div>
+
+        </div>
+        <!--end::Item-->
+        *@
+       
         </td>
         <td>
 
