@@ -1,0 +1,227 @@
+﻿@model UserFormViewModel
+
+
+@{
+    var breadcrumb = new List<string>
+                            {
+                                "Users",
+                                "New User"
+                            };
+
+    ViewData["Breadcrumb"] = breadcrumb;
+}
+
+
+
+<form class="js-confirm-form" method="post" asp-action="Create"
+      data-confirm-message="true"
+      data-title="Adding User"
+      data-message="Are you sure you want to add User to system ?">
+
+      <div  class="mb-20">
+
+        <!--begin::--Personal Info-->
+        <div class="rounded border d-flex flex-column p-5  mb-15 ">
+
+            <div class="d-flex p-2">
+                <div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+                    <h5 class="  mb-1 ">Personal Info</h5>
+                    <span class="text-muted ">Set personal information for Employee.</span>
+                </div>
+
+
+
+            </div>
+
+            <div class="d-flex flex-wrap ">
+                <div class=" m-4 me-md-20">
+
+
+                    <label asp-for="FirstName" class="form-label  ">First Name</label> 
+@*                     <span asp-validation-for="FirstName" class="text-danger ms-5"></span>
+ *@
+                    <input asp-for="FirstName" type="text" class="form-control form-control-solid " placeholder="First Name">
+                 
+
+
+                </div>
+
+                <div class="m-4">
+
+                    <label asp-for="LastName" class="form-label ">Last Name</label>
+                    <input asp-for="LastName" type="text" class="form-control form-control-solid " placeholder="Last Name">
+@*                     <span asp-validation-for="LastName" class="text-danger d-block mt-4"></span>
+ *@
+
+
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap ">
+                <div class="m-4 me-md-20">
+
+                    <label asp-for="IdNumber" class="form-label ">ID Number</label>
+                    <input asp-for="IdNumber" type="text" class="form-control form-control-solid " placeholder="ID Number">
+@*                     <span asp-validation-for="IdNumber" class="text-danger d-block mt-4"></span>
+ *@
+
+
+                </div>
+
+                <div class="m-4">
+
+                    <label  asp-for="Gender"  class="form-label ">Gender</label>
+                    <select asp-for="Gender" class="form-select form-select-solid" data-control="select2" data-placeholder="Gender" data-hide-search="true">
+
+                        <option value="1">Female</option>
+                        <option value="0">Male</option>
+                        <option selected></option>
+                    </select>
+@*                     <span asp-validation-for="Gender" class="text-danger d-block mt-4"></span>
+ *@
+
+
+                </div>
+            </div>
+
+
+
+            <div class="d-flex flex-wrap ">
+                <div class="m-4 me-md-20">
+
+                    <label asp-for="BirthDate" class="form-label  ">Birth Date</label>
+                    <input asp-for="BirthDate" type="text" class="form-control form-control-solid flatpicker-date"  placeholder="Birth Date">
+@*                     <span asp-validation-for="BirthDate" class="text-danger d-block mt-4"></span>
+ *@
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+        </div>
+        <!--end::Personal Info-->
+        <!--begin::--Perfationl-->
+        <div class="rounded border  p-5  mb-15 ">
+
+            <div class="d-flex p-2">
+                <div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+                    <h5 class="  mb-1 ">Perfational Info</h5>
+                    <span class="text-muted ">Set perfational info for the employee.</span>
+                </div>
+
+
+
+            </div>
+
+            <div class="d-flex flex-wrap ">
+                <div class="m-4" style="min-width:200px !important;">
+
+                
+                    <div class="d-flex align-items-center">
+                      
+                            <label asp-for="StationId" class="form-label w-200px">Home Station</label>
+                            <span asp-validation-for="StationId" class="text-danger d-block mb-2"></span>
+            
+					
+
+                    </div>
+
+                    <select asp-for="StationId" type="text" class="form-control form-control-solid" data-control="select2"
+                            placeholder="Home Station" asp-items="@Model.Stations"
+                   >
+                        <option></option>
+                    </select>
+
+                  
+                </div>
+
+                <div class="m-4" style="min-width:200px !important;">
+
+                    <div class="d-flex align-items-center">
+                        <label asp-for="SelectedRoles" class="form-label">Roles</label>
+                        <span asp-validation-for="SelectedRoles" class="text-danger d-block mb-1 ms-2 "></span>
+
+
+                    </div>
+                    <select asp-for="SelectedRoles" type="text" class="form-control form-control-solid " data-control="select2" placeholder="Roles" asp-items="@Model.Roles"
+                            style="min-width: 200px !important ;">
+                    <option></option>    
+                    </select>
+
+                </div>
+            </div>
+
+
+        </div>
+        <!--end::Perfationl-->
+        <!--begin::--Connection-->
+        <div class="rounded border d-flex flex-column p-5 pb-15  mb-15 ">
+
+            <div class="d-flex p-2">
+                <div class="d-flex flex-column pe-0 pe-sm-10 mb-7">
+                    <h5 class="  mb-1 ">Connection Info</h5>
+                    <span class="text-muted ">Set connection info for the passangers.</span>
+                </div>
+
+
+
+            </div>
+
+            <div class="d-flex flex-wrap ">
+                <div class="m-4">
+
+                    <label asp-for="PhoneNumber" class="form-label ">Phon Number</label>
+                    <input asp-for="PhoneNumber" type="text" class="form-control form-control-solid " placeholder="5** / 05** / 00905**"
+                           oninput="
+           this.value = this.value
+               .replace(/[^0-9+]/g, '')                        // remove non-digit, non-+
+               .slice(0, 14);                                  // limit max length to 13
+           ">
+@*                     <span asp-validation-for ="PhoneNumber" class="text-danger d-block mt-4"></span>
+ *@
+
+                </div>
+
+                <div class="m-4">
+
+                    <label asp-for="Email" class="form-label ">Email</label>
+                    <input asp-for="Email" type="email" class="form-control form-control-solid " placeholder="Email">
+@*                     <span asp-validation-for="Email" class="text-danger d-block mt-4"></span>
+ *@
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+
+                <button type="submit" class="btn btn-sm btn-light-primary">Save</button>
+            </div>
+        </div>
+        <!--end::Connection-->
+
+
+
+
+        
+
+      </div>
+  
+
+
+
+</form>
+
+
+@section Scripts {
+
+
+
+
+    <partial name="_ValidationScriptsPartial" />
+	<script src="~/js/users.js"></script>
+}

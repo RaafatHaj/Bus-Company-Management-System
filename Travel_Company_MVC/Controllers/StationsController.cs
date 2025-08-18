@@ -31,12 +31,12 @@ namespace Travel_Company_MVC.Controllers
 
             var result=await _stationService.SetStationAsArrived(tripId, stationId, stationOrder);
 
-            if (!result.Success)
-                return BadRequest();
+			if (!result.Success)
+				return BadRequest(new { errorMessage = result.Message });
 
 
 
-            return PartialView("_StationsTripsTrackRow", result.Data);
+			return PartialView("_StationsTripsTrackRow", result.Data);
 		}
 
 		[HttpPost]
@@ -45,7 +45,7 @@ namespace Travel_Company_MVC.Controllers
 			var result = await _stationService.SetStationAsMoved(tripId, stationId, stationOrder);
 
 			if (!result.Success)
-				return BadRequest();
+				return BadRequest(new { errorMessage = result.Message });
 
 
 			return PartialView("_StationsTripsTrackRow", result.Data);

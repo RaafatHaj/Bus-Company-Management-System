@@ -7,7 +7,7 @@ using TravelCompany.Domain.Eums;
 
 namespace TravelCompany.Domain.Entities
 {
-	public class ActiveTrip
+	public class ActiveTripTrack
 	{
 
 		public int TripId { get; set; }
@@ -19,12 +19,14 @@ namespace TravelCompany.Domain.Entities
 		public string? PreviousStation { get; set; }
 		public string? NexttStation { get; set; }
 
-		public DateTime ArrivalDateTime { get; set; }
-		public DateTime DepartureDateTime { get; set; }
+		public DateTime PlannedArrivalDateTime { get; set; }
+		public DateTime PlannedDepartureDateTime { get; set; }
 		public DateTime ActualArrivalDateTime { get; set; }
 		public DateTime ActualDepartureDateTime { get; set; }
-
 		public TripStatus TripStatus { get; set; }
+
+		public int RouteId { get; set; }
+		public route? Route { get; set; }
 		public string RouteName { get; set; } = null!;
 		public int EstimatedDistance { get; set; }
 

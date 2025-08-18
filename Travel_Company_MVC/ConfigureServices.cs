@@ -39,7 +39,16 @@ namespace Travel_Company_MVC
                 .AddDefaultTokenProviders()
                 .AddSignInManager<SignInManager<ApplicationUser>>();
 
-			services.Configure<IdentityOptions>(options =>
+            // By Default UnAuthorized User will be redirected to log in page if you scafoled identity Views and use it 
+            // However you can redirected page by this configureations 
+
+      
+            //  builder.Services.ConfigureApplicationCookie(options =>
+            //  {
+            //      options.LoginPath = "/Account/Login";
+            //      options.AccessDeniedPath = "/Account/AccessDenied";
+            //  });
+            services.Configure<IdentityOptions>(options =>
 			{
                 // Default Lockout settings.
 
@@ -66,7 +75,7 @@ namespace Travel_Company_MVC
 			services.AddSingleton(cloudinary);
 
 
-			// Register My Custom class instead the default one so that i add my custom class , its implementation in Helper Folder .... 
+			// Register My Custom class instead of the default one so that i add my custom class , its implementation in Helper Folder .... 
 
 			services.AddScoped< IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory >();
 

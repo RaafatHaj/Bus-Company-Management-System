@@ -1,12 +1,6 @@
 ﻿@using Newtonsoft.Json
-@model IEnumerable<AvailableTripVehicleDTO>
+@model AvailableVehiclesViewModel
 
-@{
-
-	DateTime tripDateTime = Convert.ToDateTime(TempData["TripDateAndTime"]);
-
-	
-}
 
 
 	<div id="PageContainer" class="W-100">
@@ -36,8 +30,10 @@
 				</thead>
 				<tbody>
 
+				
+				
 
-					@foreach (var vehicle in Model)
+					@foreach (var vehicle in Model.Vehicles)
 					{
 
 						<partial name="~/Views/Vehicles/_AvailableVehiclesRow.cshtml" model="@vehicle" />
@@ -74,8 +70,8 @@
 						<span class="text-gray-600 fw-bold fs-7 ">
 							- Time :
 						</span>
-						@tripDateTime.ToString("HH:mm")
-						<span class="text-muted fw-semibold fs-7">@(tripDateTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")</span>
+						@Model.TripDateTime.ToString("HH:mm")
+					<span class="text-muted fw-semibold fs-7">@(Model.TripDateTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")</span>
 
 
 
@@ -86,12 +82,12 @@
 						<span class="text-gray-600 fw-bold fs-7 ">
 							- Date :
 
-							<span class="text-primary">@tripDateTime.ToString("ddd")</span> ,
+						<span class="text-primary">@Model.TripDateTime.ToString("ddd")</span> ,
 							<span class="text-primary">
-								@tripDateTime.ToString("dd")
+							@Model.TripDateTime.ToString("dd")
 							</span>
-							@tripDateTime.ToString("MMM")
-							@tripDateTime.ToString("yyyy").
+						@Model.TripDateTime.ToString("MMM")
+						@Model.TripDateTime.ToString("yyyy").
 						</span>
 					
 
@@ -107,7 +103,7 @@
 							- Departure Station :
 						</span>
 						<span class="">
-						    - Damascuse
+							- @Model.FirstStation
 
 						</span>
 					</span>
@@ -121,7 +117,7 @@
 							- Arrived Station :
 						</span>
 						<span class="">
-							- Aleppo
+							- @Model.LastStation
 						</span>
 					</span>
 

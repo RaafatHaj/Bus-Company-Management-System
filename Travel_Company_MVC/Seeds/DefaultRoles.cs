@@ -13,7 +13,11 @@ namespace Travel_Company_MVC.Seeds
             {
 
                await roleManager.CreateAsync(new IdentityRole(AppRoles.Admin));
-               await roleManager.CreateAsync(new IdentityRole(AppRoles.User));
+               await roleManager.CreateAsync(new IdentityRole(AppRoles.StationManager));
+               await roleManager.CreateAsync(new IdentityRole(AppRoles.TripMonitor));
+               await roleManager.CreateAsync(new IdentityRole(AppRoles.TicketAgent));
+               await roleManager.CreateAsync(new IdentityRole(AppRoles.Driver));
+               await roleManager.CreateAsync(new IdentityRole(AppRoles.Conductor));
 
             }
 

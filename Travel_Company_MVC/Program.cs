@@ -78,6 +78,7 @@ using( var scope = scopeFactory.CreateScope())
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+    //pattern: "{controller=Trips}/{action=ScheduledTrips}/{id?}");
 app.MapRazorPages();
 
 app.Run();

@@ -18,10 +18,12 @@ namespace Travel_Company_MVC.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
+        public ConfirmEmailModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -43,10 +45,26 @@ namespace Travel_Company_MVC.Areas.Identity.Pages.Account
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
+            if (user.EmailConfirmed)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                StatusMessage = "Your Email is already confirmed.";
+                return RedirectToPage("./Manage/SetPassword");
+            }
+
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
+
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-            return Page();
+            //return Page();
+
+            if (!result.Succeeded)
+                return Page();
+
+            // Sign in the user temporarily (without persistent cookie)
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToPage("./Manage/SetPassword");
         }
     }
 }

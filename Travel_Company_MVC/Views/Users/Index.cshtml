@@ -5,12 +5,24 @@
 
 }
 
+
+@{
+    var breadcrumb = new List<string>
+                            {
+                                "Users",
+                                "Users List"
+                            };
+
+    ViewData["Breadcrumb"] = breadcrumb;
+}
+
 <div class="d-flex justify-content-end mb-20">
 
-    <button class="btn btn-light-primary btn-sm js-render-modal" data-url="/Users/Create"
-            data-travel-id="" data-title="Add User">
+    <a class="btn btn-light-primary btn-sm " asp-controller="Users" asp-action="Create">
         New User
-    </button>
+    </a>
+
+ 
 </div>
 
 

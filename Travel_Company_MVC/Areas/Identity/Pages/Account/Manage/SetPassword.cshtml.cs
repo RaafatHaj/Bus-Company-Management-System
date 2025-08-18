@@ -109,7 +109,8 @@ namespace Travel_Company_MVC.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your password has been set.";
 
-            return RedirectToPage();
+            //return RedirectToPage();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

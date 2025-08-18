@@ -21,7 +21,8 @@ namespace TravelCompany.Infrastructure.Persistence
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<TripAssignment> TripAssignments { get; set; }
-        public DbSet<ActiveTrip> ActiveTrips { get; set; }
+        public DbSet<ActiveTripTrack> ActiveTripTracks { get; set; }
+        public DbSet<CompletedTripTrack> CompletedTripTracks { get; set; }
         public DbSet<ApplicationConst> ApplicationConsts { get; set; }
         
 
@@ -29,7 +30,8 @@ namespace TravelCompany.Infrastructure.Persistence
         {
 
             builder.Entity<RoutePoint>().HasKey(e => new {e.RouteId,e.PointId});
-            builder.Entity<ActiveTrip>().HasKey(e => new {e.TripId,e.StationOrder});
+            builder.Entity<CompletedTripTrack>().HasKey(e => new {e.TripId,e.StationOrder});
+            builder.Entity<ActiveTripTrack>().HasKey(e => new {e.TripId,e.StationOrder});
 
 
             builder.Entity<TripPattern>()

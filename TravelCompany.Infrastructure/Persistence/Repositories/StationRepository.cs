@@ -25,16 +25,17 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			_context = context;
 		}
 
-		public async Task<(bool Success,StationTrackDTO  Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder)
+		public async Task<(bool Success ,string Message,StationTrackDTO  Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder)
 		{
 
 			var data = new StationTrackDTO();
-			bool success = false;
+			var success = false;
+			var message = "";
 
 			using (var connection = new SqlConnection(_connectionString))
 			{
 
-				using (var command = new SqlCommand("sp_MarkStationAsArrived", connection))
+				using (var command = new SqlCommand("sp_MarkStationAsArrived2", connection))
 				{
 
 					command.CommandType = CommandType.StoredProcedure;
@@ -43,7 +44,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 					command.Parameters.AddWithValue("@StationId", stationId);
 					command.Parameters.AddWithValue("@StationOrder", stationOrder);
 
-					command.Parameters.Add(new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+					command.Parameters.Add(new SqlParameter("@IsMarked", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+					command.Parameters.Add(new SqlParameter("@ErrorMessage", SqlDbType.NVarChar,-1) { Direction = ParameterDirection.Output });
 
 
 					try
@@ -59,13 +61,15 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 								data.StationId = reader.GetInt32(reader.GetOrdinal("StationId"));
 								data.EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance"));
 								data.StationName = reader.GetString(reader.GetOrdinal("StationName"));
-								data.PreviousStation = reader.GetString(reader.GetOrdinal("PreviousStation"));
-								data.NexttStation = reader.GetString(reader.GetOrdinal("NexttStation"));
+								data.PreviousStation = reader.IsDBNull(reader.GetOrdinal("PreviousStation")) ? null : reader.GetString(reader.GetOrdinal("PreviousStation"));
+								data.NexttStation = reader.IsDBNull(reader.GetOrdinal("NexttStation")) ? null : reader.GetString(reader.GetOrdinal("NexttStation"));
 								data.RouteName = reader.GetString(reader.GetOrdinal("RouteName"));
 								data.ArrivalDateTime = reader.GetDateTime(reader.GetOrdinal("ActualArrivalDateTime"));
 								data.DepartureDateTime = reader.GetDateTime(reader.GetOrdinal("ActualDepartureDateTime"));
 								data.Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status"));
 								data.TripStatus = (TripStatus)reader.GetInt32(reader.GetOrdinal("TripStatus"));
+								data.ArrivelLateMinutes = reader.GetInt32(reader.GetOrdinal("ArrivalLateMinutes"));
+								data.DepartureLateMunutes = reader.GetInt32(reader.GetOrdinal("DepartureLateMinutes"));
 
 
 
@@ -73,13 +77,14 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 
 						}
-						success = (bool)command.Parameters["@Success"].Value;
+						success = (bool)command.Parameters["@IsMarked"].Value;
+						message = (string)command.Parameters["@ErrorMessage"].Value;
 
 
 					}
 					catch
 					{
-						return (success, data);
+						return (success,message, data);
 					}
 
 
@@ -89,21 +94,22 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			}
 
 
-			return (success, data);
+			return (success,message, data);
 
 
 
 		}
 
-		public async Task<(bool Success, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder)
+		public async Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder)
 		{
 			var data = new StationTrackDTO();
 			bool success = false;
+			var message = "";
 
 			using (var connection = new SqlConnection(_connectionString))
 			{
 
-				using (var command = new SqlCommand("sp_MarkStationAsMoved", connection))
+				using (var command = new SqlCommand("sp_MarkStationAsMoved2", connection))
 				{
 
 					command.CommandType = CommandType.StoredProcedure;
@@ -112,8 +118,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 					command.Parameters.AddWithValue("@StationId", stationId);
 					command.Parameters.AddWithValue("@StationOrder", stationOrder);
 
-					command.Parameters.Add(new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output });
-
+					command.Parameters.Add(new SqlParameter("@IsMarked", SqlDbType.Bit) { Direction = ParameterDirection.Output });
+					command.Parameters.Add(new SqlParameter("@ErrorMessage", SqlDbType.NVarChar , -1) { Direction = ParameterDirection.Output });
 
 					try
 					{
@@ -127,26 +133,29 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 								data.StationId = reader.GetInt32(reader.GetOrdinal("StationId"));
 								data.EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance"));
 								data.StationName = reader.GetString(reader.GetOrdinal("StationName"));
-								data.PreviousStation = reader.GetString(reader.GetOrdinal("PreviousStation"));
-								data.NexttStation = reader.GetString(reader.GetOrdinal("NexttStation"));
+								data.PreviousStation = reader.IsDBNull(reader.GetOrdinal("PreviousStation")) ? null : reader.GetString(reader.GetOrdinal("PreviousStation"));
+								data.NexttStation = reader.IsDBNull(reader.GetOrdinal("NexttStation")) ? null : reader.GetString(reader.GetOrdinal("NexttStation"));
 								data.RouteName = reader.GetString(reader.GetOrdinal("RouteName"));
 								data.ArrivalDateTime = reader.GetDateTime(reader.GetOrdinal("ActualArrivalDateTime"));
 								data.DepartureDateTime = reader.GetDateTime(reader.GetOrdinal("ActualDepartureDateTime"));
 								data.Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status"));
 								data.TripStatus = (TripStatus)reader.GetInt32(reader.GetOrdinal("TripStatus"));
+								data.ArrivelLateMinutes = reader.GetInt32(reader.GetOrdinal("ArrivalLateMinutes"));
+								data.DepartureLateMunutes = reader.GetInt32(reader.GetOrdinal("DepartureLateMinutes"));
 
-								
+
 							}
 
 
 						}
-						success = (bool)command.Parameters["@Success"].Value;
+						success = (bool)command.Parameters["@IsMarked"].Value;
+						message = (string)command.Parameters["@ErrorMessage"].Value;
 
 
 					}
 					catch
 					{
-						return (success, data);
+						return (success, message, data);
 					}
 
 
@@ -156,7 +165,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			}
 
 
-			return (success, data);
+			return (success, message, data);
 
 
 		}

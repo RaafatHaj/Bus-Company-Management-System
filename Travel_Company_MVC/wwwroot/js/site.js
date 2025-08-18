@@ -1,5 +1,6 @@
 ﻿
 
+
 var updatedRow;
 var html;
 var table;
@@ -136,12 +137,14 @@ function InitilaizeModalDatatable(tableId = 'Data_Table') {
         //});
     });
 }
-function ErrorMessage(errorMessage = "Something went wrong!", errorTitle ="Error Message") {
+function ErrorMessage(errorMessage , errorTitle ) {
+
+    console.log(errorMessage);
 
     Swal.fire({
         icon: "error",
-        title: errorTitle,
-        text: errorMessage
+        title: errorTitle || "Error Message",
+        text: errorMessage || "Something went wrong!"
     });
 }
 function SuccessMessage(message ='Done successfully ..') {
@@ -251,8 +254,13 @@ function HandleAjaxRequest() {
                             method: 'POST'
                         });
 
-                        if (!response.ok)
-                            throw new Error('Failed to load partial view');
+                        if (!response.ok) {
+
+                            const errorData = await response.json(); // ← this is the key fix
+                            errorData.errorTitle="Message"
+                            ErrorMessage(errorData.errorMessage, errorData.errorTitle);
+                            return;
+                        }
 
 
                         let responseData = await response.text();

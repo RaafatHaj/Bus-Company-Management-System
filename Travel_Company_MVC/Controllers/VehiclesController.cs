@@ -1,9 +1,6 @@
-﻿using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using TravelCompany.Application.Services.Travels;
 using TravelCompany.Application.Services.Vehicles;
-using TravelCompany.Domain.Entities;
 
 namespace Travel_Company_MVC.Controllers
 {
@@ -28,13 +25,29 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> GetAvailableVehicles( int tripId)
         {
 
+            var trip = await _tripService.FindTripByIdAsync(tripId, TripJoinedType.WithRoute);
             //TempData["TripDateAndTime"] = tripDateTime;
             //TempData["ReturnTripDateTime"] = returnTripDateTime;
-            TempData["TripId"] = tripId;
+            //TempData["TripId"] = tripId;
 
-            var vehicles = await _vehicleService.GetAvailableVehicles(tripId);
+            if (trip == null)
+                return NotFound();
 
-            return PartialView("_AvailableVehiclesForTrip", vehicles);
+
+			var vehicles = await _vehicleService.GetAvailableVehicles(tripId);
+
+            var model = new AvailableVehiclesViewModel
+            {
+                Vehicles = vehicles,
+                TripId = trip.Id,
+                TripDateTime = trip.Date.Add(trip.Time),
+                FirstStation=trip.Route!.FirstStation!.StationName,
+                LastStation=trip.Route.LastStation!.StationName
+
+            };
+
+
+            return PartialView("_AvailableVehiclesForTrip", model);
         }
 
 

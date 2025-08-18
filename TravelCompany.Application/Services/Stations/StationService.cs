@@ -21,12 +21,12 @@ namespace TravelCompany.Application.Services.Stations
         }
 
 
-		public async Task<(bool Success, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder)
+		public async Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder)
 		{
 			return await _unitOfWork.Stations.SetStationAsArrived(tripId, stationId, stationOrder); 
 		}
 
-		public async Task<(bool Success, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder)
+		public async Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder)
 		{
 			return await _unitOfWork.Stations.SetStationAsMoved(tripId, stationId, stationOrder);
 		}

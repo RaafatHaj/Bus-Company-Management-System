@@ -13,11 +13,13 @@ namespace Travel_Company_MVC.Seeds
             var admin = new ApplicationUser() 
             {
                 UserName = "admin",
-                Email = "admin@TravelCompany.com",
+                Email = "admin@SwiftLine.com",
                 FullName = "Admin",
                 EmailConfirmed = true,
                 StationId = 1,
-                StationName="Damascus_Center"
+                StationName="Damascus_Center",
+                BirthDate= DateTime.Now,
+                IdNumber="admin"
             };
 
             var user= await userManager.FindByEmailAsync(admin.Email);

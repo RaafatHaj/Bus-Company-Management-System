@@ -40,15 +40,18 @@ namespace Travel_Company_MVC.Mappping
             CreateMap<ApplicationUser, UserViewModel>();
 
             CreateMap<ApplicationUser, UserFormViewModel>();
-           
-           
+
+
             CreateMap<UserFormViewModel, ApplicationUser>()
-                .ForMember(dest => dest.NormalizedUserName, opt => opt.MapFrom(src => src.UserName.ToUpper()))
-                .ForMember(dest => dest.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToUpper()));
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.NormalizedUserName, opt => opt.MapFrom(src => src.Email.ToUpper()))
+                .ForMember(dest => dest.NormalizedEmail, opt => opt.MapFrom(src => src.Email.ToUpper()))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName+' ' + src.LastName))
+                    .ForMember(dest => dest.Id, opt => opt.Ignore());
 
 
             //CreateMap<GetAvaliableSeatsDTO, BookTicketViewModel>();
-            
+
             CreateMap<BookTicketViewModel,BookTicketDTO>();
 
 

@@ -9,6 +9,8 @@ using System.Data;
 using System.Security.Claims;
 using System.Text;
 using Travel_Company_MVC.Services.Email;
+using TravelCompany.Application.Services.Stations;
+using TravelCompany.Domain.Entities;
 using TravelCompany.Infrastructure.Persistence.Entities;
 
 namespace Travel_Company_MVC.Controllers
@@ -20,13 +22,15 @@ namespace Travel_Company_MVC.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly IStationService _stationService;
 
-        public UsersController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService)
+        public UsersController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IEmailService emailService, IStationService stationService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
             _emailService = emailService;
+            _stationService = stationService;
         }
 
         [HttpGet]
@@ -35,32 +39,63 @@ namespace Travel_Company_MVC.Controllers
             //var user = await _userManager.FindByIdAsync(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
 
-            var users= await  _userManager.Users.ToListAsync();
+            var users= await  _userManager.Users.Include(u=>u.Station).ToListAsync();
 
-            var model = _mapper.Map<IEnumerable<UserViewModel>>(users);
+            //var model = _mapper.Map<IEnumerable<UserViewModel>>(users);
+
+            var model = users.Select(u => new UserViewModel
+            {
+                Username=u.UserName!,
+                Email=u.Email!,
+                FullName=u.FullName,
+                IsDeleted=u.IsDeleted,
+                StationName=u.Station?.StationName,
+                LastUpdatedOn=u.LastUpdatedOn
+
+            });
 
             return View(model);
         }
 
 
         [HttpGet]
-
         public async Task<IActionResult> Create()
         {
+            //var user = _userManager.FindByEmailAsync("rafatsh.m@gmail.com");
+
+            //if(user is not null)
+            //{
+
+            //      await _emailService.SendConfimingEmailAsync(user.Result!);
+
+            //}
+
+
+           
+
+
+            var satations =  await _stationService.GetAllStationsAsync();
 
             var model = new UserFormViewModel()
             {
 
                 Roles = await _roleManager.Roles.Select(r =>
-                new SelectListItem()
+                              new SelectListItem()
+                              {
+                                  Text = r.Name,
+                                  Value = r.Name
+
+                              }).ToListAsync(),
+
+                Stations = satations.Select(s => new SelectListItem
                 {
-                    Text = r.Name,
-                    Value = r.Name
+                    Text = s.StationName,
+                    Value = s.StationId.ToString()
 
-                }).ToListAsync()
+                })
             };
-
-            return PartialView("_Form" , model);
+                
+            return View( model);
         }
 
         [HttpPost]
@@ -68,36 +103,55 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> Create(UserFormViewModel model)
         {
 
+
+
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var user = new ApplicationUser()
-            {
-                UserName = model.UserName,
-                FullName = model.FullName,
-                Email = model.Email,
-                CreatedById = User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+            var user = _mapper.Map<ApplicationUser>(model);
 
-            };
+            user.CreatedById = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            user.CreatedOn = DateTime.Now;
 
+            var result = await _userManager.CreateAsync(user);
 
-            var result = await _userManager.CreateAsync(user,model.Password!);
-
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 await _userManager.AddToRolesAsync(user, model.SelectedRoles);
 
                 await _emailService.SendConfimingEmailAsync(user!);
 
-                var viewModel=_mapper.Map<UserViewModel>(user);
+                //var viewModel = _mapper.Map<UserViewModel>(user);
 
-                return PartialView("_UserRow", viewModel);
+                return RedirectToAction("Index");
             }
 
 
 
             return BadRequest(string.Join(",",result.Errors.Select(e=>e.Description)));
         }
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> SetPassword(string userId, string code)
+        //{
+        //    if (userId == null || code == null)
+        //    {
+        //        return RedirectToPage("/Index");
+        //    }
+
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID '{userId}'.");
+        //    }
+
+        //    code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+        //    var result = await _userManager.ConfirmEmailAsync(user, code);
+
+
+        //}
+
 
         [HttpGet]
 
@@ -240,12 +294,12 @@ namespace Travel_Company_MVC.Controllers
             return Json(user is null || user.Id.Equals(model.Id));
         }
 
-        public async Task<IActionResult> IsUserNameAllowed(UserFormViewModel model)
-        {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+        //public async Task<IActionResult> IsUserNameAllowed(UserFormViewModel model)
+        //{
+        //    //var user = await _userManager.FindByNameAsync(model.UserName);
 
-            return Json(user is null || user.Id.Equals(model.Id));
-        }
+        //    //return Json(user is null || user.Id.Equals(model.Id));
+        //}
 
 
         private async Task<string> GetConfirmEmailUrl(ApplicationUser user)

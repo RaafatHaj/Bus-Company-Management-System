@@ -44,7 +44,8 @@ namespace TravelCompany.Domain.Entities
         public int? StationOrderNextToBreak { get; set; }
         public int? LateMinutes { get; set; }
 
-		public ICollection<ActiveTrip> ActiveTrackStations { get; set; } = new List<ActiveTrip>();
+		public ICollection<ActiveTripTrack> ActiveTripTracks { get; set; } = new List<ActiveTripTrack>();
+		public ICollection<CompletedTripTrack> CompletedTripTracks { get; set; } = new List<CompletedTripTrack>();
 
 
 	}

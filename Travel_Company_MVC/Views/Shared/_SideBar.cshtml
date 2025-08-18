@@ -413,23 +413,52 @@
 				<!--end:Menu item Bookings -->
 
 
-				<!--begin:Menu item Users-->
-				<div class="menu-item">
+				<!--begin:Menu item --Users -->
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 					<!--begin:Menu link-->
-					<a class="menu-link "  asp-controller="Users" asp-action="Index">
+					<span class="menu-link">
 						<span class="menu-icon">
-
-							<i class="ki-duotone ki-user fs-2">
+							<i class="ki-duotone ki-questionnaire-tablet fs-2   ">
 								<span class="path1"></span>
 								<span class="path2"></span>
 							</i>
-
 						</span>
 						<span class="menu-title">Users</span>
-					</a>
+						<span class="menu-arrow"></span>
+					</span>
 					<!--end:Menu link-->
+					<!--begin:Menu sub-->
+					<div class="menu-sub menu-sub-accordion" kt-hidden-height="120">
+
+
+						<!--begin:Menu item-->
+						<div class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" asp-controller="Users" asp-action="Index">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Users List</span>
+							</a>
+							<!--end:Menu link-->
+							<!--begin:Menu link-->
+							<a class="menu-link" asp-controller="Users" asp-action="Create">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">New User</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<!--end:Menu item-->
+
+
+					</div>
+					<!--end:Menu sub-->
 				</div>
-				<!--end:Menu item Users-->
+				<!--end:Menu item Bookings -->
+
+
 
 				
 

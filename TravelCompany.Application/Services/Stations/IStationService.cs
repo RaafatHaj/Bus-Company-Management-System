@@ -12,8 +12,8 @@ namespace TravelCompany.Application.Services.Stations
     {
 
         Task<IEnumerable<Station>> GetAllStationsAsync();
-        Task<(bool Success, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder);
-        Task<(bool Success, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder);
+        Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder);
+        Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder);
 
 	}
 }

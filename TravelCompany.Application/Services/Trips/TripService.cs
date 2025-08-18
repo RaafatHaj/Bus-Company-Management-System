@@ -20,14 +20,14 @@ namespace TravelCompany.Application.Services.Travels
             _unitOfWork = unitOfWork;
         }
 
-		public async Task<Trip?> FindTripByIdAsync(int tripId)
+		public async Task<Trip?> FindTripByIdAsync(int tripId , TripJoinedType joinedType=0)
 		{
 
 
 			//var query=  _unitOfWork.Trips.GetQueryable()
-   //                      .Include(t => t.Route).ThenInclude(r => r.FirstStation)
-   //                      .Include(t => t.Route).ThenInclude(r => r.LastStation)
-   //                      .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
+			//                      .Include(t => t.Route).ThenInclude(r => r.FirstStation)
+			//                      .Include(t => t.Route).ThenInclude(r => r.LastStation)
+			//                      .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
 			//			 .AsNoTracking().SingleOrDefaultAsync();
 
 			//if (asNoTracking)
@@ -36,11 +36,24 @@ namespace TravelCompany.Application.Services.Travels
 
 
 			//return await query.SingleOrDefaultAsync();
-			return await _unitOfWork.Trips.GetQueryable()
+
+
+            if (joinedType == TripJoinedType.WithRoute)
+            {
+
+                return await _unitOfWork.Trips.GetQueryable()
+							 .Include(t => t.Route).ThenInclude(r => r!.FirstStation)
+						     .Include(t => t.Route).ThenInclude(r => r!.LastStation)
+							 .AsNoTracking().FirstOrDefaultAsync(t => t.Id == tripId);
+            }
+
+
+            return await _unitOfWork.Trips.GetQueryable()
                          .Include(t => t.Route).ThenInclude(r => r!.FirstStation)
                          .Include(t => t.Route).ThenInclude(r => r!.LastStation)
                          .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
-                         .AsNoTracking().SingleOrDefaultAsync(t=>t.Id==tripId);
+                         .AsNoTracking().FirstOrDefaultAsync(t => t.Id == tripId);
+
         }
 
 		public async Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId)

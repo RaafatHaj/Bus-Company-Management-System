@@ -1,4 +1,9 @@
 ﻿
+function UpdateTrackingRow(newRow) {
+    UpdateTableRow(newRow);
+    KTMenu.createInstances();
+}
+
 //InitilaizePageDatatable('Tracking_Table');
 
 // Note : in select2 Library we can not use Vanilla js to cahch chsnge on select input but JQuery

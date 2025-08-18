@@ -10,8 +10,8 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 {
 	public interface IStationRepository : IBaseRepository<Station>
 	{
-		Task<(bool Success, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder);
-		Task<(bool Success, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder);
+		Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsArrived(int tripId, int stationId, int stationOrder);
+		Task<(bool Success, string Message, StationTrackDTO Data)> SetStationAsMoved(int tripId, int stationId, int stationOrder);
 
 
 	}

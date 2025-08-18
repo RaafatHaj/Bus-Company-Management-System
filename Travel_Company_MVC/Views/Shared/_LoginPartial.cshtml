@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@* @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @using TravelCompany.Infrastructure.Persistence.Entities
 @inject SignInManager<ApplicationUser> SignInManager
@@ -47,19 +47,11 @@
                 <form  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/">
                     <button type="submit" class="dropdown-item" >Logout</button>
                 </form>
-             @*    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/">Logout</a> *@
             </li>
             </div>
         </ul>
 
-@*     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li> *@
+
 }
 else
 {
@@ -71,3 +63,4 @@ else
     </li>
 }
 </ul>
+ *@

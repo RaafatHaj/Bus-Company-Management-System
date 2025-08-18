@@ -118,11 +118,11 @@
                 else if (Model.Status == TripStatus.Pending)
                     color = "badge-light-warning";
                 else if (Model.Status == TripStatus.Active)
-                    color = "badge-light-success";
+                    color = "badge-light-primary";
                 else if (Model.Status == TripStatus.Canseled)
                     color = "badge-light-danger";
                 else if (Model.Status == TripStatus.Complete)
-                    color = "badge-light-primary";
+                    color = "badge-light-success";
 
             }
             <div class=" badge    @color ">@Model.Status</div>

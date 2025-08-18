@@ -11,6 +11,9 @@
 	ViewData["Breadcrumb"] = breadcrumb;
 }
 
+@{
+	Layout = "_EmptyLayout";
+}
 
 @if(!Model.BookedSeats.Any())
 {
@@ -165,7 +168,7 @@ else
 		</div>
 		<!--end::Passengers Info-->
 		<div class="d-flex justify-content-end py-6 px-9">
-			<button type="submit" class="btn btn-light-primary btn-sm ">Find Ticket</button>
+			<button type="submit" class="btn btn-light-primary btn-sm ">Book Tickets</button>
 		</div>
 	</form>
 }
