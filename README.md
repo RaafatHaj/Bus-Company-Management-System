@@ -29,3 +29,16 @@ User-generated routes & stations.
 Real-time booking updates.
 
 Advanced reporting dashboard.
+
+# Database Connection Setup
+
+1. Copy `appsettings.Development.example.json` to `appsettings.Development.json`
+2. Update the connection string with your local SQL Server credentials:
+
+
+🗄️ Complete Database Configuration
+
+1. Apply Entity Framework Core Migrations : update-database
+3. Run the schema script on your database: TravelCompany_Script.sql
+4. Run the data seeding script on your database: Seed_Essential_Data.sql
+
