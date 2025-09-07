@@ -1,5 +1,9 @@
 ﻿
+function EditInAnotherPage(button , url) {
 
+    updatedRow = button.closest('tr');
+    window.open(url)
+}
 
 var resultTableId = 'Trips_Patterns_Table';
 function initilizeDateTimePickers() {
@@ -234,7 +238,7 @@ document.body.addEventListener('click', async function (event) {
 })
 
 
-function HandleTripEditingChild(data) {
+function HandleTripEditingChild(data=null) {
 
     HandleVehicle();
 

@@ -111,10 +111,14 @@
         <div class="d-flex justify-content-start flex-shrink-0">
 
 			
-            <a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
-               data-url="/Trips/GetTripEditingForm?tripId=@Model.TripId&isReturnTrip=@(Model.MainTripId is not null)"
+            <a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+            target="_blank"
+               onclick="EditInAnotherPage(this,'@Url.Action("EditTripPage","Trips", new { tripId = Model.TripId, isReturnTrip = Model.MainTripId != null })')">
+              @* data-url="/Trips/GetTripEditingForm?tripId=@Model.TripId&isReturnTrip=@(Model.MainTripId is not null)"
                data-callback="HandleTripEditingChild"
-               data-updete-table="true">
+               data-updete-table="true"
+               *@
+               
                 <i class="ki-duotone ki-pencil fs-2">
                     <span class="path1"></span>
                     <span class="path2"></span>

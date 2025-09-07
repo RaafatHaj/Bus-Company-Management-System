@@ -4,7 +4,9 @@
 var updatedRow;
 var html;
 var table;
+var modalTable;
 /*const table = InitilaizeMetronicDatatable();*/
+
 
 function UpdateTableRow( newRow) {
 
@@ -36,6 +38,38 @@ function UpdateTableRow( newRow) {
  //   SuccessMessage();
     HideModal();
 }
+
+function UpdateModalTableRow(newRow) {
+
+
+
+    if (updatedRow !== undefined) {
+
+        modalTable.row(updatedRow).remove().draw();
+
+        updatedRow = undefined;
+    }
+
+    // since add function in datatable accept just array or jquery element we have to converet
+    // Html String to jQuery element just like that
+
+
+    let jqueryElement = $(newRow)
+    const row = modalTable.row.add(jqueryElement).draw().node();
+
+
+
+
+
+    $(row).addClass("animate__animated animate__fadeInDown ").one('animationend', function () {
+        $(this).removeClass("animate__animated animate__fadeInDown ");
+    });
+
+
+    //   SuccessMessage();
+   // HideModal();
+}
+
 
 function testtt(tableId) {
     table = InitilaizeMetronicDatatable(tableId);
@@ -95,7 +129,7 @@ function InitilaizeModalDatatable(tableId = 'Data_Table') {
     $(document).ready(function () {
 
         // Store DataTable instance in a variable
-         $('#' + tableId).DataTable({
+       modalTable=  $('#' + tableId).DataTable({
             language: {
                 lengthMenu: "Show _MENU_",
             },

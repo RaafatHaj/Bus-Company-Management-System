@@ -47,6 +47,15 @@ namespace Travel_Company_MVC.Controllers
 
         }
 
+
+        [HttpGet]
+        public IActionResult SuccessPage()
+        {
+
+            return View();
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

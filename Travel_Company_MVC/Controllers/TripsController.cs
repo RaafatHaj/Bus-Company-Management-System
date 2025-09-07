@@ -183,6 +183,37 @@ namespace Travel_Company_MVC.Controllers
 			
         }
 
+        [HttpGet]
+        public async Task< IActionResult >EditTripPage(int tripId, bool isReturnTrip = false)
+        {
+
+            var trip = await _tripService.FindTripByIdAsync(tripId);
+
+            if (trip is null)
+                return BadRequest();
+
+            if (isReturnTrip)
+            {
+                var mainTrip = await _tripService.FindMainTripByReturnTripIdAsync(tripId);
+                var returnModel = _setTripEditingViewModle(mainTrip!, trip);
+
+                return View("~/Views/Trips/TripEditing.cshtml" , returnModel);
+                //return PartialView("_TripEditing", returnModel);
+            }
+
+            var returnTrip = await _tripService.FindReturnTripByMainTripIdAsync(trip.Id);
+
+
+            var model = _setTripEditingViewModle(trip, returnTrip);
+
+            return View("~/Views/Trips/TripEditing.cshtml", model);
+
+            //return PartialView("_TripEditing", model);
+
+
+            //return View("~/Views/Trips/TripEditing.cshtml");
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetTripsPatterns(int routeId)
