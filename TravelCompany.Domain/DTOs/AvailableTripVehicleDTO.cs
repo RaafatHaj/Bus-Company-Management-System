@@ -8,6 +8,8 @@ namespace TravelCompany.Domain.DTOs
 {
     public class AvailableTripVehicleDTO
     {
+        public bool fleg=false;
+        public bool fleg2=false;
         public int VehicleId { get; set; }
         public string HomeStation { get; set; } = null!;
         public string VehicleModel { get; set; } = null!;

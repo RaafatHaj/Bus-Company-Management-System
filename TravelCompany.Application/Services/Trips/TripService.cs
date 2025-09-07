@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Collections.Immutable;
 using System.Data;
 using TravelCompany.Application.Common.Interfaces;
@@ -20,7 +21,7 @@ namespace TravelCompany.Application.Services.Travels
             _unitOfWork = unitOfWork;
         }
 
-		public async Task<Trip?> FindTripByIdAsync(int tripId , TripJoinedType joinedType=0)
+		public async Task<Trip?> FindTripByIdAsync(int tripId , TripJoinedType joinedType= TripJoinedType.FullJoined)
 		{
 
 
@@ -65,11 +66,21 @@ namespace TravelCompany.Application.Services.Travels
 
 		public async Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId)
         {
-            return await _unitOfWork.Trips.GetQueryable().SingleOrDefaultAsync(t => t.MainTripId==mainTripId);
+            return await _unitOfWork.Trips.GetQueryable().FirstOrDefaultAsync(t => t.MainTripId==mainTripId);
 
         }
+        public async Task<Trip?> FindMainTripByReturnTripIdAsync(int returnTripId)
+        {
+            return await _unitOfWork.Trips.GetQueryable()
+                         .Include(t => t.Route).ThenInclude(r => r!.FirstStation)
+                         .Include(t => t.Route).ThenInclude(r => r!.LastStation)
+                         .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
+                         .AsNoTracking().FirstOrDefaultAsync(t => t.ReturnTripId==returnTripId);
 
-		public async Task<(bool Success , Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto)
+            //return await _unitOfWork.Trips.GetQueryable().FirstOrDefaultAsync(t => t.ReturnTripId == returnTripId);
+
+        }
+        public async Task<(bool Success , Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto)
 		{
 
 			var trip = await FindTripByIdAsync(dto.TripId);
@@ -216,7 +227,7 @@ namespace TravelCompany.Application.Services.Travels
 				var trips= await _unitOfWork.Trips.GetQueryable()
                         .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
                         .Include(t => t.Route)
-                        .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle).AsNoTracking()
+                        .Include(t => t.TripAssignment).ThenInclude(a => a!.Vehicle).AsNoTracking()
                         .ToListAsync();
 
                 var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
@@ -303,6 +314,6 @@ namespace TravelCompany.Application.Services.Travels
 
 		}
 
-
+	
 	}
 }

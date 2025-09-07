@@ -10,28 +10,39 @@
 
 
 	<td>
+		@if(Model.fleg == false )
+		{
+			<div class="flex-grow-1 me-2">
+				<a href="#" class="text-gray-900 fw-bold d-block text-hover-primary js-next-page-ajax"
+				   data-url="/Vehicles/GetVehicleDetails"
+				@* data-json-data="@jsonData"
+			   *@ data-callback-4="@("test")">
+					@Model.VehicleNumber
+				</a>
+				<span class="text-gray-500 fs-7 fw-semibold ">@Model.VehicleModel</span>
+			</div>
+		}
+		else
+		{
 
-		<div class="flex-grow-1 me-2">
-			<a href="#" class="text-gray-900 fw-bold d-block text-hover-primary js-next-page-ajax"
-			   data-url="/Vehicles/GetVehicleDetails"
-@* 			   data-json-data="@jsonData"
- *@			   data-callback-4="@("test")">
-			   @Model.VehicleNumber</a>
-			<span class="text-gray-500 fs-7 fw-semibold ">@Model.VehicleModel</span>
-		</div>
+			<div class="border-gray-300 border-start-dashed " style="height:100% ">
+			</div>
+		}
+
 
 	</td>
 
 
 	<td>
+		@if (Model.fleg == false)
+		{
+			<span class="text-gray-900 fw-bold d-block ">
+				@(Model.Seats)
+			</span>
 
-		<span class="text-gray-900 fw-bold d-block ">
-			@(Model.Seats)
-		</span>
-
-		<span class="text-muted fw-semibold ">
-			Seat
-		</span>
+			<span class="text-muted fw-semibold ">
+				Seat
+		</span>}
 
 
 	</td>
@@ -106,20 +117,22 @@
 	</td>
 
 	<td>
-
-		<span class="text-gray-900 fw-bold d-block ">
-			@(Model.HomeStation)
+		@if (Model.fleg == false)
+		{
+			<span class="text-gray-900 fw-bold d-block ">
+				@(Model.HomeStation)
 			</span>
 
-		<span class="text-muted fw-semibold ">
-			Home Station
-		</span>
+			<span class="text-muted fw-semibold ">
+				Home Station
+			</span>
+		}
 
-		
 	</td>
 	<td>
 
-		@{
+			@if(Model.fleg == false )
+		{
 
 			var data = new VehicleDetailsViewModel();
 
@@ -137,19 +150,40 @@
 			}
 
 			var jsonData = JsonConvert.SerializeObject(data);
+			<!--Not : class to move tho assigning page => js-next-page-ajax -->
 
-
+			<a href="#" class="btn btn-sm btn-light   js-select-vehicle"
+			   data-url="/Vehicles/GetVehicleDetails"
+			   data-vehicle-id="@Model.VehicleId"
+			   data-json-data="@jsonData"
+			   data-callback-4="@("test")">
+				<i class="ki-solid ki-plus     "></i>Select
+			</a>
 		}
 
-		<!--Not : class to move tho assigning page => js-next-page-ajax -->
+@* @* 		@{
 
-		<a href="#" class="btn btn-sm btn-light   js-select-vehicle"
-		   data-url="/Vehicles/GetVehicleDetails"
-		   data-vehicle-id="@Model.VehicleId"
-		   data-json-data="@jsonData"
-		   data-callback-4="@("test")">
-			<i class="ki-solid ki-plus     "></i>Select
-		</a>
+			var data = new VehicleDetailsViewModel();
+
+
+			data.VehicleId = Model.VehicleId;
+			data.VehicleModel = Model.VehicleModel;
+			data.VehicleNumber = Model.VehicleNumber;
+			data.Seats = Model.Seats;
+			data.HomeStation = "Damascuse";
+		
+
+			if (int.TryParse(TempData["TripId"]?.ToString(), out var tripId))
+			{
+				data.TripId = tripId;
+			}
+
+			var jsonData = JsonConvert.SerializeObject(data);
+
+
+		} *@ 
+
+
 
 
 	</td>

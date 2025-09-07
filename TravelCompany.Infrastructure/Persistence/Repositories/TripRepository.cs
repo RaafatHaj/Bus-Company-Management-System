@@ -711,5 +711,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 			return trips;
 		}
+
+	
 	}
 }

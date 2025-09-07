@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Newtonsoft.Json;
 using TravelCompany.Application.Services.Recurrings;
 using TravelCompany.Application.Services.Stations;
@@ -66,6 +67,8 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> GetScheduledTrips(ScheduledTripsSearchViewModel model)
         {
 
+
+            
             if (!ModelState.IsValid)
                 return BadRequest();
 
@@ -101,24 +104,31 @@ namespace Travel_Company_MVC.Controllers
         {
             var tripsList = await _tripService.RetriveAllTripsAsync(routeId , time);
 
-            var returnTripsIds=tripsList.Select(t=>t.ReturnTripId).ToList();
+            //var returnTripsIds=tripsList.Select(t=>t.ReturnTripId).ToList();
 
-            var returnTripsList = await _tripService.RetriveAllTripsAsync(returnTripsIds);
+            //var returnTripsList = await _tripService.RetriveAllTripsAsync(returnTripsIds);
 
 
-            var trips = _setTripsModel(tripsList, returnTripsList);
+            var tripsModel = _setCustomTripsModel(tripsList);
 
-            return PartialView("_ScheduledTrips", trips);
+            return PartialView("_CustomScheduledTrips", tripsModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTripEditingForm(int tripId)
+        public async Task<IActionResult> GetTripEditingForm(int tripId , bool isReturnTrip=false)
         {
 
             var trip = await _tripService.FindTripByIdAsync(tripId);
 
             if (trip is null)
                 return BadRequest();
+
+            if(isReturnTrip)
+            {
+                var mainTrip = await _tripService.FindMainTripByReturnTripIdAsync(tripId);
+                var returnModel = _setTripEditingViewModle(mainTrip!, trip);
+                return PartialView("_TripEditing", returnModel);
+            }
 
             var returnTrip = await _tripService.FindReturnTripByMainTripIdAsync(trip.Id);
 
@@ -242,6 +252,8 @@ namespace Travel_Company_MVC.Controllers
         }
 
 
+ 
+
         [HttpGet]
         public async Task<IActionResult> GetTripTrack(int tripId)
         {
@@ -333,7 +345,78 @@ namespace Travel_Company_MVC.Controllers
             return tripsModel;
         }
 
-        private IEnumerable<ScheduledTripViewModel> _setTripsModel(IEnumerable<Trip> trips , IEnumerable<Trip> returnTripsList)
+		private IEnumerable<CustomScheduledTripViewModel> _setCustomTripsModel(IEnumerable<Trip> trips)
+		{
+			var tripsModel = new List<CustomScheduledTripViewModel>();
+
+            tripsModel = trips.Select(t => new CustomScheduledTripViewModel()
+            {
+				RouteId = t.RouteId,
+				RouteName = t.Route!.RouteName,
+				TripId = t.Id,
+				Date = t.Date,
+				Time = t.Time,
+				Status = t.status,
+				DepartureStationId = t.Route!.FirstStationId,
+				TripTimeSpanInMInits = t.Route!.EstimatedTime,
+
+                MainTripId=t.MainTripId,
+                ReturnTripId=t.ReturnTripId,
+
+				VehicleId = t.TripAssignment?.VehicleId,
+				VehicleNumber = t.TripAssignment?.Vehicle?.VehicleNumber,
+				VehicleModel = t.TripAssignment?.Vehicle?.Type,
+
+				//ReturnRouteId = returnTrip?.RouteId,
+				//ReturnTripId = returnTrip?.Id,
+				//ReturnDate = returnTrip?.Date,
+				//ReturnTime = returnTrip?.Time,
+				//ReturnStatus = returnTrip?.status
+
+			}).ToList();
+
+			return tripsModel;
+
+			//var mainTrips = trips.Where(t => t.MainTripId == null)
+			//	.ToList();
+
+			//foreach (var trip in mainTrips)
+			//{
+			//	var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.Id);
+
+			//	tripsModel.Add(new()
+			//	{
+			//		RouteId = trip.RouteId,
+			//		RouteName = trip.Route!.RouteName,
+			//		TripId = trip.Id,
+			//		Date = trip.Date,
+			//		Time = trip.Time,
+			//		Status = trip.status,
+			//		DepartureStationId = trip.Route!.FirstStationId,
+			//		TripTimeSpanInMInits = trip.Route!.EstimatedTime,
+
+			//		VehicleId = trip.TripAssignment?.VehicleId,
+			//		VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
+			//		VehicleModel = trip.TripAssignment?.Vehicle?.Type,
+
+			//		ReturnRouteId = returnTrip?.RouteId,
+			//		ReturnTripId = returnTrip?.Id,
+			//		ReturnDate = returnTrip?.Date,
+			//		ReturnTime = returnTrip?.Time,
+			//		ReturnStatus = returnTrip?.status
+
+			//	});
+
+
+
+			//}
+
+
+
+		}
+
+
+		private IEnumerable<ScheduledTripViewModel> _setTripsModel(IEnumerable<Trip> trips , IEnumerable<Trip> returnTripsList)
         {
             var tripsModel = new List<ScheduledTripViewModel>();
 

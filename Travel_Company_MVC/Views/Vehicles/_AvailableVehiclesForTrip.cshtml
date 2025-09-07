@@ -1,7 +1,9 @@
 ﻿@using Newtonsoft.Json
 @model AvailableVehiclesViewModel
 
-
+@{
+	TempData["TripId"] = Model.TripId;
+}
 
 	<div id="PageContainer" class="W-100">
 
@@ -32,11 +34,30 @@
 
 				
 				
-
+@* 
 					@foreach (var vehicle in Model.Vehicles)
+					{ *@
+					@{
+						var list = Model.Vehicles.ToList();
+					}
+					@for (int i = 0; i < list.Count; i++)
 					{
 
-						<partial name="~/Views/Vehicles/_AvailableVehiclesRow.cshtml" model="@vehicle" />
+						if (i!=0 && list[i].VehicleId == list[i - 1].VehicleId)
+						{
+							list[i].fleg = true;
+
+						}
+
+						if(i==list.Count-1 || list[i].VehicleId !=list[i+1].VehicleId)
+						{
+							list[i].fleg2 = true;
+							
+						}
+					
+
+						
+						<partial name="~/Views/Vehicles/_AvailableVehiclesRow.cshtml" model="@list[i]" />
 
 
 

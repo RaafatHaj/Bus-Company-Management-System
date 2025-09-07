@@ -14,6 +14,7 @@ namespace TravelCompany.Application.Services.Rezervations
 
 		Task<(bool IsBooked, IEnumerable<int> ReservationIDs)> BookSeatAsync(BookTicketDTO dto);
 		Task<IEnumerable<Reservation>> GetStationPassengersAsync(int scheduledTravelId, int stationId);
-
-    }
+		Task<IEnumerable<Reservation>> GetStationPassengersBoarding(int tripId, int stationId);
+		Task<IEnumerable<Reservation>> GetAllTripBookingsAsync (int tripId);
+	}
 }

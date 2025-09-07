@@ -22,5 +22,7 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 		Task<(bool Success, int ReturnTrpId, string Message)> EditTrip(EditScheduledTripDTO dto);
 		Task<IEnumerable<TripTrackDTO>> GetTripTrackAsunc(int tripId);
 
+
+
 	}
 }

@@ -104,6 +104,24 @@
 	</td>
 
 	<td>
+
+		<div>
+
+			<div class="text-gray-900 fw-bold ">
+				12 Passengers
+
+			</div>
+
+			<div class="text-muted fw-semibold fs-7 ">
+				@* @Model.EstimatedDistance km *@
+				Boarding
+			</div>
+		</div>
+
+	</td>
+
+
+	<td>
 		@{
 			if(Model.PreviousStation is null)
 			{
@@ -236,6 +254,12 @@
 				<a href="#" class="menu-link px-3 js-render-modal"
 				   data-url="/Trips/GetTripTrack?tripId=@Model.TripId"
 				  >Track Trip</a>
+			</div>
+			<!--end::Menu item-->
+			<!--begin::Menu item-->
+			<div class="menu-item px-3">
+				<a href="#" class="menu-link px-3 js-render-modal"
+				   data-url="/Booking/GetStationPassengersBoarding?tripId=@Model.TripId&stationId=@Model.StationId">Boarding</a>
 			</div>
 			<!--end::Menu item-->
 

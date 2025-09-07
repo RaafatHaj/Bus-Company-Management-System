@@ -66,7 +66,7 @@ namespace Travel_Company_MVC.Controllers
         public async Task<IActionResult> FindSuitableTravels(PickTicketViewModel model)
         {
 
-			await Task.Delay(3000);
+			//await Task.Delay(3000);
 
 			if (!ModelState.IsValid)
                 return BadRequest();
@@ -174,6 +174,17 @@ namespace Travel_Company_MVC.Controllers
             return PartialView("_StationPassengers", model);
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllTripBookings(int tripId)
+        {
+            var model = await _rezervationService.GetAllTripBookingsAsync(tripId);
+
+            return PartialView("_TripReservations", model);
+
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetDestinationStations()
         {
@@ -183,7 +194,15 @@ namespace Travel_Company_MVC.Controllers
         }
 
 
+		[HttpGet]
+		public async Task<IActionResult> GetStationPassengersBoarding(int tripId, int stationId)
+		{
+			var boarding = await _rezervationService.GetStationPassengersBoarding(tripId, stationId);
 
+
+
+            return PartialView("_StationPassengersBoarding", boarding);
+		}
 
 
 

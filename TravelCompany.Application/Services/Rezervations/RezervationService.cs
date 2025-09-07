@@ -22,7 +22,12 @@ namespace TravelCompany.Application.Services.Rezervations
 			return await _unitOfWork.Reservations.BookSeatAsync(dto);
 		}
 
-		public async Task<IEnumerable<Reservation>> GetStationPassengersAsync(int scheduledTravelId,int stationId)
+        public async Task<IEnumerable<Reservation>> GetAllTripBookingsAsync(int tripId)
+        {
+            return await _unitOfWork.Reservations.GetQueryable().Where(r=>r.TripId==tripId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reservation>> GetStationPassengersAsync(int scheduledTravelId,int stationId)
 		{
 
 			var passengers=await _unitOfWork.Reservations.GetQueryable()
@@ -30,6 +35,11 @@ namespace TravelCompany.Application.Services.Rezervations
 
 			return passengers;
 
+		}
+
+		public async Task<IEnumerable<Reservation>> GetStationPassengersBoarding(int tripId, int stationId)
+		{
+			return await _unitOfWork.Reservations.GetStationPassengersBoarding(tripId, stationId);
 		}
 	}
 }

@@ -1,0 +1,36 @@
+﻿	@model IEnumerable<Reservation>
+
+
+
+
+
+<table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
+	<thead>
+		<tr class="fw-bold fs-6 text-gray-800 px-7">
+			<th>Station A </th>
+			<th>Station B</th>
+			<th>Passenger Name</th>
+			<th>Seat Number</th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+
+		@foreach (var seat in Model)
+		{
+			<tr>
+				<td>@seat.StationAId</td>
+				<td>@seat.StationBId</td>
+				<td>@seat.PersonName</td>
+				<td>@seat.SeatNumber</td>
+
+			</tr>
+
+		}
+
+
+
+	</tbody>
+
+

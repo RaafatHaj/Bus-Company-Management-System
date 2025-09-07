@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ScheduledTripViewModel>;
+﻿@model IEnumerable<CustomScheduledTripViewModel>;
 
 <div>
 
@@ -23,20 +23,16 @@
             <thead>
 
                 <tr class="fw-bold fs-6 text-gray-800 px-7">
-                    <th><span class="ms-6">Main</span></th>
-                    <th>Route</th>
-                    <th></th>
-                    <th></th>
-                    <th><span class="ms-6">Return</span></th>
+                    <th><span class="ms-6"></span></th>
+                    <th><span class="ms-6"></span></th>
                     <th></th>
                     <th></th>
                     <th>
                         <span class="ms-5">
-                            Vehicle
+                            
                         </span>
                     </th>
-                    <th>Actions</th>
-
+                
 
 
                 </tr>
@@ -46,7 +42,7 @@
                 @foreach (var trip in Model)
                 {
 
-                    <partial name="~/Views/Trips/_ScheduledTripRow.cshtml" model="@trip" />
+                    <partial name="~/Views/Trips/_CustomScheduledTripRow.cshtml" model="@trip" />
 
                 }
 
