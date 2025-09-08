@@ -28,7 +28,8 @@
 				  data-callback="UpdateTrip">
 
 
-
+				  <input type="hidden" asp-for="IsCustomTripRow" value="true" />
+				  <input type="hidden" asp-for="IsReturnTrip" value="@Model.IsReturnTrip" />
 
 
 				@{
@@ -558,6 +559,7 @@
 
 			if (window.opener && !window.opener.closed) {
 				window.opener.UpdateModalTableRow(data);
+				window.opener.SuccessMessage(message = 'Trips Edited Successfully ..', true);
 			}
 
 			goToSuccessPage();

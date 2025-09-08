@@ -50,8 +50,6 @@ namespace Travel_Company_MVC.Controllers
         }
 
 
-
-
         //      [HttpPost]
         //      public async Task<IActionResult> FindScheduledTripsAsync( ScheduledTripsSearchViewModel model)
         //      {
@@ -97,6 +95,19 @@ namespace Travel_Company_MVC.Controllers
           
 		}
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetPatternScheduledTrips(int routeId , TimeSpan time , DateTime startDate,DateTime endDate)
+        {
+            var trips=await _tripService.GetPatternScheduledTrips(routeId, time, startDate, endDate);
+
+
+            var model = _setCustomTripsModel(trips);
+
+            return PartialView("_CustomScheduledTrips", model);
+
+        }
 
 
 		[HttpGet]
@@ -149,7 +160,63 @@ namespace Travel_Company_MVC.Controllers
 
 			if (!result.Success)
 				return BadRequest(new { errorMessage = result.Message });
+           
+            if(model.IsCustomTripRow)
+            {
+                if(model.IsReturnTrip)
+                {
+                    var returnTrip = _tripService.FindTripByIdAsync(result.Trip!.ReturnTripId!.Value);
 
+                    var customReturnTripRow = new CustomScheduledTripViewModel
+                    {
+                        RouteId = returnTrip.Result!.RouteId,
+                        RouteName = returnTrip.Result!.Route!.RouteName,
+
+                        TripId = returnTrip.Result!.Id,
+                        Date = returnTrip.Result!.Date,
+                        Time = returnTrip.Result!.Time,
+                        DepartureStationId = returnTrip.Result!.Route.FirstStationId,
+                        TripTimeSpanInMInits = returnTrip.Result!.Route.EstimatedTime,
+                        Status = returnTrip.Result!.status,
+
+                        MainTripId = returnTrip.Result!.MainTripId,
+                        ReturnTripId = returnTrip.Result!.ReturnTripId,
+
+
+                        VehicleId = returnTrip.Result!.TripAssignment?.VehicleId,
+                        VehicleNumber = returnTrip.Result!.TripAssignment?.Vehicle!.VehicleNumber,
+                        VehicleModel = returnTrip.Result!.TripAssignment?.Vehicle!.Type
+
+                    };
+
+                    return PartialView("~/Views/Trips/_CustomScheduledTripRow.cshtml", customReturnTripRow);
+                }
+
+                var customTripRow = new CustomScheduledTripViewModel
+                {
+                    RouteId = result.Trip!.RouteId,
+                    RouteName = result.Trip!.RouteName,
+
+                    TripId = result.Trip!.TripId,
+                    Date = result.Trip!.Date,
+                    Time = result.Trip!.Time,
+                    DepartureStationId = result.Trip!.DepartureStationId,
+                    TripTimeSpanInMInits = result.Trip!.TripTimeSpanInMInits,
+                    Status = result.Trip!.Status,
+
+                    MainTripId = result.Trip.MainTripId,
+                    ReturnTripId =result.Trip.ReturnTripId,
+
+
+                    VehicleId = result.Trip!.VehicleId,
+                    VehicleNumber = result.Trip!.VehicleNumber,
+                    VehicleModel = result.Trip!.VehicleModel
+
+                };
+
+                return PartialView("~/Views/Trips/_CustomScheduledTripRow.cshtml", customTripRow);
+
+            }
 
 			var editedTrip = new ScheduledTripViewModel
 			{
@@ -197,6 +264,8 @@ namespace Travel_Company_MVC.Controllers
                 var mainTrip = await _tripService.FindMainTripByReturnTripIdAsync(tripId);
                 var returnModel = _setTripEditingViewModle(mainTrip!, trip);
 
+                returnModel.IsReturnTrip = true;
+
                 return View("~/Views/Trips/TripEditing.cshtml" , returnModel);
                 //return PartialView("_TripEditing", returnModel);
             }
@@ -205,6 +274,8 @@ namespace Travel_Company_MVC.Controllers
 
 
             var model = _setTripEditingViewModle(trip, returnTrip);
+
+            model.IsReturnTrip = false;
 
             return View("~/Views/Trips/TripEditing.cshtml", model);
 

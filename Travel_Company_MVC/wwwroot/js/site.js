@@ -181,13 +181,25 @@ function ErrorMessage(errorMessage , errorTitle ) {
         text: errorMessage || "Something went wrong!"
     });
 }
-function SuccessMessage(message ='Done successfully ..') {
+function SuccessMessage(message ='Done successfully ..' , congirmButton=false) {
 
-    Swal.fire({
-        icon: "success",
-        title: "Successed",
-        text: message
-    });
+    
+
+    if (congirmButton ==true) {
+        Swal.fire({
+            icon: "success",
+            title: "Successed",
+            text: message,
+            confirmButtonText: 'OK'
+        });
+    }
+    else {
+        Swal.fire({
+            icon: "success",
+            title: "Successed",
+            text: message
+        });
+    }
 }
 function ConfirmationMessage(title = "Confirming", message = "Are you sure would you like to confirm ?") {
 
@@ -503,6 +515,7 @@ function RenderModal() {
 
 
             try {
+
 
                 const response = await fetch(button.getAttribute('data-url'));
 

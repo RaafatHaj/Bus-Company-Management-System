@@ -48,6 +48,9 @@ namespace Travel_Company_MVC.ViewModels
 
 		public int? VehicleId { get; set; }
 
+		public bool IsCustomTripRow { get; set; } = false;
 
-	}
+		public bool IsReturnTrip { get; set; } = false;
+
+    }
 }

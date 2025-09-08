@@ -242,6 +242,16 @@ namespace TravelCompany.Application.Services.Travels
 
 		} 
 
+
+		public async Task<IEnumerable<Trip>> GetPatternScheduledTrips(int routeId, TimeSpan time, DateTime startDate, DateTime endDate)
+		{
+			return await _unitOfWork.Trips.GetQueryable()
+				.Where(t => t.RouteId == routeId &&
+				t.Time == time && t.Date >= startDate && t.Date <= endDate)
+                .Include(t => t.Route)
+                .Include(t => t.TripAssignment).ThenInclude(a => a!.Vehicle).AsNoTracking()
+                .ToListAsync();
+		}
         public async Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(PatternWeeksRequestDTO dto)
         {
             return await _unitOfWork.Trips.GetPatternWeeks(dto);
