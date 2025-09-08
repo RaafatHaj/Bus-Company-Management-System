@@ -29,7 +29,7 @@ namespace Travel_Company_MVC.Controllers
 		}
 
 		[HttpGet]
-		public  IActionResult ScheduleNewTrips()
+		public  IActionResult ScheduleNewTrips(int routeId=0 ,TimeSpan? time =null )
         {
             var breadcrumb = new List<string>
                             {
@@ -38,9 +38,19 @@ namespace Travel_Company_MVC.Controllers
                             };
 
             ViewData["Breadcrumb"] = breadcrumb;
-            //var routes = await _routeService.GetAllRoutesAsync();
+			//var routes = await _routeService.GetAllRoutesAsync();
 
-            return View(_populateModel());
+			var model = _populateModel();
+
+
+			model.RouteId = routeId;
+			
+			if(time is not null)
+			{
+				model.DepartureTime=time.Value;
+			}
+
+            return View(model);
 		}
 
 		[HttpPost]

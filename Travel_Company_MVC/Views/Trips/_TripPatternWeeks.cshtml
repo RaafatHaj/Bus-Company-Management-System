@@ -1,5 +1,5 @@
 ﻿@using TravelCompany.Domain.Const
-@model IList<PatternWeekDTO>
+@model TripPatternWeeksViewModel
 
 @* <div class="d-flex justify-content-end py-6 px-9">
 	<button type="submit" class="btn btn-primary btn-sm ">Submit</button>
@@ -30,14 +30,14 @@
 				var index = 0;
 			}
 
-			@for (int i= 0; i < Model.Count; i++)
+			@for (int i= 0; i < Model.Weeks.Count; i++)
 			{
 				<tr>
 
 					@{
 						if (i != 0)
 						{
-							if (Model[i].OccupiedWeekDaysCode != Model[i - 1].OccupiedWeekDaysCode)
+							if (Model.Weeks[i].OccupiedWeekDaysCode != Model.Weeks[i - 1].OccupiedWeekDaysCode)
 							{
 								index = index == 0 ? 1 : 0;
 								// index = index + 1 == 2 ? 0 : index + 1;
@@ -47,23 +47,23 @@
 					
 
 						var weekOrder = "th";
-						if (Model[i].WeekOrder == 1) weekOrder = "st";
-						else if (Model[i].WeekOrder == 2) weekOrder = "nd";
-						else if (Model[i].WeekOrder == 3) weekOrder = "rd";
+						if (Model.Weeks[i].WeekOrder == 1) weekOrder = "st";
+						else if (Model.Weeks[i].WeekOrder == 2) weekOrder = "nd";
+						else if (Model.Weeks[i].WeekOrder == 3) weekOrder = "rd";
 					}
 
 					
 					<td>
 						<div class=" d-flex gap-1">
 							<span class="bullet bullet-dot  @bulletColor me-1 mt-2  "></span>
-							<span>@Model[i].WeekOrder </span>
+							<span>@Model.Weeks[i].WeekOrder </span>
 							<span class="text-muted">@weekOrder week</span>
 
 						</div>
 					</td>
 
-					<td>@Model[i].StartDate.ToString("dd MMM yyyy")</td>
-					<td>@Model[i].EndDate.ToString("dd MMM yyyy")</td>
+					<td>@Model.Weeks[i].StartDate.ToString("dd MMM yyyy")</td>
+					<td>@Model.Weeks[i].EndDate.ToString("dd MMM yyyy")</td>
 					<td>
 
 						<div class="d-flex gap-4 ms">
@@ -71,7 +71,7 @@
 							@{
 								foreach (WeekDaysCode day in Enum.GetValues(typeof(WeekDaysCode)))
 								{
-									if ((Model[i].OccupiedWeekDaysCode & (int)day) == (int)day)
+									if ((Model.Weeks[i].OccupiedWeekDaysCode & (int)day) == (int)day)
 									{
 										<div class="text-primary fs-7">@day</div>
 									}
@@ -84,12 +84,23 @@
 
 						</div>
 						
-@* 						@Model[i].OccupiedWeekDaysCode
+@* 						@Model.Weeks[i].OccupiedWeekDaysCode
  *@						
 					
 					</td>
-					<td>@Model[i].UnassignedTrips <span class="text-muted">Unassingned</span></td>
-					<td>@Model[i].AllTrips <span class="text-muted">Total</span></td>
+					@*<td>@Model.Weeks[i].UnassignedTrips <span class="text-muted">Unassingned</span></td>*@
+					<td> 
+						<a href="#" class="js-render-modal"
+						   data-url="/Trips/GetPatternScheduledTrips?routeId=@Model.RouteId&time=@Model.PatternTime&startDate=@Model.Weeks[i].StartDate&endDate=@Model.Weeks[i].EndDate"
+						   data-large-modal="true"
+						   data-title="Scheduled Trips"
+						   data-sub-title="all trips scheduled at selected time."
+						   data-has-table="true"
+						   data-table-id="Scheduled_Trips_Table">
+							<span class="text-gray-900 text-hover-primary">View</span>
+							<span class="text-primary">@Model.Weeks[i].AllTrips</span>
+					</a>
+					</td>
 
 				</tr>
 			}

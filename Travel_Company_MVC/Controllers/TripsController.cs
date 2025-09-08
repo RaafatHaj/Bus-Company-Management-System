@@ -303,7 +303,15 @@ namespace Travel_Company_MVC.Controllers
 
             var weeks = await _tripService.GetPatternWeeksAsync(dto);
 
-            return PartialView("_TripPatternWeeks", weeks);
+            var model = new TripPatternWeeksViewModel {
+
+                Weeks= weeks.ToList() ,
+                RouteId=dto.RouteId,
+                PatternTime=dto.Time
+            
+            };
+
+            return PartialView("_TripPatternWeeks", model);
         }
 
         [HttpGet]

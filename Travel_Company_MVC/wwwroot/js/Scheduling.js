@@ -1,4 +1,137 @@
 ﻿
+
+document.addEventListener('DOMContentLoaded',async function () {
+
+    // data-station-id
+
+    let button = document.getElementById('add-route-button');
+    let routeId = button.getAttribute('data-route-id');
+
+    if (parseInt(routeId) > 0) {
+
+        enableFilds();
+
+
+        try {
+
+            let patternsUrl = '/Routes/GetRouteDetails?routeID=' + routeId;
+            const response = await fetch(patternsUrl);
+
+
+            if (!response.ok)
+                throw new Error('Failed to load partial view');
+
+            const html = await response.text();
+
+            HandleAddRouteButton();
+            document.getElementById("route-details").innerHTML = html;
+
+
+
+
+
+            const url = '/Trips/GetTripsPatterns?routeId=' + routeId;
+            await getRouteTripRecurringPatterns(url);
+
+            //$('#kt_datatable_dom_positioning').DataTable().destroy();
+            //let test = document.getElementById('testttt');
+            //console.log(test);
+
+            //InitilaizeMetronicDatatable(test); 
+
+            document.querySelectorAll('input').forEach(input => {
+                switch (input.type) {
+                    case 'checkbox':
+                    case 'radio':
+                        input.checked = false;
+                        break;
+                }
+            });
+
+
+            // Refresh the inputs ...
+            //Station_Stop_Duration
+
+            //document.getElementById("trip-time").value = "";
+            document.getElementById("Station_Stop_Duration").value = "";
+            document.getElementById('recuring-details').innerHTML = "";
+            document.getElementById('duration-options').innerHTML = "";
+            document.getElementById("break_details").innerHTML = "";
+            document.getElementById("editing_checkbox").innerHTML = "";
+            document.getElementById('pattern_exists').innerHTML = "";
+
+
+
+
+        } catch {
+
+
+        }
+
+    }
+
+
+
+    const timePicker = $("#trip-time").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        onChange: function (selectedDates, dateStr, instance) {
+
+
+            handleTimeChange(selectedDates, dateStr, instance);
+
+            //            //tripsTimings
+            //            let box = document.getElementById('pattern_exists');
+            //            let editBox = document.getElementById('editing_checkbox');
+            //            let fullTime = dateStr + ":00";
+            //            let editBoxTemplate = document.getElementById("editing_checkbox_template");
+
+            //            console.log("Time selected:", fullTime);
+
+            //            if (tripsTimings && tripsTimings.includes(fullTime)) {
+
+
+            //                box.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-gray-900">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
+            //`
+            //                editBox.innerHTML = editBoxTemplate.innerHTML;
+
+            //            }
+            //            else {
+
+            //                //editStatus.value = 'true';
+            //                box.innerHTML = "";
+            //                editBox.innerHTML = "";
+            //            }
+
+
+
+
+            //            // You can also access selectedDates[0] as a Date object
+        }
+    });
+
+
+    /*//let button = document.getElementById('add-route-button');*/
+    let patternTime = button.getAttribute('data-pattern-time');
+    //let routeId = button.getAttribute('data-route-id');
+
+    if (parseInt(routeId) > 0) {
+
+        strPatternTime = patternTime.split(":").slice(0, 2).join(":");
+        //patternTime.substring(0, 5);
+
+        console.log(strPatternTime);
+        timePicker.setDate(strPatternTime);
+        handleTimeChange(timePicker.selectedDates, strPatternTime, timePicker);
+    }
+
+
+
+
+})
+
+
 var tripsTimings;
 // Handling Templates ...
 document.querySelectorAll('.recurring-radio').forEach(radio => {
@@ -302,50 +435,33 @@ function HandleAddRouteButton() {
 
 //InitilaizeMetronicDatatable();
 
+function handleTimeChange(selectedDates, dateStr, instance) {
+    let box = document.getElementById('pattern_exists');
+    let editBox = document.getElementById('editing_checkbox');
+    let fullTime = dateStr + ":00";
+    let editBoxTemplate = document.getElementById("editing_checkbox_template");
+
+    console.log("Time selected:", fullTime);
+
+    if (tripsTimings && tripsTimings.includes(fullTime)) {
+        box.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> 
+                         <span class="text-gray-900">
+                            Selected timing has already existed pattern 
+                            <a href="#" class="text-primary">Check pattern.</a>
+                         </span>`;
+        editBox.innerHTML = editBoxTemplate.innerHTML;
+    } else {
+        box.innerHTML = "";
+        editBox.innerHTML = "";
+    }
+}
 $(document).ready(function () {
 
-
-    $("#trip-time").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        onChange: function (selectedDates, dateStr, instance) {
-        
-            //tripsTimings
-            let box = document.getElementById('pattern_exists');
-            let editBox = document.getElementById('editing_checkbox');
-            let fullTime = dateStr + ":00";
-            let editBoxTemplate = document.getElementById("editing_checkbox_template");
-
-            console.log("Time selected:", fullTime);
-
-            if (tripsTimings && tripsTimings.includes(fullTime)) {
-
-              
-                box.innerHTML = `<span class="bullet bullet-dot bg-danger mb-1"></span> <span class="text-gray-900">Selected timing has already existed pattern <a href="#" class="text-primary">Check pattern.</a></span>
-`
-                editBox.innerHTML = editBoxTemplate.innerHTML;
-
-            }
-            else {
-
-                //editStatus.value = 'true';
-                box.innerHTML = "";
-                editBox.innerHTML = "";
-            }
-     
-
-
-
-            // You can also access selectedDates[0] as a Date object
-        }
-    });
-
-    $("#reverse-trip-time").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-    });
+    //$("#reverse-trip-time").flatpickr({
+    //    enableTime: true,
+    //    noCalendar: true,
+    //    dateFormat: "H:i",
+    //});
 
 
 

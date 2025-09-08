@@ -1,4 +1,8 @@
-﻿
+﻿function EditPatternInAnotherPage(button, url) {
+
+    //updatedRow = button.closest('tr');
+    window.open(url)
+}
 function EditInAnotherPage(button , url) {
 
     updatedRow = button.closest('tr');

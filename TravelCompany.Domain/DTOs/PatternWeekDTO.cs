@@ -16,5 +16,7 @@ namespace TravelCompany.Domain.DTOs
         public int OccupiedWeekDaysCode { get; set; }
         public int UnassignedTrips { get; set; }
         public int AllTrips { get; set; }
+
+     
     }
 }

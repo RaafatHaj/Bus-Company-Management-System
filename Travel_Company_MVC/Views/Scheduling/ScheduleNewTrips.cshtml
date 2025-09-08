@@ -56,7 +56,7 @@
 
 				<a href="#usage" id="myButton" class="btn btn-sm btn-light-primary "
 				data-kt-scroll-toggle>
-					<i class="ki-duotone ki-plus fs-2"></i>New Schedule
+					<i class="ki-duotone ki-plus fs-2"></i>New / Edit Schedule
 				</a>
 @* 					<a href="#" class="btn btn-sm btn-light">New Schedule</a>
  *@				</div>
@@ -101,6 +101,8 @@
 						   data-has-table="true"
 					       data-table-id="Routes_List_Table"
 							data-title="Routes List"
+							data-route-id="@Model.RouteId"
+							data-pattern-time="@(Model.DepartureTime.ToString())"
 							data-sub-title="select trip route from routes list , or create new one.">
 							<i class="ki-duotone ki-plus fs-4 m-0 toggle-off"></i>
 							Add
