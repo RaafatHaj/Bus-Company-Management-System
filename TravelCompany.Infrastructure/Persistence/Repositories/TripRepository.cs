@@ -442,8 +442,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 									DepartureDateTime = reader.GetDateTime(reader.GetOrdinal("DepartureDateTime")),
 									TripStatus = (TripStatus)reader.GetInt32(reader.GetOrdinal("TripStatus")),
 									RouteName = reader.GetString(reader.GetOrdinal("RouteName")),
-									EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance"))
-
+									EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
+									StationBoarding= reader.GetInt32(reader.GetOrdinal("StationBoarding"))
 
 								});
 							}

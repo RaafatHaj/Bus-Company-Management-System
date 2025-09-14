@@ -107,13 +107,17 @@
     </td>
     <td>
         <div class="d-flex flex-column">
-            <a href="#" class="js-render-modal" data-url="/Booking/GetAllTripBookings?tripId=@Model.TripId">
+            <a href="#" class="js-render-modal" data-url="/Booking/GetAllTripBookings?tripId=@Model.TripId"
+               data-title="Trip Bookings"
+               data-sub-title="Complete list of reservations for the selected trip.">
             
                 <span class="text-gray-900 text-hover-primary">Bookings</span>
                 <span class="text-primary fw-bold">0</span>
             </a>
-            <a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.TripId">
-                <span class="text-primary text-hover-primary">Track.</span>
+            <a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.TripId"
+               data-title="Trip Tracking"
+               data-sub-title="Track where the trip is now and which stations are next.">
+                <span class="text-primary text-hover-primary">Tracking.</span>
             </a>
 
     
@@ -245,7 +249,7 @@
                     <span class="text-primary fw-bold">0</span>
 
                 </a>
-                <a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.TripId">
+                <a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.ReturnTripId">
                     <span class="text-primary text-hover-primary">Track.</span>
                 </a>
 

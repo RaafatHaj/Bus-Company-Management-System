@@ -1,33 +1,235 @@
-﻿@model IEnumerable<TripTrackViewModel>
+﻿@model IList<TripTrackViewModel>
 
 
 
 <table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
 	<thead>
 		<tr class="fw-bold fs-6 text-gray-800 px-7">
-			<th>Station Order</th>
-			<th>Station Name</th>
-			<th>ArrivalDateTime</th>
-			<th>DepartureDateTime</th>
-			<th>Status</th>
+			<th class="ps-4">Station</th>
+			<th class="ps-6">Arrival Time</th>
+			<th class="ps-6">Departure Time</th>
+			<th></th>
 
 		</tr>
 	</thead>
 	<tbody>
 
-
-		@foreach (var station in Model)
+	
+		@for(int i=0;i<Model.Count;i++)
 		{
+
+			var statusColor = "";
+			var arrivelTimeViewSize = "";
+			var departureTimeViewSize = "";
+			var stationNameColor = "text-gray-900";
+			var bulletColor = "";
+			var stationOrderColor = "text-primary";
+			var departureDayColor = "text-primary";
+
+			if (@Model[i].Status == StationStatus.Moved)
+			{
+				arrivelTimeViewSize = "fs-3 text-gray-500";
+				departureTimeViewSize = "fs-3 text-gray-500";
+
+				stationNameColor = "text-muted";
+				statusColor = "badge-light-danger";
+				stationOrderColor = "text-muted";
+				departureDayColor = "text-muted";
+
+			}
+			else if (@Model[i].Status == StationStatus.Pending)
+			{
+				arrivelTimeViewSize = "fs-1 text-gray-900";
+				departureTimeViewSize = "fs-1 text-gray-900";
+		
+
+				statusColor = "badge-light-warning";
+				bulletColor = "bg-warning";
+
+			}
+			else if (@Model[i].Status == StationStatus.Arrived)
+			{
+				arrivelTimeViewSize = "fs-3 text-gray-500";
+				departureTimeViewSize = "fs-1 text-gray-900";
+
+				statusColor = "badge-light-primary";
+				bulletColor = "bg-success";
+				departureDayColor = "text-muted";
+
+				if(Model[i].StationOrder==Model.Count)
+				{
+					stationNameColor = "text-muted";
+					stationOrderColor = "text-muted";
+					bulletColor = "";
+				}
+
+			}
+
+
+
+
 			<tr>
-				<td>@station.StationOrder</td>
-				<td>@station.StationName</td>
-				<td>@station.ArrivalDateTime</td>
-				<td>@station.DepartureDateTime</td>
-				<td>@station.Status</td>
+				<td>
+					@{
+
+
+
+						var weekOrder = "th";
+						if (Model[i].StationOrder == 1) weekOrder = "st";
+						else if (Model[i].StationOrder == 2) weekOrder = "nd";
+						else if (Model[i].StationOrder == 3) weekOrder = "rd";
+					}
+
+					<div class="d-flex gap-1">
+
+						<div>
+
+							<div class="@stationNameColor fw-bold ">
+
+								@Model[i].StationName
+
+							</div>
+
+							<div class=" ">
+								<div class=" d-flex gap-1">
+									<span class="@stationOrderColor ">@Model[i].StationOrder </span>
+									<span class="text-muted fw-semibold fs-7">@weekOrder station	</span>
+
+								</div>
+							</div>
+						</div>
+						<span class="bullet bullet-dot  @bulletColor me-1 mt-2  "></span>
+
+
+
+					</div>
+
+
+
+				</td>
+				<td>
+
+				@if(i != 0)
+					{
+								<div class="d-flex gap-2 align-items-start">
+							<div class="m-0 d-flex">
+
+
+								<i class="ki-duotone fw-semibold  ki-black-down   fs-1 mt-1 ">  </i>
+
+								<div>
+
+									<div class="">
+
+										<span class="@arrivelTimeViewSize fw-bold d-block ">
+											@Model[i].ArrivalDateTime.ToString("HH:mm")
+											<span class="text-muted fw-semibold fs-7">
+												@(Model[i].ArrivalDateTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+											</span>
+											<span class="@departureDayColor fw-normal  fs-6  ">@Model[i].ArrivalDateTime.ToString("ddd")</span>
+										</span>
+
+
+
+									</div>
+
+									<div class="text-muted fw-semibold fs-7 ">
+										<span class="@departureDayColor">
+											@Model[i].ArrivalDateTime.ToString("dd")
+										</span>
+										@Model[i].ArrivalDateTime.ToString("MMM")
+										@Model[i].ArrivalDateTime.ToString("yyyy").
+									</div>
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+
+
+
+						
+				}
+					else
+					{
+						<div class="text-muted ms-4">
+							No Arrivel Time
+						</div>
+					}
+			
+
+				</td>
+				<td>
+
+				@if(Model[i].StationOrder != Model.Count)
+				{
+						<div class="d-flex gap-2 align-items-start">
+							<div class="m-0 d-flex">
+
+
+								<i class="ki-duotone fw-semibold  ki-black-up   fs-1 mt-2">  </i>
+
+								<div>
+
+									<div class="">
+
+										<span class="@departureTimeViewSize fw-bold d-block ">
+											@Model[i].DepartureDateTime.ToString("HH:mm")
+											<span class="text-muted fw-semibold fs-7">
+												@(Model[i].DepartureDateTime.TimeOfDay > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+											</span>
+											<span class="@stationOrderColor fw-normal  fs-5 ">@Model[i].DepartureDateTime.ToString("ddd")</span>
+
+										</span>
+
+
+									</div>
+
+									<div class="text-muted fw-semibold fs-7 ">
+										<span class="@stationOrderColor">
+											@Model[i].DepartureDateTime.ToString("dd")
+										</span>
+										@Model[i].DepartureDateTime.ToString("MMM")
+										@Model[i].DepartureDateTime.ToString("yyyy").
+									</div>
+								</div>
+
+
+
+							</div>
+
+
+
+							@* 						<div class=" badge   @statusColor ">@@Model[i].Status</div>
+					*@
+						</div>
+
+					}
+					else
+					{
+						<div class="text-muted ms-4">
+						No Departure Time
+						</div>
+					}
+
+				
+
+				</td>
+				<td>
+
+
+
+					<div class=" badge   @statusColor  ">@Model[i].Status</div>
+				</td>
 
 			</tr>
 
 		}
+	
 
 
 

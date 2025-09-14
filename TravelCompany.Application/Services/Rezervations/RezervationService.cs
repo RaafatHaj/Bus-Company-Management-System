@@ -3,6 +3,7 @@ using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
+using TravelCompany.Domain.Eums;
 
 namespace TravelCompany.Application.Services.Rezervations
 {
@@ -22,9 +23,30 @@ namespace TravelCompany.Application.Services.Rezervations
 			return await _unitOfWork.Reservations.BookSeatAsync(dto);
 		}
 
-        public async Task<IEnumerable<Reservation>> GetAllTripBookingsAsync(int tripId)
+        public async Task<IEnumerable<TripReservationsDTO>> GetAllTripBookingsAsync(int tripId)
         {
-            return await _unitOfWork.Reservations.GetQueryable().Where(r=>r.TripId==tripId).ToListAsync();
+
+			return await _unitOfWork.Reservations.GetQueryable().AsNoTracking()
+				.Where(b => b.TripId == tripId)
+				.Select(b => new TripReservationsDTO
+				{
+					DepartureStationId=b.StationAId,
+					DepartureStationName=b.StationA!.StationName,
+					ArrivalStationId=b.StationBId,
+					ArrivilStationName=b.StationB!.StationName,
+
+					PassengerName=b.PersonName,
+					PassengerGender=(Gender)b.PersonGender,
+					PassengerEmail=b.PersonEmail,
+					PassengerPhone=b.PersonPhone,
+
+					SeatNumber=b.SeatNumber,
+					BookedAt=b.CreatedOn,
+					BookedBy=b.CreatedBy!.FullName
+
+
+				}).ToListAsync();
+            //return await _unitOfWork.Reservations.GetQueryable().Where(r=>r.TripId==tripId).ToListAsync();
         }
 
         public async Task<IEnumerable<Reservation>> GetStationPassengersAsync(int scheduledTravelId,int stationId)
@@ -37,9 +59,28 @@ namespace TravelCompany.Application.Services.Rezervations
 
 		}
 
-		public async Task<IEnumerable<Reservation>> GetStationPassengersBoarding(int tripId, int stationId)
+		public async Task<IEnumerable<StationBoardingDTO>> GetStationPassengersBoarding(int tripId, int stationId)
 		{
-			return await _unitOfWork.Reservations.GetStationPassengersBoarding(tripId, stationId);
+
+			return await _unitOfWork.Reservations.GetQueryable()
+				.AsNoTracking()	
+				.Where(r=>r.TripId==tripId && r.StationAId==stationId)
+				.Select (r=> new StationBoardingDTO
+				{
+					DistinationStationId=r.StationBId,
+					DistinationStation=r.StationB!.StationName,
+					PassengerName=r.PersonName,
+					PassendgerGender=(Gender)r.PersonGender,
+					PassendgerPhone=r.PersonPhone,
+					SeatNumber=r.SeatNumber
+
+				})
+				.ToListAsync();
+				
+			
+
+
+			//return await _unitOfWork.Reservations.GetStationPassengersBoarding(tripId, stationId);
 		}
 	}
 }

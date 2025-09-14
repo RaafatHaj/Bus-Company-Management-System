@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Reservation>
+﻿@model IEnumerable<StationBoardingDTO>
 
 
 
@@ -7,10 +7,12 @@
 <table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
 	<thead>
 		<tr class="fw-bold fs-6 text-gray-800 px-7">
-			<th>Station A </th>
-			<th>Station B</th>
-			<th>Passenger Name</th>
-			<th>Seat Number</th>
+		
+			<th>Name</th>
+			<th>Gender</th>
+			<th>Phone</th>
+			<th>Distination</th>
+			<th>Seat</th>
 
 		</tr>
 	</thead>
@@ -20,11 +22,57 @@
 		@foreach (var seat in Model)
 		{
 			<tr>
-				<td>@seat.StationAId</td>
-				<td>@seat.StationBId</td>
-				<td>@seat.PersonName</td>
-				<td>@seat.SeatNumber</td>
+	
+				<td>
+					<div class="d-flex gap-1" >
+						
+						<div class="text-gray-900 fw-bold fs-5">
 
+							@seat.PassengerName
+
+						</div>
+
+					</div>
+				
+
+
+				</td>
+				<td>				
+					<div class=" badge   @(seat.PassendgerGender==Gender.Male?"badge-light":"badge-light-primary")">@seat.PassendgerGender</div></td>
+				<td>
+
+
+					<div class="">
+
+						@seat.PassendgerPhone
+
+					</div>
+
+				</td>
+				<td>
+
+				    <div class="d-flex">
+
+
+						<div class="">
+
+							@seat.DistinationStation
+
+						</div>
+					</div>
+
+
+
+				</td>
+				<td>
+
+					<div class="text-primary fw-bold ">
+
+						@seat.SeatNumber
+
+					</div>
+				</td>
+		
 			</tr>
 
 		}

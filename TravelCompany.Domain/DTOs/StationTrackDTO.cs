@@ -24,6 +24,7 @@ namespace TravelCompany.Domain.DTOs
 		public int EstimatedDistance { get; set; }
 		public int ArrivelLateMinutes { get; set; }
 		public int DepartureLateMunutes { get; set; }
+		public int StationBoarding {  get; set; }
 
 	}
 }

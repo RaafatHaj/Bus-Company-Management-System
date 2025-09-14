@@ -1,4 +1,4 @@
-﻿	@model IEnumerable<Reservation>
+﻿	@model IEnumerable<TripReservationsDTO>
 
 
 
@@ -7,10 +7,14 @@
 <table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
 	<thead>
 		<tr class="fw-bold fs-6 text-gray-800 px-7">
-			<th>Station A </th>
-			<th>Station B</th>
-			<th>Passenger Name</th>
-			<th>Seat Number</th>
+			<th>Passenger</th>
+			<th></th>
+			<th>Departure</th>
+			<th>Distination</th>
+			
+	
+			<th>Seat</th>
+			<th>Operation</th>
 
 		</tr>
 	</thead>
@@ -20,10 +24,66 @@
 		@foreach (var seat in Model)
 		{
 			<tr>
-				<td>@seat.StationAId</td>
-				<td>@seat.StationBId</td>
-				<td>@seat.PersonName</td>
-				<td>@seat.SeatNumber</td>
+				<td>
+					<div class="text-gray-900 fw-bold">
+						@seat.PassengerName
+
+					</div>
+					<div class=" badge   @(seat.PassengerGender==Gender.Male?"badge-light":"badge-light-primary")">@seat.PassengerGender</div>
+
+				</td>
+
+				<td>
+
+					<div class="text-gray-900 fw-bold">
+						@seat.PassengerEmail
+						<span class="d-block text-muted">
+							@seat.PassengerPhone
+						</span>
+
+					</div>
+
+				</td>
+				<td>
+
+					<div class="text-gray-900 fw-bold">@seat.DepartureStationName</div>
+					<span class="text-muted">
+						Departure
+					</span>
+
+				</td>
+				<td>
+
+					<div class="text-gray-900 fw-bold">@seat.ArrivilStationName</div>
+					<span class="text-muted">
+						Distination
+					</span>
+				</td>
+
+
+		
+				<td>
+
+					<div class="badge badge-light-success">
+						@seat.SeatNumber
+					</div>
+				@* 	<span class="text-muted">
+						Seat No
+					</span> *@
+				</td>
+				<td>
+
+					<span class="d-block text-gray-900 fs-7">
+						<span class="text-primary">@seat.BookedAt.ToString("dd")</span>
+						<span class=" fw-semibold  fs-5 ">@seat.BookedAt.ToString("MMM")</span>
+						<span class="text-gray-800 fw-semibold">@seat.BookedAt.ToString("yyyy")</span>
+					
+					</span>
+					<span class="d-block text-muted fs-7">
+						By @seat.BookedBy
+					</span>
+
+				</td>
 
 			</tr>
 
