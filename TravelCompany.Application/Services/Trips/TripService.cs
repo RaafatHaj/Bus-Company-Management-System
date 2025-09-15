@@ -224,6 +224,49 @@ namespace TravelCompany.Application.Services.Travels
                 var endDate = new DateTime(dto.Year!.Value, dto.Month!.Value, lastDayOfMonth);
 				var firsDate=new DateTime(dto.Year!.Value, dto.Month!.Value, 1);
 
+				/*
+				  int RouteId {  get; set; }
+	              string RouteName { get; set; } = null!;
+	              int TripId { get; set; }
+	              DateTime Date { get; set; }
+	              TimeSpan Time { get; set; }
+	              int DepartureStationId { get; set; }	
+	              int TripTimeSpanInMInits { get; set; }
+	              TripStatus Status { get; set; }
+	              
+	              int? ReturnRouteId { get; set; }
+	              int? ReturnTripId { get; set; }
+	              DateTime? ReturnDate { get; set; }
+	              TimeSpan? ReturnTime { get; set; }
+	              TripStatus? ReturnStatus { get; set; }
+	              
+	              int? VehicleId { get; set; }
+	              string? VehicleNumber { get; set; }
+	              string? VehicleModel { get; set; }
+				 
+				 */
+
+				//var testTrips =await _unitOfWork.Trips.GetQueryable().AsNoTracking()
+				//	                 .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
+				//					 .Select(t => new
+				//					 {
+				//						 RouteId=t.RouteId,
+				//						 RouteName=t.Route!.RouteName,
+				//						 TripId=t.Id,
+				//						 Date=t.Date,
+				//						 Time=t.Time,
+				//						 DepartureStationId=t.Route!.FirstStationId,
+				//						 TripTimeSpanInMunutes=t.Route!.EstimatedTime,
+				//						 Status=t.status,
+
+
+				//						 VehicleId = t.TripAssignment == null ? (int?)null : t.TripAssignment.VehicleId,
+				//						 VehicleNumber = t.TripAssignment == null ? (int?)null : t.TripAssignment.Vehicle.VehicleNumber,
+				//						 VehicleModel = t.TripAssignment == null ? (int?)null : t.TripAssignment.VehicleId
+
+
+				//					 }).ToListAsync();
+
 				var trips= await _unitOfWork.Trips.GetQueryable()
                         .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
                         .Include(t => t.Route)
