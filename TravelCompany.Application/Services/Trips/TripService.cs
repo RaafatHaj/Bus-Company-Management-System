@@ -199,19 +199,33 @@ namespace TravelCompany.Application.Services.Travels
 
 		}
 
-		public async Task<IEnumerable<Trip>> GetScheduledTrips(ScheduledTripsSearchDTO dto)
+		public async Task<IEnumerable<ScheduledTripBaseDTO>> GetScheduledTrips(ScheduledTripsSearchDTO dto)
 		{
 			if(dto.DateType == TripSearchDateType.SpecificDate)
 			{
-				var trips= await _unitOfWork.Trips.GetQueryable().Where(t=>t.RouteId==dto.RouteId & t.Date==dto.TripDate)
-                            .Include(t => t.Route)
-                            .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle).AsNoTracking().ToListAsync();
+				//var trips= await _unitOfWork.Trips.GetQueryable().Where(t=>t.RouteId==dto.RouteId & t.Date==dto.TripDate)
+				//                        .Include(t => t.Route)
+				//                        .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle).AsNoTracking().ToListAsync();
 
-                var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
+				//            var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
 
-				var reutrnTrips = await RetriveAllTripsAsync(returnTripsIds);
+				//var reutrnTrips = await RetriveAllTripsAsync(returnTripsIds);
 
-                trips.AddRange(reutrnTrips);
+				//            trips.AddRange(reutrnTrips);
+				var trips = await _unitOfWork.Trips.GetScheduledTripsAsync(dto.RouteId, dto.TripDate!.Value);
+
+				var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
+
+				if(returnTripsIds is not null)
+				{
+					// Concat work with IEnumrable and gives you new inctance , 
+					// AddRange work with IList and Edit the origanal list 
+
+					var reutrnTrips = await _unitOfWork.Trips.GetScheduledTripsAsync(returnTripsIds);
+					return trips.Concat(reutrnTrips);
+
+				}
+
 
 				return trips;
 
@@ -224,62 +238,32 @@ namespace TravelCompany.Application.Services.Travels
                 var endDate = new DateTime(dto.Year!.Value, dto.Month!.Value, lastDayOfMonth);
 				var firsDate=new DateTime(dto.Year!.Value, dto.Month!.Value, 1);
 
-				/*
-				  int RouteId {  get; set; }
-	              string RouteName { get; set; } = null!;
-	              int TripId { get; set; }
-	              DateTime Date { get; set; }
-	              TimeSpan Time { get; set; }
-	              int DepartureStationId { get; set; }	
-	              int TripTimeSpanInMInits { get; set; }
-	              TripStatus Status { get; set; }
-	              
-	              int? ReturnRouteId { get; set; }
-	              int? ReturnTripId { get; set; }
-	              DateTime? ReturnDate { get; set; }
-	              TimeSpan? ReturnTime { get; set; }
-	              TripStatus? ReturnStatus { get; set; }
-	              
-	              int? VehicleId { get; set; }
-	              string? VehicleNumber { get; set; }
-	              string? VehicleModel { get; set; }
-				 
-				 */
 
-				//var testTrips =await _unitOfWork.Trips.GetQueryable().AsNoTracking()
-				//	                 .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
-				//					 .Select(t => new
-				//					 {
-				//						 RouteId=t.RouteId,
-				//						 RouteName=t.Route!.RouteName,
-				//						 TripId=t.Id,
-				//						 Date=t.Date,
-				//						 Time=t.Time,
-				//						 DepartureStationId=t.Route!.FirstStationId,
-				//						 TripTimeSpanInMunutes=t.Route!.EstimatedTime,
-				//						 Status=t.status,
+				var trips = await _unitOfWork.Trips.GetScheduledTripsAsync(dto.RouteId, firsDate , endDate);
+
+				var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
+
+				if (returnTripsIds is not null)
+				{
+					var reutrnTrips = await _unitOfWork.Trips.GetScheduledTripsAsync(returnTripsIds);
+					return trips.Concat(reutrnTrips);
+
+				}
 
 
-				//						 VehicleId = t.TripAssignment == null ? (int?)null : t.TripAssignment.VehicleId,
-				//						 VehicleNumber = t.TripAssignment == null ? (int?)null : t.TripAssignment.Vehicle.VehicleNumber,
-				//						 VehicleModel = t.TripAssignment == null ? (int?)null : t.TripAssignment.VehicleId
+				//var trips= await _unitOfWork.Trips.GetQueryable()
+				//                    .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
+				//                    .Include(t => t.Route)
+				//                    .Include(t => t.TripAssignment).ThenInclude(a => a!.Vehicle).AsNoTracking()
+				//                    .ToListAsync();
 
+				//            var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
 
-				//					 }).ToListAsync();
+				//            var reutrnTrips = await RetriveAllTripsAsync(returnTripsIds);
 
-				var trips= await _unitOfWork.Trips.GetQueryable()
-                        .Where(t => t.RouteId == dto.RouteId && t.Date >= firsDate && t.Date <= endDate)
-                        .Include(t => t.Route)
-                        .Include(t => t.TripAssignment).ThenInclude(a => a!.Vehicle).AsNoTracking()
-                        .ToListAsync();
+				//            trips.AddRange(reutrnTrips);
 
-                var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
-
-                var reutrnTrips = await RetriveAllTripsAsync(returnTripsIds);
-
-                trips.AddRange(reutrnTrips);
-
-                return trips;
+				return trips;
 
             }	      
 

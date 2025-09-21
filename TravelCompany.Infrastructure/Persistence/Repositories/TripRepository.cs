@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelCompany.Application.Common.Interfaces;
 using TravelCompany.Application.Common.Interfaces.Repositories;
+using TravelCompany.Domain.Const;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
 using TravelCompany.Domain.Eums;
@@ -203,6 +204,7 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 									DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
 									TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
+									EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
 									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
 									VehicleNumber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
 									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
@@ -294,7 +296,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
 									DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
 									TripTimeSpanInMInits= reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
-									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+                                    EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
+                                    VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
 									VehicleNumber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
 									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
 
@@ -381,7 +384,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 
                                     DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
 									TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
-									VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+                                    EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
+                                    VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
 									VehicleNumber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
 									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
 
@@ -712,6 +716,166 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 			return trips;
 		}
 
-	
+		public async Task<IEnumerable<ScheduledTripBaseDTO>> GetScheduledTripsAsync(int routeId, DateTime startDate, DateTime? endDate=null)
+		{
+
+
+			var trips = new List<ScheduledTripBaseDTO>();
+
+			using (var connection = new SqlConnection(_connectionString))
+			{
+
+				using (var command = new SqlCommand("sp_GetScheduledTrips", connection))
+				{
+
+					command.CommandType = CommandType.StoredProcedure;
+
+
+					command.Parameters.AddWithValue("@RouteId", routeId);
+					command.Parameters.AddWithValue("@Date_StartDate",startDate);
+
+					if(endDate != null)
+					{
+						command.Parameters.AddWithValue("@EndDate", endDate);
+
+					}
+
+
+					try
+					{
+						await connection.OpenAsync();
+						using (var reader = await command.ExecuteReaderAsync())
+						{
+							while (reader.Read())
+							{
+								trips.Add(new()
+								{
+									TripId = reader.GetInt32(reader.GetOrdinal("Id")),
+									Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+									Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
+									Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
+									RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
+									Seats = reader.IsDBNull(reader.GetOrdinal("Seats")) ? null : reader.GetInt32(reader.GetOrdinal("Seats")),
+									HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
+									ArrivedStationOrder = reader.GetInt32(reader.GetOrdinal("ArrivedStationOrder")),
+									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
+									RouteName = reader.GetString(reader.GetOrdinal("RouteName")),
+
+									DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
+									TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
+                                    EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
+                                    VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+									VehicleNumber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
+									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
+
+									BookingCount= reader.GetInt32(reader.GetOrdinal("BookingsCount")),
+									ReturnTripId = reader.IsDBNull(reader.GetOrdinal("ReturnTripId")) ? null : reader.GetInt32(reader.GetOrdinal("ReturnTripId"))
+
+								});
+							}
+
+						}
+
+
+					}
+					catch
+					{
+						return trips;
+					}
+
+
+				}
+
+
+			}
+
+
+			return trips;
+
+
+
+		}
+
+		public async Task<IEnumerable<ScheduledTripBaseDTO>> GetScheduledTripsAsync(IEnumerable<int?>? tripsIds)
+		{
+
+
+
+			var trips = new List<ScheduledTripBaseDTO>();
+
+			using (var connection = new SqlConnection(_connectionString))
+			{
+
+				using (var command = new SqlCommand("sp_GetScheduledTrips_ByIdsRange", connection))
+				{
+					command.CommandType = CommandType.StoredProcedure;
+
+					var IdsTable = DataTables.GetIdsTable(tripsIds);
+
+					
+					var param = new SqlParameter
+					{
+						ParameterName = "@Ids",
+						SqlDbType = SqlDbType.Structured,
+						TypeName = "dbo.IdsType",
+						Value = IdsTable
+					};
+
+					command.Parameters.Add(param);
+
+
+					try
+					{
+						await connection.OpenAsync();
+						using (var reader = await command.ExecuteReaderAsync())
+						{
+							while (reader.Read())
+							{
+								trips.Add(new()
+								{
+									TripId = reader.GetInt32(reader.GetOrdinal("Id")),
+									Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+									Time = reader.GetTimeSpan(reader.GetOrdinal("Time")),
+									Status = (TripStatus)reader.GetInt32(reader.GetOrdinal("status")),
+									RouteId = reader.GetInt32(reader.GetOrdinal("RouteId")),
+									Seats = reader.IsDBNull(reader.GetOrdinal("Seats")) ? null : reader.GetInt32(reader.GetOrdinal("Seats")),
+									HasBookedSeat = reader.GetBoolean(reader.GetOrdinal("HasBookedSeat")),
+									ArrivedStationOrder = reader.GetInt32(reader.GetOrdinal("ArrivedStationOrder")),
+									MainTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
+									RouteName = reader.GetString(reader.GetOrdinal("RouteName")),
+
+									DepartureStationId = reader.GetInt32(reader.GetOrdinal("FirstStationId")),
+									TripTimeSpanInMInits = reader.GetInt32(reader.GetOrdinal("EstimatedTime")),
+                                    EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
+                                    VehicleId = reader.IsDBNull(reader.GetOrdinal("VehicleId")) ? null : reader.GetInt32(reader.GetOrdinal("VehicleId")),
+									VehicleNumber = reader.IsDBNull(reader.GetOrdinal("VehicleNumber")) ? null : reader.GetString(reader.GetOrdinal("VehicleNumber")),
+									VehicleModel = reader.IsDBNull(reader.GetOrdinal("Type")) ? null : reader.GetString(reader.GetOrdinal("Type")),
+
+									BookingCount = reader.GetInt32(reader.GetOrdinal("BookingsCount")),
+									ReturnTripId = reader.IsDBNull(reader.GetOrdinal("ReturnTripId")) ? null : reader.GetInt32(reader.GetOrdinal("ReturnTripId"))
+									//ReturnTripId
+								});
+							}
+
+						}
+
+
+					}
+					catch
+					{
+						return trips;
+					}
+
+
+				}
+
+
+			}
+
+
+			return trips;
+
+
+		}
 	}
 }

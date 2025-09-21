@@ -12,10 +12,12 @@ namespace TravelCompany.Domain.DTOs
 
 
 		public int? ReturnRouteId { get; set; }
-		public int? ReturnTripId { get; set; }
+		//public int? ReturnTripId { get; set; }
         public DateTime? ReturnDate { get; set; }
         public TimeSpan? ReturnTime { get; set; }
         public TripStatus? ReturnStatus { get; set; }
+
+    
 
   
 

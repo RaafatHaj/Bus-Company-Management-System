@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace TravelCompany.Domain.Entities
         public int EstimatedDistance { get; set; }
 
 		public ICollection<Trip> Trips { get; set; } = new List<Trip>();
+        public ICollection<RoutePoint> Points { get; set; }=new List<RoutePoint>();
 
 
 

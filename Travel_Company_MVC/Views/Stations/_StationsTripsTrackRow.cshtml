@@ -170,7 +170,8 @@
 				<a href="#" class="js-render-modal"
 				   data-url="/Booking/GetStationPassengersBoarding?tripId=@Model.TripId&stationId=@Model.StationId"
 				   data-title="Station Boarding"
-				   data-sub-title="Passengers scheduled to board at this station.">
+				   data-sub-title="Passengers scheduled to board at this station."
+				   data-middle-modal="true">
 
 					<span class="@(Model.StationBoarding==0?"text-muted":"text-gray-900 text-hover-primary") ">Boarding</span>
 					<span class="@(Model.StationBoarding==0?"text-muted":"text-primary")  fw-bold">@Model.StationBoarding</span>
@@ -179,7 +180,8 @@
 		
 			<a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.TripId"
 			   data-title="Trip Tracking"
-			   data-sub-title="Track where the trip is now and which stations are next.">
+			   data-sub-title="Track where the trip is now and which stations are next."
+			   data-middle-modal="true">
 				<span class="text-primary text-hover-primary">Tracking.</span>
 			</a>
 
@@ -256,8 +258,8 @@
 			</div>
 
 			<div class="text-muted fw-semibold fs-7 ">
-				@* @Model.EstimatedDistance km *@
-				350 km
+				 @Model.EstimatedDistance km 
+				
 			</div>
 		</div>
 
@@ -330,7 +332,8 @@
 				<a href="#" class="menu-link px-3 js-render-modal"
 				   data-url="/Booking/GetStationPassengersBoarding?tripId=@Model.TripId&stationId=@Model.StationId"
 				   data-title="Station Boarding"
-				   data-sub-title="Passengers scheduled to board at this station.">Boarding</a>
+				   data-sub-title="Passengers scheduled to board at this station."
+				   data-middle-modal="true">Boarding</a>
 			</div>
 			<!--end::Menu item-->
 			<!--begin::Menu item-->
@@ -338,7 +341,8 @@
 				<a href="#" class="menu-link px-3 js-render-modal"
 				   data-url="/Booking/GetAllTripBookings?tripId=@Model.TripId"
 				   data-title="Trip Bookings"
-				   data-sub-title="Complete list of reservations for the selected trip.">Bookings</a>
+				   data-sub-title="Complete list of reservations for the selected trip."
+				   data-middle-modal="true">Bookings</a>
 			</div>
 			<!--end::Menu item-->
 

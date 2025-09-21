@@ -505,7 +505,7 @@ function RenderModal() {
             }
             else {
                 document.getElementById("ModalDialog").classList.remove("modal-xl")
-                document.getElementById("ModalDialog").classList.add("modal-lg")
+                document.getElementById("ModalDialog").classList.remove("modal-lg")
             }
 
             const modalBody = document.getElementById("modal-body");
@@ -541,8 +541,13 @@ function RenderModal() {
                 if (button.hasAttribute('data-has-drowpdownlist')) 
                 KTMenu.createInstances();
 
-                if (button.hasAttribute('data-title')) 
-                    document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
+
+
+                if (button.hasAttribute('data-title'))
+                    document.getElementById("ModalTitleID").innerHTML = RenderModalTitle(button.getAttribute("data-title"));
+                else
+                    document.getElementById("ModalTitleID").innerHTML = "";
+                    //document.getElementById("ModalTitle").innerHTML = button.getAttribute("data-title");
 
                 if (button.hasAttribute('data-sub-title'))
                     document.getElementById("ModalSubTitle").innerHTML = button.getAttribute("data-sub-title");
@@ -820,3 +825,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+function RenderModalTitle(title) {
+
+    return `
+    
+      <div class="text-center mb-3">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h1 id="ModalTitle" >
+                        ${title}
+                        </h1>
+                        <span class="bullet   bullet-dot  bg-success ms-2 "></span>
+                    </div>
+                    <div id="ModalSubTitle" class="text-muted fw-semibold fs-5">
+                    </div>
+                </div>
+    
+    `
+}

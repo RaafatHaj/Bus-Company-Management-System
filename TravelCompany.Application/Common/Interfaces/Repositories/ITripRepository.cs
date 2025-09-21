@@ -21,7 +21,8 @@ namespace TravelCompany.Application.Common.Interfaces.Repositories
 		Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);
 		Task<(bool Success, int ReturnTrpId, string Message)> EditTrip(EditScheduledTripDTO dto);
 		Task<IEnumerable<TripTrackDTO>> GetTripTrackAsunc(int tripId);
-
+		Task<IEnumerable<ScheduledTripBaseDTO>> GetScheduledTripsAsync(int routeId, DateTime startDate, DateTime? endDate=null);
+		Task<IEnumerable<ScheduledTripBaseDTO>> GetScheduledTripsAsync(IEnumerable<int?>? tripsIds);
 
 
 	}

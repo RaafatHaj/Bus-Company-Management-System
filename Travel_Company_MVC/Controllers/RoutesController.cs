@@ -47,49 +47,68 @@ namespace Travel_Company_MVC.Controllers
         {
 			//await Task.Delay(3000);
 
-			var details = await _routeService.GetRouteStationsAsync(routeID);
+			var route = await _routeService.GetRouteStationsAsync(routeID);
 
-
-			return PartialView("_RouteStations", details);
-		}
-
-
-
-        [HttpGet]
-        public async Task<IActionResult> GetRouteStationsJsonAsync(int routeId)
-        {
-            var stations = await _routeService.GetRouteStationsAsync(routeId);
-
-            if (stations == null)
+            if (route is null)
                 return NotFound();
 
-            var filterdStations = stations.Select(s => new SelectListItem
+            //      var routeModel = _mapper.Map<RouteStationsViewModel>(route);
+            var routeModel = new RouteStationsViewModel
             {
-                Value=s.StationId.ToString(),
-                Text=s.Station!.StationName
-
-            });
-
-
-            return Json(filterdStations);
+                RouteId=route.RouteId,
+                RouteName=route.RouteName,
+                EstimatedDistance=route.EstimatedDistance,
+                EstimatedTime=route.EstimatedTime,
+                Stations=route.Stations,
 
 
+            };
 
+
+			return PartialView("_RouteStations", routeModel);
 		}
+
+
+
+  //      [HttpGet]
+  //      public async Task<IActionResult> GetRouteStationsJsonAsync(int routeId)
+  //      {
+  //          var route = await _routeService.GetRouteStationsAsync(routeId);
+
+
+
+  //          if (route == null)
+  //              return NotFound();
+
+  //          var filterdStations = route.Stations.Select(s => new
+  //          {
+  //              Value = s.StationId.ToString(),
+  //              Text = s.StationName,
+  //              stationOrder = s.StationOrder
+
+  //          }).ToList();
+
+  //          return Json(filterdStations);
+
+
+
+		//}
 
         [HttpGet]
 		public async Task<IActionResult> GetRouteStationsJsonAsync1(int routeId)
 		{
-			var stations = await _routeService.GetRouteStationsAsync(routeId);
+			var route = await _routeService.GetRouteStationsAsync(routeId);
 
-			if (stations == null)
+            
+
+			if (route == null)
 				return NotFound();
 
-            var filterdStations = stations.Select(s => new 
+            var filterdStations = route.Stations.Select(s => new 
             {
                 Value = s.StationId.ToString(),
-                Text = s.Point.Station.StationName,
-                stationOrder=s.PointOrder
+                Text = s.StationName,
+                stationOrder=s.StationOrder
 
             }).ToList();
 

@@ -19,7 +19,7 @@ namespace TravelCompany.Application.Services.Travels
         Task<Trip?> FindTripByIdAsync(int tripId, TripJoinedType joinedType = 0);
         Task<Trip?> FindReturnTripByMainTripIdAsync(int mainTripId);
         Task<(bool Success, Trip? Trip)> EditTripTimeAsync(TripTimingDTO dto);
-        Task<IEnumerable<Trip>> GetScheduledTrips(ScheduledTripsSearchDTO dto);
+        Task<IEnumerable<ScheduledTripBaseDTO>> GetScheduledTrips(ScheduledTripsSearchDTO dto);
         Task<IEnumerable<TripPattern>> GetTripsPatterns(int routeId);
         Task<IEnumerable<PatternWeekDTO>> GetPatternWeeksAsync(PatternWeeksRequestDTO dto);
         Task<IEnumerable<StationTrackDTO>> GetStationTripSTrack(int stationId);

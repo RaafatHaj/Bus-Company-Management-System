@@ -1,4 +1,5 @@
-﻿using TravelCompany.Domain.Entities;
+﻿using TravelCompany.Domain.DTOs;
+using TravelCompany.Domain.Entities;
 
 namespace TravelCompany.Application.Services.Routes
 {
@@ -8,7 +9,7 @@ namespace TravelCompany.Application.Services.Routes
         Task<IEnumerable<route>> GetAllRoutesAsync();
         IEnumerable<route> GetAllRoutes();
 
-		public Task<IEnumerable<RoutePoint>> GetRouteStationsAsync(int routeID);
+		public Task<RouteStationsDTO?> GetRouteStationsAsync(int routeID);
 
         public Task<route?> GetRouteDetails(int routeId);
 

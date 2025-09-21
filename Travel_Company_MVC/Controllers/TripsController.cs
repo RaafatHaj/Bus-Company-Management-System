@@ -413,7 +413,7 @@ namespace Travel_Company_MVC.Controllers
 
 
         }
-        private IEnumerable<ScheduledTripViewModel> _setTripsModel(IEnumerable<Trip> trips)
+        private IEnumerable<ScheduledTripViewModel> _setTripsModel(IEnumerable<ScheduledTripBaseDTO> trips)
         {
             var tripsModel = new List<ScheduledTripViewModel>();
 
@@ -422,28 +422,33 @@ namespace Travel_Company_MVC.Controllers
           
                 foreach (var trip in mainTrips)
                 {
-                    var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.Id);
+                    var returnTrip = trips.SingleOrDefault(t => t.MainTripId == trip.TripId);
 
                     tripsModel.Add(new()
                     {
                         RouteId=trip.RouteId,
-                        RouteName=trip.Route!.RouteName,
-                        TripId = trip.Id,
+                        RouteName=trip.RouteName,
+                        TripId = trip.TripId,
                         Date = trip.Date,
                         Time = trip.Time,
-                        Status = trip.status,
-                        DepartureStationId = trip.Route!.FirstStationId,
-                        TripTimeSpanInMInits = trip.Route!.EstimatedTime,
+                        Status = trip.Status,
+                        DepartureStationId = trip.DepartureStationId,
+                        TripTimeSpanInMInits = trip.TripTimeSpanInMInits,
+                        EstimatedDistance=trip.EstimatedDistance,
 
-                        VehicleId = trip.TripAssignment?.VehicleId ,
-                        VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber ,
-                        VehicleModel = trip.TripAssignment?.Vehicle?.Type ,
+                        VehicleId = trip.VehicleId ,
+                        VehicleNumber = trip.VehicleNumber ,
+                        VehicleModel = trip.VehicleModel,
+                        BookingCount=trip.BookingCount,
+
 
                         ReturnRouteId=returnTrip?.RouteId,
-                        ReturnTripId = returnTrip?.Id,
+                        ReturnTripId = returnTrip?.TripId,
                         ReturnDate =  returnTrip?.Date,
                         ReturnTime =  returnTrip?.Time,
-                        ReturnStatus = returnTrip?.status
+                        ReturnStatus = returnTrip?.Status,
+                        ReturnBookingCount=returnTrip?.BookingCount
+                        
 
                     });
 

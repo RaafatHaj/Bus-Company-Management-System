@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -42,6 +43,26 @@ namespace TravelCompany.Domain.Const
 			return table;
 		}
 
+		public static DataTable GetIdsTable(IEnumerable<int?>? Ids)
+		{
+			DataTable table = new DataTable();
+			if (Ids is null)
+				return table;
+
+			table.Columns.Add("Id", typeof(int));
+
+
+			foreach (var id in Ids)
+			{
+				if (id is not null)
+					table.Rows.Add(id);
+
+			}
+				
+
+
+			return table;
+		}
 
 		//private static  DataTable? _dates;
 		//public static DataTable Dates => _dates ??= _initialDatesTable();
