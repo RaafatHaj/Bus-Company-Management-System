@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>TravelCompany.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{0db549de-29e0-4e5f-85ab-3e7be15a9c56}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>TravelCompany.Database</RootNamespace>
+    <AssemblyName>TravelCompany.Database</AssemblyName>
+    <ModelCollation>1025,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Arabic_CI_AI</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="HangFire\" />
+    <Folder Include="HangFire\Tables\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Numbers.sql" />
+    <Build Include="dbo\Tables\TripAssignments.sql" />
+    <Build Include="dbo\Tables\Reservations.sql" />
+    <Build Include="dbo\Tables\Trips.sql" />
+    <Build Include="HangFire\Tables\Schema.sql" />
+    <Build Include="HangFire\Tables\Job.sql" />
+    <Build Include="HangFire\Tables\State.sql" />
+    <Build Include="HangFire\Tables\JobParameter.sql" />
+    <Build Include="HangFire\Tables\JobQueue.sql" />
+    <Build Include="HangFire\Tables\Server.sql" />
+    <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
+    <Build Include="HangFire\Tables\List.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="HangFire\Tables\Set.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\ActiveTripTracks.sql" />
+    <Build Include="dbo\Tables\AspNetRoleClaims.sql" />
+    <Build Include="HangFire\Tables\Counter.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\CompletedTripTracks.sql" />
+    <Build Include="HangFire\Tables\Hash.sql" />
+    <Build Include="HangFire\Tables\AggregatedCounter.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserTokens.sql" />
+    <Build Include="dbo\Tables\Stations.sql" />
+    <Build Include="dbo\Tables\Points.sql" />
+    <Build Include="dbo\Tables\Routes.sql" />
+    <Build Include="dbo\Tables\RoutePoints.sql" />
+    <Build Include="dbo\Tables\ApplicationConsts.sql" />
+    <Build Include="dbo\Tables\TripPatterns.sql" />
+    <Build Include="dbo\Tables\Drivers.sql" />
+    <Build Include="dbo\Tables\Vehicles.sql" />
+    <Build Include="dbo\Functions\GetLastStationNameFromRouteId.sql" />
+    <Build Include="dbo\Functions\GetStationStatus.sql" />
+    <Build Include="dbo\Functions\GetAvailableSeats.sql" />
+    <Build Include="dbo\Functions\GetSeatCode.sql" />
+    <Build Include="dbo\Functions\GetSeatCode2.sql" />
+    <Build Include="dbo\Functions\GetStationStatusCode.sql" />
+    <Build Include="dbo\Functions\GenerateTravelStatusCode.sql" />
+    <Build Include="dbo\Functions\GetApplicationConst.sql" />
+    <Build Include="dbo\Functions\GetFirstStationNameFromRouteId.sql" />
+    <Build Include="dbo\Functions\GetAvalibleVehicleForTrip3.sql" />
+    <Build Include="dbo\Functions\GetAvaliableSeats.sql" />
+    <Build Include="dbo\Functions\GetAllVehiclesExistedInStationAtTime.sql" />
+    <Build Include="dbo\Functions\GetAvalibleVehicleForTrip.sql" />
+    <Build Include="dbo\Functions\GetTripPatternWeeks.sql" />
+    <Build Include="dbo\Functions\GetTripPattern.sql" />
+    <Build Include="dbo\Functions\GetTripTrack.sql" />
+    <Build Include="dbo\Functions\ValidRoutes.sql" />
+    <Build Include="dbo\Stored Procedures\RetriveSchedueledTravelsMainView.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAvailableVehicleForTrip3.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AssignVehicleToTrip3.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ScheduleTripsForDaysInWeek1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ScheduleTripsForSpecificDates3.sql" />
+    <Build Include="dbo\Stored Procedures\sp_SetTripPattern.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetStationTripsTrack.sql" />
+    <Build Include="dbo\Stored Procedures\sp_FindSuitableTrip.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAvaliableSeats.sql" />
+    <Build Include="dbo\Stored Procedures\sp_BookSeat.sql" />
+    <Build Include="dbo\Stored Procedures\sp_EditTrip.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetTripTrack.sql" />
+    <Build Include="dbo\Stored Procedures\sp_MarkStationAsMoved2.sql" />
+    <Build Include="dbo\Stored Procedures\sp_MarkStationAsArrived2.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAllVehiclesExistedInStationAtTime.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetStationPassengersBoarding.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ChangeRecurringType.sql" />
+    <Build Include="dbo\Stored Procedures\sp_EditRecurringRecord.sql" />
+    <Build Include="dbo\Stored Procedures\sp_EditRecurrings.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetScheduledTrips.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetScheduledTrips_ByIdsRange.sql" />
+    <Build Include="dbo\Stored Procedures\sp_IsTripExists.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetPatternWeeks.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ScheduleTripsForEverySingleDay1.sql" />
+    <Build Include="dbo\User Defined Types\DaysType.sql" />
+    <Build Include="dbo\User Defined Types\DatesType.sql" />
+    <Build Include="dbo\User Defined Types\IdsType.sql" />
+    <Build Include="dbo\User Defined Types\IdDateType.sql" />
+    <Build Include="dbo\User Defined Types\BookedSeatType.sql" />
+    <Build Include="Security\HangFire.sql" />
+  </ItemGroup>
+</Project>
