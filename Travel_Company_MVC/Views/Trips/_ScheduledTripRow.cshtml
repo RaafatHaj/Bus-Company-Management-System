@@ -264,7 +264,7 @@
 
         <td>
             <div class="d-flex flex-column">
-                @if (Model.ReturnBookingCount ==0)
+                @if (Model.ReturnBookingCount is null || Model.ReturnBookingCount==0)
                 {
                     <div class="text-muted ">
                         No Bookings

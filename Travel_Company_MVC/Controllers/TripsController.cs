@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using TravelCompany.Application.Services.Recurrings;
 using TravelCompany.Application.Services.Stations;
 using TravelCompany.Application.Services.Travels;
+using TravelCompany.Domain.Const;
 using TravelCompany.Domain.Entities;
 
 namespace Travel_Company_MVC.Controllers
@@ -379,35 +380,46 @@ namespace Travel_Company_MVC.Controllers
 
 		private EditScheduledTripViewModle _setTripEditingViewModle(Trip mainTrip , Trip? returnTrip)
         {
-            // convert it to EditScheduledTripViewModle 
-            return new EditScheduledTripViewModle()
-            {
-				RouteId = mainTrip.RouteId,
-				TripId = mainTrip.Id,
-                MainTripOldDateTime=mainTrip.Date.Add(mainTrip.Time),
-                MainTripHasBookedSeats=mainTrip.HasBookedSeat,
-                MainTripStationStopMinutes=mainTrip.StationStopMinutes,
-                MainTripHasBreak=mainTrip.HasBreak,
-                MainTripBreakMinutes=mainTrip.BreakMinutes,
-                MainTripStationOrderNextToBreak=mainTrip.StationOrderNextToBreak,
+			var tripDuration = mainTrip.Route!.EstimatedTime
+			   + AppConsts.MinBreak
+			   + ((mainTrip.Route.StationsNumber - 2) * mainTrip.StationStopMinutes);
 
-               
+			tripDuration = mainTrip.HasBreak==true? tripDuration + mainTrip.BreakMinutes: tripDuration;
+
+			// convert it to EditScheduledTripViewModle 
+			return new EditScheduledTripViewModle()
+            {
+                RouteId = mainTrip.RouteId,
+                TripId = mainTrip.Id,
+
+				MainTripOldDateTime = mainTrip.Date.Add(mainTrip.Time),
+				MainTripHasBookedSeats = mainTrip.HasBookedSeat,
+				MainTripStationStopMinutes = mainTrip.StationStopMinutes,
+				MainTripHasBreak = mainTrip.HasBreak,
+				MainTripBreakMinutes = mainTrip.BreakMinutes,
+				MainTripStationOrderNextToBreak = mainTrip.StationOrderNextToBreak,
+
+
 
 
 				ReturnRouteId = mainTrip.Route!.ReverseRouteId,
 				ReturnTripId = returnTrip?.Id,
-                ReturnTripOldDateTime=returnTrip?.Date.Add(returnTrip.Time),
-                ReturnTripHasBookedSeats=returnTrip==null?false :returnTrip!.HasBookedSeat,
-				ReturnTripStationStopMinutes = returnTrip==null?0:returnTrip!.StationStopMinutes,
+				ReturnTripOldDateTime = returnTrip?.Date.Add(returnTrip.Time),
+				ReturnTripHasBookedSeats = returnTrip == null ? false : returnTrip!.HasBookedSeat,
+				ReturnTripStationStopMinutes = returnTrip == null ? 0 : returnTrip!.StationStopMinutes,
 				ReturnTripHasBreak = returnTrip == null ? false : returnTrip!.HasBreak,
 				ReturnTripBreakMinutes = returnTrip?.BreakMinutes,
 				ReturnTripStationOrderNextToBreak = returnTrip?.StationOrderNextToBreak,
 
 
-				VehicleId =mainTrip.TripAssignment?.VehicleId
+				VehicleId = mainTrip.TripAssignment?.VehicleId,
 
 
-            };
+				TripTimeSpanInMInits = tripDuration!.Value
+
+
+
+			};
 
 
 

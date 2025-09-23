@@ -7,7 +7,9 @@ namespace Travel_Company_MVC.ViewModels
 	{
 
 		public int RouteId { get; set; }
-		public int TripId { get; set; }
+		public int TripTimeSpanInMInits { get; set; }
+
+        public int TripId { get; set; }
 
 
 		public DateTime MainTripOldDateTime { get; set; }

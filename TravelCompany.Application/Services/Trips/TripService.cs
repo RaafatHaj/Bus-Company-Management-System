@@ -42,10 +42,10 @@ namespace TravelCompany.Application.Services.Travels
             if (joinedType == TripJoinedType.WithRoute)
             {
 
-                return await _unitOfWork.Trips.GetQueryable()
-							 .Include(t => t.Route).ThenInclude(r => r!.FirstStation)
+                return await _unitOfWork.Trips.GetQueryable().AsNoTracking()
+                             .Include(t => t.Route).ThenInclude(r => r!.FirstStation)
 						     .Include(t => t.Route).ThenInclude(r => r!.LastStation)
-							 .AsNoTracking().FirstOrDefaultAsync(t => t.Id == tripId);
+							 .FirstOrDefaultAsync(t => t.Id == tripId);
             }
 
 

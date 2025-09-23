@@ -8,7 +8,7 @@
 	<div class="d-flex justify-content-center">
 		<div>
 			
-
+	
 
 			<form class="js-ajax-form" method="post"
 				  data-url="/Trips/EditTrip"
@@ -111,12 +111,18 @@
 				<div class="d-flex gap-10 flex-wrap mt-10 ">
 
 					<!-- --MainTrip start -->
+					@{
+						var tripDuration = TimeSpan.FromMinutes(Model.TripTimeSpanInMInits);
+					}
+
 					<div class="ms-5">
 						<div class="d-flex">
 							<span class="text-gray-900 fw-bold ms-4 fs-5">Main Trip</span>
 							<span class="bullet   bullet-dot  bg-success ms-2 mt-3"></span>
+							<span class="badge badge-light ms-3 fw-bold b-block">@($"{(int)tripDuration.TotalHours}:{(int)tripDuration.Minutes}") hour</span>
 
 						</div>
+
 
 
 						<div class="d-flex align-items-center justify-content-center m-4">
