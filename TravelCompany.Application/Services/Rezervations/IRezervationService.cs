@@ -12,9 +12,9 @@ namespace TravelCompany.Application.Services.Rezervations
 	{
 
 
-		Task<(bool IsBooked, IEnumerable<int> ReservationIDs)> BookSeatAsync(BookTicketDTO dto);
+		Task<(bool IsBooked, IEnumerable<ReservationDTO>? Reservations)> BookSeatAsync(BookTicketDTO dto);
 		Task<IEnumerable<Reservation>> GetStationPassengersAsync(int scheduledTravelId, int stationId);
-		Task<IEnumerable<StationBoardingDTO>> GetStationPassengersBoarding(int tripId, int stationId);
+		Task<IEnumerable<TripReservationsDTO>> GetStationPassengersBoarding(int tripId, int stationId);
 		Task<IEnumerable<TripReservationsDTO>> GetAllTripBookingsAsync (int tripId);
 	}
 }

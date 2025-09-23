@@ -1,18 +1,18 @@
-﻿@model IEnumerable<StationBoardingDTO>
+﻿@model IEnumerable<TripReservationsDTO>
 
 
 
 
 
-<table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
+<table id="boarding-table" class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
 	<thead>
 		<tr class="fw-bold fs-6 text-gray-800 px-7">
 		
-			<th>Name</th>
-			<th>Gender</th>
-			<th>Phone</th>
+			<th>Passenger</th>
+			<th></th>
 			<th>Distination</th>
 			<th>Seat</th>
+			<th>Operation</th>
 
 		</tr>
 	</thead>
@@ -22,55 +22,59 @@
 		@foreach (var seat in Model)
 		{
 			<tr>
-	
+
 				<td>
-					<div class="d-flex gap-1" >
-						
-						<div class="text-gray-900 fw-bold fs-5">
-
-							@seat.PassengerName
-
-						</div>
+					<div class="text-gray-900 fw-bold">
+						@seat.PassengerName
 
 					</div>
-				
-
+					<div class=" badge   @(seat.PassengerGender==Gender.Male?"badge-light":"badge-light-primary")">@seat.PassengerGender</div>
 
 				</td>
-				<td>				
-					<div class=" badge   @(seat.PassendgerGender==Gender.Male?"badge-light":"badge-light-primary")">@seat.PassendgerGender</div></td>
+
 				<td>
 
-
-					<div class="">
-
-						@seat.PassendgerPhone
+					<div class="text-gray-900 fw-bold">
+						@seat.PassengerEmail
+						<span class="d-block text-muted">
+							@seat.PassengerPhone
+						</span>
 
 					</div>
 
 				</td>
 				<td>
 
-				    <div class="d-flex">
-
-
-						<div class="">
-
-							@seat.DistinationStation
-
-						</div>
-					</div>
-
-
-
+					<div class="text-gray-900 fw-bold">@seat.ArrivilStationName</div>
+					<span class="text-muted">
+						Distination
+					</span>
 				</td>
+
+
 				<td>
 
-					<div class="text-primary fw-bold ">
+					<div class="d-flex justify-content-center">
 
-						@seat.SeatNumber
-
+						<span class="badge badge-light-success ">
+							@seat.SeatNumber
+						</span>
 					</div>
+				</td>
+
+
+				<td>
+
+					<span class="d-block text-gray-900 fs-7">
+						<span class="text-primary">@seat.BookedAt.ToString("dd")</span>
+						<span class=" fw-semibold  fs-5 ">@seat.BookedAt.ToString("MMM")</span>
+						<span class="text-gray-800 fw-semibold">@seat.BookedAt.ToString("yyyy")</span>
+
+					</span>
+					<span class="d-block text-muted fs-7">
+						By @seat.BookedBy
+					</span>
+
 				</td>
 		
 			</tr>

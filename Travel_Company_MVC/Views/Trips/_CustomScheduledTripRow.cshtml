@@ -101,8 +101,13 @@
     
         @if (Model.MainTripId is not null)
         {
-                <span class="text-danger">Return Trip</span>
-            
+            <span class="badge badge-light-danger">Return Trip</span>
+
+        }
+        else
+        {
+            <span class="badge badge-light">Main Trip</span>
+
         }
     </td>
 

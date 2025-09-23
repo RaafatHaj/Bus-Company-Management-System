@@ -1,7 +1,88 @@
-﻿
-<h2>Your Ticket Details</h2>
+﻿@model IEnumerable< ReservationViewModel>
 
-<div class="card">
+
+<div class="alert alert-success d-flex align-items-center p-5 mb-10">
+    <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4"><span class="path1"></span><span class="path2"></span></i>                    <div class="d-flex flex-column">
+        <h4 class="mb-1 text-success">Booking Confirmed</h4>
+        <span>Your ticket has been booked successfully.</span>
+    </div>
+</div>
+
+<div class="d-flex gap-4 flex-wrap mt-10 ">
+
+    @foreach(var reservation in Model)
+    {
+        <div class="d-print-none border border-dashed border-gray-300 card-rounded h-lg-100 min-w-md-250px p-9 bg-lighten">
+            <!--begin::Labels-->
+            <div class="mb-8">
+                <span class="badge badge-light-success me-2">@reservation.SeatNumber</span>
+                <span class="text-gray-600 fw-bold me-2">/ @reservation.TripId</span>
+
+            </div>
+            <!--end::Labels-->
+            <!--begin::Title-->
+            <h6 class="mb-8 fw-bolder text-gray-700 text-hover-primary">@reservation.PersonName<span class="badge badge-light">Male</span> </h6>
+
+
+            <!--end::Title-->
+            <!--begin::Item-->
+            <div class="mb-6">
+                <div class="fw-semibold text-gray-600 fs-7">Conection:</div>
+
+                <div class="fw-bold text-gray-800 fs-6">@reservation.PersonEmail</div>
+                <div class="fw-bold text-gray-800 fs-6">@reservation.PersonPhone</div>
+
+            </div>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <div class="mb-6">
+                <div class="fw-semibold text-gray-600 fs-7">National ID:</div>
+
+                <div class="fw-bold text-gray-800 fs-6">
+                    @reservation.PersonId
+                </div>
+            </div>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <div class="mb-6">
+                <div class="fw-semibold text-gray-600 fs-7">Date:</div>
+
+                <div class="fw-bold fs-6 text-gray-800 d-flex align-items-center">
+                    @reservation.TripDepartureDateTime.ToString()
+
+                </div>
+            </div>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <div class="mb-6">
+                <div class="fw-semibold text-gray-600 fs-7">Departure Station:</div>
+
+                <div class="fw-bold fs-6 text-gray-800 d-flex align-items-center">
+                    @reservation.StationAName
+
+                </div>
+            </div>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <div class="mb-6">
+                <div class="fw-semibold text-gray-600 fs-7">Arrivel Station:</div>
+
+                <div class="fw-bold fs-6 text-gray-800 d-flex align-items-center">
+                    @reservation.StationBName
+
+                </div>
+            </div>
+            <!--end::Item-->
+
+        </div>
+
+    }
+
+
+</div>
+
+
+@* <div class="card">
     <div class="card-body">
         <h5 class="card-title">Passenger:test</h5>
         <p class="card-text">Seat Number:test</p>
@@ -9,4 +90,4 @@
         <p class="card-text">Booking Date: test</p>
         <p class="card-text">Price: test</p>
     </div>
-</div>
+</div> *@

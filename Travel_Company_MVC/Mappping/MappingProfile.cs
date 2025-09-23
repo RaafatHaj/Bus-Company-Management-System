@@ -58,6 +58,8 @@ namespace Travel_Company_MVC.Mappping
 
             CreateMap<route,RouteViewModel>().ReverseMap();
 
+            CreateMap<ReservationViewModel, ReservationDTO>().ReverseMap();
+
             CreateMap<RouteStationsViewModel, RouteStationsViewModel>().ReverseMap();
         }
 

@@ -156,11 +156,9 @@ namespace Travel_Company_MVC.Controllers
             if ( !result.IsBooked)
                 return BadRequest();
 
+            var viewModel = _mapper.Map<IEnumerable<ReservationViewModel>>(result.Reservations);
 
-            // Here Redirect to action and pass ReservationId to it , and show the resulte ...
-
-
-			return View("TicketDetails");
+			return View("TicketDetails", viewModel);
 		}
 
 

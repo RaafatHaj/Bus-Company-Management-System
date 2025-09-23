@@ -4,15 +4,13 @@
 
 
 
-<table class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
+<table id="trip-reservations" class="table table-row-dashed table-row-gray-300 align-middle W-100 gs-0 gy-4">
 	<thead>
 		<tr class="fw-bold fs-6 text-gray-800 px-7">
 			<th>Passenger</th>
 			<th></th>
 			<th>Departure</th>
-			<th>Distination</th>
-			
-	
+			<th>Distination</th>	
 			<th>Seat</th>
 			<th>Operation</th>
 
@@ -63,13 +61,13 @@
 
 		
 				<td>
+						<div class="d-flex justify-content-center">
 
-					<div class="badge badge-light-success">
-						@seat.SeatNumber
-					</div>
-				@* 	<span class="text-muted">
-						Seat No
-					</span> *@
+							<span class="badge badge-light-success ms-5">
+								@seat.SeatNumber
+							</span>
+						</div>
+					
 				</td>
 				<td>
 

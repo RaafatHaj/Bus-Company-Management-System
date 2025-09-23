@@ -118,9 +118,11 @@
             else
             {
                 <a href="#" class="js-render-modal" data-url="/Booking/GetAllTripBookings?tripId=@Model.TripId"
+                   data-has-table="true"
+                   data-table-id="trip-reservations"
                    data-title="Trip Bookings"
                    data-sub-title="Complete list of reservations for the selected trip."
-                   data-middle-modal="true">
+                   data-large-modal="true">
 
 
                     <span class="text-gray-900 text-hover-primary">Bookings</span>
@@ -272,9 +274,11 @@
                 else
                 {
                     <a href="#" class="js-render-modal" data-url="/Booking/GetAllTripBookings?tripId=@Model.ReturnTripId"
+                       data-has-table="true"
+                       data-table-id="trip-reservations"
                        data-title="Trip Bookings"
                        data-sub-title="Complete list of reservations for the selected trip."
-                       data-middle-modal="true">
+                       data-large-modal="true">
 
 
 
