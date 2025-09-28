@@ -216,15 +216,15 @@ namespace TravelCompany.Application.Services.Travels
 
 				var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
 
-				if(returnTripsIds is not null)
-				{
-					// Concat work with IEnumrable and gives you new inctance , 
-					// AddRange work with IList and Edit the origanal list 
+				//if(returnTripsIds is not null)
+				//{
+				//	// Concat work with IEnumrable and gives you new inctance , 
+				//	// AddRange work with IList and Edit the origanal list 
 
-					var reutrnTrips = await _unitOfWork.Trips.GetScheduledTripsAsync(returnTripsIds);
-					return trips.Concat(reutrnTrips);
+				//	var reutrnTrips = await _unitOfWork.Trips.GetScheduledTripsAsync(returnTripsIds);
+				//	return trips.Concat(reutrnTrips);
 
-				}
+				//}
 
 
 				return trips;
@@ -241,14 +241,14 @@ namespace TravelCompany.Application.Services.Travels
 
 				var trips = await _unitOfWork.Trips.GetScheduledTripsAsync(dto.RouteId, firsDate , endDate);
 
-				var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
+				//var returnTripsIds = trips.Select(t => t.ReturnTripId).ToList();
 
-				if (returnTripsIds is not null)
-				{
-					var reutrnTrips = await _unitOfWork.Trips.GetScheduledTripsAsync(returnTripsIds);
-					return trips.Concat(reutrnTrips);
+				//if (returnTripsIds is not null)
+				//{
+				//	var reutrnTrips = await _unitOfWork.Trips.GetScheduledTripsAsync(returnTripsIds);
+				//	return trips.Concat(reutrnTrips);
 
-				}
+				//}
 
 
 				//var trips= await _unitOfWork.Trips.GetQueryable()
@@ -303,45 +303,120 @@ namespace TravelCompany.Application.Services.Travels
 			if (!result.Success)
 				return (false, result.Message, null);
 
-			var mainTrip = await FindTripByIdAsync(dto.TripId);
-			var returnTrip = await FindTripByIdAsync(result.ReturnTrpId);
+			var trip = await FindTripByIdAsync(dto.TripId);
+            var reverseTrip = await FindTripByIdAsync(result.ReturnTrpId);
 
-			if (mainTrip is null || returnTrip is null)
-				return (false, "Some thing went worng on data base level.", null);
+            if (trip is null || reverseTrip is null)
+                return (false, "Some thing went worng on data base level.", null);
 
 
-			var trip = new ScheduledTripDTO
+			if(!dto.IsReturnTrip)
+            {
+                var editedTrip = new ScheduledTripDTO
+                {
+
+                    TripId = trip.Id,
+                    Date = trip.Date,
+                    Time = trip.Time,
+                    DepartureStationId = trip.Route!.FirstStationId,
+                    TripTimeSpanInMInits = trip.Route.EstimatedTime,
+                    Status = trip.status,
+                    MainTripId = trip.MainTripId,
+					EstimatedDistance=trip.Route.EstimatedDistance,
+
+
+                    VehicleId = trip.TripAssignment?.VehicleId,
+                    VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
+                    VehicleModel = trip.TripAssignment?.Vehicle?.Type,
+
+                    RouteId = trip.RouteId,
+                    RouteName = trip.Route.RouteName,
+
+                    Seats = trip.Seats,
+                    HasBookedSeat = trip.HasBookedSeat,
+                    ArrivedStationOrder = trip.ArrivedStationOrder,
+
+                    ReturnRouteId = reverseTrip?.RouteId,
+                    ReturnTripId = reverseTrip?.Id,
+                    ReturnTime = reverseTrip?.Time,
+                    ReturnDate = reverseTrip?.Date,
+                    ReturnStatus = reverseTrip?.status,
+
+                };
+
+                return (true, "Vehicle assigned successfully.", editedTrip);
+            }
+			else
 			{
 
-				TripId = mainTrip.Id,
-				Date = mainTrip.Date,
-				Time = mainTrip.Time,
-				DepartureStationId = mainTrip.Route!.FirstStationId,
-				TripTimeSpanInMInits = mainTrip.Route.EstimatedTime,
-				Status = mainTrip.status,
-				MainTripId = mainTrip.MainTripId,
+                var editedTrip = new ScheduledTripDTO
+                {
+
+                    TripId = reverseTrip.Id,
+                    Date = reverseTrip.Date,
+                    Time = reverseTrip.Time,
+                    DepartureStationId = reverseTrip.Route!.FirstStationId,
+                    TripTimeSpanInMInits = reverseTrip.Route.EstimatedTime,
+                    Status = reverseTrip.status,
+                    MainTripId = reverseTrip.MainTripId,
+					EstimatedDistance=reverseTrip.Route.EstimatedDistance,
 
 
-				VehicleId = mainTrip.TripAssignment?.VehicleId,
-				VehicleNumber = mainTrip.TripAssignment?.Vehicle?.VehicleNumber,
-				VehicleModel = mainTrip.TripAssignment?.Vehicle?.Type,
+                    VehicleId = reverseTrip.TripAssignment?.VehicleId,
+                    VehicleNumber = reverseTrip.TripAssignment?.Vehicle?.VehicleNumber,
+                    VehicleModel = reverseTrip.TripAssignment?.Vehicle?.Type,
 
-				RouteId = mainTrip.RouteId,
-				RouteName=mainTrip.Route.RouteName,
+                    RouteId = reverseTrip.RouteId,
+                    RouteName = reverseTrip.Route.RouteName,
 
-				Seats = mainTrip.Seats,
-				HasBookedSeat = mainTrip.HasBookedSeat,
-				ArrivedStationOrder = mainTrip.ArrivedStationOrder,
+                    Seats = reverseTrip.Seats,
+                    HasBookedSeat = reverseTrip.HasBookedSeat,
+                    ArrivedStationOrder = reverseTrip.ArrivedStationOrder,
 
-				ReturnRouteId=returnTrip?.RouteId,
-				ReturnTripId = returnTrip?.Id,
-				ReturnTime = returnTrip?.Time,
-				ReturnDate = returnTrip?.Date,
-				ReturnStatus = returnTrip?.status,
+                    ReturnRouteId = trip?.RouteId,
+                    ReturnTripId = trip?.Id,
+                    ReturnTime = trip?.Time,
+                    ReturnDate = trip?.Date,
+                    ReturnStatus = trip?.status,
 
-			};
+                };
 
-			return (true, "Vehicle assigned successfully.", trip);
+                return (true, "Vehicle assigned successfully.", editedTrip);
+            }
+
+
+			//var editedTrip = new ScheduledTripDTO
+			//{
+
+			//	TripId = trip.Id,
+			//	Date = trip.Date,
+			//	Time = trip.Time,
+			//	DepartureStationId = trip.Route!.FirstStationId,
+			//	TripTimeSpanInMInits = trip.Route.EstimatedTime,
+			//	Status = trip.status,
+			//	MainTripId = trip.MainTripId,
+
+
+			//	VehicleId = trip.TripAssignment?.VehicleId,
+			//	VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
+			//	VehicleModel = trip.TripAssignment?.Vehicle?.Type,
+
+			//	RouteId = trip.RouteId,
+			//	RouteName=trip.Route.RouteName,
+
+			//	Seats = trip.Seats,
+			//	HasBookedSeat = trip.HasBookedSeat,
+			//	ArrivedStationOrder = trip.ArrivedStationOrder,
+
+			//	ReturnRouteId=reverseTrip?.RouteId,
+			//	ReturnTripId = reverseTrip?.Id,
+			//	ReturnTime = reverseTrip?.Time,
+			//	ReturnDate = reverseTrip?.Date,
+			//	ReturnStatus = reverseTrip?.status,
+
+			//};
+
+			//return (true, "Vehicle assigned successfully.", editedTrip);
 
 		}
 

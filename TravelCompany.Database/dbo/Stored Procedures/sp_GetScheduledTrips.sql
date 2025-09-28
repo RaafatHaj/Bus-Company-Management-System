@@ -8,6 +8,10 @@ CREATE procedure [dbo].[sp_GetScheduledTrips]
 as
 begin
 
+declare @DefualtBreakInMinits int=cast( dbo.GetApplicationConst('MinBreak') as int);
+declare @ReversRouteId int ;
+select @ReversRouteId=r.ReverseRouteId from Routes r where r.RouteId=@RouteId
+
 if(@EndDate is null)
 begin
 
@@ -20,12 +24,15 @@ as
 select 
 t.* , (select count(*) from Reservations r where r.TripId=t.Id) as BookingsCount
 From Trips t 
-where t.RouteId=@RouteId and t.Date=@Date_StartDate
+where (t.RouteId=@RouteId or t.RouteId=@ReversRouteId) and t.Date=@Date_StartDate
 )
 ,cte2
 as
 (
-select c.* ,r.EstimatedDistance ,r.EstimatedTime,r.FirstStationId ,r.RouteName from cte c 
+select c.* ,r.EstimatedDistance ,
+(r.EstimatedTime+@DefualtBreakInMinits+((r.StationsNumber-2)*c.StationStopMinutes)+(case when c.BreakMinutes is null then 0 else
+c.BreakMinutes end ))as EstimatedTime
+,r.FirstStationId ,r.RouteName from cte c 
         inner join Routes r on c.RouteId=r.RouteId
 )
 ,cte3
@@ -56,13 +63,16 @@ as
 select 
 t.* , (select count(*) from Reservations r where r.TripId=t.Id) as BookingsCount
 From Trips t 
-where t.RouteId=@RouteId and t.Date >= @Date_StartDate and t.Date <= @EndDate
+where (t.RouteId=@RouteId or t.RouteId=@ReversRouteId) and t.Date >= @Date_StartDate and t.Date <= @EndDate
 
 )
 ,cte2
 as
 (
-select c.*,r.EstimatedDistance ,r.EstimatedTime,r.FirstStationId ,r.RouteName from cte c 
+select c.*,r.EstimatedDistance ,
+(r.EstimatedTime+@DefualtBreakInMinits+((r.StationsNumber-2)*c.StationStopMinutes)+(case when c.BreakMinutes is null then 0 else
+c.BreakMinutes end)) as EstimatedTime
+,r.FirstStationId ,r.RouteName from cte c 
         inner join Routes r on c.RouteId=r.RouteId
 )
 ,cte3

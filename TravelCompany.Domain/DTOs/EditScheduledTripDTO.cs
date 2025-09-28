@@ -47,9 +47,13 @@ namespace TravelCompany.Domain.DTOs
 		public int? ReturnTripStationOrderNextToBreak { get; set; }
 
 
-		
+        public bool IsReturnTrip { get; set; } = false;
 
 
 
-	}
+
+
+
+
+    }
 }

@@ -36,9 +36,10 @@
 <tr>
 	<td>
 
-		<div class="d-flex gap-2 align-items-start">
+	
 			@if(Model.PreviousStation is not null)
-			{
+{
+			<div class="d-flex gap-2 align-items-start">
 				<div class="m-0 d-flex">
 
 
@@ -71,13 +72,14 @@
 
 
 
-				</div>
+				</div></div>
 			}
 			else
 			{
-				<div class="text-muted ms-5">
-					No Arrival
-
+				<div class=" d-flex justify-content-start  ">
+				<span class="text-muted ms-7">
+					First Station
+				</span>
 				</div>
 
 
@@ -86,14 +88,14 @@
 
 
 
-		</div>
 
 
 	</td>
 	<td >
-		<div class="d-flex gap-2 align-items-start">
+	
 			@if(Model.NexttStation is not null)
 			{
+			<div class="d-flex gap-2 align-items-start">
 				<div class="m-0 d-flex">
 
 
@@ -127,17 +129,18 @@
 
 
 				</div>
+				</div>
 			}
 			else
 			{
-				<div class="text-muted ms-5">
-					No Departure
+				<div class="d-flex justify-content-start">
+				<span class="text-muted ms-7">Last Station</span>
+					
 					</div>
 			}
 			
 
 
-		</div>
 	</td>
 	<td>
 

@@ -124,6 +124,7 @@ namespace Travel_Company_MVC.Controllers
                     Status = trip.Status,
                     DepartureStationId = trip.DepartureStationId,
                     TripTimeSpanInMInits = trip.TripTimeSpanInMInits,
+					EstimatedDistance=trip.EstimatedDistance,
 
                     VehicleId = trip.VehicleId,
                     VehicleNumber = trip.VehicleNumber,

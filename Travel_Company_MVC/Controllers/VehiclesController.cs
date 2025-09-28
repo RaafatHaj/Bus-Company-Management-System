@@ -138,10 +138,10 @@ namespace Travel_Company_MVC.Controllers
                 TripTimeSpanInMInits= result.Trip!.TripTimeSpanInMInits,
                 Status= result.Trip!.Status,
 
-                ReturnTripId=result.Trip!.ReturnTripId,
-                ReturnDate=result.Trip!.ReturnDate,
-                ReturnTime=result.Trip!.ReturnTime,
-                ReturnStatus=result.Trip!.ReturnStatus,
+                ReverseTripId=result.Trip!.ReturnTripId,
+                ReverseDate=result.Trip!.ReturnDate,
+                ReverseTime=result.Trip!.ReturnTime,
+                ReverseStatus=result.Trip!.ReturnStatus,
 
                 VehicleId= result.Trip!.VehicleId,
                 VehicleNumber= result.Trip!.VehicleNumber,

@@ -12,12 +12,14 @@
 		public int TripTimeSpanInMInits { get; set; }
         public int EstimatedDistance { get; set; }
         public TripStatus Status { get; set; }
+		public int? MainTripId { get; set; }
 
-		public int? ReturnRouteId { get; set; }
-		public int? ReturnTripId { get; set; }
-		public DateTime? ReturnDate { get; set; }
-		public TimeSpan? ReturnTime { get; set; }
-		public TripStatus? ReturnStatus { get; set; }
+
+		public int? ReverseRouteId { get; set; }
+		public int? ReverseTripId { get; set; }
+		public DateTime? ReverseDate { get; set; }
+		public TimeSpan? ReverseTime { get; set; }
+		public TripStatus? ReverseStatus { get; set; }
 
 		public int? VehicleId { get; set; }
 		public string? VehicleNumber { get; set; }

@@ -26,7 +26,7 @@ namespace Travel_Company_MVC
 			services.AddHangfireServer();
 			services.AddScoped<HangfireTasks>();
 
-            services.AddScoped<IImageService, ImageService>();
+            //services.AddScoped<IImageService, ImageService>();
 
 
             services.AddExpressiveAnnotations();
@@ -61,18 +61,18 @@ namespace Travel_Company_MVC
 
             // Register Cloudinary ...
 
-            var cloudinarySettings = builder.Configuration.GetSection(nameof(CloudinarySettings)).Get<CloudinarySettings>();
+   //         var cloudinarySettings = builder.Configuration.GetSection(nameof(CloudinarySettings)).Get<CloudinarySettings>();
 
-            var account = new Account()
-			{
-				Cloud = cloudinarySettings!.Cloud,
-				ApiKey = cloudinarySettings.ApiKey,
-				ApiSecret = cloudinarySettings.ApiSecret
-			};
+   //         var account = new Account()
+			//{
+			//	Cloud = cloudinarySettings!.Cloud,
+			//	ApiKey = cloudinarySettings.ApiKey,
+			//	ApiSecret = cloudinarySettings.ApiSecret
+			//};
 
-			var cloudinary = new Cloudinary(account);
+			//var cloudinary = new Cloudinary(account);
 
-			services.AddSingleton(cloudinary);
+			//services.AddSingleton(cloudinary);
 
 
 			// Register My Custom class instead of the default one so that i add my custom class , its implementation in Helper Folder .... 

@@ -24,7 +24,7 @@
                     <span class="text-gray-900 fw-bold d-block fs-3">
                          @DateTime.Today.Add(Model.Time).ToString("HH:mm")
                         <span class="text-muted fw-semibold fs-7">
-                            @(Model.Time > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                            @(Model.Time >= new TimeSpan(12, 0, 0) ? "Pm" : "Am")
                         </span>
                         <span class="text-primary fw-normal  fs-6  ">@Model.Date.ToString("ddd")</span>
                     </span>
@@ -39,6 +39,8 @@
                     </span>
                     @Model.Date.ToString("MMM")
                     @Model.Date.ToString("yyyy").
+                    <span class=" badge  @(Model.MainTripId == null ? "badge-light" : "badge-light")  ">@(Model.MainTripId == null ? "Main" : "Return")</span>
+
                 </div>
             </div>
 
@@ -173,7 +175,7 @@
 
     </td>
 
-    @if(Model.ReturnTripId==null)
+    @if(Model.ReverseTripId==null)
     {
         <td>
 
@@ -206,11 +208,11 @@
                     <div class="">
 
                         <span class="text-gray-900 fw-bold d-block fs-3">
-                            @DateTime.Today.Add(Model.ReturnTime!.Value).ToString("HH:mm")
+                            @DateTime.Today.Add(Model.ReverseTime!.Value).ToString("HH:mm")
                             <span class="text-muted fw-semibold fs-7">
-                                @(Model.ReturnTime!.Value > new TimeSpan(12, 0, 0) ? "Pm" : "Am")
+                                @(Model.ReverseTime!.Value >= new TimeSpan(12, 0, 0) ? "Pm" : "Am")
                             </span>
-                            <span class="text-primary fw-normal  fs-6  ">@Model.ReturnDate!.Value.ToString("ddd")</span>
+                            <span class="text-primary fw-normal  fs-6  ">@Model.ReverseDate!.Value.ToString("ddd")</span>
                         </span>
 
 
@@ -219,10 +221,12 @@
 
                     <div class="text-muted fw-semibold fs-7 ">
                         <span class="text-primary fs-5">
-                            @Model.ReturnDate!.Value.ToString("dd")
+                            @Model.ReverseDate!.Value.ToString("dd")
                         </span>
-                        @Model.ReturnDate!.Value.ToString("MMM")
-                        @Model.ReturnDate!.Value.ToString("yyyy").
+                        @Model.ReverseDate!.Value.ToString("MMM")
+                        @Model.ReverseDate!.Value.ToString("yyyy").
+                        <span class=" badge  @(Model.MainTripId == null ? "badge-light" : "badge-light")  ">@(Model.MainTripId == null ? "Return" : "Main")</span>
+                        
                     </div>
                 </div>
 
@@ -273,7 +277,7 @@
                 }
                 else
                 {
-                    <a href="#" class="js-render-modal" data-url="/Booking/GetAllTripBookings?tripId=@Model.ReturnTripId"
+                    <a href="#" class="js-render-modal" data-url="/Booking/GetAllTripBookings?tripId=@Model.ReverseTripId"
                        data-has-table="true"
                        data-table-id="trip-reservations"
                        data-title="Trip Bookings"
@@ -288,7 +292,7 @@
                 }
 
            
-                <a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.ReturnTripId"
+                <a href="#" class="js-render-modal" data-url="/Trips/GetTripTrack?tripId=@Model.ReverseTripId"
                    data-middle-modal="true"
                    data-title="Trip Tracking"
                    data-sub-title="Track where the trip is now and which stations are next.">
@@ -305,19 +309,19 @@
             <div class="d-flex mb-2">
                 @{
                     string color2 = "";
-                    if (Model.ReturnStatus == TripStatus.Unassigned)
+                    if (Model.ReverseStatus == TripStatus.Unassigned)
                         color2 = "badge-light";
-                    else if (Model.ReturnStatus == TripStatus.Pending)
+                    else if (Model.ReverseStatus == TripStatus.Pending)
                         color2 = "badge-light-warning";
-                    else if (Model.ReturnStatus == TripStatus.Active)
+                    else if (Model.ReverseStatus == TripStatus.Active)
                         color2 = "badge-light-primary";
-                    else if (Model.ReturnStatus == TripStatus.Canseled)
+                    else if (Model.ReverseStatus == TripStatus.Canseled)
                         color2 = "badge-light-danger";
-                    else if (Model.ReturnStatus == TripStatus.Complete)
+                    else if (Model.ReverseStatus == TripStatus.Complete)
                         color2 = "badge-light-success";
 
                 }
-                <div class=" badge  fw-semibold @color2 ">@Model.ReturnStatus</div>
+                <div class=" badge  fw-semibold @color2 ">@Model.ReverseStatus</div>
 
 
             </div>
@@ -356,7 +360,7 @@
 
 
 
-            var returnTripDateTime = Model.ReturnDate != null ? Model.ReturnDate.Value.Add(Model.ReturnTime!.Value).ToString("yyyy-MM-dd HH:mm") : null;
+            var returnTripDateTime = Model.ReverseDate != null ? Model.ReverseDate.Value.Add(Model.ReverseTime!.Value).ToString("yyyy-MM-dd HH:mm") : null;
             var tripDateTie = Model.Date.Add(Model.Time).ToString("yyyy-MM-dd HH:mm");
 
             <div>
@@ -403,7 +407,7 @@
         <div class="d-flex justify-content-start flex-shrink-0">
 
             <a class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 js-table-chiled"
-               data-url="/Trips/GetTripEditingForm?tripId=@Model.TripId"
+               data-url="/Trips/GetTripEditingForm?tripId=@Model.TripId&isReturnTrip=@(Model.MainTripId!=null)"
                data-callback="HandleTripEditingChild"
                data-updete-table="true">
                 <i class="ki-duotone ki-pencil fs-2">
