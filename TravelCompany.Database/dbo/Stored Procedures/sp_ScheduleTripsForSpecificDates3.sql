@@ -100,40 +100,84 @@ exec sp_SetTripPattern
 
 --************************************************ Result
 
-with cte
+
+with RouteTrips
 as
 (
 
 select * from Trips t 
-where t.RouteId=@RouteId and t.Time=@Time and t.Date in (select *from @Dates)
+where t.RouteId=@RouteId and t.Time=@Time and   t.Date in (select *from @Dates)
+
+)
+,ReverseTrips
+as(
+
+select 
+t.*
+
+from Trips t  inner join RouteTrips c on t.MainTripId=c.Id or t.ReturnTripId=c.Id
+)
+,AllTrips
+as
+(
+select *from RouteTrips
+union all 
+select *from ReverseTrips
+)
+,cte
+as
+(
+select c.* ,r.EstimatedDistance,r.EstimatedTime,r.FirstStationId ,r.RouteName from AllTrips c 
+        inner join Routes r on c.RouteId=r.RouteId
+)
+,cte1
+as
+(
+select c.* , ta.VehicleId from cte c 
+      
+		left join TripAssignments ta on c.Id=ta.TripId
+)
+select c.* ,v.VehicleNumber , v.Type from cte1 c 
+      
+		left join Vehicles v  on c.VehicleId=v.VehicleId
+        
+order by c.Date , c.Time;
+
+
+--with cte
+--as
+--(
+
+--select * from Trips t 
+--where t.RouteId=@RouteId and t.Time=@Time and t.Date in (select *from @Dates)
 
 --union all
 
 --select 
 --t.*
 
---from Trips t  inner join cte c on t.MainTripId=c.Id
+--from Trips t  inner join cte c on t.MainTripId=c.Id or t.ReturnTripId=c.Id
 
 
-)
-,cte2
-as
-(
-select c.*,r.EstimatedDistance ,r.EstimatedTime,r.FirstStationId , r.RouteName from cte c 
-        inner join Routes r on c.RouteId=r.RouteId
-)
-,cte3
-as
-(
-select c.* , ta.VehicleId from cte2 c 
+--)
+--,cte2
+--as
+--(
+--select c.*,r.EstimatedDistance ,r.EstimatedTime,r.FirstStationId , r.RouteName from cte c 
+--        inner join Routes r on c.RouteId=r.RouteId
+--)
+--,cte3
+--as
+--(
+--select c.* , ta.VehicleId from cte2 c 
       
-		left join TripAssignments ta on c.Id=ta.TripId
-)
-select c.* ,v.VehicleNumber , v.Type from cte3 c 
+--		left join TripAssignments ta on c.Id=ta.TripId
+--)
+--select c.* ,v.VehicleNumber , v.Type from cte3 c 
       
-		left join Vehicles v  on c.VehicleId=v.VehicleId
+--		left join Vehicles v  on c.VehicleId=v.VehicleId
         
-order by c.Date , c.Time;
+--order by c.Date , c.Time;
 
 
 commit;		

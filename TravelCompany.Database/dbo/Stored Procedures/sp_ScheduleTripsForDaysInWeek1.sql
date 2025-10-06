@@ -43,21 +43,42 @@ and MainTripId is null;
 
 
 
-declare  @DeletedReturnTrips table (TripId int);
+declare  @MainTripsForDeleting table (TripId int);
 
-with cte
+-- Delete Trips Assigments 
+
+with MainTrips
 as
 (
 select t.Id from Trips t
 where t.RouteId=@RouteId and t.Time=@Time and (t.Date between @StartDate and @EndDate) and t.HasBookedSeat=0 and MainTripId is null
 )
+,ReturnTrips
+as
+(
+select t.Id from Trips t
+where t.HasBookedSeat =0 and
+exists (select 1 from MainTrips t1 where t.MainTripId=t1.Id )
+)
+delete from TripAssignments 
+where 
+exists (select 1 from MainTrips ta1 where TripId= ta1.Id)
+or
+exists (select 1 from ReturnTrips ta2 where TripId= ta2.Id);
+
+-- Delete Return Trips 
+with MainTrips
+as
+(
+select t.Id from Trips t
+where t.RouteId=@RouteId and t.Time=@Time and (t.Date between @StartDate and @EndDate) and t.HasBookedSeat=0 and MainTripId is null
+)
+delete from Trips
+output deleted.MainTripId into @MainTripsForDeleting
+where MainTripId in (select *from MainTrips) and HasBookedSeat=0;
 
 delete from Trips
-output deleted.MainTripId into @DeletedReturnTrips
-where MainTripId in (select *from cte) and HasBookedSeat=0;
-
-delete from Trips
-where Id in (select *from @DeletedReturnTrips)
+where Id in (select *from @MainTripsForDeleting)
 
 end;
 
@@ -151,36 +172,43 @@ exec sp_SetTripPattern
 
 --************************************************ Result
 
-with cte
+with RouteTrips
 as
 (
 
 select * from Trips t 
 where t.RouteId=@RouteId and t.Time=@Time and t.Date between @StartDate and @EndDate
 
---union all
-
---select 
---t.*
-
---from Trips t  inner join cte c on t.MainTripId=c.Id
-
-
 )
-,cte2
+,ReverseTrips
+as(
+
+select 
+t.*
+
+from Trips t  inner join RouteTrips c on t.MainTripId=c.Id or t.ReturnTripId=c.Id
+)
+,AllTrips
 as
 (
-select c.* ,r.EstimatedDistance,r.EstimatedTime,r.FirstStationId ,r.RouteName from cte c 
+select *from RouteTrips
+union all 
+select *from ReverseTrips
+)
+,cte
+as
+(
+select c.* ,r.EstimatedDistance,r.EstimatedTime,r.FirstStationId ,r.RouteName from AllTrips c 
         inner join Routes r on c.RouteId=r.RouteId
 )
-,cte3
+,cte1
 as
 (
-select c.* , ta.VehicleId from cte2 c 
+select c.* , ta.VehicleId from cte c 
       
 		left join TripAssignments ta on c.Id=ta.TripId
 )
-select c.* ,v.VehicleNumber , v.Type from cte3 c 
+select c.* ,v.VehicleNumber , v.Type from cte1 c 
       
 		left join Vehicles v  on c.VehicleId=v.VehicleId
         

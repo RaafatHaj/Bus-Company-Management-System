@@ -11,7 +11,7 @@ namespace TravelCompany.Application.Services.Travels
 {
     internal class TripService : ITripService
     {
-
+        
 
         private readonly IUnitOfWork _unitOfWork;
 		
@@ -23,21 +23,6 @@ namespace TravelCompany.Application.Services.Travels
 
 		public async Task<Trip?> FindTripByIdAsync(int tripId , TripJoinedType joinedType= TripJoinedType.FullJoined)
 		{
-
-
-			//var query=  _unitOfWork.Trips.GetQueryable()
-			//                      .Include(t => t.Route).ThenInclude(r => r.FirstStation)
-			//                      .Include(t => t.Route).ThenInclude(r => r.LastStation)
-			//                      .Include(t => t.TripAssignment).ThenInclude(a => a.Vehicle)
-			//			 .AsNoTracking().SingleOrDefaultAsync();
-
-			//if (asNoTracking)
-			//	query.AsNoTracking();
-
-
-
-			//return await query.SingleOrDefaultAsync();
-
 
             if (joinedType == TripJoinedType.WithRoute)
             {
@@ -295,7 +280,7 @@ namespace TravelCompany.Application.Services.Travels
 		}
 
 
-		public async Task<(bool Success , string? Message, ScheduledTripDTO? Trip)> EditTrip(EditScheduledTripDTO dto)
+        public async Task<(bool Success , string? Message, ScheduledTripDTO? Trip)> EditTrip(EditScheduledTripDTO dto)
 		{
 
 			var result = await _unitOfWork.Trips.EditTrip(dto);
@@ -312,111 +297,17 @@ namespace TravelCompany.Application.Services.Travels
 
 			if(!dto.IsReturnTrip)
             {
-                var editedTrip = new ScheduledTripDTO
-                {
-
-                    TripId = trip.Id,
-                    Date = trip.Date,
-                    Time = trip.Time,
-                    DepartureStationId = trip.Route!.FirstStationId,
-                    TripTimeSpanInMInits = trip.Route.EstimatedTime,
-                    Status = trip.status,
-                    MainTripId = trip.MainTripId,
-					EstimatedDistance=trip.Route.EstimatedDistance,
+                var editedTrip=_setEditedTrip(trip, reverseTrip);  
+                return (true, "Vehicle edited successfully.", editedTrip);
 
 
-                    VehicleId = trip.TripAssignment?.VehicleId,
-                    VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
-                    VehicleModel = trip.TripAssignment?.Vehicle?.Type,
-
-                    RouteId = trip.RouteId,
-                    RouteName = trip.Route.RouteName,
-
-                    Seats = trip.Seats,
-                    HasBookedSeat = trip.HasBookedSeat,
-                    ArrivedStationOrder = trip.ArrivedStationOrder,
-
-                    ReturnRouteId = reverseTrip?.RouteId,
-                    ReturnTripId = reverseTrip?.Id,
-                    ReturnTime = reverseTrip?.Time,
-                    ReturnDate = reverseTrip?.Date,
-                    ReturnStatus = reverseTrip?.status,
-
-                };
-
-                return (true, "Vehicle assigned successfully.", editedTrip);
             }
 			else
 			{
+                var editedTrip = _setEditedTrip(reverseTrip,trip);
 
-                var editedTrip = new ScheduledTripDTO
-                {
-
-                    TripId = reverseTrip.Id,
-                    Date = reverseTrip.Date,
-                    Time = reverseTrip.Time,
-                    DepartureStationId = reverseTrip.Route!.FirstStationId,
-                    TripTimeSpanInMInits = reverseTrip.Route.EstimatedTime,
-                    Status = reverseTrip.status,
-                    MainTripId = reverseTrip.MainTripId,
-					EstimatedDistance=reverseTrip.Route.EstimatedDistance,
-
-
-                    VehicleId = reverseTrip.TripAssignment?.VehicleId,
-                    VehicleNumber = reverseTrip.TripAssignment?.Vehicle?.VehicleNumber,
-                    VehicleModel = reverseTrip.TripAssignment?.Vehicle?.Type,
-
-                    RouteId = reverseTrip.RouteId,
-                    RouteName = reverseTrip.Route.RouteName,
-
-                    Seats = reverseTrip.Seats,
-                    HasBookedSeat = reverseTrip.HasBookedSeat,
-                    ArrivedStationOrder = reverseTrip.ArrivedStationOrder,
-
-                    ReturnRouteId = trip?.RouteId,
-                    ReturnTripId = trip?.Id,
-                    ReturnTime = trip?.Time,
-                    ReturnDate = trip?.Date,
-                    ReturnStatus = trip?.status,
-
-                };
-
-                return (true, "Vehicle assigned successfully.", editedTrip);
+                return (true, "Vehicle edited successfully.", editedTrip);
             }
-
-
-			//var editedTrip = new ScheduledTripDTO
-			//{
-
-			//	TripId = trip.Id,
-			//	Date = trip.Date,
-			//	Time = trip.Time,
-			//	DepartureStationId = trip.Route!.FirstStationId,
-			//	TripTimeSpanInMInits = trip.Route.EstimatedTime,
-			//	Status = trip.status,
-			//	MainTripId = trip.MainTripId,
-
-
-			//	VehicleId = trip.TripAssignment?.VehicleId,
-			//	VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
-			//	VehicleModel = trip.TripAssignment?.Vehicle?.Type,
-
-			//	RouteId = trip.RouteId,
-			//	RouteName=trip.Route.RouteName,
-
-			//	Seats = trip.Seats,
-			//	HasBookedSeat = trip.HasBookedSeat,
-			//	ArrivedStationOrder = trip.ArrivedStationOrder,
-
-			//	ReturnRouteId=reverseTrip?.RouteId,
-			//	ReturnTripId = reverseTrip?.Id,
-			//	ReturnTime = reverseTrip?.Time,
-			//	ReturnDate = reverseTrip?.Date,
-			//	ReturnStatus = reverseTrip?.status,
-
-			//};
-
-			//return (true, "Vehicle assigned successfully.", editedTrip);
 
 		}
 
@@ -426,6 +317,42 @@ namespace TravelCompany.Application.Services.Travels
 
 		}
 
-	
-	}
+
+
+
+        private ScheduledTripDTO _setEditedTrip(Trip trip, Trip reverseTrip)
+        {
+            return new ScheduledTripDTO
+            {
+
+                TripId = trip.Id,
+                Date = trip.Date,
+                Time = trip.Time,
+                DepartureStationId = trip.Route!.FirstStationId,
+                TripTimeSpanInMInits = trip.Route.EstimatedTime,
+                Status = trip.status,
+                MainTripId = trip.MainTripId,
+                EstimatedDistance = trip.Route.EstimatedDistance,
+
+
+                VehicleId = trip.TripAssignment?.VehicleId,
+                VehicleNumber = trip.TripAssignment?.Vehicle?.VehicleNumber,
+                VehicleModel = trip.TripAssignment?.Vehicle?.Type,
+
+                RouteId = trip.RouteId,
+                RouteName = trip.Route.RouteName,
+
+                Seats = trip.Seats,
+                HasBookedSeat = trip.HasBookedSeat,
+                ArrivedStationOrder = trip.ArrivedStationOrder,
+
+                ReturnRouteId = reverseTrip?.RouteId,
+                ReturnTripId = reverseTrip?.Id,
+                ReturnTime = reverseTrip?.Time,
+                ReturnDate = reverseTrip?.Date,
+                ReturnStatus = reverseTrip?.status,
+            };
+        }
+
+    }
 }
