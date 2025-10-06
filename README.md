@@ -37,8 +37,6 @@ Advanced reporting dashboard.
 
 
 🗄️ Complete Database Configuration
-
-1. Apply Entity Framework Core Migrations : update-database
-3. Run the schema script on your database: TravelCompany_Script.sql
-4. Run the data seeding script on your database: Seed_Essential_Data.sql
+ 1. from TravilCompany.Database project you need to publish the database to your sql server .
+ 2. from TravelCompany.Inferstructure you will run Seed_Essential_Data.sql in your data base .
 
