@@ -450,7 +450,9 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 									EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
 									StationBoarding= reader.GetInt32(reader.GetOrdinal("StationBoarding"))
 
-								});
+
+
+                                });
 							}
 
 						}
@@ -694,8 +696,10 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 									Status = (StationStatus)reader.GetInt32(reader.GetOrdinal("Status")),
 									ArrivalDateTime = reader.GetDateTime(reader.GetOrdinal("ArrivalDateTime")),
 									DepartureDateTime = reader.GetDateTime(reader.GetOrdinal("DepartureDateTime")),
+									ArrivalLateMinutes=reader.GetInt32(reader.GetOrdinal("ArrivalLateMinutes")),
+									DepartureLateMinutes= reader.GetInt32(reader.GetOrdinal("DepartureLateMinutes"))
 
-								});
+                                });
 							}
 
 						}

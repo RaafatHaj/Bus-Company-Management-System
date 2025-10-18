@@ -1,8 +1,10 @@
 ﻿
 	
 
-CREATE procedure [dbo].[sp_GetStationTripsTrack]
-                 @StationId int
+create procedure [dbo].[sp_GetStationTrips]
+                 @StationId int,
+				 @Date_StartDate datetime,
+				 @EndDate datetime =null
 as
 begin
 
@@ -12,26 +14,27 @@ begin
 with ValidRoutes
 as
 (
-select distinct rp.RouteId from RoutePoints rp
+select  rp.RouteId from RoutePoints rp
 where rp.StationId=@StationId
 )
-,TripsWithin3Days
+,TripsWithinDateRange
 as
 (
 select *from Trips t 
-where t.RouteId in (select *from ValidRoutes) 
-and t.Date between DATEADD(day,-2,GETDATE()) and  DATEADD(day,1,GETDATE()) 
+where t.Date between @Date_StartDate and @EndDate
+and exists (select 1 from ValidRoutes vr where t.RouteId = vr.RouteId )
 -- and t.status <> -1
 )
+
 ,ActiveTripsWithin3Days_IDs
 as
 (
-select t.Id from TripsWithin3Days t where t.status=1
+select t.Id from TripsWithinDateRange t where t.status=1
 )
 ,CompletedTripsWithin3Days_IDs
 as
 (
-select t.Id from TripsWithin3Days t where t.status=2
+select t.Id from TripsWithinDateRange t where t.status=2
 
 )
 ,PedingTripsTrackResult
@@ -68,10 +71,8 @@ select t.Id ,t.Date ,t.status as TripStatus,t.StationStopMinutes
 	     end
 end  as ArrivalDateTime
 
-,lag (s.StationName) over (partition by t.Id order by rp.PointOrder) as PreviousStation
-,lead (s.StationName) over (partition by t.Id order by rp.PointOrder) as NexttStation
 
-from TripsWithin3Days t inner join Routes r on r.RouteId=t.RouteId 
+from TripsWithinDateRange t inner join Routes r on r.RouteId=t.RouteId 
                         inner join RoutePoints rp on r.RouteId=rp.RouteId
 			            inner join Points p on p.PointId=rp.PointId
 		                inner join Stations s on rp.StationId=s.StationId
@@ -82,7 +83,7 @@ as
 (
 select 
 
-r.Id as TripId , r.PointOrder as StationOrder , r.StationId , r.StationName , r.Status , r.PreviousStation , r.NexttStation ,ArrivalDateTime
+r.Id as TripId , r.PointOrder as StationOrder , r.StationId , r.StationName , r.Status  ,ArrivalDateTime
 ,DATEADD(MINUTE,case when r.PointOrder =1 then 0 else r.StationStopMinutes end,r.ArrivalDateTime) as DepartureDateTime
 ,r.TripStatus,r.RouteId ,r.RouteName,r.EstimatedDistance
 ,0 as ArrivalLateMinutes , 0 as DepartureLateMinutes
@@ -94,13 +95,13 @@ where r.StationId=@StationId
 as
 (
 select 
-a.TripId , a.StationOrder , a.StationId , a.StationName , a.Status , a.PreviousStation , a.NexttStation , a.ActualArrivalDateTime as ArrivalDateTime
+a.TripId , a.StationOrder , a.StationId , a.StationName , a.Status , a.ActualArrivalDateTime as ArrivalDateTime
 ,a.ActualDepartureDateTime as DepartureDateTime , a.TripStatus ,a.RouteId, a.RouteName , a.EstimatedDistance
 ,DATEDIFF(minute,a.PlannedArrivalDateTime,a.ActualArrivalDateTime) as ArrivalLateMinutes 
 , DATEDIFF(minute,a.PlannedDepartureDateTime,a.ActualDepartureDateTime)  as DepartureLateMinutes
 ,(select count(*)from Reservations rs where rs.TripId=a.TripId and rs.StationAId=@StationId) as StationBoarding
 from ActiveTripTracks a 
-where exists (select 1 from ActiveTripsWithin3Days_IDs a1 where a1.Id=a.TripId)
+where a.TripId in (select *from ActiveTripsWithin3Days_IDs)
 and a.StationId=@StationId
 
 )
@@ -108,14 +109,13 @@ and a.StationId=@StationId
 as
 (
 select 
-a.TripId , a.StationOrder , a.StationId , a.StationName , a.Status , a.PreviousStation , a.NexttStation , a.ActualArrivalDateTime as ArrivalDateTime
+a.TripId , a.StationOrder , a.StationId , a.StationName , a.Status , a.ActualArrivalDateTime as ArrivalDateTime
 ,a.ActualDepartureDateTime as DepartureDateTime ,2 as TripStatus ,a.RouteId, a.RouteName , a.EstimatedDistance
 ,DATEDIFF(minute,a.PlannedArrivalDateTime,a.ActualArrivalDateTime) as ArrivalLateMinutes 
 , DATEDIFF(minute,a.PlannedDepartureDateTime,a.ActualDepartureDateTime)  as DepartureLateMinutes
 ,(select count(*)from Reservations rs where rs.TripId=a.TripId and rs.StationAId=@StationId) as StationBoarding
 from CompletedTripTracks a 
---where a.TripId in (select *from CompletedTripsWithin3Days_IDs)
-where exists (select 1 from CompletedTripsWithin3Days_IDs a1 where a1.Id=a.TripId)
+where a.TripId in (select *from CompletedTripsWithin3Days_IDs)
 and a.StationId=@StationId
 )
 

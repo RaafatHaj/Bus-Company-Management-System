@@ -118,7 +118,7 @@ set @StationLateMinutes=DATEDIFF(minute,@ActualDepartureDateTime,@RealDepartureD
 --********** 2. Update the track if every thing ok ...
 
 update Trips 
-set IsVehicleMoving=1,ArrivedStationOrder=@StationOrder
+set IsVehicleMoving=1,ArrivedStationOrder=@StationOrder 
 where Id=@TripId
 
 --*** Update Row of Station in ActiveTripTrack table ...
@@ -149,7 +149,7 @@ end
 
 end
 
-if(@TripStatus=0)
+if(@TripStatus=0) --***// Trip Peding ...
 begin
 
 
@@ -198,13 +198,13 @@ rollback;
 return;
 end
 
-
+set @StationLateMinutes=DATEDIFF(minute,@TripDateTime,@RealDepartureDateTime);
 
 update Trips 
 set status=1,IsVehicleMoving=1,ArrivedStationOrder=1
 where Id=@TripId
 
-set @StationLateMinutes=DATEDIFF(minute,@TripDateTime,@RealDepartureDateTime);
+
 
 insert into ActiveTripTracks
 select 

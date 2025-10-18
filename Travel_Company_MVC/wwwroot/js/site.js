@@ -347,12 +347,12 @@ function SumbitForm() {
 
             const customValidationFunction = event.target.getAttribute('data-custom-validation');
 
-            if (customValidationFunction && typeof window[customValidationFunction] === 'function') {
-                let isValid = window[customValidationFunction](event.target);
-                if (!isValid)
-                    return;
+                if (customValidationFunction && typeof window[customValidationFunction] === 'function') {
+                    let isValid = window[customValidationFunction](event.target);
+                    if (!isValid)
+                        return;
 
-            }
+                }
 
 
             if (event.target.hasAttribute('data-confirm-message')) {
@@ -367,10 +367,10 @@ function SumbitForm() {
 
 
 
-                }).catch(() => {
+                    }).catch(() => {
 
-                    ErrorMessage();
-                });
+                        ErrorMessage();
+                    });
 
             }
             else {

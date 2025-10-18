@@ -14,10 +14,11 @@
     [StationStopMinutes]      INT      DEFAULT ((10)) NOT NULL,
     [BreakMinutes]            INT      NULL,
     [ArrivedStationOrder]     INT      DEFAULT ((1)) NOT NULL,
-    [LateMinutes]             INT      NULL,
     CONSTRAINT [PK_Trips] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Trips_Routes_RouteId] FOREIGN KEY ([RouteId]) REFERENCES [dbo].[Routes] ([RouteId])
 );
+
+
 
 
 GO

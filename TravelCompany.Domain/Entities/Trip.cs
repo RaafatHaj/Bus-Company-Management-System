@@ -44,7 +44,6 @@ namespace TravelCompany.Domain.Entities
         public bool HasBreak {  get; set; }
         public int? BreakMinutes { get; set; }
         public int? StationOrderNextToBreak { get; set; }
-        public int? LateMinutes { get; set; }
 
 
 

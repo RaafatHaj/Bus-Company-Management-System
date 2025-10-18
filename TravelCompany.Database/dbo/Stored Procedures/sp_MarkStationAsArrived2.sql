@@ -109,7 +109,7 @@ begin
 
 --*** // Update Trip ...
 update Trips 
-set IsVehicleMoving=0,ArrivedStationOrder=@StationOrder
+set IsVehicleMoving=0,ArrivedStationOrder=@StationOrder 
 where Id=@TripId
 
 
@@ -124,6 +124,7 @@ update ActiveTripTracks
 set ActualArrivalDateTime=DATEADD(minute,@StationLateMinutes,ActualArrivalDateTime) ,
     ActualDepartureDateTime=DATEADD(minute,@StationLateMinutes,ActualDepartureDateTime)
 where TripId=@TripId and StationOrder > @StationOrder
+
 
 
 select a.*
@@ -143,13 +144,13 @@ end
 
 
 --*** // Update Trip Status / Late Minutes  ...
-declare @TripLateMinutes int;
+--declare @TripLateMinutes int;
 
-select @TripLateMinutes= DATEDIFF(MINUTE,a.PlannedArrivalDateTime,@RealArrivalDateTIme) from ActiveTripTracks a 
-where a.TripId=@TripId and a.StationOrder=@StationOrder
+--select @TripLateMinutes= DATEDIFF(MINUTE,a.PlannedArrivalDateTime,@RealArrivalDateTIme) from ActiveTripTracks a 
+--where a.TripId=@TripId and a.StationOrder=@StationOrder
 
 update Trips 
-set status=2,IsVehicleMoving=0,ArrivedStationOrder=@StationOrder,LateMinutes=@TripLateMinutes 
+set status=2,IsVehicleMoving=0,ArrivedStationOrder=@StationOrder
 where Id=@TripId
 
 

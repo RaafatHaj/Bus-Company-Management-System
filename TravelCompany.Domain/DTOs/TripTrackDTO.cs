@@ -15,7 +15,9 @@ namespace TravelCompany.Domain.DTOs
 		public string StationName { get; set; } = null!;
 		public StationStatus Status { get; set; }
 		public DateTime ArrivalDateTime { get; set; }
+		public int ArrivalLateMinutes { get; set; }
 		public DateTime DepartureDateTime { get; set; }
+		public int DepartureLateMinutes { get; set; }
 
 
 	}

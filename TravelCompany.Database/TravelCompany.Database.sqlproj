@@ -148,5 +148,6 @@
     <Build Include="dbo\User Defined Types\IdDateType.sql" />
     <Build Include="dbo\User Defined Types\BookedSeatType.sql" />
     <Build Include="Security\HangFire.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetStationTrips.sql" />
   </ItemGroup>
 </Project>
