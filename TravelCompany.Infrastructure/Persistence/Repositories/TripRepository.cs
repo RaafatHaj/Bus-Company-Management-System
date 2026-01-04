@@ -436,7 +436,8 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 							{
 								tracks.Add(new()
 								{
-									TripId = reader.GetInt32(reader.GetOrdinal("TripId")),
+                                    //MainTripId
+                                    TripId = reader.GetInt32(reader.GetOrdinal("TripId")),
 									StationOrder = reader.GetInt32(reader.GetOrdinal("StationOrder")),
 									StationId= reader.GetInt32(reader.GetOrdinal("StationId")),
 									StationName= reader.GetString(reader.GetOrdinal("StationName")),
@@ -448,7 +449,10 @@ namespace TravelCompany.Infrastructure.Persistence.Repositories
 									TripStatus = (TripStatus)reader.GetInt32(reader.GetOrdinal("TripStatus")),
 									RouteName = reader.GetString(reader.GetOrdinal("RouteName")),
 									EstimatedDistance = reader.GetInt32(reader.GetOrdinal("EstimatedDistance")),
-									StationBoarding= reader.GetInt32(reader.GetOrdinal("StationBoarding"))
+									StationBoarding= reader.GetInt32(reader.GetOrdinal("StationBoarding")),
+                                    MaintTripId = reader.IsDBNull(reader.GetOrdinal("MainTripId")) ? null : reader.GetInt32(reader.GetOrdinal("MainTripId")),
+                                    ArrivelLateMinutes = reader.GetInt32(reader.GetOrdinal("ArrivalLateMinutes")),
+                                    DepartureLateMunutes = reader.GetInt32(reader.GetOrdinal("DepartureLateMinutes")),
 
 
 

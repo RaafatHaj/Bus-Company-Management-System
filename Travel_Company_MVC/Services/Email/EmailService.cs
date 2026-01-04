@@ -97,6 +97,7 @@ namespace Travel_Company_MVC.Services.Email
         private async Task<string> GenerateConfirmationLink(ApplicationUser user)
         {
             var httpContext = _httpContextAccessor.HttpContext;
+
             if (httpContext == null)
                 throw new InvalidOperationException("HttpContext is null");
 

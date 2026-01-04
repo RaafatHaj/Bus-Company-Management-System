@@ -1,15 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelCompany.Application.Common.Interfaces.Repositories;
 using TravelCompany.Domain.DTOs;
 using TravelCompany.Domain.Entities;
 using TravelCompany.Domain.Eums;
-using TravelCompany.Domain.Settings;
 
 namespace TravelCompany.Infrastructure.Persistence.Repositories
 {

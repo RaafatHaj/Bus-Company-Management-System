@@ -11,6 +11,7 @@ namespace TravelCompany.Domain.DTOs
 	{
 
 		public int TripId { get; set; }
+		public int? MaintTripId { get; set; }
 		public int StationOrder {  get; set; }
 		public int StationId { get; set; }
 		public string StationName { get; set; } = null!;

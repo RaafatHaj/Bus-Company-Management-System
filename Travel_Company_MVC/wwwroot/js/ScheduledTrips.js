@@ -20,7 +20,7 @@ function initilizeDateTimePickers() {
     });
 
     $(".flatpicker-date").flatpickr({
-        minDate: "today",
+        minDate: "",
         maxDate: ""
     //    jumpToDate: "today"
     });

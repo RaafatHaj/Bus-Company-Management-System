@@ -28,19 +28,20 @@
 
 			if (@Model[i].Status == StationStatus.Moved)
 			{
-				arrivelTimeViewSize = "fs-3 text-gray-500";
-				departureTimeViewSize = "fs-3 text-gray-500";
+				arrivelTimeViewSize = "fs-3 text-gray-900";
+				departureTimeViewSize = "fs-3 text-gray-900";
 
-				stationNameColor = "text-muted";
+				stationNameColor = "text-gray-900";
 				statusColor = "badge-light-danger";
 				stationOrderColor = "text-muted";
 				departureDayColor = "text-muted";
+				bulletColor = "bg-danger";
 
 			}
 			else if (@Model[i].Status == StationStatus.Pending)
 			{
-				arrivelTimeViewSize = "fs-1 text-gray-900";
-				departureTimeViewSize = "fs-1 text-gray-900";
+				arrivelTimeViewSize = "fs-3 text-gray-900";
+				departureTimeViewSize = "fs-3 text-gray-900";
 		
 
 				statusColor = "badge-light-warning";
@@ -49,8 +50,8 @@
 			}
 			else if (@Model[i].Status == StationStatus.Arrived)
 			{
-				arrivelTimeViewSize = "fs-3 text-gray-500";
-				departureTimeViewSize = "fs-1 text-gray-900";
+				arrivelTimeViewSize = "fs-3 text-gray-900";
+				departureTimeViewSize = "fs-3 text-gray-900";
 
 				statusColor = "badge-light-primary";
 				bulletColor = "bg-success";
@@ -58,9 +59,9 @@
 
 				if(Model[i].StationOrder==Model.Count)
 				{
-					stationNameColor = "text-muted";
+					stationNameColor = "text-gray-900";
 					stationOrderColor = "text-muted";
-					bulletColor = "";
+					bulletColor = "bg-danger";
 				}
 
 			}
@@ -170,8 +171,16 @@
 				}
 					else
 					{
-						<div class="text-muted ms-4">
-							No Arrivel Time
+						
+						<div class="d-flex ms-4">
+							<div class=" d-flex flex-column align-items-center  ">
+								<span class="d-block text-muted  ">No Arrival Time</span>
+								<span class="text-muted ">
+									First Station
+								</span>
+							</div>
+
+
 						</div>
 					}
 			
@@ -238,8 +247,15 @@
 					}
 					else
 					{
-						<div class="text-muted ms-4">
-						No Departure Time
+						<div class="d-flex ms-4">
+							<div class=" d-flex flex-column align-items-center  ">
+								<span class="d-block text-muted ">No Departure Time</span>
+								<span class="text-muted ">
+									Last Station
+								</span>
+							</div>
+
+
 						</div>
 					}
 

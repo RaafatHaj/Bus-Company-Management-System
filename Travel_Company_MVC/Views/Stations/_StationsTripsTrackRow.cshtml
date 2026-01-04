@@ -16,7 +16,7 @@
 	}
 	else if (Model.Status == StationStatus.Arrived)
 	{
-		arrivalTimeColorAndSize = "text-muted fs-3";
+		arrivalTimeColorAndSize = "text-gray-900 fs-1";
 		departureTimeColorAndSize = "text-gray-900 fs-1";
 
 
@@ -25,8 +25,8 @@
 	}
 	else if (Model.Status == StationStatus.Moved)
 	{
-		arrivalTimeColorAndSize = "text-muted fs-3";
-		departureTimeColorAndSize = "text-gray-700 fs-3";
+		arrivalTimeColorAndSize = "text-gray-900 fs-1";
+		departureTimeColorAndSize = "text-gray-900 fs-1";
 
 
 		departureDayColor = "text-muted";
@@ -87,12 +87,17 @@
 			}
 			else
 			{
-				<div class=" d-flex justify-content-start  ">
-				<span class="text-muted ms-7">
-					First Station
-				</span>
-				</div>
+				<div class="d-flex ms-6">
+                <div class=" d-flex flex-column align-items-center  ">
+                    <span class="d-block text-gray-600 fw-semibold fs-5">No Arrival Time</span>
+                    <span class="text-muted ">
+                        First Station
+                    </span>
+                </div>
 
+
+				</div>
+			
 
 			}
 		
@@ -157,11 +162,18 @@
 			}
 			else
 			{
-				<div class="d-flex justify-content-start">
-				<span class="text-muted ms-7">Last Station</span>
-					
-					</div>
-			}
+			<div class="d-flex ms-4">
+				<div class=" d-flex flex-column align-items-center  ">
+					<span class="d-block text-gray-600 fw-semibold fs-5">No Departure Time</span>
+					<span class="text-muted ">
+						Last Station
+					</span>
+				</div>
+
+
+			</div>
+
+		}
 			
 
 
@@ -281,10 +293,26 @@
 
 		<div>
 
-			<div class="text-gray-900 fw-bold ">
-				@Model.RouteName
+			<div class="d-flex gap-2">
+				<div class="text-gray-900 fw-bold ">
+					@Model.RouteName
+
+				</div>
+				@if(Model.MaintTripId is not null)
+				{
+					<span class="badge badge-light d-block  ">
+						Return
+				</span>
+				}
+				else
+				{
+					<span class="badge badge-light d-block  ">
+						Main
+					</span>
+				}
 
 			</div>
+		
 
 			<div class="text-muted fw-semibold fs-7 ">
 				 @Model.EstimatedDistance km 
